@@ -1,0 +1,398 @@
+<div class="container-fluid">
+  <div class="row content">
+    <ng-include src=" 'htmlView/templates/page/navbarView.htm' "></ng-include>
+    <div class="col-sm-12 col-lg-12">
+      <div class="col-sm-3 col-lg-3">
+        <h2>
+          <img src="images/ico_result_ora.png" alt=""> {{ controller | translate}}
+          <!--<h3 ng-show="resultFlag == false" ng-show="resultFlag == false">{{errorAPI}}</h3>-->
+        </h2>
+      </div>
+      <ng-include ng-if="!showIngFavorites" src=" 'htmlView/opac/biblio/buildedQuery.htm' "></ng-include>
+    </div>
+    <div class="col-sm-12 col-lg-12" ng-show="resultFlag == false">
+      <div class="col-sm-3 col-lg-3">
+
+      </div>
+      <div class="col-sm-6 col-lg-6 " ng-show="resultFlag == false">
+        <h3 class="myInline">{{'not_found' | translate}} </h3>
+        <h4>{{'not_found_suggerimenti' | translate}}</h4>
+        <ul style="margin-left:1.3em;margin-bottom:2em">
+          <li>{{'not_found_campi_ricerca' | translate}}</li>
+          <li>{{'not_found_digitate_correttamente' | translate}}</li>
+          <li>{{'not_found_parole_diverse' | translate}}</li>
+          <!-- <li>{{'not_found_parole_generiche' | translate}}</li> -->
+        </ul>
+      </div>
+      <center>
+        <div class="px-top-15 col-sm-12 col-lg-12" ng-show="resultFlag == false">
+          <button type="submit" class="btn  btn-outline-primary btn-xs" ng-click="modifySearch(true)" data-toggle="tooltip" data-placement="left"
+            title="{{'raffina' | translate}}">{{'raffina' | translate}}</button>
+
+        </div>
+      </center>
+    </div>
+
+    <div class="col-sm-12 col-lg-12" ng-show="resultFlag == true" id="impostazioni">
+      <div class="col-sm-4 col-lg-4">
+        <!--  <div class="center">{{'paginetot'| translate}}: {{numberTotPage}}</div> -->
+        <div class="left ">
+          <h4>{{'numDocs' | translate}}:
+            <b>{{search.solrDocs.numFound}}</b>
+          </h4>
+        </div>
+      </div>
+      <div class="col-sm-4 col-lg-4">
+        <center>
+          <paging page="currentPage" page-size="pageSize" total="totalPage" show-prev-next="true" show-first-last="true" paging-action="selectPage( page, pageSize, total)"
+            text-title-page="Page {page}">
+        </center>
+      </div>
+      <div class="col-sm-4 col-lg-4">
+        <form class="form-inline">
+          <div class="form-group">
+
+            <select class="form-control" id="nDocs" ng-model="maxRows" ng-change="changeSearch()">
+              <option value="5">{{ 'visualizzati' | translate }} 5 </option>
+              <option value="10">{{ 'visualizzati' | translate }} 10</option>
+              <option value="20">{{ 'visualizzati' | translate }} 20</option>
+              <option value="35">{{ 'visualizzati' | translate }} 35</option>
+              <option value="50">{{ 'visualizzati' | translate }} 50</option>
+            </select>
+
+          </div>
+          <div class="form-group">
+            <select class="form-control" id="ordered" ng-model="sort" ng-change="changeSearch(sort)">
+              <option value="score">{{ 'ordinati' | translate }}
+                <i>{{ 'rilevanza' | translate | lowercase }}</i>
+              </option>
+              <option value="syntetic_title">{{ 'ordinati' | translate }}
+                <i>{{ 'titolo' | translate | lowercase}}</i>
+              </option>
+              <option value="autore">{{ 'ordinati' | translate }}
+                <i>{{ 'autore' | translate | lowercase}}</i>
+              </option>
+              <option value="datada_ASC">{{ 'ordinati' | translate }}
+                <i>{{ 'data_sort' | translate }} {{"ASC" | translate | lowercase}}</i>
+              </option>
+              <option value="datada_DESC">{{ 'ordinati' | translate }}
+                <i>{{ 'data_sort' | translate }} {{"DESC" | translate | lowercase}}</i>
+              </option>
+              <option ng-show="false" value="datada">{{ 'ordinati' | translate }}
+                <i>{{ 'data_sort' | translate }} {{order.toUpperCase() | translate | lowercase}}</i>
+              </option>
+            </select>
+          </div>
+      </div>
+      </form>
+    </div>
+
+    <!-- NOTE: flag delle faccette -->
+    <div class="col-sm-12 col-lg-12" style="display: flex !important" id="settingBar1">
+      <span class="col-sm-2 col-lg-2">
+        <h4 style="margin-top: 0px; margin-bottom: 0px;">
+          <span ng-show="resultFlag == true" data-toggle="tooltip" data-placement="left" title="{{'filtriFlag' | translate}}" id="filtersView_2"
+            ng-click="showFaccette()" class="myBottom link glyphicon glyphicon-menu-left"></span>
+
+        </h4>
+      </span>
+
+      <span class="col-sm-8 col-lg-8">
+        <ng-include ng-show="resultFlag == true && search.solrDocs.documenti.length > 1" src=" 'htmlView/opac/biblio/buttonMassiveAction.htm' "></ng-include>
+        <button ng-if="!showIngFavorites && resultFlag == true " type="submit" class="btn  btn-outline-primary btn-xs" ng-click="modifySearch(true)"
+          data-toggle="tooltip" data-placement="left" title="{{'raffina' | translate}}">{{'raffina' | translate}}</button>
+        <ng-include src=" 'htmlView/opac/biblio/exportButtonsList.htm' "></ng-include>
+      </span>
+      <span class="col-sm-2 col-lg-2">
+        <h4 style="margin-top: 0px;margin-bottom: 0px;">
+          <span ng-if="polo.flag_mlol || polo.flag_wiki" ng-show="resultFlag == true &&  right_banner == true" data-toggle="tooltip"
+            data-placement="left" title="{{'filtriFlag' | translate}}" id="right_banner_button_1" ng-click="showMlol()" class="myBottom link glyphicon glyphicon-menu-right pull-right"></span>
+        </h4>
+      </span>
+    </div>
+
+    <!--NOTE: FACCETTE -->
+    <ng-include src=" 'htmlView/opac/biblio/facet.htm' "></ng-include>
+
+
+    <div id="riassuntoRicercaSintetica" ng-show="resultFlag == true" class="col-sm-8 col-lg-8 riassuntoRicerca">
+
+      <div id="printHere" class="likesformGroup col-sm-12 col-lg-12" style="padding-right: 2px; padding-left: 2px">
+        <div class="riga noMargin" ng-attr-id="{{ 'sintRiga_' + $index }}" ng-repeat="d in search.solrDocs.documenti track by $index">
+          <div ng-attr-id="{{ 'sintRigaBoxOC_' + $index }}" data-toggle="tooltip" data-placement="left" title="{{'espandiRiduciDeatil' | translate}}"
+            class="boxOC">
+            <div class="boxTrasparente" ng-attr-id="{{ 'sintData_' + $index }}" ng-click="detailEvent(d.id, $index, true)">
+              <indice ng-attr-id="{{ 'indiceScheda_' + $index }}" class="indice">
+                {{$index + search.request.start + 1}}
+              </indice>
+
+              <!--   NUOVA SINTETICA RISCRITTA -->
+              <div class="media" ng-attr-id="{{ 'sintetica_div_' + $index }}" style="margin-left: 10px">
+                <div class="media-left">
+
+                <h1 style="color: #023167;" ng-bind-html="d.recordType | tipoMateriale"></h1>  
+
+                </div>
+                <div class="media-body" ng-attr-id="{{ 'sintetica_' + $index }}">
+                  <!-- autore e titolo -->
+                  <span ng-attr-id="{{ 'sintetica_div_print_' + $index }}">
+
+                    <div class="media-heading col-md-9">
+                      <span style="font-size: 16px;" ng-if="d.author">
+                        <b>
+                          <b>{{d.author}}
+                            <span ng-if="d.coautore">
+                              <span ng-repeat="coa in d.coautore">{{" - " + coa }}</span>
+                            </span>
+                          </b>
+                        </b>
+                        </br>
+                      </span>
+                      <span ng-if="d.syntetic_title" style="font-size: 16px; color: #a52a2a;">
+                        <b>
+                          <b>{{(d.pre_title + d.syntetic_title | limitTo: 160) | indexed}}
+                            <span ng-if="d.pre_title.length + d.syntetic_title.length > 160">
+                              <i>[ ... ]</i>
+                            </span>
+                          </b>
+                        </b>
+                      </span>
+                      <span ng-if="d.faparte_monografia " class="sinteticaBlu">
+                        </br>
+                        <i>{{'faparte' | translate }}: </i>
+                        <span ng-repeat="fatitm in d.faparte_monografia track by $index"> {{(fatitm | indexed | limitTo: 160)| indexed}}
+                          <span ng-if="fatitm.length > 160">
+                            <i>[ ... ]</i>
+                          </span>
+
+                        </span>
+                      </span>
+                          <span ng-if="d.faparte_spoglio && d.level == 'a'" class="sinteticaBlu">
+                        </br>
+                        <i>{{'faparte' | translate }}: </i>
+                        <span ng-repeat="fatits in d.faparte_spoglio track by $index"> {{(fatits | indexed | limitTo: 160)| containBid}}
+                          <span ng-if="fatits.length > 160">
+                            <i>[ ... ]</i>
+                          </span>
+
+                        </span>
+                      </span>
+                      <span ng-if="d.publish" class="sinteticaBlu" >
+                        </br>{{((d.publish.trim().indexOf(':')==0) ? (('no_luogo_pubbl' | translate ) + d.publish): d.publish ) | indexed}}
+                      </span>
+                      <span ng-if="d.level || d.recordType" class="sinteticaBlu">
+                        </br>
+                        <i>{{d.level | decodeLevel}}</i> |
+                        <i>{{d.recordType | decodeTiporec}}</i>
+                        <!--<span class="nascosto"> | {{d.id.toLowerCase() | decodeTiporec}}</span>-->
+                      </span>
+                    </div>
+                    <!-- data e lingua -->
+                    <h5 class="media-heading col-md-3" class="sinteticaBlu">
+
+                      <span ng-if="d.date">{{d.date[0]}}</span>
+                      <span ng-if="d.date && d.language"> | </span>
+                      <span ng-if="d.language">{{d.language[0] | decodeLang | translate}}</span>
+                    </h5>
+                  </span>
+                  <div ng-click=" $event.stopPropagation();" class="media-heading col-md-12">
+
+                    <span class="link" ng-attr-id="{{ 'pref_ind_' + $index }}">
+                      <span ng-attr-id="{{ 'spanno_' + $index }}" class="glyphicon glyphicon-star-empty" ng-click="preferiti(d.id, $index);  $event.stopPropagation();"></span>
+                      <a>
+                        <span ng-show="managerPreferiti(d.id, $index)" ng-attr-id="{{ 'remove_pref_' + $index }}" ng-click="preferiti(d.id, $index);  $event.stopPropagation();"
+                          title='{{"removepreferiti" | translate}}'>{{'removepreferiti' | translate}}</span>
+                      </a>
+                      <a>
+                        <span ng-show="!(managerPreferiti(d.id, $index))" ng-attr-id="{{ 'add_pref_' + $index }}" ng-click="preferiti(d.id, $index);  $event.stopPropagation();"
+                          title='{{"addpreferiti" | translate}}'>{{'addpreferiti' | translate}}</span>
+                      </a>
+                    </span>
+                    <span class="link" style="padding-left: 25px;" ng-show="(search.solrDocs.documenti.length  - (analiticheHided + sinteticheHided))> 1"
+                      ng-attr-id="{{ 'nascondi_' + $index }}">
+                      <!-- <span ng-attr-id="{{ 'piuMenoGly' + $index }}" class="glyphicon glyphicon-plus"></span>                -->
+                      <a ng-click="hideRiga($index); $event.stopPropagation();" title='{{"nascondiScheda" | translate}}'>
+                        <span class="glyphicon glyphicon-eye-close"></span> {{"nascondiScheda" | translate}}</a>
+                    </span>
+
+
+                    <strongs ng-attr-id="{{ 'piuMeno_' + $index }}" ng-click="$event.stopPropagation();detailEvent(d.id, $index, true); $event.stopPropagation();"
+                      title="{{'espandiRiduciDeatil' | translate}}" class="P">
+                      <!-- <span ng-attr-id="{{ 'piuMenoGly' + $index }}" class="glyphicon glyphicon-plus"></span> -->
+
+                    </strongs>
+
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- fine -->
+            </div>
+
+
+          </div>
+          <!--INI prima box-->
+          <div ng-attr-id="{{ 'riga_' + $index }}" class="boxOCopen" >
+
+            <ul class="nav nav-tabs">
+              <li ng-attr-id="{{ 'li_Dettaglio_' + $index }}" class="active link" data-toggle="tooltip" data-placement="left" title="{{ 'tooltip_dettaglio' | translate }}">
+                <a data-toggle="tab" data-target="#{{ 'Dettaglio_' + $index }}">{{ 'etichette' | translate }}</a>
+              </li>
+              <li ng-attr-id="{{ 'li_Localizzazione_' + $index }}" class="link" data-toggle="tooltip" data-placement="left" title="{{ 'tooltip_localizzazioni' | translate }}"
+                ng-if="dettagli[$index].tag950">
+                <a data-toggle="tab" data-target="#{{ 'Localizzazione_' + $index }}">{{ 'collocazioneTab' | translate }}</a>
+              </li>
+              <li ng-attr-id="{{ 'li_Unimarc_' + $index }}" class="link" data-toggle="tooltip" data-placement="left" title="{{'tooltip_unimarc' | translate}}">
+                <a data-toggle="tab" data-target="#{{ 'Unimarc_' + $index }}">Unimarc</a>
+              </li>
+            </ul>
+
+            <div class="tab-content">
+              <div style="line-height: 0.31234567895;" ng-attr-id="{{ 'Dettaglio_' + $index }}" class="tab-pane active">
+                <ng-include src=" 'htmlView/opac/biblio/labelDetailSingleDocument.htm' "></ng-include>
+
+
+                <!--INI Submit funzionalità-->
+                <!-- ATTENZIONE: NON RIMUOVERE IL COMMENTO QUI SOPRA, SERVE AD IDENTIFICARE FINO A CHE PUNTO DEVE ESSERE STAMPATA LA SCHEDA DI DETTAGLIO -->
+                <div ng-attr-id="{{'funzionalita_'+ $index}}" class="center marg_top_butt" ng-click="$event.stopPropagation();">
+                  <button type="submit" class="btn btn-outline-primary btn-xs" ng-click="export(dettagli[$index].id)" data-toggle="tooltip"
+                    data-placement="left" title="{{ 'tooltip_esporta_unimarc' | translate }}">{{'esporta' |translate}}</button>
+                  <button type="submit" class="btn btn-outline-primary btn-xs" ng-click="print($index)" data-toggle="tooltip" data-placement="left"
+                    title="{{ 'stampa' | translate }}">{{'stampa' | translate}}</button>
+                  <a href="mailto:{{polo.email_segnalazioni}}?subject=Segnalazione per documento: {{d.id}} &body=Salve, vorrei effettuare la seguente segnalazione per il documento: {{d.id}}">
+                    <button type="submit" class="btn btn-outline-primary btn-xs" data-toggle="tooltip" data-placement="left" title="{{ 'segnala' | translate }}">{{'segnala' | translate}}</button>
+                  </a>
+                </div>
+                <!--INI Submit funzionalità-->
+                <!-- NOTE qui finiscono le label  -->
+              </div>
+
+              <div ng-attr-id="{{ 'Localizzazione_' + $index }}" class="tab-pane fade">
+                <ng-include src=" 'htmlView/opac/biblio/tabLocalizzazioni.htm' "></ng-include>
+              </div>
+
+              <div ng-attr-id="{{ 'Unimarc_' + $index }}" class="tab-pane fade">
+                <p ng-bind-html="dettagli[$index].unimarc | unimarc"></p>
+              </div>
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+          </div>
+          <!--END box -->
+
+
+        <!--</div> -->
+        <!-- a sinistra chiude il ciclo-->
+
+
+
+      </div>
+    </div>
+  </div>
+  <!-- banner MLOL e wikipedia -->
+  <ng-include ng-if="polo.flag_mlol || polo.flag_wiki" src=" 'htmlView/opac/biblio/right_banner.htm' "></ng-include>
+  <div class="col-sm-12 col-lg-12" style="display: flex !important">
+    <span class="col-sm-2 col-lg-2">
+      <h4 style="margin-top: 0px; margin-bottom: 0px;">
+        <span ng-show="resultFlag == true" data-toggle="tooltip" data-placement="left" title="{{'filtriFlag' | translate}}" id="filtersView_1"
+          ng-click="showFaccette()" class="myBottom link glyphicon glyphicon-menu-left"></span>
+
+      </h4>
+    </span>
+
+    <span class="col-sm-8 col-lg-8 px-top-5">
+      <ng-include ng-show="resultFlag == true && search.solrDocs.documenti.length > 1" src=" 'htmlView/opac/biblio/buttonMassiveAction.htm' "></ng-include>
+      <button ng-if="!showIngFavorites && resultFlag == true " type="submit" class="btn  btn-outline-primary btn-xs" ng-click="modifySearch(true)"
+        data-toggle="tooltip" data-placement="left" title="{{'raffina' | translate}}">{{'raffina' | translate}}</button>
+      <ng-include src=" 'htmlView/opac/biblio/exportButtonsList.htm' "></ng-include>
+      <button ng-show="resultFlag == true && search.solrDocs.documenti.length > 1" type="submit" class="btn btn-default btn-xs"
+        onClick='$("html, body").animate({ scrollTop: 0 }, "slow");'>
+        <span class="glyphicon glyphicon-circle-arrow-up"></span>
+      </button>
+    </span>
+    <span class="col-sm-2 col-lg-2 px-top-5">
+      <h4 style="margin-top: 0px;margin-bottom: 0px;">
+        <span ng-if="polo.flag_mlol || polo.flag_wiki" ng-show="resultFlag == true &&  right_banner == true" data-toggle="tooltip"
+          data-placement="left" title="{{'filtriFlag' | translate}}" id="right_banner_button_2" ng-click="showMlol()" class="myBottom link glyphicon glyphicon-menu-right pull-right"></span>
+      </h4>
+    </span>
+  </div>
+
+  <div class="col-sm-12 col-lg-12 px-top-5" ng-show="resultFlag == true">
+    <div class="col-sm-4 col-lg-4">
+      <!--  <div class="center">{{'paginetot'| translate}}: {{numberTotPage}}</div> -->
+      <div class="left ">
+        <h4>{{'numDocs' | translate}}:
+          <b>{{search.solrDocs.numFound}}</b>
+        </h4>
+      </div>
+    </div>
+    <div class="col-sm-4 col-lg-4">
+      <center>
+        <paging page="currentPage" page-size="pageSize" total="totalPage" show-prev-next="true" show-first-last="true" paging-action="selectPage( page, pageSize, total)"
+          text-title-page="Page {page}">
+      </center>
+    </div>
+    <div class="col-sm-4 col-lg-4 px-top-5">
+      <form class="form-inline">
+        <div class="form-group">
+
+          <select class="form-control" id="nDocs" ng-model="maxRows" ng-change="changeSearch()">
+            <option value="5">{{ 'visualizzati' | translate }} 5 </option>
+            <option value="10">{{ 'visualizzati' | translate }} 10</option>
+            <option value="20">{{ 'visualizzati' | translate }} 20</option>
+            <option value="35">{{ 'visualizzati' | translate }} 35</option>
+            <option value="50">{{ 'visualizzati' | translate }} 50</option>
+          </select>
+
+        </div>
+        <div class="form-group">
+          <select class="form-control" id="ordered" ng-model="sort" ng-change="changeSearch(sort)">
+            <option value="score">{{ 'ordinati' | translate }}
+              <i>{{ 'rilevanza' | translate | lowercase }}</i>
+            </option>
+            <option value="syntetic_title">{{ 'ordinati' | translate }}
+              <i>{{ 'titolo' | translate | lowercase}}</i>
+            </option>
+            <option value="autore">{{ 'ordinati' | translate }}
+              <i>{{ 'autore' | translate | lowercase}}</i>
+            </option>
+            <option value="datada_ASC">{{ 'ordinati' | translate }}
+              <i>{{ 'data_sort' | translate }} {{"ASC" | translate | lowercase}}</i>
+            </option>
+            <option value="datada_DESC">{{ 'ordinati' | translate }}
+              <i>{{ 'data_sort' | translate }} {{"DESC" | translate | lowercase}}</i>
+            </option>
+            <option ng-show="false" value="datada">{{ 'ordinati' | translate }}
+              <i>{{ 'data_sort' | translate }} {{order.toUpperCase() | translate }}</i>
+            </option>
+          </select>
+        </div>
+    </div>
+    </form>
+  </div>
+
+
+</div>
+</div>
+<div id="fixed">
+  <ng-include src=" 'htmlView/opac/biblio/buttonMassiveAction.htm' "></ng-include>
+  <button type="submit" class="btn btn-default btn-xs" onClick='$("html, body").animate({ scrollTop: 0 }, "slow");'>
+    <span class="glyphicon glyphicon-circle-arrow-up"></span>
+  </button>
+</div>
+<ng-include src=" 'htmlView/templates/page/footerView.htm' "></ng-include>
+<ng-include src=" 'htmlView/templates/page/modalsView.htm' "></ng-include>
+<div ng-show="false" id="player">
+
+</div>

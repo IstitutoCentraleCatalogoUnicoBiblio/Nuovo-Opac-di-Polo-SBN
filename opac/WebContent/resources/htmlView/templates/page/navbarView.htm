@@ -1,0 +1,208 @@
+<link rel="stylesheet" href="css/style.css">
+<div class="col-md-12 div-head">
+
+	<!-- Nome del Polo -->
+	<div class="col-md-5" id="poloTitle" style="padding-left: 0px">
+		<div class="col-md-12" style="padding-left: 0px">
+			<a ng-href="{{(polo.code) ? polo.code + '/ricercaSemplice' : ''}} ">
+			<img ng-if="polo.code" class="img-responsive"
+				ng-src="img/get/logo_polo_scritta/{{(!polo.bibliotecaAsPolo) ? polo.code  : polo.code +'/' + polo.codBibliotecaAsPolo}}"
+				on-error-src="images/sbnweb.png" style="max-height: 65px;"> 
+			<img
+				ng-if="!polo.code" class="img-responsive" src="images/sbnweb.png"
+				style="max-height: 65px;"> 
+			</a>
+		</div>
+
+	</div>
+	<div class="col-md-2"
+		ng-show="(controller != 'rSemplice') && !user && flagVisualizza"
+		style="padding-left: 0px; padding-right: 0px">
+		<div class="col-sm-12 input-group input-group-sm"
+			style="margin-top: 5%;">
+			<input my-enter="find()" class=" form-control  input-sm" type="text"
+				ng-change="myFunc(myValue)" ng-model="myValue" id="parole_cerc"
+				ng-attr-placeholder="{{'testoCerca' | translate}}"> <span
+				ng-click='find()' class="link input-group-addon" id="sizing-addon1"
+				data-toggle="tooltip" data-placement="left"
+				title="{{'cerca' | translate}}"> <span
+				class="glyphicon glyphicon-search"></span>
+			</span>
+		</div>
+		<a ng-if="polo.useAuthority" ng-show="(controller != 'authority')"
+			class="rAuth a link" ng-href="{{polo.code}}/authority"
+			title="{{'tooltip_paginaAuthAut' | translate}}">{{ 'authority' |
+			translate }}</a> <a ng-show="(controller != 'rAvanz')"
+			class="rAvanz a link " ng-click="ricercaAvanzata(false)"
+			title="{{'tooltip_paginaRAvanz' | translate}}">{{ 'rAvanz' |
+			translate }}</a>
+
+	</div>
+	<div class="col-md-5 testt img-links">
+		
+		<a ng-if="polo.hasLinkLogo "
+			ng-show="(!polo.bibliotecaAsPolo && polo.flag_logo) || (polo.bibliotecaAsPolo && polo.bibUseLogo)"
+			target="_blank"
+			ng-repeat="link in polo.link_esterni| filter :{tipo_link: 'logo'}"
+			ng-href="{{link.url | trust}}"> <img
+			ng-if="!polo.bibliotecaAsPolo && polo.flag_logo"
+			ng-src="img/get/logo/{{polo.code}}"
+			style="max-width: 135px; max-height: 70px"> <img
+			ng-if="polo.bibliotecaAsPolo && polo.bibUseLogo"
+			ng-src="img/get/logo/{{polo.code +'/' + polo.codBibliotecaAsPolo}}"
+			style="max-width: 135px; max-height: 70px">
+		</a> <span ng-if="!polo.hasLinkLogo"> <img
+			ng-if="!polo.bibliotecaAsPolo && polo.flag_logo"
+			ng-src="img/get/logo/{{polo.code}}"
+			style="max-width: 135px; max-height: 70px"> <img
+			ng-if="polo.bibliotecaAsPolo && polo.bibUseLogo"
+			ng-src="img/get/logo/{{polo.code +'/' + polo.codBibliotecaAsPolo}}"
+			style="max-width: 135px; max-height: 70px">
+		</span> <a ng-if="flagVisualizza && !user"
+			ng-repeat="link in polo.link_esterni| filter :{tipo_link: 'link'}"
+			target="_blank" ng-href="{{link.url | trust}}"> <img
+			ng-src='img/get/{{link.tipo_link}}/{{polo.code}}'
+			style="max-width: 135px; max-height: 70px"
+			title="{{link | translateLinkEsterno}}">
+
+		</a>
+	</div>
+</div>
+<div class="navbar navbar-default navbar-fix-goes-on-top-div">
+	<button type="button" class="navbar-toggle" data-toggle="collapse"
+		data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span>
+		<span class="icon-bar"></span> <span class="icon-bar"></span>
+	</button>
+	<div class="collapse navbar-collapse">
+		<ul class="nav navbar-nav menu padd_L_nav">
+			<!-- <li ng-if="flagVisualizza"><a
+				title="{{'tooltip_statistiche' | translate }}" class="a logout link"
+				href="/awstats/awstats.pl?config={{(polo.code =='MO1') ? 'MO1' : 'opac2'}} "
+				target="_blank"> <span class="glyphicon glyphicon-stats"></span>
+					{{ 'statistiche' | translate }}
+			</a></li> -->
+			<li ng-if="flagVisualizza"><a
+				title="{{'tooltip_statistiche' | translate }}" class="a logout link"
+				href="/awstats/awstats.pl?config={{polo.code}} "
+				target="_blank"> <span class="glyphicon glyphicon-stats"></span>
+					{{ 'statistiche' | translate }}
+			</a></li>
+			<li ng-if="flagVisualizza"><a
+				title="{{'tooltip_guida_utente' | translate }}"
+				class="a logout link" href="meta/Guida_utente-opac2-1.0.10.pdf"
+				target="_blank"> <span class="glyphicon glyphicon-book"></span>
+					{{ 'guidaUtente' | translate }}
+			</a></li>
+			<li ng-if="isAdministration"><a
+				title="{{'tooltip_torna_a_opac' | translate }}"
+				class="a logout link"
+				href="{{polo.code}}" target="_blank">
+					<span class="glyphicon glyphicon-book"></span> {{
+					'torna_a_opac' | translate }}
+			</a></li>
+			<li ng-if="isAdministration && user"><a
+				title="{{'tooltip_guida_amministrazione' | translate }}"
+				class="a logout link"
+				href="meta/Guida_amministrazione-opac2-1.0.10.pdf" target="_blank">
+					<span class="glyphicon glyphicon-book"></span> {{
+					'guidaAmministrazione' | translate }}
+			</a></li>
+			<li ng-if="flagVisualizza"><a
+				title="{{'tooltip_invia_mail_contatto' | translate}}"
+				ng-if="polo.code && !user" class="a logout link"
+				ng-href="{{polo.code}}/contatti"> <span
+					class="glyphicon glyphicon-envelope"></span> {{ 'contatti' |
+					translate }}
+			</a></li>
+			<li ng-if="flagVisualizza"><a
+				title="{{('tooltip_apri_nuova_page' | translate) + ' ' + ('il_modulo' | translate) + ' ' + ('chiedi_al_bibliotecario'| translate)}}"
+				ng-if="polo.code && !user && polo.flag_chiedi" class="a logout link"
+				ng-href="/chiedi/{{polo.code}}" target="_blank"> <span
+					class="glyphicon glyphicon-envelope"></span> {{ 'chiedi_al_bibliotecario' |
+					translate }}
+			</a></li>
+			<li ng-if="flagVisualizza"><a
+				ng-if="!polo.bibliotecaAsPolo && polo.code && !user"
+				title="{{'tooltip_info_polo' | translate}}" class="a logout link"
+				ng-href="{{polo.code}}/info/polo"> <span
+					class="glyphicon glyphicon-info-sign"></span> {{
+					'InfoPoloController' | translate }}
+			</a></li>
+
+			<li ng-if="flagVisualizza"><a ng-if="polo.code && !user"
+				title="{{'tooltip_lista_biblioteche' | translate}}"
+				class="a logout link" ng-href="{{polo.code}}/info/biblioteche">
+					<span class="glyphicon glyphicon-info-sign"></span> {{
+					(polo.bibliotecaAsPolo)? 'info_biblioteca': 'InfoBibPoloController'
+					| translate }}
+			</a></li>
+			<li
+				ng-if="flagVisualizza && (polo.link_esterni | filter :{tipo_link: 'testo'}).length > 0"
+				class="dropdown link"><a class="dropdown-toggle"
+				data-toggle="dropdown">{{'vedi_anche' | translate}} <span
+					class="caret"></span>
+			</a>
+				<ul class="dropdown-menu">
+					<li
+						ng-repeat="link in polo.link_esterni | filter :{tipo_link: 'testo'}">
+						<a target="_blank" ng-href="{{link.url}}" title="{{('tooltip_apri_nuova_page' | translate ) + ' ' + (link |
+							translateLinkEsterno)}}">{{link |
+							translateLinkEsterno}}</a>
+					</li>
+
+				</ul></li>
+
+			<li class="right link" ng-click="changeLanguage('en')"><a
+				class="logout" title="{{ 'linguaEN' | translate }}"> <img
+					src="images/flags/en.png" /> <span> {{ 'linguaEN' |
+						translate }} </span>
+			</a></li>
+			<li class="right link" ng-click="changeLanguage('it')"><a
+				class="logout" title="{{ 'linguaIT' | translate }}"> <img
+					src="images/flags/it.png" /> <span> {{ 'linguaIT' |
+						translate }} </span>
+			</a></li>
+		
+			<li class="right" ng-if="flagVisualizza"><a
+				ng-if="!polo.bibliotecaAsPolo && polo.code =='DDS' && !user"
+				class="link"
+				href="http://sbnweb.dds.it/servizi/login.do?BIB=+IC&SALA=Y&MED=SH"
+				target="_blank" title="{{ ('shoah_foundation' | translate) }}"> <span
+					class="glyphicon glyphicon-new-window"></span> {{ 'USC Shoah
+					Foundation'}}
+			</a></li>
+
+
+			<li class="right" ng-if="flagVisualizza"><a
+				ng-if="!polo.bibliotecaAsPolo && polo.code =='DDS' && !user"
+				class=" right link"
+				href="http://sbnweb.dds.it/servizi/login.do?BIB=+IC&SALA=Y&MED=TR"
+				target="_blank" title="{{ 'teche_rai' | translate }}"> <span
+					class="glyphicon glyphicon-new-window"></span> {{ 'Teche Rai' }}
+			</a></li>
+			
+			<li class="right link"
+				title="{{'tooltip_ricerche_eff' | translate }}"
+				ng-if="ricercheEseguite.length > 0" data-toggle="modal"
+				data-target="#ricercheEff"><a>{{ 'ricercheEff' | translate
+					}}</a></li>
+
+			<li ng-click="logout()" class="right link"
+				title="{{'amm_logout' | translate }}" ng-if="user"><a>{{
+					('amm_logout' | translate)+": " + user.username }}</a></li>
+
+			<li title="{{'tooltip_preferiti' | translate }}" class="right link"
+				ng-show="favoritesList.length > 0 "><a
+				ng-click="preferitiEvent()">{{ 'preferiti' | translate }}</a></li>
+
+		</ul>
+
+	</div>
+</div>
+
+<ul class="breadcrumb" ng-show="polo != undefined || poloList != undefined">
+	<li class="padd_L_bread"><a
+		ng-href="{{polo.code}}/ricercaSemplice">Home</a></li>
+	<li class="active">{{controller | translate}}</li>
+</ul>

@@ -1,0 +1,55 @@
+<div class="container-fluid">
+  <div class="row content">
+
+    <ng-include src=" 'htmlView/templates/page/navbarView.htm' "></ng-include>
+
+    <div class="col-sm-12 padd_sf_home divTable">
+      <h2>{{ 'preferiti' | translate }}</h2>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>{{ 'titolo' | translate }}</th>
+            <th>{{ 'autore' | translate }}</th>
+
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr ng-repeat="d in search.solrDocs.documenti">
+
+            <td class="link" ng-click="showSingleDetail(d.id)">{{ d.id }}</td>
+            <td class="link" ng-click="showSingleDetail(d.id)">{{ d.title }} </td>
+            <td class="link" ng-click="showSingleDetail(d.id)">{{ d.author }} </td>
+
+
+          </tr>
+
+        </tbody>
+      </table>
+      <p>
+        <h2>{{ 'ricercheEff' | translate }}</h2>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Query</th>
+              <th>
+                {{ 'trovati' | translate }}
+              </th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="ricerca in ricercheEseguite">
+
+              <td ng-attr-id="{{'ricerca_query_n_'+$index}}" class="link" ng-click="riCerca(ricerca.filtro)">{{ ricerca.query | clearQuery}}</td>
+              <td ng-attr-id="{{'ricerca_n_'+$index}}" class="link" ng-click="riCerca(ricerca.filtro)">{{ ricerca.numFound }}</td>
+
+            </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+</div>
+<ng-include src=" 'htmlView/templates/page/footerView.htm' "></ng-include>
+<ng-include src=" 'htmlView/templates/page/modalsView.htm' "></ng-include>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	
+	<persistence-unit name="opac2-persistence" transaction-type="RESOURCE_LOCAL">
+		<!-- <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider> -->
+		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+		 <!--   <mapping-file>META-INF/orm.xml</mapping-file> -->
+		
+		<class>it.almaviva.pssql.bean.Polo</class>
+		<class>it.almaviva.pssql.bean.Biblio</class>
+		<class>it.almaviva.pssql.bean.CatFruizione</class>
+		<class>it.almaviva.pssql.bean.AccessoMlol</class>
+		<class>it.almaviva.pssql.bean.ApplicativoServizi</class>
+		<class>it.almaviva.pssql.bean.Authority_flags</class>
+		<class>it.almaviva.pssql.bean.MaterialeInventariale</class>
+		<class>it.almaviva.pssql.bean.User_opac</class>
+		<class>it.almaviva.pssql.bean.Gruppi</class>
+		
+		
+		<properties>
+			<property name="eclipselink.weaving" value="false"/>
+			<property name="eclipselink.logging.level" value="FINE" />
+			<property name="eclipselink.jdbc.exclusive-connection.mode" value="Always"/>
+			
+		</properties>
+		
+	</persistence-unit>
+</persistence>

@@ -1,0 +1,1148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+	xmlns:tns="http://api.medialibrary.it/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+	xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://api.medialibrary.it/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">&lt;h3&gt;API
+		MediaLibraryOnLine (MLOL)&lt;/h3&gt;</wsdl:documentation>
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified" targetNamespace="http://api.medialibrary.it/">
+			<s:element name="GetRecords">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="api_key"
+							type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="portal_id"
+							type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="format"
+							type="s:string" />
+						<s:element minOccurs="1" maxOccurs="1" name="full_export"
+							type="s:boolean" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetRecordsResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetRecordsResult">
+							<s:complexType mixed="true">
+								<s:sequence>
+									<s:any />
+								</s:sequence>
+							</s:complexType>
+						</s:element>
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="OpenMedia">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="api_key"
+							type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="portal_id"
+							type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="username"
+							type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="media_id"
+							type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="OpenMediaResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="OpenMediaResult">
+							<s:complexType mixed="true">
+								<s:sequence>
+									<s:any />
+								</s:sequence>
+							</s:complexType>
+						</s:element>
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="Ricerca">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="api_key"
+							type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="keywords"
+							type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="idPortale"
+							type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="RicercaResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="RicercaResult">
+
+							<!-- ATTENZIONE: questa è la parte originale del WSDL fornito da medialibraryonline 
+								il body della risposta non è definito (come in tutte le operation soap), 
+								mentre a runtime ritorna un frammento di xml senza schema che abbiamo replicato 
+								per il binding automatico <s:complexType mixed="true"> <s:sequence> <s:any/> 
+								</s:sequence> -->
+							<s:complexType>
+								<s:sequence>
+									<s:element name="media" minOccurs="0" maxOccurs="1">
+										<s:complexType>
+											<s:sequence>
+												<s:element type="s:string" name="status" />
+												<s:element type="s:string" name="stato" />
+												<s:element type="s:int" name="totale" />
+												<s:element name="tipologia" maxOccurs="unbounded"
+													minOccurs="0">
+													<s:complexType>
+														<s:sequence>
+															<s:element type="s:int" name="id" />
+															<s:element type="s:string" name="nome" />
+															<s:element type="s:int" name="risultati" />
+															<s:element type="s:string" name="icona" />
+															<s:element type="s:string" name="url" />
+															<s:element type="s:string" name="url_mlol" />
+														</s:sequence>
+													</s:complexType>
+												</s:element>
+											</s:sequence>
+										</s:complexType>
+									</s:element>
+								</s:sequence>
+							</s:complexType>
+						</s:element>
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="RicercaAv">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="api_key"
+							type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="titolo"
+							type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="autore"
+							type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="editore"
+							type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="lingua"
+							type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="idTipologia"
+							type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="idPortale"
+							type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="RicercaAvResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="RicercaAvResult">
+							<!-- Stessa modifica della ricerca semplice -->
+							<s:complexType>
+								<s:sequence>
+									<s:element name="media" minOccurs="0" maxOccurs="1">
+										<s:complexType>
+											<s:sequence>
+												<s:element type="s:string" name="status" />
+												<s:element type="s:string" name="stato" />
+												<s:element type="s:int" name="totale" />
+												<s:element name="tipologia" maxOccurs="unbounded"
+													minOccurs="0">
+													<s:complexType>
+														<s:sequence>
+															<s:element type="s:int" name="id" />
+															<s:element type="s:string" name="nome" />
+															<s:element type="s:int" name="risultati" />
+															<s:element type="s:string" name="icona" />
+															<s:element type="s:string" name="url" />
+															<s:element type="s:string" name="url_mlol" />
+														</s:sequence>
+													</s:complexType>
+												</s:element>
+											</s:sequence>
+										</s:complexType>
+									</s:element>
+								</s:sequence>
+							</s:complexType>
+						</s:element>
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="TopList">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="api_key"
+							type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="portal_id"
+							type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="type_id"
+							type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="TopListResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="TopListResult">
+							<!-- Stessa modifica della ricerca semplice MA con oggetto custom  -->
+							<s:complexType>
+								<s:sequence>
+
+									<s:element minOccurs="0" maxOccurs="1" name="media_list">
+										<s:complexType>
+											<s:sequence>
+												<s:element type="s:string" name="status" />
+												<s:element name="media" maxOccurs="unbounded"
+													minOccurs="0">
+													<s:complexType>
+														<s:sequence>
+															<s:element type="s:byte" name="pos" />
+															<s:element type="s:int" name="id" />
+															<s:element type="s:string" name="dc_title" />
+															<s:element type="s:string" name="dc_creator"
+																maxOccurs="unbounded" minOccurs="0" />
+															<s:element type="s:string" name="url_cover" />
+														</s:sequence>
+													</s:complexType>
+												</s:element>
+											</s:sequence>
+										</s:complexType>
+									</s:element>
+
+								</s:sequence>
+							</s:complexType>
+						</s:element>
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="NewList">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="api_key"
+							type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="portal_id"
+							type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="type_id"
+							type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="NewListResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="NewListResult">
+								<!-- Stessa modifica della TopList -->
+							<s:complexType>
+								<s:sequence>
+
+									<s:element minOccurs="0" maxOccurs="1" name="media_list">
+										<s:complexType>
+											<s:sequence>
+												<s:element type="s:string" name="status" />
+												<s:element name="media" maxOccurs="unbounded"
+													minOccurs="0">
+													<s:complexType>
+														<s:sequence>
+															<s:element type="s:byte" name="pos" />
+															<s:element type="s:int" name="id" />
+															<s:element type="s:string" name="dc_title" />
+															<s:element type="s:string" name="dc_creator"
+																maxOccurs="unbounded" minOccurs="0" />
+															<s:element type="s:string" name="url_cover" />
+														</s:sequence>
+													</s:complexType>
+												</s:element>
+											</s:sequence>
+										</s:complexType>
+									</s:element>
+
+								</s:sequence>
+							</s:complexType>
+						</s:element>
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="UserLoans">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="api_key"
+							type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="portal_id"
+							type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="username"
+							type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="UserLoansResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="UserLoansResult">
+							<s:complexType mixed="true">
+								<s:sequence>
+									<s:any />
+								</s:sequence>
+							</s:complexType>
+						</s:element>
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetTypes">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="api_key"
+							type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="portal_id"
+							type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetTypesResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetTypesResult">
+							<s:complexType mixed="true">
+								<s:sequence>
+									<s:any />
+								</s:sequence>
+							</s:complexType>
+						</s:element>
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetAuthURL">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="api_key"
+							type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="portal_id"
+							type="s:string" />
+						<s:element minOccurs="0" maxOccurs="1" name="username"
+							type="s:string" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:element name="GetAuthURLResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1" name="GetAuthURLResult">
+							<s:complexType mixed="true">
+								<s:sequence>
+									<s:any />
+								</s:sequence>
+							</s:complexType>
+						</s:element>
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="GetRecordsSoapIn">
+		<wsdl:part name="parameters" element="tns:GetRecords" />
+	</wsdl:message>
+	<wsdl:message name="GetRecordsSoapOut">
+		<wsdl:part name="parameters" element="tns:GetRecordsResponse" />
+	</wsdl:message>
+	<wsdl:message name="OpenMediaSoapIn">
+		<wsdl:part name="parameters" element="tns:OpenMedia" />
+	</wsdl:message>
+	<wsdl:message name="OpenMediaSoapOut">
+		<wsdl:part name="parameters" element="tns:OpenMediaResponse" />
+	</wsdl:message>
+	<wsdl:message name="RicercaSoapIn">
+		<wsdl:part name="parameters" element="tns:Ricerca" />
+	</wsdl:message>
+	<wsdl:message name="RicercaSoapOut">
+		<wsdl:part name="parameters" element="tns:RicercaResponse" />
+	</wsdl:message>
+	<wsdl:message name="RicercaAvSoapIn">
+		<wsdl:part name="parameters" element="tns:RicercaAv" />
+	</wsdl:message>
+	<wsdl:message name="RicercaAvSoapOut">
+		<wsdl:part name="parameters" element="tns:RicercaAvResponse" />
+	</wsdl:message>
+	<wsdl:message name="TopListSoapIn">
+		<wsdl:part name="parameters" element="tns:TopList" />
+	</wsdl:message>
+	<wsdl:message name="TopListSoapOut">
+		<wsdl:part name="parameters" element="tns:TopListResponse" />
+	</wsdl:message>
+	<wsdl:message name="NewListSoapIn">
+		<wsdl:part name="parameters" element="tns:NewList" />
+	</wsdl:message>
+	<wsdl:message name="NewListSoapOut">
+		<wsdl:part name="parameters" element="tns:NewListResponse" />
+	</wsdl:message>
+	<wsdl:message name="UserLoansSoapIn">
+		<wsdl:part name="parameters" element="tns:UserLoans" />
+	</wsdl:message>
+	<wsdl:message name="UserLoansSoapOut">
+		<wsdl:part name="parameters" element="tns:UserLoansResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetTypesSoapIn">
+		<wsdl:part name="parameters" element="tns:GetTypes" />
+	</wsdl:message>
+	<wsdl:message name="GetTypesSoapOut">
+		<wsdl:part name="parameters" element="tns:GetTypesResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetAuthURLSoapIn">
+		<wsdl:part name="parameters" element="tns:GetAuthURL" />
+	</wsdl:message>
+	<wsdl:message name="GetAuthURLSoapOut">
+		<wsdl:part name="parameters" element="tns:GetAuthURLResponse" />
+	</wsdl:message>
+	<wsdl:message name="GetRecordsHttpGetIn">
+		<wsdl:part name="api_key" type="s:string" />
+		<wsdl:part name="portal_id" type="s:string" />
+		<wsdl:part name="format" type="s:string" />
+		<wsdl:part name="full_export" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetRecordsHttpGetOut">
+		<wsdl:part name="Body" />
+	</wsdl:message>
+	<wsdl:message name="OpenMediaHttpGetIn">
+		<wsdl:part name="api_key" type="s:string" />
+		<wsdl:part name="portal_id" type="s:string" />
+		<wsdl:part name="username" type="s:string" />
+		<wsdl:part name="media_id" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="OpenMediaHttpGetOut">
+		<wsdl:part name="Body" />
+	</wsdl:message>
+	<wsdl:message name="RicercaHttpGetIn">
+		<wsdl:part name="api_key" type="s:string" />
+		<wsdl:part name="keywords" type="s:string" />
+		<wsdl:part name="idPortale" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="RicercaHttpGetOut">
+		<wsdl:part name="Body" element="tns:RicercaResponse" />
+	</wsdl:message>
+	<wsdl:message name="RicercaAvHttpGetIn">
+		<wsdl:part name="api_key" type="s:string" />
+		<wsdl:part name="titolo" type="s:string" />
+		<wsdl:part name="autore" type="s:string" />
+		<wsdl:part name="editore" type="s:string" />
+		<wsdl:part name="lingua" type="s:string" />
+		<wsdl:part name="idTipologia" type="s:string" />
+		<wsdl:part name="idPortale" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="RicercaAvHttpGetOut">
+		<wsdl:part name="Body" element="tns:RicercaAvResponse" />
+	</wsdl:message>
+	<wsdl:message name="TopListHttpGetIn">
+		<wsdl:part name="api_key" type="s:string" />
+		<wsdl:part name="portal_id" type="s:string" />
+		<wsdl:part name="type_id" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="TopListHttpGetOut">
+		<wsdl:part name="Body" element="tns:TopListResponse" />
+	</wsdl:message>
+	<wsdl:message name="NewListHttpGetIn">
+		<wsdl:part name="api_key" type="s:string" />
+		<wsdl:part name="portal_id" type="s:string" />
+		<wsdl:part name="type_id" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="NewListHttpGetOut">
+		<wsdl:part name="Body" element="tns:NewListResponse"/>
+	</wsdl:message>
+	<wsdl:message name="UserLoansHttpGetIn">
+		<wsdl:part name="api_key" type="s:string" />
+		<wsdl:part name="portal_id" type="s:string" />
+		<wsdl:part name="username" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="UserLoansHttpGetOut">
+		<wsdl:part name="Body" />
+	</wsdl:message>
+	<wsdl:message name="GetTypesHttpGetIn">
+		<wsdl:part name="api_key" type="s:string" />
+		<wsdl:part name="portal_id" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetTypesHttpGetOut">
+		<wsdl:part name="Body" />
+	</wsdl:message>
+	<wsdl:message name="GetAuthURLHttpGetIn">
+		<wsdl:part name="api_key" type="s:string" />
+		<wsdl:part name="portal_id" type="s:string" />
+		<wsdl:part name="username" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetAuthURLHttpGetOut">
+		<wsdl:part name="Body" />
+	</wsdl:message>
+	<wsdl:message name="GetRecordsHttpPostIn">
+		<wsdl:part name="api_key" type="s:string" />
+		<wsdl:part name="portal_id" type="s:string" />
+		<wsdl:part name="format" type="s:string" />
+		<wsdl:part name="full_export" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetRecordsHttpPostOut">
+		<wsdl:part name="Body" />
+	</wsdl:message>
+	<wsdl:message name="OpenMediaHttpPostIn">
+		<wsdl:part name="api_key" type="s:string" />
+		<wsdl:part name="portal_id" type="s:string" />
+		<wsdl:part name="username" type="s:string" />
+		<wsdl:part name="media_id" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="OpenMediaHttpPostOut">
+		<wsdl:part name="Body" />
+	</wsdl:message>
+	<wsdl:message name="RicercaHttpPostIn">
+		<wsdl:part name="api_key" type="s:string" />
+		<wsdl:part name="keywords" type="s:string" />
+		<wsdl:part name="idPortale" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="RicercaHttpPostOut">
+		<wsdl:part name="Body" />
+	</wsdl:message>
+	<wsdl:message name="RicercaAvHttpPostIn">
+		<wsdl:part name="api_key" type="s:string" />
+		<wsdl:part name="titolo" type="s:string" />
+		<wsdl:part name="autore" type="s:string" />
+		<wsdl:part name="editore" type="s:string" />
+		<wsdl:part name="lingua" type="s:string" />
+		<wsdl:part name="idTipologia" type="s:string" />
+		<wsdl:part name="idPortale" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="RicercaAvHttpPostOut">
+		<wsdl:part name="Body" />
+	</wsdl:message>
+	<wsdl:message name="TopListHttpPostIn">
+		<wsdl:part name="api_key" type="s:string" />
+		<wsdl:part name="portal_id" type="s:string" />
+		<wsdl:part name="type_id" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="TopListHttpPostOut">
+		<wsdl:part name="Body" />
+	</wsdl:message>
+	<wsdl:message name="NewListHttpPostIn">
+		<wsdl:part name="api_key" type="s:string" />
+		<wsdl:part name="portal_id" type="s:string" />
+		<wsdl:part name="type_id" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="NewListHttpPostOut">
+		<wsdl:part name="Body" />
+	</wsdl:message>
+	<wsdl:message name="UserLoansHttpPostIn">
+		<wsdl:part name="api_key" type="s:string" />
+		<wsdl:part name="portal_id" type="s:string" />
+		<wsdl:part name="username" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="UserLoansHttpPostOut">
+		<wsdl:part name="Body" />
+	</wsdl:message>
+	<wsdl:message name="GetTypesHttpPostIn">
+		<wsdl:part name="api_key" type="s:string" />
+		<wsdl:part name="portal_id" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetTypesHttpPostOut">
+		<wsdl:part name="Body" />
+	</wsdl:message>
+	<wsdl:message name="GetAuthURLHttpPostIn">
+		<wsdl:part name="api_key" type="s:string" />
+		<wsdl:part name="portal_id" type="s:string" />
+		<wsdl:part name="username" type="s:string" />
+	</wsdl:message>
+	<wsdl:message name="GetAuthURLHttpPostOut">
+		<wsdl:part name="Body" />
+	</wsdl:message>
+	<wsdl:portType name="APISoap">
+		<wsdl:operation name="GetRecords">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Restituisce i
+				record da ingestire. L'update è incrementale rispetto all'ultima
+				chiamata, a meno che &lt;i&gt;full_export&lt;/i&gt; non sia
+				impostato a &lt;i&gt;true&lt;/i&gt;. &lt;i&gt;format&lt;/i&gt; può
+				assumere i valori &lt;i&gt;xmldc&lt;/i&gt; (default) e
+				&lt;i&gt;xmlmarc&lt;/i&gt;.</wsdl:documentation>
+			<wsdl:input message="tns:GetRecordsSoapIn" />
+			<wsdl:output message="tns:GetRecordsSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="OpenMedia">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Avvia la
+				consultazione di una risorsa su MLOL. Restituisce l'URL da chiamare
+				per la consultazione e i parametri da passare in POST.
+			</wsdl:documentation>
+			<wsdl:input message="tns:OpenMediaSoapIn" />
+			<wsdl:output message="tns:OpenMediaSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="Ricerca">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Ricerca una o più
+				parole chiave in tutti i campi. Restituisce il numero di item
+				suddivisi per tipologia.
+			</wsdl:documentation>
+			<wsdl:input message="tns:RicercaSoapIn" />
+			<wsdl:output message="tns:RicercaSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="RicercaAv">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Ricerca una o più
+				parole chiave in uno o più campi specifici. Restituisce il numero di
+				item suddivisi per tipologia.
+			</wsdl:documentation>
+			<wsdl:input message="tns:RicercaAvSoapIn" />
+			<wsdl:output message="tns:RicercaAvSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="TopList">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Resituisce la lista
+				dei titoli più consultati per una tipologia ed un ente/portale
+				specifico.
+			</wsdl:documentation>
+			<wsdl:input message="tns:TopListSoapIn" />
+			<wsdl:output message="tns:TopListSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="NewList">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Resituisce la lista
+				dei titoli aggiunti di recente per una tipologia ed un ente/portale
+				specifico.
+			</wsdl:documentation>
+			<wsdl:input message="tns:NewListSoapIn" />
+			<wsdl:output message="tns:NewListSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="UserLoans">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Resituisce la
+				restituisce la lista dei prestiti effettuati dall'utente, inclusi
+				quelli in corso.
+			</wsdl:documentation>
+			<wsdl:input message="tns:UserLoansSoapIn" />
+			<wsdl:output message="tns:UserLoansSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTypes">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Resituisce la lista
+				delle tipologie di media abilitate per il portale cliente, con i
+				relativi codici e icone.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetTypesSoapIn" />
+			<wsdl:output message="tns:GetTypesSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetAuthURL">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Crea un URL che
+				consente di redirezionare l'utente nel portale cliente, facendolo
+				trovare già autenticato.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetAuthURLSoapIn" />
+			<wsdl:output message="tns:GetAuthURLSoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="APIHttpGet">
+		<wsdl:operation name="GetRecords">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Restituisce i
+				record da ingestire. L'update è incrementale rispetto all'ultima
+				chiamata, a meno che &lt;i&gt;full_export&lt;/i&gt; non sia
+				impostato a &lt;i&gt;true&lt;/i&gt;. &lt;i&gt;format&lt;/i&gt; può
+				assumere i valori &lt;i&gt;xmldc&lt;/i&gt; (default) e
+				&lt;i&gt;xmlmarc&lt;/i&gt;.</wsdl:documentation>
+			<wsdl:input message="tns:GetRecordsHttpGetIn" />
+			<wsdl:output message="tns:GetRecordsHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="OpenMedia">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Avvia la
+				consultazione di una risorsa su MLOL. Restituisce l'URL da chiamare
+				per la consultazione e i parametri da passare in POST.
+			</wsdl:documentation>
+			<wsdl:input message="tns:OpenMediaHttpGetIn" />
+			<wsdl:output message="tns:OpenMediaHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="Ricerca">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Ricerca una o più
+				parole chiave in tutti i campi. Restituisce il numero di item
+				suddivisi per tipologia.
+			</wsdl:documentation>
+			<wsdl:input message="tns:RicercaHttpGetIn" />
+			<wsdl:output message="tns:RicercaHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="RicercaAv">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Ricerca una o più
+				parole chiave in uno o più campi specifici. Restituisce il numero di
+				item suddivisi per tipologia.
+			</wsdl:documentation>
+			<wsdl:input message="tns:RicercaAvHttpGetIn" />
+			<wsdl:output message="tns:RicercaAvHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="TopList">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Resituisce la lista
+				dei titoli più consultati per una tipologia ed un ente/portale
+				specifico.
+			</wsdl:documentation>
+			<wsdl:input message="tns:TopListHttpGetIn" />
+			<wsdl:output message="tns:TopListHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="NewList">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Resituisce la lista
+				dei titoli aggiunti di recente per una tipologia ed un ente/portale
+				specifico.
+			</wsdl:documentation>
+			<wsdl:input message="tns:NewListHttpGetIn" />
+			<wsdl:output message="tns:NewListHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="UserLoans">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Resituisce la
+				restituisce la lista dei prestiti effettuati dall'utente, inclusi
+				quelli in corso.
+			</wsdl:documentation>
+			<wsdl:input message="tns:UserLoansHttpGetIn" />
+			<wsdl:output message="tns:UserLoansHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTypes">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Resituisce la lista
+				delle tipologie di media abilitate per il portale cliente, con i
+				relativi codici e icone.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetTypesHttpGetIn" />
+			<wsdl:output message="tns:GetTypesHttpGetOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetAuthURL">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Crea un URL che
+				consente di redirezionare l'utente nel portale cliente, facendolo
+				trovare già autenticato.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetAuthURLHttpGetIn" />
+			<wsdl:output message="tns:GetAuthURLHttpGetOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="APIHttpPost">
+		<wsdl:operation name="GetRecords">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Restituisce i
+				record da ingestire. L'update è incrementale rispetto all'ultima
+				chiamata, a meno che &lt;i&gt;full_export&lt;/i&gt; non sia
+				impostato a &lt;i&gt;true&lt;/i&gt;. &lt;i&gt;format&lt;/i&gt; può
+				assumere i valori &lt;i&gt;xmldc&lt;/i&gt; (default) e
+				&lt;i&gt;xmlmarc&lt;/i&gt;.</wsdl:documentation>
+			<wsdl:input message="tns:GetRecordsHttpPostIn" />
+			<wsdl:output message="tns:GetRecordsHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="OpenMedia">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Avvia la
+				consultazione di una risorsa su MLOL. Restituisce l'URL da chiamare
+				per la consultazione e i parametri da passare in POST.
+			</wsdl:documentation>
+			<wsdl:input message="tns:OpenMediaHttpPostIn" />
+			<wsdl:output message="tns:OpenMediaHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="Ricerca">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Ricerca una o più
+				parole chiave in tutti i campi. Restituisce il numero di item
+				suddivisi per tipologia.
+			</wsdl:documentation>
+			<wsdl:input message="tns:RicercaHttpPostIn" />
+			<wsdl:output message="tns:RicercaHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="RicercaAv">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Ricerca una o più
+				parole chiave in uno o più campi specifici. Restituisce il numero di
+				item suddivisi per tipologia.
+			</wsdl:documentation>
+			<wsdl:input message="tns:RicercaAvHttpPostIn" />
+			<wsdl:output message="tns:RicercaAvHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="TopList">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Resituisce la lista
+				dei titoli più consultati per una tipologia ed un ente/portale
+				specifico.
+			</wsdl:documentation>
+			<wsdl:input message="tns:TopListHttpPostIn" />
+			<wsdl:output message="tns:TopListHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="NewList">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Resituisce la lista
+				dei titoli aggiunti di recente per una tipologia ed un ente/portale
+				specifico.
+			</wsdl:documentation>
+			<wsdl:input message="tns:NewListHttpPostIn" />
+			<wsdl:output message="tns:NewListHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="UserLoans">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Resituisce la
+				restituisce la lista dei prestiti effettuati dall'utente, inclusi
+				quelli in corso.
+			</wsdl:documentation>
+			<wsdl:input message="tns:UserLoansHttpPostIn" />
+			<wsdl:output message="tns:UserLoansHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetTypes">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Resituisce la lista
+				delle tipologie di media abilitate per il portale cliente, con i
+				relativi codici e icone.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetTypesHttpPostIn" />
+			<wsdl:output message="tns:GetTypesHttpPostOut" />
+		</wsdl:operation>
+		<wsdl:operation name="GetAuthURL">
+			<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Crea un URL che
+				consente di redirezionare l'utente nel portale cliente, facendolo
+				trovare già autenticato.
+			</wsdl:documentation>
+			<wsdl:input message="tns:GetAuthURLHttpPostIn" />
+			<wsdl:output message="tns:GetAuthURLHttpPostOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="APISoap" type="tns:APISoap">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="GetRecords">
+			<soap:operation soapAction="http://api.medialibrary.it/GetRecords"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="OpenMedia">
+			<soap:operation soapAction="http://api.medialibrary.it/OpenMedia"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Ricerca">
+			<soap:operation soapAction="http://api.medialibrary.it/Ricerca"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="RicercaAv">
+			<soap:operation soapAction="http://api.medialibrary.it/RicercaAv"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="TopList">
+			<soap:operation soapAction="http://api.medialibrary.it/TopList"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="NewList">
+			<soap:operation soapAction="http://api.medialibrary.it/NewList"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="UserLoans">
+			<soap:operation soapAction="http://api.medialibrary.it/UserLoans"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTypes">
+			<soap:operation soapAction="http://api.medialibrary.it/GetTypes"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetAuthURL">
+			<soap:operation soapAction="http://api.medialibrary.it/GetAuthURL"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="APISoap12" type="tns:APISoap">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="GetRecords">
+			<soap12:operation soapAction="http://api.medialibrary.it/GetRecords"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="OpenMedia">
+			<soap12:operation soapAction="http://api.medialibrary.it/OpenMedia"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Ricerca">
+			<soap12:operation soapAction="http://api.medialibrary.it/Ricerca"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="RicercaAv">
+			<soap12:operation soapAction="http://api.medialibrary.it/RicercaAv"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="TopList">
+			<soap12:operation soapAction="http://api.medialibrary.it/TopList"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="NewList">
+			<soap12:operation soapAction="http://api.medialibrary.it/NewList"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="UserLoans">
+			<soap12:operation soapAction="http://api.medialibrary.it/UserLoans"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTypes">
+			<soap12:operation soapAction="http://api.medialibrary.it/GetTypes"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetAuthURL">
+			<soap12:operation soapAction="http://api.medialibrary.it/GetAuthURL"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="APIHttpGet" type="tns:APIHttpGet">
+		<http:binding verb="GET" />
+		<wsdl:operation name="GetRecords">
+			<http:operation location="/GetRecords" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:content part="Body" type="text/xml" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="OpenMedia">
+			<http:operation location="/OpenMedia" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:content part="Body" type="text/xml" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Ricerca">
+			<http:operation location="/Ricerca" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:content part="Body" type="text/xml" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="RicercaAv">
+			<http:operation location="/RicercaAv" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:content part="Body" type="text/xml" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="TopList">
+			<http:operation location="/TopList" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:content part="Body" type="text/xml" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="NewList">
+			<http:operation location="/NewList" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:content part="Body" type="text/xml" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="UserLoans">
+			<http:operation location="/UserLoans" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:content part="Body" type="text/xml" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTypes">
+			<http:operation location="/GetTypes" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:content part="Body" type="text/xml" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetAuthURL">
+			<http:operation location="/GetAuthURL" />
+			<wsdl:input>
+				<http:urlEncoded />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:content part="Body" type="text/xml" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="APIHttpPost" type="tns:APIHttpPost">
+		<http:binding verb="POST" />
+		<wsdl:operation name="GetRecords">
+			<http:operation location="/GetRecords" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:content part="Body" type="text/xml" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="OpenMedia">
+			<http:operation location="/OpenMedia" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:content part="Body" type="text/xml" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="Ricerca">
+			<http:operation location="/Ricerca" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:content part="Body" type="text/xml" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="RicercaAv">
+			<http:operation location="/RicercaAv" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:content part="Body" type="text/xml" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="TopList">
+			<http:operation location="/TopList" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:content part="Body" type="text/xml" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="NewList">
+			<http:operation location="/NewList" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:content part="Body" type="text/xml" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="UserLoans">
+			<http:operation location="/UserLoans" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:content part="Body" type="text/xml" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetTypes">
+			<http:operation location="/GetTypes" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:content part="Body" type="text/xml" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetAuthURL">
+			<http:operation location="/GetAuthURL" />
+			<wsdl:input>
+				<mime:content type="application/x-www-form-urlencoded" />
+			</wsdl:input>
+			<wsdl:output>
+				<mime:content part="Body" type="text/xml" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="API">
+		<wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">&lt;h3&gt;API
+			MediaLibraryOnLine (MLOL)&lt;/h3&gt;</wsdl:documentation>
+		<wsdl:port name="APISoap" binding="tns:APISoap">
+			<soap:address location="https://api.medialibrary.it/api.asmx" />
+		</wsdl:port>
+		<wsdl:port name="APISoap12" binding="tns:APISoap12">
+			<soap12:address location="https://api.medialibrary.it/api.asmx" />
+		</wsdl:port>
+		<wsdl:port name="APIHttpGet" binding="tns:APIHttpGet">
+			<http:address location="https://api.medialibrary.it/api.asmx" />
+		</wsdl:port>
+		<wsdl:port name="APIHttpPost" binding="tns:APIHttpPost">
+			<http:address location="https://api.medialibrary.it/api.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

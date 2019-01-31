@@ -1,0 +1,83 @@
+<div class="panel-group">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h5>{{selectedActivity | translate}}</h5>
+    </div>
+    <div class="panel-body">
+        <div ng-show="isLoading" class="col-md-3 centerDivLogin">
+            <div class="form-login center">
+                    <center>
+            <div class="loader"></div>
+        </center>
+            </div>
+        
+    </div>
+      <form class="form-horizontal"  ng-show="!isLoading">
+        <!-- data aggiornamento polo .-->
+        <fieldset>
+          <div class="form-group">
+            <label for="user" class="col-sm-3 col-lg-3 myControl-label">{{ 'amm_user' | translate}}</label>
+            <div class="col-sm-3 col-lg-3">
+              <input type="text" class="form-control input-sm" id="user" ng-model="appUser.username" name="email" disabled>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-group">
+            <label for="psw" class="col-sm-3 col-lg-3">{{'vecchia_psw' | translate}}:</label>
+            <div class="col-sm-3 col-lg-3">
+              <input type="password" id="psw" class="form-control input-sm" ng-model="appUser.password"  ng-disabled="!edit">
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-group">
+            <label for="new_psw" class="col-sm-3 col-lg-3">{{'new_psw' | translate}}:</label>
+            <div class="col-sm-3 col-lg-3">
+              <input ng-model="appUser.newPsw" type="password" class="form-control input-sm" id="new_psw" name="new_psw"
+                ng-disabled="!edit">
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-group">
+            <label for="email" class="col-sm-3 col-lg-3">{{'new_psw_ripeti' | translate}}:</label>
+            <div class="col-sm-3 col-lg-3">
+              <input id="new_psw_C" ng-model="appUser.newPswConfirm"  type="password" class="form-control input-sm"
+                id="new_psw" name="new_psw_C" ng-disabled="!edit">
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <div id="error" style="display: none;" class="px-top-20 alert alert-danger alert-dismissible" role="alert">
+            <button type="button" title="{{'chiudi' | translate}}" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+             {{ error | translate}}
+            </div>
+            <div id="success" style="display: none;" class="px-top-20 alert alert-success alert-dismissible" role="alert">
+              <button type="button" title="{{'chiudi' | translate}}" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <strong>{{'ok_success_panel' |translate}}</strong> 
+              </div>
+        </fieldset>
+      </form>
+
+    </div>
+    <div class="panel-footer">
+      <center>
+        <button title="{{'tooltip_modifica_action' | translate}}" ng-show="!edit" class="btn btn-md btn-warning" ng-click="startEdit()">
+          {{'amm_modifica' | translate}}
+
+        </button>
+       
+        <button title="{{'tooltip_annulla_action' | translate}}" ng-show="edit" class="btn btn-md btn-warning" ng-click="init()">
+          {{'amm_annulla' | translate}}
+
+        </button>
+        <button title="{{'tooltip_conferma_action' | translate}}" ng-show="edit" class="btn btn-md btn-success" ng-click="update()" ng-disabled="appUser.newPswConfirm == '' || appUser.newPsw == '' || appUser.password == ''">
+          {{'amm_conferma' | translate}}
+
+        </button>
+      </center>
+    </div>
+  </div>
+
+</div>

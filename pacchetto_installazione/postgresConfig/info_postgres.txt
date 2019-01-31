@@ -1,0 +1,28 @@
+
+
+esportazione struttura db "opacDB"
+
+creazione db "opacDB" da riga di comando 
+
+caricamento contenuti nelle tabelle con impostazione del codice polo corretto
+
+Usiamo le seguenti tabelle nell’opac: 
+• tb_polo
+• accesso_mlol
+• cat_fruizione950 (aggiornata tramite procedure allineaFruizione2 che usa corrispondente file accessorio export Unimarc)
+• materialeinventariale (aggiornata tramite procedure allineaMaterialeInv2 che usa corrispondente file accessorio export Unimarc)
+• biblio   (estrazione lista delle biblioteche da SBNWeb?)
+• flag_authority
+• applicativo_servizi 
+• classificazioni
+• gruppi
+• rel_biblio_gruppi
+• link_esterni
+• user_opac
+
+le tabelle seguenti sono caricate da bibliotecheImporter
+• biblio_dettagli
+• biblio_contatti
+
+Il driver PostgresXXX.jar va nella cartella lib di apache in caso non ci fosse il driver installato
+

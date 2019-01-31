@@ -1,0 +1,133 @@
+<table class="table">
+
+  <tr ng-show="dettagli[$index].forms.formevar">
+    <td class="shortTd">
+      <emptyTag ng-show="dettagli[$index].forms.formevar">
+        <span class="col-sm-3 control-label"><strong  class="sottolineato"> {{'formevar' | translate }}</strong></span>
+        <div class="col-sm-9 text">
+          <div ng-repeat="formeVarEnteSingle in dettagli[$index].forms.formevar">
+            {{formeVarEnteSingle}}
+          </div>
+        </div>
+
+    </td>
+  </tr>
+  <tr ng-show="dettagli[$index].forms.formevar_ente">
+    <td class="shortTd">
+      <emptyTag ng-show="dettagli[$index].forms.formevar_ente">
+        <span class="col-sm-3 control-label"><strong  class="sottolineato"> {{'formevar' | translate }}</strong></span>
+        <div class="col-sm-9 text">
+          <div ng-repeat="formeVarEnteSingle_ente in dettagli[$index].forms.formevar_ente">
+            {{formeVarEnteSingle_ente}}
+          </div>
+        </div>
+
+    </td>
+  </tr>
+  <tr ng-show="dettagli[$index].datazione">
+    <td class="shortTd">
+      <emptyTag ng-show="dettagli[$index].datazione">
+        <span class="col-sm-3 control-label work"><strong  class="sottolineato"> {{'datazione' | translate }}</strong></span>
+        <div class="col-sm-9 text"> {{ dettagli[$index].datazione}}</div>
+
+    </td>
+  </tr>
+  <tr ng-show="dettagli[$index].datazione_ente">
+    <td class="shortTd">
+      <emptyTag ng-show="dettagli[$index].datazione_ente">
+        <span class="col-sm-3 control-label work"><strong  class="sottolineato"> {{'datazione_ente' | translate }}</strong></span>
+        <div class="col-sm-9 text"> {{ dettagli[$index].datazione_ente}}</div>
+
+    </td>
+  </tr>
+  <tr ng-show="dettagli[$index].note">
+    <td class="shortTd">
+      <emptyTag ng-show="dettagli[$index].note">
+        <span class="col-sm-3 control-label"><strong  class="sottolineato"> {{'notaInf' | translate }}</strong></span>
+        <div class="col-sm-9 text">
+          <div ng-repeat="notaSingle in dettagli[$index].note">
+            {{ notaSingle | notaINFORMATIVA | indexed}}
+          </div>
+        </div>
+
+    </td>
+  </tr>
+  <tr ng-show="dettagli[$index].fonti">
+    <td class="shortTd">
+      <emptyTag ng-show="dettagli[$index].fonti">
+        <span class="col-sm-3 control-label"><strong  class="sottolineato"> {{'fonti' | translate }}</strong></span>
+        <div class="col-sm-9 text">
+          <div ng-repeat="fontiSingle in dettagli[$index].fonti">
+            {{fontiSingle}}
+          </div>
+        </div>
+
+    </td>
+  </tr>
+  <tr ng-show="dettagli[$index].altre_fonti">
+    <td class="shortTd">
+
+      <span class="col-sm-3 control-label"><strong  class="sottolineato"> {{'altre_fonti' | translate }}</strong></span>
+      <div class="col-sm-9 text">
+        <div ng-repeat="altre_fontiSingle in dettagli[$index].altre_fonti">
+          {{altre_fontiSingle}}
+        </div>
+      </div>
+
+    </td>
+  </tr>
+  <tr ng-show="dettagli[$index].regole">
+    <td class="shortTd">
+
+      <span class="col-sm-3 control-label"><strong  class="sottolineato"> {{'regole' | translate }}</strong></span>
+      <span class="col-sm-9 text">
+                <div ng-repeat="regoleAuth in dettagli[$index].regole">
+                {{regoleAuth}}
+              </span>
+      </div>
+
+    </td>
+  </tr>
+  <tr ng-show="dettagli[$index].data_agg">
+    <td class="shortTd">
+
+      <span class="col-sm-3 control-label work"><strong  class="sottolineato"> {{'data_agg' | translate }}</strong></span>
+      <div class="col-sm-9 text"> {{ dettagli[$index].data_agg | myDate | date: 'dd/MM/yyyy'}}</div>
+
+    </td>
+  </tr>
+  <tr ng-show="dettagli[$index].status">
+    <td class="shortTd">
+
+      <span class="col-sm-3 control-label work"><strong  class="sottolineato"> {{'status_voce_label' | translate }}</strong></span>
+      <div class="col-sm-9 text"> {{ dettagli[$index].status | decodeVocicontrollate | translate}}</div>
+
+    </td>
+  </tr>
+  <tr ng-show="dettagli[$index].id_internaz">
+    <td class="shortTd">
+
+      <span class="col-sm-3 control-label "><strong  class="sottolineato"> {{'id_internaz' | translate }}</strong></span>
+      <div class="col-sm-9 text" ><a ng-href="http://www.isni.org/{{ dettagli[$index].id_internaz | isni }}" class="links">{{ dettagli[$index].id_internaz | isni }}</a>
+      </div>
+
+    </td>
+  </tr>
+  <tr ng-show="dettagli[$index].idAuth">
+    <td class="shortTd">
+      <span class="col-sm-3 control-label"><strong class="sottolineato"> {{'vid' | translate}}</strong></span>
+      <div class="col-sm-9 text">{{dettagli[$index].idAuth}}</div>
+    </td>
+  </tr>
+  <tr ng-show="dettagli[$index].aviableTitles > 1">
+    <td class="shortTd">
+
+      <span class="col-sm-3 control-label work"></span>
+      <div class="col-sm-9 text" ng-click="$event.stopPropagation(); searchForDocuments(dettagli[$index].idAuth,  dettagli[$index].authors.nome || dettagli[$index].authors.nome_ente)">
+        <span class="links">{{'titoli' | translate}}</span>
+        <span ng-show="dettagli[$index].aviableTitles > 1">({{dettagli[$index].aviableTitles}})</span>
+      </div>
+
+    </td>
+  </tr>
+</table>

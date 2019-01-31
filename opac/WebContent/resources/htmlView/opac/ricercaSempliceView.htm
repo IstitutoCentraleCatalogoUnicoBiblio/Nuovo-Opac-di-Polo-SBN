@@ -1,0 +1,271 @@
+<div class="container-fluid">
+	<div class="row content">
+		<ng-include src=" 'htmlView/templates/page/navbarView.htm' "></ng-include>
+
+		<div class="col-sm-12 padd_sf_home">
+			<h2 class="padd_L_ico">
+				<img src="images/ico_search_ora.png" alt=""> {{'rSemplice' | translate}}</h2>
+			<table class="table">
+				<tr>
+					<td style="text-align: center;
+				vertical-align: middle;">
+						<div class="padding-lateral input-group input-group-lg" id="search_view" style="margin-top: 6%; max-width: 80%; margin-left: 10%;">
+
+							<input my-enter="find()" class="form-control  input-lg" type="text" ng-model="value" id="parole_cerc" ng-attr-placeholder="{{'testoCerca' | translate}}">
+							<span ng-click='find()' class="input-group-addon link" id="sizing-addon1" data-toggle="tooltip" data-placement="left" title="{{'cerca' | translate}}">
+								<span class="glyphicon glyphicon-search"></span>
+							</span>
+
+						</div>
+					</td>
+				</tr>
+
+				<tr>
+
+					<td>
+						<div class="ricercaSempliceLinks" style="margin-bottom: 235px; max-width: 80%; margin-left: 12%;  margin-right: 12%; margin-top: 0%">
+							<div class="rAuth padding-lateral">
+								<b>{{('tipomat_label' | translate) }}</b>
+								<div class="dropdown" style="margin-left: 6px;">
+									<button class="btn btn-default dropdown-toggle btn-xs " type="button" data-toggle="dropdown">
+										<!--	{{((tipoMatSelected == 'tipomat_tutto') ? 'tipomat_label' : tipoMatSelected ) |translate}} -->
+										{{ (tipoMatSelected | translate)}}
+										<span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu">
+										<li ng-class="['link', {'active': tipoMatSelected == tipoMat}]" ng-repeat="tipoMat in tipiMateriale" ng-click="selectTipoMat(tipoMat)">
+											<a>{{tipoMat | translate}}</a>
+										</li>
+									</ul>
+								</div>
+								<b style="margin-left: 6px;">{{"in"}}</b>
+								<div style="margin-left:6px" class="dropdown">
+									<button class="btn btn-default dropdown-toggle btn-xs " type="button" data-toggle="dropdown">
+										<!-- {{((field != "any_tutto") ? field : 'rsempl_field') |translate}} -->
+										{{ (field | translate)}}
+										<span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu">
+										<li ng-class="['link',{'active': field == sField}]" ng-repeat="sField in fields" ng-click="selectField(sField)">
+											<a> {{sField | translate}}</a>
+										</li>
+									</ul>
+								</div>
+								<b ng-if="!polo.bibliotecaAsPolo" style="margin-left: 6px;">{{"rsempl_dove" | translate}}</b>
+								<div ng-if="!polo.bibliotecaAsPolo" style="margin-left: 6px;" ng-attr-id="{{ 'bibsSelect' }}">
+									<div style="margin-left:6px" class="dropdown">
+										<button class="btn btn-default dropdown-toggle btn-xs" type="button" data-toggle="dropdown" ng-click="">
+											{{((selectionBibl.length == 0 || selectionBibl.length == polo.libraries.length) ? ("rsempl_tutte_bibl" | translate): selectionBibl.length
+											+ " " +( "rsempl_biblioteche" | translate))}}
+
+											<span class="caret"></span>
+										</button>
+										<ul ng-click="$event.stopPropagation();" class="dropdown-menu" style="height: 200px; width: 400px;  overflow-y: auto; resize: both"
+										 ng-init="show = false">
+											<span ng-repeat="bg in polo.gruppi_bib | orderBy: 'name' " ng-if="bg.biblioteche.length != 0">
+												<li class="dropdown-header link">
+													<span ng-show="show" title="{{'tooltip_aggiungi_tutte_bib_group' | translate}}" class="glyphicon glyphicon-minus" ng-click="$event.stopPropagation(); show = !show"></span>
+													<span ng-show="!show" title="{{'tooltip_aggiungi_tutte_bib_group' | translate}}" class="glyphicon glyphicon-plus" ng-click="$event.stopPropagation(); show = !show"></span>
+													<span ng-click="$event.stopPropagation(); show = !show">{{bg.name |capitalize}}
+														<span style="margin-left: 6px;" ng-show="show" title="{{'tooltip_remove_tutte_bib_group' | translate}}" class="glyphicon glyphicon-log-out pull-right"
+														 ng-click="$event.stopPropagation(); clearBibselect(bg.biblioteche)"></span>
+														<span ng-show="show" title="{{'tooltip_aggiungi_tutte_bib_group' | translate}}" class="glyphicon glyphicon-log-in pull-right"
+														 ng-click="$event.stopPropagation(); addAllToSelected(bg.biblioteche)"></span>
+												</li>
+												<li ng-show="show">
+													<ul>
+														<li style="list-style-type: none;" class="link" ng-repeat="bl in bg.biblioteche">
+															<span ng-click="$event.stopPropagation(); toggleSelectionBib(bl)">
+																<input ng-click="$event.stopPropagation(); toggleSelectionBib(bl)" type="checkbox" name="selectionBibl[]" value="{{bl.name}}"
+																 ng-checked="findIndex(selectionBibl, 'cod_bib', bl.cod_bib) > -1 ">
+																<span style="padding-left: 10px;">{{bl.name}}
+																	<i>({{bl.isil}})</i>
+																</span>
+															</span>
+														</li>
+													</ul>
+												</li>
+												<li role="separator" class="divider"></li>
+												</span>
+												<li ng-init="showB = true" class="dropdown-header link" ng-click="$event.stopPropagation();  showB = !showB">
+													<span ng-show="!showB" title="{{'tooltip_aggiungi_tutte_bib_group' | translate}}" class="glyphicon glyphicon-plus" ng-click="$event.stopPropagation(); showB = !showB"></span>
+													<span ng-show="showB" title="{{'tooltip_aggiungi_tutte_bib_group' | translate}}" class="glyphicon glyphicon-minus" ng-click="$event.stopPropagation(); showB = !showB"></span>
+													<span ng-click="$event.stopPropagation(); showB = !showB">{{'altre_biblioteche' | translate |capitalize}}</span>
+													<span style="margin-left: 6px;" ng-show="showB" title="{{'tooltip_remove_tutte_bib_group' | translate}}" class="glyphicon glyphicon-log-out pull-right"
+													 ng-click="$event.stopPropagation();  clearAllNonGrupp(polo.libraries)"></span>
+
+													<span ng-show="showB" title="{{'tooltip_aggiungi_tutte_bib_group' | translate}}" class="glyphicon glyphicon-log-in pull-right"
+													 ng-click="$event.stopPropagation(); addAllNonGrupp(polo.libraries)"></span>
+												</li>
+												<ul>
+													<li style="list-style-type: none;" ng-show="showB" class="link" ng-repeat="bl in polo.libraries | orderBy: 'name' | orderBy: 'isil' " ng-if="bl.gruppi.length == 0">
+														<span ng-click="$event.stopPropagation(); toggleSelectionBib(bl)">
+															<input ng-click="$event.stopPropagation(); toggleSelectionBib(bl)" type="checkbox" name="selectionBibl[]" value="{{bl.name}}"
+															 ng-checked="findIndex(selectionBibl, 'cod_bib', bl.cod_bib) > -1 ">
+															<span style="padding-left: 10px;">{{bl.name}}
+																<i>({{bl.isil}})</i>
+															</span>
+														</span>
+													</li>
+												</ul>
+
+										</ul>
+										<!-- <span ng-show="selectionBibl.length > 0 " ng-repeat="selectionBiblSingle in selectionBibl | limitTo: 3"><i>{{selectionBiblSingle.name |translate | limitTo:30 | lowercase}}<span  ng-show="selectionBiblSingle.name.length > 31 "><i>...</i></span><span ng-if="selectionBibl[$index + 1]">,</span> </i>
+																										</span>
+																										<span ng-show="selectionBibl.length > 3 "><i>[...]</i></span> -->
+									</div>
+
+
+
+
+
+								</div>
+								<!--	<input type="date" ng-model="novitaDate" ng-change="novita()"> {{novitaDate | date: 'dd-MM-yyyy'}} -->
+
+
+								<!--	<button type="button" ng-class="['btn',btn-xs, {'btn-info': contesto == ''}, {'btn-default':contesto != ''}]" class="btn btn-default btn-xs " ng-click="selectedContesto('')" title="{{'tooltip_cerca_tuttiTitoli' | translate}}">{{'tuttoCode' | translate}}</button>
+																		<button type="button" ng-class="['btn', btn-xs, {'btn-info': contesto == 'digitale'}, {'btn-default':contesto != 'digitale'}]" class="btn btn-default btn-xs " ng-click="selectedContesto('digitale')"  title="{{'tooltip_cerca_titoliDigitali' | translate}}"style="margin-left: 6px;">{{'disponibilitaFormatoDigitale' | translate}}</button> 
+									
+																		<button ng-if="false" type="button" ng-class="['btn', btn-xs, {'btn-info': contesto == 'periodico'}, {'btn-default':contesto != 'periodico'}]"
+																		 class="btn btn-default btn-xs " ng-click="selectedContesto('periodico')" style="margin-left: 6px;" title="{{'tooltip_cerca_titoliTipoRecPeriodici' | translate}}">{{'Periodici' | translate}}</button>									-->
+							</div>
+							<div class="rAvanz padding-lateral">
+								<a class="a link rAvanz" ng-click="ricercaAvanzata(false)" title="{{'tooltip_paginaRAvanz' | translate}}">{{ 'rAvanz' | translate }}</a>
+								<br ng-if="polo.useAuthority" />
+								<a ng-if="polo.useAuthority" class="a link rAvanz" ng-href="{{polo.code}}/authority" title="{{'tooltip_paginaAuthAut' | translate}}">{{ 'authority' | translate }}</a>
+							</div>
+
+
+						</div>
+						<div ng-if="false" class="rAuth padding-lateral px-top-15">
+							<div class="dropdown" style="margin-left: 6px;">
+								<button class="btn btn-default dropdown-toggle btn-xs " type="button" data-toggle="dropdown">
+									{{ ('tagI950' | translate)}}
+									<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu">
+									<li ng-click="novita('last_week')">
+										<a>{{'last_week' | translate}}</a>
+									</li>
+									<li ng-click="novita('last_month')">
+										<a>{{'last_month' | translate}}</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</td>
+				</tr>
+
+
+
+			</table>
+
+
+
+		</div>
+
+	</div>
+</div>
+<span style="bottom: 0px">
+	<ng-include src=" 'htmlView/templates/page/footerView.htm' "></ng-include>
+</span>
+<ng-include src=" 'htmlView/templates/page/modalsView.htm' "></ng-include>
+<!--
+	<div ng-if="false"class="link ricercaSemplice myBoxe" style="min-height: 370px !important;">
+
+				<form>
+					<fieldset>
+						
+					</fieldset>
+
+					<fieldset class="noLink">
+						<div class="form-group">
+
+							<div class="col-sm-12 col-lg-12 padding-lateral input-group input-group-lg"  id="search_view">
+
+								<input class="form-control  input-lg" type="text" ng-model="value" id="parole_cerc" ng-attr-placeholder="{{'testoCerca' | translate}}">
+								<span ng-click='find()' class="input-group-addon link" id="sizing-addon1" data-toggle="tooltip" data-placement="left" title="{{'cerca' | translate}}"><span class="glyphicon glyphicon-search"></span></span>
+
+							</div>
+
+							<div class="ricercaSempliceLinks px-top-15" >
+								<div class="rAuth padding-lateral" >
+									<b>{{('tipomat_label' | translate) }}</b> 
+											  <div class="dropdown" style="margin-left: 6px;">
+													<button class="btn btn-default dropdown-toggle btn-xs " type="button" data-toggle="dropdown">
+													{{ (tipoMatSelected | translate)}}	
+													<span class="caret"></span>	
+													</button>
+													<ul class="dropdown-menu">
+															<li ng-class="['link', {'active': tipoMatSelected == tipoMat}]" ng-repeat="tipoMat in tipiMateriale" ng-click="selectTipoMat(tipoMat)"> 
+																	<a>{{tipoMat | translate}}</a>
+															</li>
+													</ul>
+											  </div>
+											  <b style="margin-left: 6px;">{{"in"}}</b> 
+												<div style="margin-left:6px" class="dropdown">
+														<button class="btn btn-default dropdown-toggle btn-xs " type="button" data-toggle="dropdown">
+																{{  (field | translate)}}
+																<span class="caret"></span>	
+															</button>
+															<ul class="dropdown-menu">
+																	<li ng-class="['link',{'active': field == sField}]" ng-repeat="sField in fields" ng-click="selectField(sField)"> 
+																		<a>	{{sField | translate}}</a>
+																	</li>
+															</ul>
+													</div>
+													<b style="margin-left: 6px;">{{"rsempl_dove" | translate}}</b> 													
+															<div style="margin-left: 6px;" ng-attr-id="{{ 'bibsSelect' }}" >
+																<div style="margin-left:6px"class="dropdown">
+																	<button class="btn btn-default dropdown-toggle btn-xs" type="button" data-toggle="dropdown" ng-click="">
+																																			 {{((selectionBibl.length == 0 || selectionBibl.length == polo.libraries.length) ? ("rsempl_tutte_bibl" | translate): selectionBibl.length + " " +( "rsempl_biblioteche" | translate))}}
+								
+																																		<span class="caret"></span></button>
+																	<ul class="dropdown-menu" style="max-height: 200px; max-width: 340px; overflow-y: auto">
+																		<li ng-repeat="bl in polo.libraries | orderBy: 'name' | orderBy: 'isil' " class="link"><a ng-click="$event.stopPropagation(); toggleSelectionBib(bl)"><input
+																																				 ng-click="$event.stopPropagation(); toggleSelectionBib(bl)"
+																																					type="checkbox"
+																																					name="selectionBibl[]"
+																																					value="{{bl.name}}"
+																																					ng-checked="findIndex(selectionBibl, 'cod_bib', bl.cod_bib) > -1 "
+																																				> <span style="padding-left: 10px;">{{bl.name}} <i>({{bl.isil}})</i></span></a></li>
+								
+																		
+																																			</ul>
+															</div>
+								
+								
+															
+								
+								
+														</div>
+									</div>
+								<div class="rAvanz padding-lateral">
+									<a class="a link rAvanz" ng-click="ricercaAvanzata(false)" title="{{'tooltip_paginaRAvanz' | translate}}">{{ 'rAvanz' | translate }}</a>
+									<br ng-if="polo.auth_autori" />
+									<a ng-if="polo.auth_autori" class="a link rAvanz" ng-href="{{polo.code}}/authority" title="{{'tooltip_paginaAuthAut' | translate}}">{{ 'authority' | translate }}</a>
+								</div>
+
+
+							</div>
+							<div ng-if="false" class="rAuth padding-lateral px-top-15" >
+									<div class="dropdown" style="margin-left: 6px;">
+											<button class="btn btn-default dropdown-toggle btn-xs " type="button" data-toggle="dropdown">
+												{{ ('tagI950' | translate)}}	
+												<span class="caret"></span>	
+												</button>
+												<ul class="dropdown-menu">
+													<li ng-click="novita('last_week')"> 
+														<a>{{'last_week' | translate}}</a>
+													</li>
+													<li ng-click="novita('last_month')"> 
+															<a>{{'last_month' | translate}}</a>
+														</li>
+											</ul>
+										</div>
+							</div>
+						</div>
+					</fieldset>
+				</form>
+
+			</div> -->

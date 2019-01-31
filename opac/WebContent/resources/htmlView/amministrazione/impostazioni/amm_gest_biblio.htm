@@ -1,0 +1,254 @@
+<div class="panel-group">
+  <div class="panel panel-default">
+    <div class="panel-heading clearfix">
+      <h5 class="panel-title pull-left " style="padding-top: 5.5px;">{{selectedActivity | translate}}</h5>
+ 
+      <span ng-show="!edit" class="col-sm-5 pull-right">
+          <div class="input-group input-group-xs">
+              
+              <input placeholder="{{'filtra_nome_cod' | translate}}" type="text" class="form-control" ng-model="$parent.filterBib">
+              <span title="{{ 'rimuovi_filtro' | translate}}" class="input-group-addon" id="basic-addon1" ng-click="$parent.filterBib = ''">
+                  <span class="glyphicon glyphicon-remove">
+                  </span>
+                </span>
+          </div>
+      </span>
+    </div>
+   
+    <div class="panel-body" ng-show="!edit">
+        <div ng-show="!isLoading" ng-if="!edit && appBiblios.length == 0" class="alert alert-warning center">
+            
+                         {{'nessun_elemento_inserito' | translate}}
+         </div> 
+                
+      <table ng-if="appBiblios.length > 0" class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <td></td>
+            <td>{{'cod_bib'| translate}}</td>
+
+            <td>{{'bib_name'| translate}}</td>
+            <td>{{'flag_servizi'| translate}}</td>
+            <td>{{'flag_kardex'| translate}}</td>
+            <td>{{'flag_sbnweb'| translate}}</td>
+
+            <td>{{'bib_appl_serv'| translate}}</td>
+            <td colspan="2">{{'Logo'}}</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="biblioteca in appBiblios | filter: filterBibAction " ng-init="edit = false" ng-if="!biblioteca.deleted">
+            <td class="col-sm-1">
+                <button ng-show="!edit" class="btn btn-xs btn-warning" ng-click="startEdit(biblioteca)">
+                    <span class="glyphicon glyphicon-cog"></span>
+                  </button>
+                <button class="btn btn-xs btn-danger" ng-click="deleteInLine(biblioteca)">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </button>
+            
+              </td>
+            <td class="col-sm-1">
+              {{biblioteca.cod_bib}}
+              <!--  <input type="text" maxlength="2" class="form-control input-sm" ng-model="biblioteca.cod_bib"  ng-disabled="!edit">     -->
+            </td>
+            <td>
+              {{biblioteca.name}}
+              <!--  <input type="text" class="form-control input-sm" ng-model="biblioteca.name"  ng-disabled="!edit">    -->
+            </td>
+            <td class="checked">
+              <!-- <input type="checkbox" ng-model="biblioteca.link_servizi"  ng-disabled="!edit">  -->
+              <span ng-class="['glyphicon',{ 'glyphicon-ok': biblioteca.link_servizi}]"></span>
+            <!--  {{biblioteca.link_servizi  +"_t" | lowercase | translate}} -->
+            </td>
+            <td  class="checked">
+              <!--  <input type="checkbox" ng-model="biblioteca.kardex"  ng-disabled="!edit">   -->
+             <!--  {{biblioteca.kardex +"_t" | lowercase | translate}} -->
+             <span ng-class="['glyphicon',{ 'glyphicon-ok': biblioteca.kardex}]"></span>
+            </td>
+            <td  class="checked">
+              <!--  <input type="checkbox" ng-model="biblioteca.kardex"  ng-disabled="!edit">   -->
+              <!-- {{biblioteca.sbnweb +"_t" | lowercase | translate}} -->
+              <span ng-class="['glyphicon',{ 'glyphicon-ok': biblioteca.sbnweb}]"></span>
+            </td>
+            <td class="col-sm-1">
+              {{biblioteca.cod_appl_servizi | decodeApplicativoServ}}
+             </td>
+           
+            <td  class="checked">
+              <span ng-class="['glyphicon',{ 'glyphicon-ok': biblioteca.flag_logo}]"></span>
+            </td>
+            <td class="col-sm-3">
+              <center>
+                  <img class="img-responsive" ng-show="biblioteca.flag_logo" ng-src='{{getImg(false, biblioteca.cod_bib)}}' id="logo_img">                  
+              </center>
+            </td>
+          </tr>
+   
+        </tbody>
+      </table>
+    </div>
+    <div class="panel-body" ng-if="edit">
+      <form ng-show="!isLoading" class="form-horizontal">
+          <fieldset>
+              <div class="form-group">
+                <label for="gruppo" class="col-sm-3 col-lg-3 myControl-label">{{ 'cod_bib' | translate}}</label>
+                <div class="col-sm-3 col-lg-3">
+                  <input maxlength="2" type="text" class="form-control input-sm" id="user" ng-model="modifyBiblio.cod_bib" ng-change="checkIsPresent()">
+                </div>
+                <div class="col-sm-5 col-lg-5">
+                  <div ng-show="formError.isWarning" id="warning" class="alert alert-warning" role="alert">
+                      <button type="button" title="{{'chiudi' | translate}}" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <strong>{{formError.message | translate}}</strong> 
+                      <div ng-show="formError.message == 'bib_gia_elim_reuse'" >
+                          <button title="{{'tooltip_riusa_bib' | translate}}" type="button" class="btn btn-success btn-xs" ng-click="reuseEliminatedBib(formError.idBib)">{{'riusa_bib' | translate}}</button>
+                          <button title="{{'tooltip_elimina_def' | translate}}" type="button" class="btn btn-danger btn-xs" ng-click="confermaDelete(formError.idBib)">{{'elimina_def' | translate}}</button>                          
+                          <button title="{{'tooltip_nuovo_cod_bib' | translate}}" type="button" class="btn btn-info btn-xs" ng-click="modifyBiblio.cod_bib = ''; checkIsPresent()">{{'nuovo_cod_bib' | translate}}</button>
+                         </div>
+                  </div>
+              </div>
+              </div>
+            </fieldset>
+        <fieldset>
+          <div class="form-group">
+            <label for="gruppo" class="col-sm-3 col-lg-3 myControl-label">{{ 'bib_name' | translate}}</label>
+            <div class="col-sm-3 col-lg-3">
+              <input type="text" class="form-control input-sm" id="user" ng-model="modifyBiblio.name" ng-disabled="formError.isWarning">
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-group">
+            <label for="gruppo" class="col-sm-3 col-lg-3 myControl-label">{{ 'isil' | translate}}</label>
+            <div class="col-sm-3 col-lg-3">
+              <input type="text" class="form-control input-sm" maxlength="6" id="user" ng-model="modifyBiblio.isil" ng-disabled="formError.isWarning && formError.message !='isil_6_char'" ng-change="codAnagrafe()">
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+            <div class="form-group">
+            <label for="gruppo" class="col-sm-3 col-lg-3 myControl-label">{{ 'flag_servizi' | translate}}</label>
+            <div class="col-sm-3 col-lg-3">
+              <input type="checkbox" ng-model="modifyBiblio.link_servizi"  ng-disabled="formError.isWarning"> 
+            </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <div class="form-group">
+            <label for="gruppo" class="col-sm-3 col-lg-3 myControl-label">{{ 'flag_kardex' | translate}}</label>
+            <div class="col-sm-3 col-lg-3">
+              <input type="checkbox" ng-model="modifyBiblio.kardex" ng-disabled="formError.isWarning" ng-disabled="formError.isWarning"> 
+            </div>
+            </div>
+        </fieldset>
+       
+        <fieldset>
+            <div class="form-group">
+            <label for="gruppo" class="col-sm-3 col-lg-3 myControl-label" ng-disabled="formError.isWarning">{{ 'flag_sbnweb' | translate}}</label>
+            <div class="col-sm-3 col-lg-3">
+              <input type="checkbox" ng-model="modifyBiblio.sbnweb" ng-disabled="formError.isWarning"> 
+            </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <div class="form-group">
+            <label for="gruppo" class="col-sm-3 col-lg-3 myControl-label">{{ 'bib_appl_serv' | translate}}</label>
+            <div class="col-sm-3 col-lg-3">
+                <select class="form-control input-sm" ng-model="modifyBiblio.cod_appl_servizi"  ng-disabled="formError.isWarning"> 
+                    <option ng-repeat="app_serv in applicativi_serv" ng-value="app_serv.cod_appl">
+                      {{app_serv.descrizione}}
+                    </option>
+                    </select>   
+            </div>
+            </div>
+        </fieldset>
+        <fieldset ng-if="polo.gruppi_bib.length > 0">
+            <div class="form-group">
+                <label for="b" class="col-sm-3 col-lg-3 myControl-label">{{ 'gruppi' | translate}}</label>
+                <div class="col-sm-3 col-lg-3">
+                    <div style="max-height: 600px; width: 400px;  overflow-y: auto; resize: both">
+                        <div class="list-group">
+                            <div ng-class="['list-group-item', {'disabled': formError.isWarning}]" ng-repeat="bl in polo.gruppi_bib | orderBy: 'name' " class="link">
+                                <span class="link" ng-click="$event.stopPropagation(); toggleSelectionGr(bl)">
+                                    <input ng-click="$event.stopPropagation(); toggleSelectionGr(bl)" type="checkbox" name="modifyBiblio.gruppi[]" value="{{bl.name}}"
+                                        ng-checked="findIndex(modifyBiblio.gruppi, 'name', bl.name) > -1  && !formError.isWarning" >
+                                    <span style="padding-left: 10px;">{{bl.name}}
+                                      </span>
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-group">
+          <label for="gruppo" class="col-sm-3 col-lg-3 myControl-label">{{ 'flag_logo' | translate}}</label>
+          <div class="col-sm-3 col-lg-3">
+            <input type="checkbox" ng-model="modifyBiblio.flag_logo" ng-disabled="formError.isWarning" ng-disabled="formError.isWarning"> 
+          </div>
+          </div>
+      </fieldset>
+        <fieldset ng-show="modifyBiblio.flag_logo">
+          <div class="form-group">
+            <label for="user" class="col-sm-3 col-lg-3 myControl-label">{{ 'Logo'}}</label>
+            <div class="col-sm-3 col-lg-3">
+              <input id="fileopen" type="file" accept="image/x-png,image/gif,image/jpeg" files-input ng-model="$parent.fileArray" ng-change="uploadFoto(fileArray)" ng-disabled="formError.isWarning && modifyBiblio.flag_logo">
+              <img style="margin-top: 20px;" ng-src='{{getImg(true)}}' id="logo_img" >
+            </div>
+            
+          </div>
+        </fieldset>
+        <fieldset>
+            <div id="error" style="display: none;" class="px-top-20 alert alert-danger alert-dismissible" role="alert">
+              <button type="button" title="{{'chiudi' | translate}}" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+               {{ error | translate}}
+              </div>
+              <div id="success" style="display: none;" class="px-top-20 alert alert-success alert-dismissible" role="alert">
+                <button type="button" title="{{'chiudi' | translate}}" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>{{msg | translate}}</strong> 
+                </div>
+          </fieldset>
+      </form>
+    </div>
+    <div ng-show="isLoading && edit" class="panel-body">
+      <div class="col-md-3 centerDivLogin">
+        <div class="form-login center">
+          <center>
+            <div class="loader"></div>
+          </center>
+        </div>
+      </div>
+    </div>
+
+    <div ng-show="!isLoading" class="panel-footer">
+      <center>
+        <!-- <button ng-show="!edit" class="btn btn-md btn-warning" ng-click="startEdit()">
+          {{'amm_modifica' | translate}}
+
+        </button> -->
+     
+        <button title="{{'tooltip_annulla_action' | translate}}" ng-show="edit || waitConfirm" class="btn btn-md btn-warning" ng-click="init()">
+          {{'amm_annulla' | translate}}
+
+        </button>
+        <button title="{{('conferma_elimina' | translate) + " " + waitConfirm.cod_bib}}
+        " ng-show="waitConfirm" class="btn btn-md btn-danger" ng-click="deleteInLineConfirm(waitConfirm)">
+            {{('conferma_elimina' | translate) + " " + waitConfirm.cod_bib}}
+        </button>
+        <button  title="{{'tooltip_insert_action' | translate}}"  ng-show="!edit && (waitConfirm == undefined)" class="btn btn-md btn-success" ng-click="startEdit()">
+          {{'amm_ins_bib' | translate}}
+
+        </button>
+        <button title="{{'tooltip_conferma_action' | translate}}" ng-show="edit && insert && modifyBiblio.name !='' && modifyBiblio.cod_bib !='' && modifyBiblio.isil !='' && !formError.isWarning" class="btn btn-md btn-success" ng-click="endInsert()">
+          {{'amm_conferma_insert' | translate}}
+
+      </button>
+      <button title="{{'tooltip_conferma_action' | translate}}" ng-show="edit && !insert && modifyBiblio.name !='' && modifyBiblio.cod_bib !='' && modifyBiblio.isil !='' && !formError.isWarning" class="btn btn-md btn-success" ng-click="update()">
+        {{'amm_conferma' | translate}}
+    </button>
+      </center>
+    </div>
+  </div>
+
+</div>

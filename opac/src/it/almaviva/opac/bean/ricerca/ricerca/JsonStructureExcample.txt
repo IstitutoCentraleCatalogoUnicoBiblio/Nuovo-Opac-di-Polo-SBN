@@ -1,0 +1,31 @@
+NON TESTATO!!
+{
+	"start":0,
+	"maxRows":35,
+	"sort":"score",
+	"order":"asc",
+	"filters":{
+		"filters":[
+			{"filters":[
+				{"field":"nome","match":"andWord","operator":"AND","value":"dante"},
+				{"field":"titolo","match":"andWord","operator":"AND","value":"inferno"},
+				{"field":"group","match":"andWord","operator":"AND",
+					"values":[
+						{"field":"dewey","match":"andWord","operator":"OR","value":"853.11"},
+				],
+				"operator":"AND"
+			},
+			{"filters":[
+				{"field":"library","value":"FI","operator":"OR","match":"completePhrase"},
+				{"field":"library","value":"IC","operator":"OR","match":"completePhrase"}
+				],
+				"operator":"AND"
+			
+			},
+			{"filters":[
+				{"field":"level","value":"m","operator":"OR"}
+				],
+				"operator":"AND"}
+			]
+			}
+}

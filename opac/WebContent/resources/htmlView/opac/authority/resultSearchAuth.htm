@@ -1,0 +1,190 @@
+
+<div ng-show="resultFlag == false" style="padding-left: 20%;">
+	<h3 class="myInline px-bottom-10">{{'not_found' | translate}}</h3>
+	<h4>{{'not_found_suggerimenti' | translate}}</h4>
+	<ul style="margin-left: 1.3em; margin-bottom: 2em">
+		<li>{{'not_found_campi_ricerca' | translate}}</li>
+		<li>{{'not_found_digitate_correttamente' | translate}}</li>
+		<li>{{'not_found_parole_diverse' | translate}}</li>
+		<!-- <li>{{'not_found_parole_generiche' | translate}}</li> -->
+	</ul>
+
+	<div ng-show="resultFlag == false">
+		<center>
+			<button type="submit" class="btn  btn-outline-primary btn-xs"
+				ng-click="panelController()" data-toggle="tooltip"
+				data-placement="left" title="{{'raffina' | translate}}">{{'raffina'
+				| translate}}</button>
+		</center>
+	</div>
+</div>
+<div ng-show="resultFlag == true" id="impostazioni">
+
+	<div class="col-md-3">
+		<!--  <div class="center">{{'paginetot'| translate}}: {{numberTotPage}}</div> -->
+		<div class="left ">
+			<h5>
+				{{'numAuthDocs' | translate}}: <b>{{authoritySearch.solrDocs.numFound}}</b>
+			</h5>
+		</div>
+	</div>
+	<div class="col-md-5">
+		<center>
+			<paging page="$parent.currentPage" page-size="$parent.pageSize"
+				total="$parent.totalPages" show-prev-next="true"
+				show-first-last="true"
+				paging-action="$parent.selectPage( page, pageSize, total)"
+				text-title-page="Page {page} Hover Over"> </paging>
+		</center>
+	</div>
+	<div class="col-md-4">
+		<div class="col-md-6 pull-right">
+			<select class="form-control  input-xs"
+				ng-init="$parent.sort = 'nomeAuth'" ng-model="$parent.sort"
+				ng-change="changeSearch($parent.sort)" id="ordina_per">
+				<!--<option value="syntetic_title">{{ 'ordinati' | translate }} <i>{{ 'titolo' | translate }}</i> </option> -->
+				<option value="nomeAuth">{{ 'ordinati' | translate }} <i>{{
+						'nomeAuth' | translate | lowercase}}</i></option>
+				<option value="data_nascita_ASC">{{ 'ordinati' | translate
+					}} <i>{{ 'data_nascita1' | translate | lowercase }} {{"ASC" |
+						translate | uppercase | limitTo:3}}</i></option>
+				<option value="data_nascita_DESC">{{ 'ordinati' | translate
+					}} <i>{{ 'data_nascita1' | translate | lowercase }} {{"DESC" |
+						translate | uppercase |limitTo:3 }}</i></option>
+			</select>
+		</div>
+		<div class="col-md-6">
+			<select class="form-control  input-xs "
+				ng-init="$parent.maxRows='10'" ng-model="$parent.maxRows"
+				ng-change="changeSearch()" id="doc_for_page">
+				<option value="5">{{ 'visualizzati' | translate }} 5</option>
+				<option value="10">{{ 'visualizzati' | translate }} 10</option>
+				<option value="25">{{ 'visualizzati' | translate }} 25</option>
+			</select>
+		</div>
+	</div>
+	<div class="col-sm-12 col-lg-12 px-top-15">
+
+		<span class="col-sm-10 col-lg-10">
+			<button ng-show="authoritySearch.solrDocs.documenti.length >1 "
+				type="submit" class="btn  btn-default btn-xs"
+				ng-click="togglePanel()" data-toggle="tooltip" data-placement="left"
+				title="{{(!flagOpenedAll) ? 'apriTuttiDettagli' : 'chiudiDettagli' | translate}}">{{(!flagOpenedAll)
+				? 'apriTuttiDettagli' : 'chiudiDettagli' | translate}}</button>
+			<button type="submit" class="btn  btn-outline-primary btn-xs"
+				ng-click="panelController()" data-toggle="tooltip"
+				data-placement="left" title="{{'raffina' | translate}}">{{'raffina'
+				| translate}}</button>
+		</span>
+	</div>
+
+
+	<div ng-show="resultFlag == true" class="riassuntoRicerca col-md-12">
+		<div class="likesformGroup col-sm-12 col-lg-12"
+			style="padding-right: 2px">
+			<div class="rigaAuth noMargin"
+				ng-attr-id="{{ 'sintRiga_auth_' + $index }}"
+				ng-repeat="d in authoritySearch.solrDocs.documenti track by $index">
+				<div ng-attr-id="{{ 'sintRigaBoxOC_auth_' + $index }}"
+					ng-click="showSingleDetail($index, true)" data-toggle="tooltip"
+					data-placement="left" title="{{'espandiRiduciDeatil' | translate}}"
+					class="boxOC">
+					<div class="boxTrasparente"
+						ng-attr-id="{{ 'sintData_auth_' + $index }}">
+						<indice ng-attr-id="{{ 'indiceSchenda_auth_' + $index }}"
+							class="indice"> {{$index + authoritySearch.request.start
+						+ 1}} </indice>
+						<span class="col-sm-1 col-lg-1 "> </span> <span
+							class="col-sm-9 col-lg-9 "> <!-- FIXME: selezione testo-->
+							<span ng-attr-id="{{ 'riga_sint_auth_' + $index }}"
+							class="links blue"
+							ng-click="$event.stopPropagation(); showSingleDetail($index)">{{(d.authors.nome)
+								? d.authors.nome : d.authors.nome_ente | spaziovirgola}}</span>
+							{{(d.datazione) ? d.datazione : d.datazione_ente}} ({{d.authors |
+							etePersona_Auth | translate}})
+						</span>
+
+						<div ng-click=" $event.stopPropagation();"
+							class="col-sm-12 col-lg-12">
+
+							<span class="link" style="padding-left: 25px;"
+								ng-show="(d.solrDocs.documenti.length  - (analiticheHided + sinteticheHided))> 1"
+								ng-attr-id="{{ 'nascondi_' + $index }}"> <a
+								ng-click="hideRiga($index); $event.stopPropagation();"
+								title='{{"nascondiScheda" | translate}}'><span
+									class="glyphicon glyphicon-eye-close"></span>
+									{{"nascondiScheda" | translate}}</a>
+							</span> <strong ng-attr-id="{{ 'piuMeno_' + $index }}"
+								ng-click="detailEvent(auth.id, $index, true); $event.stopPropagation();"
+								title="{{'espandiRiduciDeatil' | translate}}" class="P">
+
+							</strong>
+
+						</div>
+
+					</div>
+					<!-- sintetica finisce qui a sinistra -->
+
+				</div>
+
+
+
+				<!--INI prima box-->
+				<div ng-attr-id="{{ 'riga_detail_auth_' + $index }}"
+					class="boxOCopen">
+
+					<ul class="nav nav-tabs">
+						<li ng-attr-id="{{ 'li_Dettaglio_' + $index }}"
+							class="active link " data-toggle="tooltip" data-placement="left"
+							title="{{ 'etichette' | translate }}"><a data-toggle="tab"
+							data-target="#{{ 'Dettaglio_' + $index }}">{{ 'etichette' |
+								translate }}</a></li>
+						<li ng-attr-id="{{ 'li_Unimarc_' + $index }}" class="link"
+							data-toggle="tooltip" data-placement="left" title="Unimarc"><a
+							data-toggle="tab" data-target="#{{ 'Unimarc_' + $index }}"
+							title="UNIversal Machine Readable Cataloguing">Unimarc</a></li>
+					</ul>
+
+					<div class="tab-content">
+						<div style="line-height: 0.31234567895;"
+							ng-attr-id="{{ 'Dettaglio_' + $index }}" class="tab-pane active">
+							<h3 class="hidden">{{'dettaglio' | translate}}</h3>
+							<ng-include
+								src=" 'htmlView/opac/authority/detailLabelsAuth.htm' "></ng-include>
+							<!-- NOTE qui finiscono le label  -->
+						</div>
+
+						<div ng-attr-id="{{ 'Unimarc_' + $index }}" class="tab-pane fade">
+							<p ng-bind-html="dettagli[$index].unimarc | unimarc"></p>
+						</div>
+					</div>
+				</div>
+				<!--END box -->
+			</div>
+			<!-- a sinistra chiude il ciclo-->
+
+
+		</div>
+		<div class="col-md-12 " style="margin-top: 5px;">
+
+			<span class="col-md-10">
+				<button ng-show="authoritySearch.solrDocs.documenti.length >1 "
+					type="submit" class="btn  btn-default btn-xs"
+					ng-click="togglePanel()" data-toggle="tooltip"
+					data-placement="left"
+					title="{{(!flagOpenedAll) ? 'apriTuttiDettagli' : 'chiudiDettagli' | translate}}">{{(!flagOpenedAll)
+					? 'apriTuttiDettagli' : 'chiudiDettagli' | translate}}</button>
+				<button type="submit" class="btn  btn-outline-primary btn-xs"
+					ng-click="panelController()" data-toggle="tooltip"
+					data-placement="left" title="{{'raffina' | translate}}">{{'raffina'
+					| translate}}</button>
+			</span>
+		</div>
+		<center style="margin-top: 15px;">
+			<paging page="$parent.currentPage" page-size="$parent.pageSize"
+				total="$parent.totalPages" show-prev-next="true"
+				show-first-last="true"
+				paging-action="$parent.selectPage( page, pageSize, total)"
+				text-title-page="Page {page} Hover Over"> </paging>
+		</center>
+	</div>

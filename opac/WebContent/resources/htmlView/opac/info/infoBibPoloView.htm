@@ -1,0 +1,115 @@
+<div class="container-fluid">
+	<div class="row content">
+		<ng-include src=" 'htmlView/templates/page/navbarView.htm' "></ng-include>
+		<div class="col-sm-12 padd_box_LR">
+			<h2>
+				<img src="images/ico_info_ora.png" alt=""> {{ (controller | translate) }}
+			</h2>
+			<div class="ricercaAvanzata" id="riquadroInfo">
+				<div class="col-lg-12 col-sm-12" id="boxData">
+					<div ng-show="polo.flag_maps" class="col-sm-7 col-lg-7" style="padding-top: 10px">
+						<div id="errorCoords" class="alert alert-danger" style="display: none;">
+							{{('errore_coordinate'| translate) + " " + missingDataFor}}
+						</div>
+						<div id="googleMap" style="width:100%; height:400px;"></div>
+
+					</div>
+					<div ng-if="!polo.bibliotecaAsPolo && !polo.flag_maps" class="col-md-3" ng-repeat="htmlBib in htmlDetailBiblioteche">
+						<div class="panel panel-default px-top-20">
+							<div class="panel-body" style=" height: 325px;">
+								<div class="col-md-12">
+									<center>
+										<img class="img-responsive"  style=" max-height: 90px;"
+											ng-src="{{'img/get/logo/'+polo.code+'/'+htmlBib.cod}}">
+									</center>
+								</div>
+							<div class="col-md-12 px-top-5">
+								<div ng-bind-html="htmlBib.html"></div>
+							</div>
+						  </div>
+						</div>
+					</div>
+
+
+
+					<div ng-if="!polo.bibliotecaAsPolo && polo.flag_maps" class="col-sm-5 col-lg-5" id="elencoBib" style="
+					max-height: 550px;
+					overflow-y: auto;
+					padding-top: 10px;">
+
+						<table class="table table-hover table-bordered" style="min-height:400px;">
+							<thead ng-if="false">
+								<tr>
+
+									<td>
+										<b>ISIL</b>
+									</td>
+									<td>
+										<b>{{'info_cod_bib' | translate}}</b>
+									</td>
+									<td>
+										<b>{{'biblioteca' | translate}}</b>
+									</td>
+									<td>
+
+									</td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="bib in polo.libraries" ng-click="centerInMap($index)" ng-attr-id="{{biblioteca_ + $index}}">
+
+									<td ng-if="false">
+										{{bib.isil | uppercase}}
+									</td>
+
+									<td ng-if="false">
+										{{bib.cod_bib | uppercase}}
+									</td>
+									<td class="link">
+										{{bib.name}}
+									</td>
+									<td>
+										<a title="{{'visualizzaAnagrafe' | translate}}" href="http://anagrafe.iccu.sbn.it/isil/IT-{{(bib.dettaglio.isil) ? bib.dettaglio.isil : bib.isil | uppercase}}"
+										 target="_blank">
+											<center>
+												<span class="glyphicon glyphicon-info-sign"></span>
+											</center>
+										</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<div ng-if="polo.bibliotecaAsPolo" ng-class="['px-top-20',{'col-md-12':!polo.flag_maps},{'col-md-5':polo.flag_maps}]" id="elencoBib" style="
+					max-height: 550px; 
+					overflow-y: auto;
+					padding-top: 10px;">
+						<div class="panel panel-default " style="border:none; ">
+							<div class="panel-body" style="min-height: 250px;">
+								<table class="table">
+									<tr>
+										<td class="col-sm-5">
+											<center>
+												<img class="img-responsive" ng-if="polo.bibliotecaAsPolo && polo.bibUseLogo" ng-src="img/get/logo/{{polo.code +'/' + polo.codBibliotecaAsPolo}}"> </center>
+											</center>
+										</td>
+										<td>
+											<div ng-bind-html="htmlDetailSingleBiblioteca"></div>
+										</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+
+<span style="bottom: 0px">
+	<ng-include src=" 'htmlView/templates/page/footerView.htm' "></ng-include>
+</span>
+<ng-include src=" 'htmlView/templates/page/modalsView.htm' "></ng-include>

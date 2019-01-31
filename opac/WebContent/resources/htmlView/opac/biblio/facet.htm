@@ -1,0 +1,67 @@
+<!-- div colonna a sinistra per le facet o suggerimenti per il raffinamento di ricerca -->
+<div ng-show="resultFlag == true" id="faccette" class="col-sm-2 col-md-2 margT_32 col-push-2">
+  <div class="panel-group" ng-attr-id="{{ 'accordion_' + $index }}">
+
+    <div ng-if="search.solrDocs.faccette[$index].value > 0" ng-repeat="faccetta in search.solrDocs.faccette " ng-init="orderFilterLimit = 5" class="panel panel-default" ng-show=" !(polo.bibliotecaAsPolo && faccetta.nome =='library') ">
+      <div data-toggle="collapse" data-target="#{{ 'collapse_' + $index }}" class="panel-heading link">
+        <h6 class="panel-title">
+                            <span class="glyphicon glyphicon-chevron-down blue"><!--glyphicon-chevron-right-->
+                            </span>&nbsp;<span class="th_menu link"><b>{{faccetta.nome | translate }}</b> </span></span>({{faccetta.value}})
+                        </h6>
+      </div>
+      <div ng-attr-id="{{ 'collapse_' + $index }}" class="panel-collapse collapse in">
+        <div class="panel-body">
+          <table class="table color_w font_menu_lat">
+            <tr ng-attr-id="{{ 'faccetta_' + $index }}" ng-repeat="sf in faccetta.sottof | limitTo: orderFilterLimit track by $index">
+
+
+              <td class="box_filtro" ng-show="faccetta.nome !='dataf'">
+                <span ng-show="false" ng-click="raffina(faccetta.nome, sf.nome,'NOT',false)" class="glyphicon  glyphicon-remove link blue"></span>
+
+                <a title="{{'tooltip_raffinafacet' | translate }}" ng-click="raffina(faccetta.nome, sf.nome, 'AND',false)" class="link">
+                  <span ng-if="faccetta.nome == 'level'">{{sf.nome | decodeLevel  | decodeBib | translate }}</span>
+                  <span ng-if="faccetta.nome == 'tiporec' ">{{sf.nome | decodeTiporec  | translate }}</span>
+                  <!-- tiporec != 'u' -->
+                  <span ng-if="faccetta.nome == 'lingua' ">{{sf.nome | decodeLang  | translate }}</span>
+                  <span ng-if="faccetta.nome == 'relator_codef' ">{{sf.nome | decodeRelatorCodeTerm  | translate | lowercase }}</span>
+                  <span ng-if="faccetta.nome == 'formaf' ">{{sf.nome | decodeForma  | translate  }}</span>
+                 <span ng-if="faccetta.nome == 'formato_eletf' ">{{(sf.nome.toUpperCase() == 'B') ? 'bornDigit' : 'digitalCopy' | translate  }}</span>
+                  <span ng-if="$parent.$index > 1 && faccetta.nome != 'lingua' && faccetta.nome != 'relator_codef'
+                      && faccetta.nome != 'formaf' && faccetta.nome != 'formato_eletf' && faccetta.nome != 'tiporec' ">{{sf.nome | decodeBib |translate}}</span>
+                      
+                </a>
+
+                <span>({{sf.value}})</span>
+
+              </td>
+
+            </tr>
+
+          </table>
+          <center>
+            <span ng-if="faccetta.nome == 'dataf'">
+                                <input style="width: 48%; margin-right: 2%; text-align:center;" type="number" class="col-sm-3 form-control input-xs disabled" ng-model="slider.values[slider.minIndex ]" ng-change="slider.values.sort()" disabled/>
+                                <input style="width: 48%; margin-right: 2%; text-align:center;" type="number" class="col-sm-6 form-control input-xs disabled"  ng-model="slider.values[slider.maxIndex]" ng-change="slider.values.sort()" disabled/>
+                                <div style="margin-right: 6%">
+                                  <slider  values="$parent.slider.values" ng-model-low="$parent.slider.minIndex" ng-model-high="$parent.slider.maxIndex"></slider>
+
+                                </div>
+
+                              </span>
+
+            <a ng-show="faccetta.nome == 'dataf'"><span ng-click="raffina(faccetta.nome, slider.values[slider.minIndex] + '-' + slider.values[slider.maxIndex], 'AND',false)" data-toggle="tooltip" title="{{'conferma' | translate}}" class="glyphicon glyphicon-search link"></span></a>
+            <a ng-show="faccetta.nome != 'dataf' && faccetta.nome != 'formato_eletf'"><span  data-toggle="tooltip" data-placement="left" title="{{'guardapiu' | translate}}" ng-show="faccetta.sottof.length > 5  && orderFilterLimit  < faccetta.sottof.length" ng-click="orderFilterLimit = orderFilterLimit + 5" class="glyphicon glyphicon-triangle-bottom link"></span></a>
+            <a ng-show="faccetta.nome != 'dataf' && faccetta.nome != 'formato_eletf'"><span  data-toggle="tooltip" data-placement="left" title="{{'guardameno' | translate}}" ng-show="orderFilterLimit > 5" ng-click="orderFilterLimit = orderFilterLimit - 5" class="glyphicon glyphicon-triangle-top link"></span></a>
+            <a ng-show="faccetta.nome != 'dataf' && faccetta.nome != 'formato_eletf'"><span  data-toggle="tooltip" data-placement="left" title="{{'tornainizio' | translate}}" ng-show="orderFilterLimit > 5" ng-click="orderFilterLimit = 5" class="glyphicon glyphicon-eject link"></span></a>
+            <a ng-show="faccetta.nome != 'dataf' && faccetta.nome != 'formato_eletf'"><span ng-show=" faccetta.sottof.length > 1" data-toggle="tooltip" data-placement="left" title="{{'faccettaModale' |translate}}" ng-click="facetModal($index)" class="glyphicon glyphicon-menu-hamburger link"></span></a>
+            <!-- ng-if="$parent.$index > 1 && faccetta.nome != 'lingua'" -->
+          </center>
+
+
+        </div>
+      </div>
+    </div>
+    <!-- questo a sinistra chiude il singolo pannello  ng-attr-id="{{ 'spanno' + $index }}"-->
+  </div>
+  <!-- questo a sinistra chiude il panel-group -->
+</div>

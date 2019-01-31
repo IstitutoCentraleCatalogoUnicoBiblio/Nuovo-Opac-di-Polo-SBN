@@ -1,0 +1,596 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Solr managed schema - automatically generated - DO NOT EDIT -->
+<schema name="biblio core" version="1.2">
+  <uniqueKey>id</uniqueKey>
+  <defaultSearchField>titolo</defaultSearchField>
+  <solrQueryParser defaultOperator="OR"/>
+  <fieldType name="AlphaNumCommaPointOnly" class="solr.TextField">
+    <analyzer>
+      <tokenizer class="solr.KeywordTokenizerFactory"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+      <filter class="solr.TrimFilterFactory"/>
+      <filter class="solr.PatternReplaceFilterFactory" pattern="([^a-zA-Z0-9|,|.])" replace="all" replacement=""/>
+    </analyzer>
+  </fieldType>
+  <fieldType name="alphaOnlySort" class="solr.TextField" omitNorms="true" sortMissingLast="true">
+    <analyzer>
+      <tokenizer class="solr.KeywordTokenizerFactory"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+      <filter class="solr.TrimFilterFactory"/>
+      <filter class="solr.PatternReplaceFilterFactory" pattern="([^a-z])" replace="all" replacement=""/>
+    </analyzer>
+  </fieldType>
+  <fieldType name="alphanumericOnly" class="solr.TextField">
+    <analyzer>
+      <tokenizer class="solr.StandardTokenizerFactory"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+      <filter class="solr.TrimFilterFactory"/>
+      <filter class="solr.PatternReplaceFilterFactory" pattern="([^a-zA-Z0-9])" replace="all" replacement=""/>
+    </analyzer>
+  </fieldType>
+  <fieldType name="binary" class="solr.BinaryField"/>
+  <fieldType name="boolean" class="solr.BoolField" omitNorms="true" sortMissingLast="true"/>
+  <fieldType name="booleans" class="solr.BoolField" sortMissingLast="true" multiValued="true"/>
+  <fieldType name="date" class="solr.TrieDateField" omitNorms="true" positionIncrementGap="0" precisionStep="0"/>
+  <fieldType name="double" class="solr.TrieDoubleField" omitNorms="true" positionIncrementGap="0" precisionStep="0"/>
+  <fieldType name="float" class="solr.TrieFloatField" omitNorms="true" positionIncrementGap="0" precisionStep="0"/>
+  <fieldType name="idType" class="solr.TextField">
+    <analyzer>
+      <tokenizer class="solr.KeywordTokenizerFactory"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+      <filter class="solr.TrimFilterFactory"/>
+      <filter class="solr.PatternReplaceFilterFactory" pattern="(it(\\?)iccu|\\)" replace="all" replacement=""/>
+    </analyzer>
+  </fieldType>
+  <fieldType name="ignored" class="solr.StrField" indexed="false" stored="false" multiValued="true"/>
+  <fieldType name="int" class="solr.TrieIntField" omitNorms="true" positionIncrementGap="0" precisionStep="0"/>
+  <fieldType name="long" class="solr.TrieLongField" omitNorms="true" positionIncrementGap="0" precisionStep="0"/>
+  <fieldType name="lowercase" class="solr.TextField" positionIncrementGap="100">
+    <analyzer>
+      <tokenizer class="solr.KeywordTokenizerFactory"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+    </analyzer>
+  </fieldType>
+  <fieldType name="notSignificantZero" class="solr.TextField">
+    <analyzer>
+      <tokenizer class="solr.StandardTokenizerFactory"/>
+      <filter class="solr.PatternReplaceFilterFactory" pattern="(^0+)" replace="all" replacement=""/>
+      <filter class="solr.WordDelimiterFilterFactory" catenateNumbers="1" generateNumberParts="1" splitOnCaseChange="0" generateWordParts="1" catenateAll="0" catenateWords="1"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+      <filter class="solr.TrimFilterFactory"/>
+      <filter class="solr.ASCIIFoldingFilterFactory"/>
+    </analyzer>
+  </fieldType>
+  <fieldType name="onlySpaceSeparator" class="solr.TextField">
+    <analyzer>
+      <tokenizer class="solr.KeywordTokenizerFactory"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+      <filter class="solr.TrimFilterFactory"/>
+      <filter class="solr.PatternReplaceFilterFactory" pattern="([\s|-]+)" replace="all" replacement=""/>
+    </analyzer>
+  </fieldType>
+  <fieldType name="payloads" class="solr.TextField" indexed="true" stored="false">
+    <analyzer>
+      <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+      <filter class="solr.DelimitedPayloadTokenFilterFactory" encoder="float"/>
+    </analyzer>
+  </fieldType>
+  <fieldType name="phonetic" class="solr.TextField" indexed="true" stored="false">
+    <analyzer>
+      <tokenizer class="solr.StandardTokenizerFactory"/>
+      <filter class="solr.DoubleMetaphoneFilterFactory" inject="false"/>
+    </analyzer>
+  </fieldType>
+  <fieldType name="random" class="solr.RandomSortField" indexed="true"/>
+  <fieldType name="string" class="solr.StrField" omitNorms="true" sortMissingLast="true"/>
+  <fieldType name="tdate" class="solr.TrieDateField" positionIncrementGap="0" docValues="true" precisionStep="6"/>
+  <fieldType name="tdates" class="solr.TrieDateField" positionIncrementGap="0" docValues="true" multiValued="true" precisionStep="6"/>
+  <fieldType name="tdouble" class="solr.TrieDoubleField" omitNorms="true" positionIncrementGap="0" precisionStep="8"/>
+  <fieldType name="tdoubles" class="solr.TrieDoubleField" positionIncrementGap="0" docValues="true" multiValued="true" precisionStep="8"/>
+  <fieldType name="text" class="solr.TextField" positionIncrementGap="100">
+    <analyzer type="index">
+      <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+      <filter class="solr.StopFilterFactory" words="stopwords.txt" ignoreCase="true"/>
+      <filter class="solr.WordDelimiterFilterFactory" catenateNumbers="1" generateNumberParts="1" splitOnCaseChange="1" generateWordParts="1" catenateAll="0" catenateWords="1"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+      <filter class="solr.SnowballPorterFilterFactory" language="English" protected="protwords.txt"/>
+    </analyzer>
+    <analyzer type="query">
+      <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+      <filter class="solr.SynonymFilterFactory" expand="true" ignoreCase="true" synonyms="synonyms.txt"/>
+      <filter class="solr.StopFilterFactory" words="stopwords.txt" ignoreCase="true"/>
+      <filter class="solr.WordDelimiterFilterFactory" catenateNumbers="0" generateNumberParts="1" splitOnCaseChange="1" generateWordParts="1" catenateAll="0" catenateWords="0"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+      <filter class="solr.SnowballPorterFilterFactory" language="English" protected="protwords.txt"/>
+    </analyzer>
+  </fieldType>
+  <fieldType name="textTight" class="solr.TextField" positionIncrementGap="100">
+    <analyzer>
+      <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+      <filter class="solr.SynonymFilterFactory" expand="false" ignoreCase="true" synonyms="synonyms.txt"/>
+      <filter class="solr.StopFilterFactory" words="stopwords.txt" ignoreCase="true"/>
+      <filter class="solr.WordDelimiterFilterFactory" catenateNumbers="1" generateNumberParts="0" generateWordParts="0" catenateAll="0" catenateWords="1"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+      <filter class="solr.SnowballPorterFilterFactory" language="English" protected="protwords.txt"/>
+      <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
+    </analyzer>
+  </fieldType>
+  <fieldType name="text_rev" class="solr.TextField" positionIncrementGap="100">
+    <analyzer type="index">
+      <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+      <filter class="solr.StopFilterFactory" words="stopwords.txt" ignoreCase="true"/>
+      <filter class="solr.WordDelimiterFilterFactory" catenateNumbers="1" generateNumberParts="1" splitOnCaseChange="0" generateWordParts="1" catenateAll="0" catenateWords="1"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+      <filter class="solr.ReversedWildcardFilterFactory" maxPosQuestion="2" maxFractionAsterisk="0.33" maxPosAsterisk="3" withOriginal="true"/>
+    </analyzer>
+    <analyzer type="query">
+      <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+      <filter class="solr.SynonymFilterFactory" expand="true" ignoreCase="true" synonyms="synonyms.txt"/>
+      <filter class="solr.StopFilterFactory" words="stopwords.txt" ignoreCase="true"/>
+      <filter class="solr.WordDelimiterFilterFactory" catenateNumbers="0" generateNumberParts="1" splitOnCaseChange="0" generateWordParts="1" catenateAll="0" catenateWords="0"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+    </analyzer>
+  </fieldType>
+  <fieldType name="text_string" class="solr.TextField" positionIncrementGap="100">
+    <analyzer>
+      <tokenizer class="solr.KeywordTokenizerFactory"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+      <filter class="solr.TrimFilterFactory"/>
+    </analyzer>
+  </fieldType>
+  <fieldType name="text_string_accent_fl" class="solr.TextField" positionIncrementGap="100">
+    <analyzer>
+      <tokenizer class="solr.KeywordTokenizerFactory"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+      <filter class="solr.ASCIIFoldingFilterFactory"/>
+    </analyzer>
+  </fieldType>
+  <fieldType name="text_string_accent_fl_cs" class="solr.TextField" positionIncrementGap="100">
+    <analyzer>
+      <tokenizer class="solr.KeywordTokenizerFactory"/>
+      <filter class="solr.ASCIIFoldingFilterFactory"/>
+      <filter class="solr.TrimFilterFactory"/>
+    </analyzer>
+  </fieldType>
+  <fieldType name="text_string_alphanumeric" class="solr.TextField" positionIncrementGap="100">
+    <analyzer>
+      <tokenizer class="solr.StandardTokenizerFactory"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+    </analyzer>
+  </fieldType>
+  <fieldType name="text_string_sw" class="solr.TextField" positionIncrementGap="100">
+    <analyzer>
+      <tokenizer class="solr.KeywordTokenizerFactory"/>
+      <filter class="solr.StopFilterFactory" words="stopwords.txt" ignoreCase="true"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+    </analyzer>
+  </fieldType>
+  <fieldType name="text_ws" class="solr.TextField" positionIncrementGap="100">
+    <analyzer>
+      <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+    </analyzer>
+  </fieldType>
+  <fieldType name="textgen" class="solr.TextField" positionIncrementGap="100">
+    <analyzer type="index">
+      <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+      <filter class="solr.StopFilterFactory" words="stopwords.txt" ignoreCase="true"/>
+      <filter class="solr.WordDelimiterFilterFactory" catenateNumbers="1" generateNumberParts="1" splitOnCaseChange="0" generateWordParts="1" catenateAll="0" catenateWords="1"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+    </analyzer>
+    <analyzer type="query">
+      <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+      <filter class="solr.SynonymFilterFactory" expand="true" ignoreCase="true" synonyms="synonyms.txt"/>
+      <filter class="solr.StopFilterFactory" words="stopwords.txt" ignoreCase="true"/>
+      <filter class="solr.WordDelimiterFilterFactory" catenateNumbers="0" generateNumberParts="1" splitOnCaseChange="0" generateWordParts="1" catenateAll="0" catenateWords="0"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+    </analyzer>
+  </fieldType>
+  <fieldType name="textstr_accent_fl" class="solr.TextField" positionIncrementGap="100">
+    <analyzer>
+      <tokenizer class="solr.StandardTokenizerFactory"/>
+      <filter class="solr.WordDelimiterFilterFactory" catenateNumbers="0" generateNumberParts="1" splitOnCaseChange="0" generateWordParts="1" catenateAll="0" catenateWords="0"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+      <filter class="solr.ASCIIFoldingFilterFactory"/>
+    </analyzer>
+  </fieldType>
+  <fieldType name="textstr_accent_fl_cs" class="solr.TextField" positionIncrementGap="100">
+    <analyzer>
+      <tokenizer class="solr.StandardTokenizerFactory"/>
+      <filter class="solr.WordDelimiterFilterFactory" catenateNumbers="0" generateNumberParts="1" splitOnCaseChange="0" generateWordParts="1" splitOnNumerics="0" catenateAll="0" catenateWords="0"/>
+      <filter class="solr.ASCIIFoldingFilterFactory"/>
+    </analyzer>
+  </fieldType>
+  <fieldType name="textstr_accent_fl_nocatenatenumbers" class="solr.TextField" positionIncrementGap="100">
+    <analyzer>
+      <tokenizer class="solr.StandardTokenizerFactory"/>
+      <filter class="solr.WordDelimiterFilterFactory" catenateNumbers="0" generateNumberParts="1" splitOnCaseChange="0" generateWordParts="1" splitOnNumerics="0" catenateAll="0" catenateWords="0"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+      <filter class="solr.ASCIIFoldingFilterFactory"/>
+    </analyzer>
+  </fieldType>
+  <fieldType name="textstr_accent_fl_scan" class="solr.TextField" positionIncrementGap="100">
+    <analyzer>
+      <tokenizer class="solr.StandardTokenizerFactory"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+      <filter class="solr.ASCIIFoldingFilterFactory"/>
+    </analyzer>
+  </fieldType>
+  <fieldType name="textstr_accent_fl_sw" class="solr.TextField" positionIncrementGap="100">
+    <analyzer>
+      <tokenizer class="solr.StandardTokenizerFactory"/>
+      <filter class="solr.StopFilterFactory" words="stopwords.txt" ignoreCase="true"/>
+      <filter class="solr.WordDelimiterFilterFactory" catenateNumbers="0" generateNumberParts="1" splitOnCaseChange="0" generateWordParts="1" catenateAll="0" catenateWords="0"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+      <filter class="solr.ASCIIFoldingFilterFactory"/>
+    </analyzer>
+  </fieldType>
+  <fieldType name="textstr_accent_fl_whitespacesep" class="solr.TextField" positionIncrementGap="100">
+    <analyzer>
+      <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+      <filter class="solr.ASCIIFoldingFilterFactory"/>
+    </analyzer>
+  </fieldType>
+  <fieldType name="tfloat" class="solr.TrieFloatField" omitNorms="true" positionIncrementGap="0" precisionStep="8"/>
+  <fieldType name="tint" class="solr.TrieIntField" omitNorms="true" positionIncrementGap="0" precisionStep="8"/>
+  <fieldType name="tlong" class="solr.TrieLongField" omitNorms="true" positionIncrementGap="0" precisionStep="8"/>
+  <fieldType name="tlongs" class="solr.TrieLongField" positionIncrementGap="0" docValues="true" multiValued="true" precisionStep="8"/>
+  <field name="_version_" type="long" indexed="true" stored="true"/>
+  <field name="monografie967" type="tlong" indexed="true" stored="true"/>
+  <field name="spogli967" type="tlong" indexed="true" stored="true"/>
+  <field name="abstract" type="textstr_accent_fl_sw" multiValued="true" indexed="true" stored="true"/>
+  <field name="altritit" type="textstr_accent_fl_sw" multiValued="true" indexed="true" stored="true"/>
+  <field name="antico_id" type="text_string" indexed="true" stored="false"/>
+  <field name="libretto" type="text_string" indexed="true" stored="true"/>
+  <field name="any" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="anyf" type="text_string_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="autore" type="text_string" indexed="true" stored="true"/>
+  <field name="coautore" type="text_string" indexed="true" stored="true" multiValued="true"/>
+  <field name="av_accomp" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="av_accomp_vd" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="av_colore" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="av_dimensioni" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="av_fmtsonore" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="av_fmtvideo" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="av_forma_pubbl" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="av_formato" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="av_formato_pres" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="av_formato_vd" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="av_gendcn" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="av_genmat" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="av_materiale" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="av_suono" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="av_supporto" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="av_tecnica" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="av_tecnica_vd" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="av_tipo" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="av_velocita" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="baseprov" type="text_string" indexed="true" stored="true"/>
+  <field name="bib_poss" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="bib_sbn" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="biblioteca" type="text_string_alphanumeric" multiValued="true" indexed="true" stored="true"/>
+  <field name="bid" type="idType" indexed="true" required="false" stored="true"/>
+  <field name="bni" type="onlySpaceSeparator" multiValued="true" indexed="true" stored="true"/>
+
+  <field name="cart_dati_matem" type="text_string" multiValued="false" indexed="false" stored="true"/>
+  <field name="cart_alt" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="cart_col" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="cart_forma_doc" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="cart_foto_forma" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="cart_foto_ripr" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="cart_foto_supp" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="cart_foto_tec" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="cart_imm" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="cart_orig" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="cart_pos" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="cart_rapp" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="cart_sat" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="cart_scala" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="cart_trad_foto" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="collbid" type="string" multiValued="true" indexed="true" stored="true"/>
+  <field name="collezione" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="collezione_id" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="collezionef" type="text_string_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="collocazione" type="textstr_accent_fl_sw" multiValued="true" indexed="true" stored="true"/>
+  <field name="colltit" type="textstr_accent_fl_sw" multiValued="true" indexed="true" stored="true"/>
+  <field name="cont_resource" type="text_string" indexed="true" stored="true"/>
+  <field name="content" type="string" multiValued="true" indexed="true" stored="true"/>
+  <field name="contenuto_abstract" type="textstr_accent_fl_sw" multiValued="true" indexed="true" stored="true"/>
+  <field name="dataFine" type="tlong" indexed="true" stored="true"/>
+  <field name="dataInizio" type="tlong" indexed="true" stored="true"/>
+  <field name="dataPubblicazione" type="string" indexed="true" stored="true"/>
+  <field name="data_agg" type="string" indexed="true" stored="true"/>
+  <field name="data_comp" type="string" multiValued="true" indexed="true" stored="true"/>
+  <field name="dataa" type="tint" indexed="true" stored="true"/>
+  <field name="dataa2" type="tint" indexed="true" stored="true"/>
+  <field name="datada" type="tint" indexed="true" stored="true"/>
+  <field name="datada2" type="tint" multiValued="true" indexed="true" stored="true"/>
+  <field name="datadb" type="string" multiValued="true" indexed="true" stored="true"/>
+  <field name="dataf" type="text_string_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="dccreator" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="dcid" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="dcrel" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="dcsubj" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="descr" type="textstr_accent_fl_sw" multiValued="true" indexed="true" stored="true"/>
+  <field name="dewey_code" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="dewey_classe" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="dewey_divisione" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="dewey_sezione" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="dewey_des" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="dewey_desf" type="text_string_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="dewey_tot" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="dewey_totf" type="text_string_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="classi_PGI_686_tot" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="classi_PGI_686_totf" type="text_string_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="classi_686_tot" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="classi_686_totf" type="text_string_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="disegno_grafica" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="disp_url" type="string" indexed="true" stored="true"/>
+  <field name="editore" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="editoref" type="text_string_accent_fl" multiValued="true" indexed="true" stored="true"/>  
+  <field name="edizione" type="textstr_accent_fl_sw" multiValued="true" indexed="true" stored="true"/>
+  <field name="ente" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="faparte" type="text" multiValued="true" indexed="false" stored="true"/>
+  <field name="faparte_tit" type="text" multiValued="true" indexed="false" stored="true"/>
+  <field name="forma" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="forma_cont" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="formaf" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="formato_elet" type="string" indexed="true" stored="true"/>
+  <field name="grafica_col" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="grafica_disegno_fun" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="grafica_disegno_tip" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="grafica_supp" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="grafica_supp_sec" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="grafica_tip" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="grafica_tipspec" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="hosti" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="id" type="string" indexed="true" required="true" stored="true"/>
+  <field name="idthematic" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="impronta" type="textstr_accent_fl_nocatenatenumbers" multiValued="true" indexed="true" stored="true"/>
+  <field name="improntaf" type="text_string_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="incipit" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="incipitf" type="text_string_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="isbd" type="text_string_sw" indexed="true" stored="true"/>
+  <field name="isbd_tot" type="textstr_accent_fl" multiValued="true" indexed="true" stored="false"/>
+  <field name="isbn" type="alphanumericOnly" multiValued="true" indexed="true" stored="true"/>
+  <field name="ismn" type="alphanumericOnly" multiValued="true" indexed="true" stored="true"/>
+  <field name="issn" type="alphanumericOnly" multiValued="true" indexed="true" stored="true"/>
+  <field name="keywords" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="semantica" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="lastra" type="notSignificantZero" multiValued="true" indexed="true" stored="true"/>
+  <field name="cart_latitudinen" type="tint" multiValued="true" indexed="true" stored="true"/>
+  <field name="cart_latitudines" type="tint" multiValued="true" indexed="true" stored="true"/>
+  <field name="level" type="text_string" indexed="true" stored="true"/>
+  <field name="lingua" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="livger" type="string" multiValued="true" indexed="true" stored="true"/>
+  <field name="cart_longitudinee" type="tint" multiValued="true" indexed="true" stored="true"/>
+  <field name="cart_longitudinew" type="tint" multiValued="true" indexed="true" stored="true"/>
+  <field name="luogo" type="textstr_accent_fl_sw" multiValued="true" indexed="true" stored="true"/>
+  <field name="luogof" type="text_string_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="marc_error" type="string" multiValued="true" indexed="true" stored="true"/>
+  <field name="marca" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="marca_id" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="marcaf" type="text_string_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="marcaw" type="textstr_accent_fl_scan" multiValued="true" indexed="true" stored="true"/>
+  <field name="materiale" type="string" indexed="true" stored="true"/>
+  <field name="natura" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="nome" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="nome_tot" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="nome_view" type="textstr_accent_fl" multiValued="true" indexed="false" stored="true"/>
+  <field name="nome_vid" type="idType" multiValued="true" indexed="true" stored="true"/>
+  <field name="nomef" type="text_string_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="nomef_noposs" type="text_string_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="relator_codef" type="text_string_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="relator_codef_noposs" type="text_string_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  
+  <field name="nomescan" type="text_string_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="nomtit" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="nota" type="textstr_accent_fl_sw" multiValued="true" indexed="true" stored="true"/>
+  <field name="notiso" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="num_cat_tematico" type="AlphaNumCommaPointOnly" multiValued="true" indexed="true" stored="true"/>
+  <field name="num_editoriale" type="alphanumericOnly" multiValued="true" indexed="true" stored="true"/>
+  <field name="num_opera" type="AlphaNumCommaPointOnly" multiValued="true" indexed="true" stored="true"/>
+  <field name="numerazione" type="text" indexed="false" stored="true"/>
+  <field name="numeri" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="paese" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="permid" type="idType" indexed="true" required="false" stored="true"/>
+  <field name="persona" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="personaggio" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="place_geo" type="textstr_accent_fl_sw" multiValued="true" indexed="true" stored="true"/>
+  <field name="place_pub" type="textstr_accent_fl_sw" multiValued="true" indexed="true" stored="true"/>
+  <field name="possessore" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="possessoref" type="text_string_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="pre_autore" type="text_string" indexed="false" stored="true"/>
+  <field name="pre_titolo" type="text_string" indexed="false" stored="true"/>
+  <field name="pres" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="pubblicazione" type="textstr_accent_fl_sw" multiValued="true" indexed="true" stored="true"/>
+  <field name="publish" type="text" indexed="false" stored="true"/>
+  <field name="rapp_all" type="tint" multiValued="true" indexed="true" stored="true"/>
+  <field name="cart_rapp_oriz" type="tint" multiValued="true" indexed="true" stored="true"/>
+  <field name="cart_rapp_vert" type="tint" multiValued="true" indexed="true" stored="true"/>
+  <field name="rappres" type="textstr_accent_fl_sw" multiValued="true" indexed="true" stored="true"/>
+  <field name="rappres_genere" type="text" multiValued="true" indexed="true" stored="true"/>
+  <field name="relper" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="rism" type="alphanumericOnly" multiValued="true" indexed="true" stored="true"/>
+  <field name="sbid" type="string" indexed="true" stored="true"/>
+  <field name="segnatura" type="textstr_accent_fl_nocatenatenumbers" multiValued="true" indexed="true" stored="true"/>
+  <field name="segnaturascan" type="text_string_accent_fl_cs" multiValued="true" indexed="true" stored="true"/>
+  <field name="sensor_cont" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <!--
+  <field name="soggetto" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="soggetto_code" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="soggetto_id" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  -->
+  <field name="soggettof" type="text_string_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="soggetto_tot" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="materia" type="textstr_accent_fl_sw" multiValued="true" indexed="true" stored="true"/>
+  <field name="status" type="tdoubles"/>
+  <field name="supporto" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="tag950" type="string" multiValued="true" indexed="true" stored="true"/>
+  <field name="tag977" type="string" multiValued="true" indexed="true" stored="true"/>
+  <field name="tagI950" type="tint" multiValued="true" indexed="true" stored="true"/>
+  <field name="mat_inv_950" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="tformer" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="tipo_cont" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="tipo_elab" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="tipo_mediaz" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="cart_tipo_scala" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="tipo_tit" type="text_string" indexed="true" stored="true"/>
+  <field name="tipomat" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="tiporec" type="text_string" indexed="true" stored="true"/>
+  <field name="tipotesto_lett_ant" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="tipotesto_lett_mod" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="titolo" type="textstr_accent_fl_sw" indexed="true" stored="true"/>
+  <field name="titolo_all" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="titolo_alt" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="titolo_parallelo" type="text_string_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="titolo_raccolta" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="titolo_raccoltaf" type="text_string_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="titolo_sint" type="text_string_accent_fl" indexed="true" stored="true"/>
+  <field name="titolo_uniforme" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="titolo_uniforme_id" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="titolo_uniformef" type="text_string_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="titolonav" type="text_string_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="titoloscan" type="text_string_accent_fl" indexed="true" stored="true"/>
+  <field name="tonalita" type="text_string_accent_fl_cs" multiValued="true" indexed="true" stored="true"/>
+  <field name="unimarc" type="string" indexed="false" required="true" stored="true"/>
+  <field name="update" type="date" indexed="true" stored="true"/>
+  <field name="update2" type="tint" indexed="true" stored="true"/>
+  <field name="formato_eletf" type="text_string_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <dynamicField name="organicof_tip_*" type="text_string_accent_fl_cs" multiValued="true" indexed="true" stored="true"/>
+  <dynamicField name="organico_tip_*" type="textstr_accent_fl_cs" multiValued="true" indexed="true" stored="true"/>
+  <dynamicField name="altritit_tip_*" type="textstr_accent_fl_sw" multiValued="true" indexed="true" stored="true"/>
+  <dynamicField name="stesura_tip_*" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <dynamicField name="colltit_tip_*" type="textstr_accent_fl_sw" multiValued="true" indexed="true" stored="true"/>
+  <dynamicField name="rappres_tip_*" type="textstr_accent_fl_sw" multiValued="true" indexed="true" stored="true"/>
+  <dynamicField name="numeri_tip_*" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <dynamicField name="nome_liv_*" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <dynamicField name="nome_rel_*" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <dynamicField name="nome_tip_*" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <dynamicField name="collbid_*" type="idType" multiValued="true" indexed="true" stored="true"/>
+  <dynamicField name="nota_*" type="textstr_accent_fl_sw" multiValued="true" indexed="true" stored="true"/>
+  <dynamicField name="formato_elet_*" type="textstr_accent_fl_sw" multiValued="true" indexed="true" stored="true"/>
+
+  <copyField source="abstract" dest="keywords"/>
+  <copyField source="altritit" dest="keywords"/>
+  <copyField source="altritit" dest="nomtit"/>
+  <copyField source="altritit" dest="titolo_all"/>
+  <copyField source="altritit_tip_C" dest="titolo_uniforme"/>
+  <copyField source="collezione" dest="collezionef"/>
+  <copyField source="collezione" dest="dcrel"/>
+  <copyField source="collezione" dest="keywords"/>
+  <copyField source="colltit" dest="any"/>
+  <copyField source="colltit" dest="anyf"/>
+  <copyField source="colltit" dest="dcrel"/>
+  <copyField source="colltit" dest="keywords"/>
+  <copyField source="colltit" dest="nomtit"/>
+  <copyField source="colltit" dest="notiso"/>
+  <copyField source="colltit" dest="titolo_all"/>
+  <copyField source="colltit_tip_422" dest="relper"/>
+  <copyField source="colltit_tip_430" dest="tformer"/>
+  <copyField source="colltit_tip_431" dest="tformer"/>
+  <copyField source="colltit_tip_432" dest="tformer"/>
+  <copyField source="colltit_tip_433" dest="tformer"/>
+  <copyField source="colltit_tip_434" dest="tformer"/>
+  <copyField source="colltit_tip_435" dest="tformer"/>
+  <copyField source="colltit_tip_436" dest="tformer"/>
+  <copyField source="colltit_tip_437" dest="tformer"/>
+  <copyField source="colltit_tip_438" dest="tformer"/>
+  <copyField source="colltit_tip_439" dest="tformer"/>
+  <copyField source="descr" dest="keywords"/>
+  <copyField source="dewey_des" dest="any"/>
+  <copyField source="dewey_des" dest="anyf"/>
+  <copyField source="dewey_des" dest="dcsubj"/>
+  <copyField source="dewey_des" dest="dewey_desf"/>
+  <copyField source="dewey_des" dest="keywords"/>
+  <copyField source="dewey_tot" dest="dewey_totf"/>
+  <copyField source="classi_PGI_686_tot" dest="classi_PGI_686_totf"/>
+  <copyField source="classi_686_tot" dest="classi_686_totf"/>
+  <copyField source="classi_PGI_686_tot" dest="keywords"/>
+  <copyField source="classi_686_tot" dest="keywords"/>
+  <copyField source="edizione" dest="keywords"/>
+  <copyField source="materia" dest="keywords"/>
+  <copyField source="forma" dest="formaf"/>
+  <copyField source="id" dest="bid"/>
+  <copyField source="id" dest="dcid"/>
+  <copyField source="isbd" dest="any"/>
+  <copyField source="isbd" dest="anyf"/>
+  <copyField source="isbd" dest="keywords"/>
+  <copyField source="isbd" dest="notiso"/>
+  <copyField source="luogo" dest="keywords"/>
+  <copyField source="luogo" dest="luogof"/>
+  <copyField source="marca" dest="marcaf"/>
+  <copyField source="marca" dest="marcaw"/>
+  <copyField source="nome" dest="any"/>
+  <copyField source="nome" dest="anyf"/>
+  <copyField source="nome" dest="keywords"/>
+  <copyField source="nome" dest="nomescan"/>
+  <copyField source="nome" dest="nomtit"/>
+  <copyField source="nome" dest="notiso"/>
+  <copyField source="nome_rel_320" dest="possessore"/>
+  <copyField source="nome_rel_320" dest="possessoref"/>
+  <copyField source="nome_rel_390" dest="possessore"/>
+  <copyField source="nome_rel_390" dest="possessoref"/>
+  <copyField source="nome_rel_610" dest="editore"/>
+  <copyField source="nome_rel_650" dest="editore"/>
+  <copyField source="nome_rel_750" dest="editore"/>
+  <copyField source="editore" dest="editoref"/>
+  <copyField source="nome_tip_1" dest="dccreator"/>
+  <copyField source="nome_tip_2" dest="dccreator"/>
+  <copyField source="nome_tip_A" dest="persona"/>
+  <copyField source="nome_tip_B" dest="persona"/>
+  <copyField source="nome_tip_C" dest="persona"/>
+  <copyField source="nome_tip_D" dest="persona"/>
+  <copyField source="nome_tip_E" dest="ente"/>
+  <copyField source="nome_tip_G" dest="ente"/>
+  <copyField source="nota" dest="keywords"/>
+  <copyField source="nota_cast" dest="keywords"/>
+  <copyField source="nota_contenuto" dest="keywords"/>
+  <copyField source="nota_period" dest="keywords"/>
+  <copyField source="nota_requisiti" dest="keywords"/>
+  <copyField source="nota_tiporis" dest="keywords"/>
+  <copyField source="numeri" dest="dcid"/>
+  <copyField source="numeri_tip_B" dest="bni"/>
+  <copyField source="numeri_tip_I" dest="isbn"/>
+  <copyField source="numeri_tip_J" dest="issn"/>
+  <copyField source="numeri_tip_L" dest="lastra"/>
+  <copyField source="numeri_tip_M" dest="ismn"/>
+  <copyField source="numeri_tip_P" dest="impronta"/>
+  <copyField source="numeri_tip_P" dest="improntaf"/>
+  <copyField source="numeri_tip_V" dest="num_cat_tematico"/>
+  <copyField source="numeri_tip_W" dest="segnatura"/>
+  <copyField source="numeri_tip_W" dest="segnaturascan"/>
+  <copyField source="numeri_tip_Z" dest="issn"/>
+  <copyField source="paese" dest="pubblicazione"/>
+  <copyField source="pre_titolo" dest="any"/>
+  <copyField source="pre_titolo" dest="anyf"/>
+  <copyField source="pre_titolo" dest="keywords"/>
+  <copyField source="pre_titolo" dest="notiso"/>
+  <copyField source="pre_titolo" dest="titolo_all"/>
+  <copyField source="publish" dest="keywords"/>
+  <copyField source="publish" dest="pubblicazione"/>
+  <copyField source="cart_rapp_oriz" dest="rapp_all"/>
+  <copyField source="cart_rapp_vert" dest="rapp_all"/>
+  <copyField source="rappres" dest="keywords"/>
+  <copyField source="soggetto_tot" dest="any"/>
+  <copyField source="soggetto_tot" dest="anyf"/>
+  <copyField source="soggetto_tot" dest="dcsubj"/>
+  <copyField source="soggetto_tot" dest="keywords"/>
+  <copyField source="soggetto_tot" dest="notiso"/>
+  <copyField source="titolo" dest="nomtit"/>
+  <copyField source="titolo" dest="titolo_all"/>
+  <copyField source="titolo_alt" dest="titolo_all"/>
+  <copyField source="titolo_uniforme" dest="any"/>
+  <copyField source="titolo_uniforme" dest="anyf"/>
+  <copyField source="titolo_uniforme" dest="keywords"/>
+  <copyField source="titolo_uniforme" dest="nomtit"/>
+  <copyField source="titolo_uniforme" dest="notiso"/>
+  <copyField source="titolo_uniforme" dest="titolo_all"/>
+  <copyField source="titolo_uniforme" dest="titolo_uniformef"/>
+  <copyField source="formato_elet_899" dest="formato_elet_copia"/>
+  <copyField source="formato_elet_956" dest="formato_elet_copia"/>
+  <copyField source="materia" dest="semantica"/>
+  <copyField source="soggetto_tot" dest="semantica"/>
+  <copyField source="dewey_tot" dest="semantica"/>
+  <copyField source="classi_686_tot" dest="semantica"/>
+</schema>

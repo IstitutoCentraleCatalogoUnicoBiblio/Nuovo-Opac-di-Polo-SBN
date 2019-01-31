@@ -1,0 +1,5 @@
+
+copiare cartella "opac_polo_configs" in {userhome}/{solr}/server/solr/configsets
+copiare cartella "opac_polo_configs_auth" in {userhome}/{solr}/server/solr/configsets
+
+copiare "creaCore*.sh" in {userhome}/{solr}/bin

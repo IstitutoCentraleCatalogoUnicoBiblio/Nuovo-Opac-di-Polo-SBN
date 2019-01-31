@@ -1,0 +1,9 @@
+
+creazione a partire dai template 
+"opacsbn_config.POLO.properties"
+"opacsbn_config.authority.POLO.properties"
+dei corrispondenti file di polo 
+
+con sostituzione del valore generico "POLO" con il codice reale del polo
+impostazione della porta e dell'url di solr
+

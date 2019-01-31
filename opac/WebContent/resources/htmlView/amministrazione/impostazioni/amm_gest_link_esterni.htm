@@ -1,0 +1,157 @@
+<div class="panel-group">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h5>{{selectedActivity | translate}}</h5>
+        </div>
+        <div class="panel-body">
+            <div ng-show="isLoading" class="col-md-3 centerDivLogin">
+                <div class="form-login center">
+                    <center>
+                        <div class="loader"></div>
+                    </center>
+                </div>
+
+            </div>
+        </div>
+        <div class="panel-body"  ng-if="!edit && !isLoading" > 
+             <div ng-show="!isLoading" ng-if="!edit && appLinkEsterni.length == 0" class="alert alert-warning center">
+                
+                             {{'nessun_elemento_inserito' | translate}}
+             </div> 
+            <table ng-if="appLinkEsterni.length > 0" class="table table-hover table-bordered">
+                <thead>
+                    <tr>
+                    <td></td>
+                    <td>{{ ('testo_in' | translate) + " " + ('testo_it' | translate |lowercase) }}</td>
+                    <td>{{ ('testo_in' | translate) + " " + ('testo_en' | translate |lowercase) }}</td>
+                    <td>{{'url' | capitalize}}</td>
+                    <td>{{'tipo_link' | translate}}</td>
+                </tr> 
+                </thead>
+                <tbody>
+
+                    <tr ng-repeat="link in appLinkEsterni" ng-show="link.tipo_link != 'logo'">
+                        <td class="col-md-1">
+                                <button ng-show="!edit" class="btn btn-xs btn-warning" ng-click="startEdit(link)">
+                                        <span class="glyphicon glyphicon-cog"></span>
+                                      </button>
+                                    <button class="btn btn-xs btn-danger" ng-click="deleteInLine(link)">
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    </button>
+                        </td>
+                        <td>
+                            {{link.testo_it}}
+                        </td>
+                        <td>
+                            {{link.testo_en}}
+                        </td>
+                        <td>
+                            {{link.url}}
+                        </td>
+                        <td>
+                            {{link.tipo_link}}
+                        </td>
+                    </tr>
+                                   </tbody>
+            </table>
+        </div>
+        <div class="panel-body"  ng-if="edit" >
+                <form ng-show="!isLoading" class="form-horizontal">
+                        <fieldset>
+                                <div class="form-group">
+                                  <label for="gruppo" class="col-sm-3 col-lg-3 myControl-label">{{ ('testo_in' | translate) + " " + ('testo_it' | translate |lowercase)}}</label>
+                                  <div class="col-sm-3 col-lg-3">
+                                    <input type="text" maxlength="80" class="form-control input-sm" id="it" ng-model="modifyLink.testo_it" >
+                                  </div>
+                                </div>
+                              </fieldset>
+                              <fieldset>
+                                    <div class="form-group">
+                                      <label for="gruppo" class="col-sm-3 col-lg-3 myControl-label">{{ ('testo_in' | translate) + " " + ('testo_en' | translate |lowercase)}}</label>
+                                      <div class="col-sm-3 col-lg-3">
+                                        <input type="text" maxlength="80" class="form-control input-sm" id="ec" ng-model="modifyLink.testo_en" >
+                                      </div>
+                                    </div>
+                                  </fieldset>
+                                  <fieldset>
+                                        <div class="form-group">
+                                          <label for="gruppo" class="col-sm-3 col-lg-3 myControl-label">{{ 'url' | capitalize}}</label>
+                                          <div class="col-sm-3 col-lg-3">
+                                            <input type="text" class="form-control input-sm" id="url" ng-model="modifyLink.url" >
+                                          </div>
+                                        </div>
+                                      </fieldset>
+                                      <fieldset >
+                                            <div class="form-group">
+                                              <label for="gruppo" class="col-sm-3 col-lg-3 myControl-label">{{ 'tipo_link' | translate}}</label>
+                                              <div class="col-sm-3 col-lg-3">
+                                               <!-- <input type="text" class="form-control input-sm" id="url" ng-model="modifyLink.url" ng-show="modifyLink.tipo_link != 'testo'" > -->
+                                               <select  class="form-control input-sm" ng-model="modifyLink.tipo_link" ng-disabled="!insert">
+                                                   <option value="testo">
+                                                    {{'testo' | translate}}
+                                                   </option>
+                                                <option value="link1" ng-show="modifyLink.tipo_link =='link1' || (polo.link_esterni| filter :{tipo_link: 'link1'}).length == 0">
+                                                    {{'link1' | translate}}
+                                                </option>
+                                                <option value="link2" ng-show="modifyLink.tipo_link =='link2' || (polo.link_esterni| filter :{tipo_link: 'link2'}).length == 0">
+                                                        {{'link2' | translate}}
+                                                    </option>
+                                               </select>
+                                              </div>
+                                            </div>
+                                          </fieldset>
+                                          <fieldset ng-show="modifyLink.tipo_link != 'testo' &&  modifyLink.tipo_link != 'logo'">
+                                              <div class="form-group">
+                                                    <label for="gruppo" class="col-sm-3 col-lg-3 myControl-label">
+                                                            {{ 'Img' | translate}}
+                                                    </label>
+    
+                                                    <div class="col-md-3">
+                                                            <input id="fileopen" type="file" accept="image/x-png,image/gif,image/jpeg" files-input ng-model="$parent.fileArray" ng-change="uploadFoto(fileArray)"
+                                                              ng-disabled="!edit">
+                                                            <img class="resize_fit_center" style="margin-top: 20px;" ng-src='{{getImg()}}' id="logo_img">
+                                                          </div>
+                                              </div>
+                                                
+                                          </fieldset>
+                                      <fieldset>
+                                            <div id="error" style="display: none;" class="px-top-20 alert alert-danger alert-dismissible" role="alert">
+                                              <button type="button" title="{{'chiudi' | translate}}" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                               {{ error | translate}}
+                                              </div>
+                                              <div id="success" style="display: none;" class="px-top-20 alert alert-success alert-dismissible" role="alert">
+                                                <button type="button" title="{{'chiudi' | translate}}" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                <strong>{{msg | translate}}</strong> 
+                                                </div>
+                                          </fieldset>
+                </form>
+        </div>
+        <div ng-show="!isLoading" class="panel-footer">
+            <center>
+                <button title="{{'tooltip_insert_action' | translate}}" ng-show="!edit && (waitConfirm == undefined)" class="btn btn-md btn-success"
+                    ng-click="startEdit()">
+                    {{'amm_insert' | translate}}
+
+                </button>
+
+                <button title="{{'tooltip_annulla_action' | translate}}" ng-show="edit || waitConfirm" class="btn btn-md btn-warning" ng-click="init()">
+                    {{'amm_annulla' | translate}}
+
+                </button>
+                <button title="{{('conferma_elimina' | translate) + " " + waitConfirm.url}}" ng-show="waitConfirm" class="btn btn-md btn-danger" ng-click="deleteInLineConfirm(waitConfirm)">
+                    {{('conferma_elimina' | translate) + " " + waitConfirm.url}}
+                </button>
+                <button title="{{'tooltip_conferma_action' | translate}}" ng-show="edit && !insert && modifyLink.testo_it !='' && modifyLink.url !=''" class="btn btn-md btn-success" ng-click="endEdit()">
+                    {{'amm_conferma' | translate}}
+
+                </button>
+                <button title="{{'tooltip_conferma_action' | translate}}" ng-show="edit && insert && modifyLink.testo_it !='' && modifyLink.url !='' " class="btn btn-md btn-success"
+                    ng-click="endInsert()">
+                    {{'amm_conferma_insert' | translate}}
+
+                </button>
+            </center>
+        </div>
+    </div>
+
+</div>

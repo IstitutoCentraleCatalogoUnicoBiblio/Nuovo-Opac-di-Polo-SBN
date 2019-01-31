@@ -1,0 +1,74 @@
+{ "biblioteche": [    {
+      "anno-censimento": null,
+      "data-aggiornamento": "2015-08-28",
+      "codici-identificativi": {
+        "isil": "IT-RM0521",
+        "acnp": "RM313",
+        "cei": null,
+        "cmbs": null,
+        "rism": null,
+        "sbn": "IEITR"
+      },
+      "denominazioni": {
+        "ufficiale": "Biblioteca dell'Istituto della enciclopedia italiana Giovanni Treccani",
+        "precedenti": [
+          "Biblioteca dell'IEI"
+        ],
+        "alternative": [
+          "Biblioteca Treccani"
+        ]
+      },
+      "indirizzo": {
+        "via-piazza": "Piazza della Enciclopedia italiana 4",
+        "frazione": null,
+        "cap": "00186",
+        "comune": {
+          "nome": "Roma",
+          "istat": "058091"
+        },
+        "provincia": {
+          "nome": "Roma",
+          "istat": "058"
+        },
+        "regione": "LAZIO",
+        "coordinate": [
+          41.8944052,
+          12.4774284
+        ]
+      },
+      "contatti": [
+        {
+          "tipo": "E-mail",
+          "valore": "treccani.biblio@treccani.it",
+          "note": null
+        },
+        {
+          "tipo": "Fax",
+          "valore": "+39 0668982186",
+          "note": null
+        },
+        {
+          "tipo": "Telefono",
+          "valore": "+39 0668982248",
+          "note": null
+        },
+        {
+          "tipo": "Telex",
+          "valore": "623620 ITALEN I",
+          "note": null
+        },
+        {
+          "tipo": "Url",
+          "valore": "http://www.treccani.it/site/www/biblioteca/biblioteca_storia.htm",
+          "note": null
+        }
+      ],
+      "accesso": {
+        "riservato": false,
+        "portatori-handicap": null
+      },
+      "tipologia-amministrativa": "Accademie, associazioni, fondazioni, istituti (pubblici)",
+      "tipologia-funzionale": "Specializzata",
+      "ente": "Istituto della enciclopedia italiana"
+    }]
+}

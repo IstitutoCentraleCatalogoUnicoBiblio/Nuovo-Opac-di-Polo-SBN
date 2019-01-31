@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Solr managed schema - automatically generated - DO NOT EDIT -->
+<schema name="authority" version="1.1">
+  <uniqueKey>id</uniqueKey>
+  <defaultSearchField>alias</defaultSearchField>
+  <solrQueryParser defaultOperator="AND"/>
+
+  <fieldType name="binary" class="solr.BinaryField"/>
+  <fieldType name="boolean" class="solr.BoolField" omitNorms="true" sortMissingLast="true"/>
+  <fieldType name="booleans" class="solr.BoolField" sortMissingLast="true" multiValued="true"/>
+  <fieldType name="date" class="solr.TrieDateField" omitNorms="true" positionIncrementGap="0" precisionStep="0"/>
+  <fieldType name="double" class="solr.TrieDoubleField" omitNorms="true" positionIncrementGap="0" precisionStep="0"/>
+  <fieldType name="float" class="solr.TrieFloatField" omitNorms="true" positionIncrementGap="0" precisionStep="0"/>
+  <fieldType name="random" class="solr.RandomSortField" indexed="true"/>
+  <fieldType name="string" class="solr.StrField" omitNorms="true" sortMissingLast="true"/>
+  <fieldType name="tdate" class="solr.TrieDateField" positionIncrementGap="0" docValues="true" precisionStep="6"/>
+  <fieldType name="tdates" class="solr.TrieDateField" positionIncrementGap="0" docValues="true" multiValued="true" precisionStep="6"/>
+  <fieldType name="tdouble" class="solr.TrieDoubleField" omitNorms="true" positionIncrementGap="0" precisionStep="8"/>
+  <fieldType name="tdoubles" class="solr.TrieDoubleField" positionIncrementGap="0" docValues="true" multiValued="true" precisionStep="8"/>
+  <fieldType name="tfloat" class="solr.TrieFloatField" omitNorms="true" positionIncrementGap="0" precisionStep="8"/>
+  <fieldType name="tint" class="solr.TrieIntField" omitNorms="true" positionIncrementGap="0" precisionStep="8"/>
+  <fieldType name="tlong" class="solr.TrieLongField" omitNorms="true" positionIncrementGap="0" precisionStep="8"/>
+  <fieldType name="tlongs" class="solr.TrieLongField" positionIncrementGap="0" docValues="true" multiValued="true" precisionStep="8"/>
+ <fieldType name="text_string" class="solr.TextField" positionIncrementGap="100">
+		<analyzer>
+			<tokenizer class="solr.KeywordTokenizerFactory" />
+			<filter class="solr.LowerCaseFilterFactory" />
+		</analyzer>
+	</fieldType>
+  <fieldType name="text_string_2" class="solr.TextField" positionIncrementGap="100">
+    <analyzer>
+      <tokenizer class="solr.KeywordTokenizerFactory"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+      <filter class="solr.TrimFilterFactory"/>
+    </analyzer>
+  </fieldType>
+	<fieldType name="text_words" class="solr.TextField"	positionIncrementGap="100">
+		<analyzer>
+			<tokenizer class="solr.WhitespaceTokenizerFactory" />
+			<filter class="solr.LowerCaseFilterFactory" />
+		</analyzer>
+	</fieldType>
+
+	<fieldType name="text_ascii_fl" class="solr.TextField" positionIncrementGap="100">
+		<analyzer>
+			<tokenizer class="solr.WhitespaceTokenizerFactory" />
+			<filter class="solr.WordDelimiterFilterFactory"	generateWordParts="1" generateNumberParts="1" catenateWords="1"	catenateNumbers="1" catenateAll="0" splitOnCaseChange="1" />
+			<filter class="solr.LowerCaseFilterFactory" />
+			<filter class="solr.ASCIIFoldingFilterFactory"/>
+		</analyzer>
+	</fieldType>
+
+  <fieldType name="textstr_accent_fl" class="solr.TextField" positionIncrementGap="100">
+    <analyzer>
+      <tokenizer class="solr.StandardTokenizerFactory"/>
+      <filter class="solr.WordDelimiterFilterFactory" catenateNumbers="0"  splitOnCaseChange="0" catenateAll="0" catenateWords="0"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+      <filter class="solr.ASCIIFoldingFilterFactory"/>
+    </analyzer>
+  </fieldType>
+  <fieldType name="textstr_accent_fl_sort" class="solr.TextField" positionIncrementGap="100">
+    <analyzer>
+      <tokenizer class="solr.KeywordTokenizerFactory"/>
+      <filter class="solr.WordDelimiterFilterFactory" catenateNumbers="0"  splitOnCaseChange="0" catenateAll="0" catenateWords="0"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+      <filter class="solr.ASCIIFoldingFilterFactory"/>
+    </analyzer>
+  </fieldType>
+  
+  <field name="_version_" type="tlong" indexed="true" stored="true"/> 
+  <field name="id" type="string" multiValued="false" indexed="true" required="true" stored="true"/>
+  <field name="vid" type="string" multiValued="false" indexed="true" required="true" stored="true"/>
+  <field name="id_internaz" type="string" multiValued="false" indexed="true" stored="true"/>
+  <field name="alias" type="text_ascii_fl" multiValued="true" indexed="true" stored="false"/>
+  <field name="keywords" type="text_ascii_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="nomesort" type="text_string_2" indexed="true" stored="true"/>
+
+<!--  
+  <field name="data_nascita1_p" type="string" indexed="false" stored="true"/>
+  <field name="data_nascita2_p" type="string" indexed="false" stored="true"/>
+  <field name="data_morte1_p" type="string" indexed="false" stored="true"/>
+  <field name="data_morte2_p" type="string" indexed="false" stored="true"/>
+  <field name="data_nascita1_e" type="string" indexed="false" stored="true"/>
+  <field name="data_nascita2_e" type="string" indexed="false" stored="true"/>
+  <field name="data_morte1_e" type="string" indexed="false" stored="true"/>
+  <field name="data_morte2_e" type="string" indexed="false" stored="true"/>
+ -->
+  <field name="data_nascita1" type="tlong" indexed="true" stored="true"/>
+  <field name="data_nascita2" type="tlong" indexed="true" stored="true"/>
+  <field name="data_morte1" type="tlong" indexed="true" stored="true"/>
+  <field name="data_morte2" type="tlong" indexed="true" stored="true"/>
+  
+  
+  <field name="lingua" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="paese" type="text_string" multiValued="true" indexed="true" stored="true"/>
+  <field name="nome" type="textstr_accent_fl" indexed="true" stored="true"/>
+  <field name="nome_ente" type="textstr_accent_fl" indexed="true" stored="true"/>
+  <field name="datazione" type="text_string" indexed="true" stored="true"/>
+  <field name="formevar" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="formevar_id" type="string" multiValued="true" indexed="true" stored="true"/>
+  <field name="formevar_ente" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="formevar_ente_id" type="string" multiValued="true" indexed="true" stored="true"/>
+  <field name="vedianche" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <field name="vedianche_ente" type="textstr_accent_fl" multiValued="true" indexed="true" stored="true"/>
+  <!-- 
+  <field name="tipo_nome" type="text_string" indexed="true" stored="true"/> 
+  -->
+  <field name="unimarc" type="binary" indexed="false" required="false" stored="false"/>
+  <field name="unimarc_text" type="string" indexed="false" required="true" stored="true"/>
+  <field name="regole" type="string" multiValued="true" indexed="false" stored="true"/>
+  <field name="data_agg" type="string" indexed="false" stored="true"/>
+  <field name="fonti" type="text_string" indexed="false"  multiValued="true" stored="true"/>
+  <field name="altre_fonti" type="text_string" indexed="false"  multiValued="true" stored="true"/>
+  <field name="status_voce" type="string" indexed="true"  stored="true"/>
+  <field name="nota" type="text_ascii_fl" multiValued="true" indexed="true" stored="true"/>
+
+  <!--
+  <copyField source="data_nascita1_p" dest="data_nascita1"/>
+  <copyField source="data_nascita1_e" dest="data_nascita1"/>
+  <copyField source="data_nascita2_p" dest="data_nascita2"/>
+  <copyField source="data_nascita2_e" dest="data_nascita2"/>
+  <copyField source="data_morte1_p" dest="data_morte1"/>
+  <copyField source="data_morte1_e" dest="data_morte1"/>
+  <copyField source="data_morte2_p" dest="data_morte2"/>
+  <copyField source="data_morte2_e" dest="data_morte2"/>
+  -->
+  
+  <copyField source="nome" dest="alias"/>
+  <copyField source="nome_ente" dest="alias"/>
+  <copyField source="formevar" dest="alias"/>
+  <copyField source="formevar_ente" dest="alias"/> 
+  <copyField source="vedianche" dest="alias"/>
+  <copyField source="vedianche_ente" dest="alias"/>   
+ 
+  <copyField source="nome" dest="keywords"/>
+  <copyField source="nome_ente" dest="keywords"/>
+  <copyField source="formevar" dest="keywords"/>
+  <copyField source="formevar_ente" dest="keywords"/> 
+  <copyField source="vedianche" dest="keywords"/>
+  <copyField source="vedianche_ente" dest="keywords"/>   
+  <copyField source="nota" dest="keywords"/>
+  <copyField source="fonti" dest="keywords"/>  
+
+  <copyField source="nome" dest="nomesort"/>
+  <copyField source="nome_ente" dest="nomesort"/>
+
+</schema>

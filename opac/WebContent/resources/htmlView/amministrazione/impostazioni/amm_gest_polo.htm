@@ -1,0 +1,198 @@
+<div class="panel-group">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h5>{{selectedActivity | translate}}</h5>
+    </div>
+    <div class="panel-body">
+      <div ng-show="isLoading" class="col-md-3 centerDivLogin">
+        <div class="form-login center">
+          <center>
+            <div class="loader"></div>
+          </center>
+        </div>
+
+      </div>
+      <form class="form-horizontal" ng-show="!isLoading">
+        <!-- data aggiornamento polo .-->
+        <fieldset>
+          <div class="form-group">
+            <label for="user" class="col-sm-3 col-lg-3 myControl-label">{{ 'info_code_adm' | translate}}</label>
+            <div class="col-md-1">
+              <input type="text" class="form-control input-sm" id="user" ng-model="appPolo.code" disabled>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-group">
+            <label for="user" class="col-sm-3 col-lg-3 myControl-label">{{ 'info_nome_adm' | translate}}</label>
+            <div class="col-sm-3 col-lg-3">
+              <input type="text" class="form-control input-sm" id="user" ng-model="appPolo.name" disabled ><!-- ng-disabled="!edit" -->
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-group">
+            <label for="user" class="col-sm-3 col-lg-3 myControl-label">{{ 'info_referente_adm' | translate}}</label>
+            <div class="col-md-3">
+              <input type="text" title="{{'info_nominativo_ref' | translate}}"  placeholder="{{'info_nominativo_ref' | translate}}"class="form-control input-sm" id="user" ng-model="appPolo.nome_referente" ng-disabled="!edit">
+            </div>
+            <div class="col-md-3">
+              <input type="text" title="{{'email' | translate}}"  placeholder="{{'email' | translate}}" class="form-control input-sm" id="user" ng-model="appPolo.email_referente" ng-disabled="!edit">
+            </div>
+          </div>
+        </fieldset>
+         <fieldset>
+          <div class="form-group">
+            <label for="info_num_referente_adm" class="col-sm-3 col-lg-3 myControl-label">{{ 'info_num_referente_adm' | translate}}</label>
+            <div class="col-md-3">
+              <input maxlength="15" type="text" title="{{'info_num_referente_adm' | translate}}"  placeholder="{{'info_num_referente_adm' | translate}}" class="form-control input-sm" id="info_num_referente_adm" ng-model="appPolo.numero_referente" ng-disabled="!edit">
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-group">
+            <label for="user" class="col-sm-3 col-lg-3 myControl-label">{{ 'email_segnalazione' | translate}}</label>
+            <div class="col-sm-3 col-lg-3">
+              <input type="text" class="form-control input-sm" id="user" ng-model="appPolo.email_segnalazioni" ng-disabled="!edit">
+            </div>
+          </div>
+        </fieldset>
+            
+        <fieldset>
+          <div class="form-group">
+            <label for="user" class="col-sm-3 col-lg-3 myControl-label">{{ ('authority' | translate)+ " - "+ ('autori' | translate)}}</label>
+            <div class="col-md-1">
+              <input type="checkbox" id="user" ng-model="appPolo.flag_autori" ng-disabled="!edit">
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-group">
+            <label for="user" class="col-sm-3 col-lg-3 myControl-label">{{ ('authority' | translate)+ " - "+ ('dwy_classificazioni' | translate )}}</label>
+            <div class="col-md-1">
+              <input type="checkbox" id="user" ng-model="appPolo.flag_classificazioni" ng-disabled="!edit">
+            </div>
+          </div>
+        </fieldset>
+          <fieldset>
+          <div class="form-group">
+            <label for="user" class="col-sm-3 col-lg-3 myControl-label">{{ ('modulo' | translate) + ' ' + ('chiedi_al_bibliotecario'| translate)}}</label>
+           <div class="col-md-1">
+              <input type="checkbox" id="user" ng-model="appPolo.flag_chiedi" ng-disabled="!edit">
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-group">
+            <label for="user" class="col-sm-3 col-lg-3 myControl-label">{{ 'flag_maps' | translate}}</label>
+            <div class="col-md-1">
+              <input type="checkbox" id="user" ng-model="appPolo.flag_maps" ng-disabled="!edit">
+            </div>
+            <div ng-show="appPolo.flag_maps" class="col-md-5">
+              <input type="text" title="{{ 'Api Key' | translate}}" placeholder="{{ 'Api Key' | translate}}" class="form-control input-sm" id="user" ng-model="appPolo.maps_api_key" ng-disabled="!edit">
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-group">
+            <label for="user" class="col-sm-3 col-lg-3 myControl-label">{{ 'flag_wiki' | translate}}</label>
+            <div class="col-sm-3 col-lg-3">
+              <input type="checkbox" id="user" ng-model="appPolo.flag_wiki" ng-disabled="!edit">
+            </div>
+          </div>
+        </fieldset>
+        <fieldset ng-show="false" >
+          <div class="form-group">
+            <label for="tipoImg" class="col-sm-3 col-lg-3 myControl-label">{{ 'tipo_img' | translate}}</label>
+            <div class="col-md-1">
+              <select  class="form-control input-xs" value="logo" ng-init="$parent.tipoImgUpload = 'logo'" ng-model="$parent.tipoImgUpload" ng-disabled="!edit">
+                <option value="logo">
+                  Logo
+                </option>
+                <option value="link1">
+                  Link 1
+                </option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-group">
+            <label for="user" class="col-sm-3 col-lg-3 myControl-label">{{ 'flag_mlol' | translate}}</label>
+            <div class="col-md-1">
+              <input type="checkbox" id="user" ng-model="appPolo.flag_mlol" ng-disabled="!edit">
+            </div>
+            <div class="col-md-3" ng-show="appPolo.flag_mlol">
+              <input title="{{ 'Api Key' | translate}}" placeholder="{{ 'Api Key' | translate}}" type="text" class="form-control input-sm" id="user" ng-model="appPolo.mlol_api_key" ng-disabled="!edit">              
+            </div>
+            <div class="col-md-2" ng-show="appPolo.flag_mlol">
+              <input type="text" title="{{ 'Portal Id' | translate}}" placeholder="{{ 'Portal Id' | translate}}" class="form-control input-sm" id="user" ng-model="appPolo.mlol_portal_id" ng-disabled="!edit">              
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <div class="form-group">
+            <label for="user" class="col-sm-3 col-lg-3 myControl-label">{{ 'flag_logo' | translate}}</label>
+            <div class="col-md-1">
+              <input type="checkbox" id="user" ng-model="appPolo.flag_logo" ng-disabled="!edit">
+            </div>
+            <div ng-show="appPolo.flag_logo" class="col-md-3">
+              <input id="fileopen" type="file" accept="image/x-png,image/gif,image/jpeg" files-input ng-model="$parent.fileArray" ng-change="uploadFoto(fileArray)"
+                ng-disabled="!edit && appPolo.flag_logo">
+              <img class="resize_fit_center" style="margin-top: 20px;" ng-src='{{getImg()}}' id="logo_img">
+            </div>
+            <div  ng-show="appPolo.flag_logo" class="col-md-3">
+                <input type="text" title="{{ 'Link logo' | translate}}" class="form-control input-sm" id="user" ng-model="appPolo.url_logo" ng-disabled="!edit">
+            </div>
+          </div>
+        </fieldset>
+         <fieldset>
+          <div id="error" style="display: none;" class="px-top-20 alert alert-danger alert-dismissible" role="alert">
+            <button type="button" title="{{'chiudi' | translate}}" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            {{ error | translate}}
+          </div>
+          <div id="success" style="display: none;" class="px-top-20 alert alert-success alert-dismissible" role="alert">
+            <button type="button" title="{{'chiudi' | translate}}" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            {{'ok_success_panel' | translate}}
+          </div>
+          <div id="warn" ng-show="!validateEmails()" class="px-top-20 alert alert-warning alert-dismissible" role="alert">
+              <button type="button" title="{{'chiudi' | translate}}" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <center>
+                {{'formato_mail_non_corretto' | translate}}
+              </center>
+             
+            </div>
+        </fieldset>
+      </form>
+
+    </div>
+    <div ng-show="!isLoading" class="panel-footer">
+      <center>
+        <button title="{{'tooltip_modifica_action' | translate}}" ng-show="!edit" class="btn btn-md btn-warning" ng-click="startEdit()">
+          {{'amm_modifica' | translate}}
+
+        </button>
+         <button title="{{'tooltip_amm_reload_conf' | translate}}" ng-show="!edit" class="btn btn-md btn-warning" ng-click="reloadConf()">
+          {{'amm_reload_conf' | translate}}
+
+        </button>
+
+        <button title="{{'tooltip_annulla_action' | translate}}" ng-show="edit" class="btn btn-md btn-warning" ng-click="init()">
+          {{'amm_annulla' | translate}}
+
+        </button>
+        <button ng-disabled="appPolo.email_referente == '' " title="{{'tooltip_conferma_action' | translate}}" ng-show="edit" class="btn btn-md btn-success" ng-click="update()">
+          {{'amm_conferma' | translate}}
+
+        </button>
+      </center>
+    </div>
+  </div>
+
+</div>

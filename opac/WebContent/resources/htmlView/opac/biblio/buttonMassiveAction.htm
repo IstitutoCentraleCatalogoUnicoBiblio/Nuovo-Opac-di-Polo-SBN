@@ -1,0 +1,7 @@
+<!--bottoni in alto per la gestione del apertura, chiusura nascondere e visualizzare le schede di risultato -->
+<div class="btn-group" role="group" aria-label="...">
+  <button ng-if="(sintetiche - sinteticheHided) > 0 " type="submit" class="btn btn-default btn-xs" ng-click="openAll()" data-toggle="tooltip" data-placement="left" title="{{'openAll' | translate}}">{{'apriTuttiDettagli' | translate}}</button>
+  <button ng-if="(analitiche - analiticheHided) > 0" type="submit" class="btn  btn-default btn-xs" ng-click="chiudiTutto(true)" data-toggle="tooltip" data-placement="left" title="{{'chiudiDettagli' | translate}}">{{'chiudiDettagli' | translate}}</button>
+  <button ng-if="(sintetiche - sinteticheHided) > 0 && (analitiche - analiticheHided) > 0" type="submit" class="btn btn-default btn-xs" ng-click="hideSintetiche()" data-toggle="tooltip" data-placement="left" title="{{'nascondiSintetiche' | translate}}">{{'nascondiSintetiche' | translate}}</button>
+  <button ng-if="sinteticheHided > 0 || analiticheHided > 0" type="submit" class="btn  btn-default btn-xs" ng-click="showAllRighe()" data-toggle="tooltip" data-placement="left" title="{{'visualizzaNascoste' | translate}}">{{'visualizzaNascoste' | translate}}</button>
+</div>

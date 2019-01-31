@@ -1,0 +1,108 @@
+<div class="container-fluid">
+	<div class="row content">
+		<ng-include src=" 'htmlView/templates/navbarView.htm' "></ng-include>
+		<div class="col-sm-12 padd_sf_home">
+			<h2 class="padd_L_ico"><img src="images/ico_search_ora.png" alt=""> {{'authority' | translate}}</h2>
+			<div class="sf_home">
+				<div class="divTable home_gest">
+
+					<form class="form-horizontal">
+
+
+						<fieldset>
+							<div class="form-group">
+								<label for="contesto_id" class="col-sm-4 col-lg-4 control-label"> Contesto</label>
+								<div class="col-md-5">
+
+									<select class="form-control" ng-init="contesto = ''" ng-model="contesto" id="contesto_id">
+                                       <option value="a">a</option>
+                                       <option value="m">m</option>
+																		 </select>
+
+								</div>
+							</div>
+						</fieldset>
+						<fieldset>
+							<div class="form-group">
+								<label for="parole_cerc" class="col-sm-4 col-lg-4 control-label"> {{ 'testoCerca' | translate }}</label>
+								<div class="col-md-5">
+									<input type="text" ng-model="value" class="form-control" id="parole_cerc" placeholder="{{'testoCerca' | translate}}">
+								</div>
+							</div>
+						</fieldset>
+
+						<fieldset>
+							<div class="form-group">
+								<label for="ordina_per" class="col-sm-4 col-lg-4 control-label">{{ 'order' | translate }}</label>
+								<div class="col-md-5">
+									<select class="form-control" ng-init="sort = 'titolo'" ng-model="sort" ng-change="onChanges()" id="ordina_per">
+                                       <option value="titolo">{{ 'titolo' | translate }}</option>
+                                       <option value="autore">{{ 'autore' | translate }}</option>
+                                       <option value="id">BID</option>
+                                     </select>
+								</div>
+							</div>
+						</fieldset>
+
+
+						<fieldset>
+							<div class="form-group">
+								<label for="doc_for_page" class="col-sm-4 col-lg-4 control-label"> {{ 'numDocs' | translate }}</label>
+								<div class="col-md-5">
+									<select class="form-control" ng-init="maxRows='35'" ng-model="maxRows" ng-change="onChanges()" id="doc_for_page">
+                                       <option value="5"> 5 </option>
+                                       <option value="10">10</option>
+                                       <option value="20">20</option>
+                                       <option value="35">35</option>
+                                       <option value="50">50</option>
+                                       <option value="100">100</option>
+                                     </select>
+								</div>
+							</div>
+						</fieldset>
+						<fieldset ng-show="false">
+							<div class="form-group">
+								<label ng-click="showMenuBibs()" for="bibs" class="col-sm-4 col-lg-4 control-label link">{{ 'selectBib' | translate }}</label>
+
+								<div class="col-md-5" id="bibs">
+									<div class="finestrella" ng-if="showOptions == true">
+
+										<label class="link" ng-repeat="bl in polo.libraries">
+                                       <input
+                                           type="checkbox"
+                                           name="selectedBibss[]"
+                                           value="{{bl.name}}"
+                                           ng-checked="selection.indexOf(bl) > -1"
+                                           ng-click="toggleSelection(bl)"
+                                         > {{bl.name}}
+                                       </ul> </br>
+                                     </div>
+
+                                   </div>
+                           </div>
+                         </fieldset>
+                         <fieldset>
+                             <div class="form-group">
+                                 <span class="col-sm-4 col-lg-4 control-label">&raquo;&nbsp;<a ng-href="#!/{{polo.code}}/ricercaAvanzata"><strong>{{ 'rAvanz' | translate }}</strong></a></span>
+                           </div>
+                         </fieldset>
+
+                         <fieldset>
+                         <div class="form-group">
+                             <div class="col-sm-12 col-lg-12 divBottoni">
+                                 <button type="reset" class="btn Nbtn-default" ng-click='clearSearch()'>{{'pulisci' | translate}}</button>
+                                 <button type="submit" class="btn btn-primary disabled" ng-click='find()'>{{'cerca' | translate}} <!-- <span class="glyphicon glyphicon-search" aria-hidden="true"></span> -->
+																 </button>
+
+                             </div>
+                         </div>
+                     </fieldset>
+                     </form>
+                 </div>
+              	</div>
+              </div>
+  </div>
+</div>
+<span style="bottom: 0px">
+	<ng-include src=" 'htmlView/templates/footerView.htm' "></ng-include>
+</span>

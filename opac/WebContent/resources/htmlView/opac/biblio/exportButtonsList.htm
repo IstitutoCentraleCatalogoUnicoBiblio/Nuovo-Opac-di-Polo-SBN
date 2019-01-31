@@ -1,0 +1,13 @@
+<div class="btn-group" role="group" aria-label="...">
+  <div class="dropdown" ng-show="resultFlag == true" >
+      <button class="btn  btn-default btn-xs" type="button" data-toggle="dropdown">{{'funzioniServizio' | translate}}
+      <span class="caret"></span></button>
+      <ul class="dropdown-menu">
+       
+        <li><a class="link" ng-click="exportList('unimarc')" data-toggle="tooltip" data-placement="left" title="{{'exportAsUnimarcs' | translate}}">{{'exportAsUnimarcs' | translate}}</a></li>
+        <li><a class="link" ng-click="printSintetica()" data-toggle="tooltip" data-placement="left" title="{{'stampaSintetica' | translate}}">{{'stampaSintetica' | translate}}</a></li>
+        <li><a class="link" ng-click="mailSinteticaModal()"title="{{'mailSintetica' | translate}}">{{'mailSintetica' | translate}}</a></li>
+        <li><a class="link" ng-click="exportList('id')" data-toggle="tooltip" data-placement="left" title="{{'exportAsBids' | translate}}">{{'exportAsBids' | translate}}</a></li>
+      </ul>
+  </div>
+</div>

@@ -1,0 +1,134 @@
+<table class="table-responsive table table-hover " style="border: none;">
+  <thead>
+    <tr>
+      <td class="col-sm-2 col-lg-2">
+        col1
+      </td>
+      <td class="col-sm-1 col-lg-1">
+        col2
+      </td>
+      <td class="col-sm-2 col-lg-2">
+        col3
+      </td>
+      <td class="col-sm-2 col-lg-2">
+        col4
+      </td>
+      <td class="col-sm-2 col-lg-2">
+        col5
+      </td>
+      <td class="col-sm-2 col-lg-2">
+        col6
+      </td>
+      <td class="col-sm-2 col-lg-2">
+        col7
+      </td>
+      <td class="col-sm-2 col-lg-2">
+        col8
+      </td>
+    </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="t in getLines(n) track by $index" ng-init=" myParentIndex = $index">
+    <td><!-- col1  operatore di gruppo    ng-show="myParentIndex != 0 && rigaRicerca[myParentIndex].otherFiltersGroup.length > 0 && rigaRicerca[myParentIndex].otherFiltersGroup != undefined"-->
+      <select  ng-show="myParentIndex != 0 && rigaRicerca[myParentIndex].otherFiltersGroup.length > 0 && rigaRicerca[myParentIndex].otherFiltersGroup != undefined" ng-init="operators[$index] = 'AND'" ng-model="operators[$index]" ng-attr-id="{{ 'operatore_' + $index }}" class="form-control  input-sm" ng-change="setOperator(myParentIndex,operators[$index])">
+           <option value="AND">AND</option>
+           <option value="OR">OR</option>
+           <option value="AND NOT">NOT</option>
+          </select>
+    </td>
+    <td ng-show="rigaRicerca[myParentIndex].field != 'group'"><!-- col2  operatore di gruppo    ng-show="myParentIndex != 0 && rigaRicerca[myParentIndex].otherFiltersGroup.length > 0 && rigaRicerca[myParentIndex].otherFiltersGroup != undefined"-->
+      <select  ng-show="myParentIndex != 0" ng-init="operators[$index] = 'AND'" ng-model="operators[$index]" ng-attr-id="{{ 'operatore_' + $index }}" class="form-control  input-sm" ng-change="setOperator(myParentIndex,operators[$index])">
+           <option value="AND">AND</option>
+           <option value="OR">OR</option>
+           <option value="AND NOT">NOT</option>
+          </select>
+    </td>
+    <td ng-show="rigaRicerca[myParentIndex].field != 'group'"><!-- col3-->
+      <select ng-attr-id="{{ 'campoRicerca_' + $index }}" class="form-control  input-sm" ng-init="rigaRicerca[myParentIndex].field = controlInit(rigaRicerca[myParentIndex], $last, $index)" ng-model="rigaRicerca[myParentIndex].otherFiltersGroup[$index].field"
+        ng-change="changeCampo(rigaRicerca[myParentIndex].field, myParentIndex)">
+          <option ng-repeat="singleCampo in campiRicercaLista" value="{{singleCampo}}">{{singleCampo | translate }}
+          </option>
+          <!-- <option ng-show="false" value="data">Data</option> -->
+          </select>
+    </td>
+
+    <td colspan="4" ng-show="rigaRicerca[myParentIndex].field == 'group'"><!-- col3-->
+
+      <table class="table-responsive table table-hover table-condensed">
+          <tr ng-repeat="grups in rigaRicerca[myParentIndex].otherFiltersGroup track by $index" ng-init="myInGroupIndex = $index">
+      <!--    <td>
+            {{rigaRicerca[myParentIndex].otherFiltersGroup[myInGroupIndex]}}
+            rigaRicerca[myParentIndex].otherFiltersGroup[myInGroupIndex]
+              {{grups}}
+          </td> -->
+          <td ><!-- col2  operatore di gruppo    ng-show="myParentIndex != 0 && rigaRicerca[myParentIndex].otherFiltersGroup.length > 0 && rigaRicerca[myParentIndex].otherFiltersGroup != undefined"-->
+            <select  ng-show="myInGroupIndex != 0" ng-init="rigaRicerca[myParentIndex].otherFiltersGroup[myInGroupIndex].operator = 'OR'" ng-model="rigaRicerca[myParentIndex].otherFiltersGroup[myInGroupIndex - 1 ].operator" ng-attr-id="{{ 'operatore_' + $index }}" class="form-control  input-sm" ng-change="setOperator(myParentIndex,operators[$index])">
+                 <option value="AND">AND</option>
+                 <option value="OR">OR</option>
+                 <option value="AND NOT">NOT</option>
+                </select>
+          </td>
+          <td ><!-- col3-->
+            <select ng-attr-id="{{ 'campoRicerca_' + $index }}" class="form-control  input-sm" ng-init="rigaRicerca[myParentIndex].otherFiltersGroup[myInGroupIndex].field = controlInit(rigaRicerca[myParentIndex].otherFiltersGroup[myInGroupIndex], $last, $index)" ng-model="rigaRicerca[myParentIndex].otherFiltersGroup[$index].field"
+              ng-change="changeCampo(rigaRicerca[myParentIndex].otherFiltersGroup[myInGroupIndex].field, myParentIndex)">
+                <option ng-repeat="singleCampo in campiRicercaLista" value="{{singleCampo}}">{{singleCampo | translate }}
+                </option>
+                <!-- <option ng-show="false" value="data">Data</option> -->
+                </select>
+          </td>
+          <td >
+            <div ng-attr-id="{{ 'testoGropups_' + $index }}" ng-class="{'input-group input-group-sm': !(excludeTermini.indexOf(rigaRicerca[myParentIndex].otherFiltersGroup[myInGroupIndex].field) > -1)  } ">
+              <input type="text" name="input" ng-model="grups.value" placeholder="{{ 'testo' | translate }}" class="form-control input-sm" style="height: 30px;">
+              <span ng-show="!(excludeTermini.indexOf(rigaRicerca[myParentIndex].otherFiltersGroup[myInGroupIndex].field) > -1) " ng-click="ricercaTermine(myParentIndex)" class="input-group-addon link"><span class="glyphicon glyphicon-list"></span></span>
+
+            </div>
+          </td>
+          <td>
+            <select  class=" form-control  input-sm" ng-model="rigaRicerca[myParentIndex].otherFiltersGroup[myInGroupIndex].match" ng-change="onChanges()" id="ric">
+                    <option value="andWord">{{ 'paroleAnd' | translate }}</option>
+                    <option value="phrase">{{ 'frase' | translate }}</option>
+                    <option value="completePhrase">{{ 'fraseCompleta' | translate }}</option>
+                    </select>
+          </td>
+          <td>
+            <button type="button" ng-attr-id="{{ 'piu_' + $index }}" ng-show="myInGroupIndex != 0 || n > 1"  name="input" placeholder="{{ 'rimuoviRiga' | translate }}" class="btn btn-danger btn-xs">
+              <span class="glyphicon glyphicon-minus"></span>
+            </button>
+            <button type="button" ng-attr-id="{{ 'meno_' + $index }}" ng-show="(myInGroupIndex + 1) == n "  name="input" placeholder="{{ 'testo' | translate }}" class="btn btn-success btn-xs">
+              <span class="glyphicon glyphicon-plus"></span>
+            </button>
+          </td>
+          </tr>
+
+      </table>
+    </td>
+    <td ng-show="rigaRicerca[myParentIndex].field != 'group'">
+      <div ng-attr-id="{{ 'testoGropup_' + $index }}" ng-class="{'input-group input-group-sm': !(excludeTermini.indexOf(rigaRicerca[myParentIndex].field) > -1)  } ">
+        <input type="text" name="input" ng-model="rigaRicerca[myParentIndex].value" placeholder="{{ 'testo' | translate }}" class="form-control input-sm" style="height: 30px;">
+        <span ng-show="!(excludeTermini.indexOf(rigaRicerca[$index].field) > -1) " ng-click="ricercaTermine(myParentIndex)" class="input-group-addon link"><span class="glyphicon glyphicon-list"></span></span>
+
+      </div>
+    </td>
+    <td ng-show="rigaRicerca[myParentIndex].field != 'group'">
+      <select ng-if=" rigaRicerca[$index].field != 'group'" class=" form-control  input-sm" ng-model="rigaRicerca[$index].match" ng-change="onChanges()" id="ric">
+              <option value="andWord">{{ 'paroleAnd' | translate }}</option>
+              <option value="phrase">{{ 'frase' | translate }}</option>
+              <option value="completePhrase">{{ 'fraseCompleta' | translate }}</option>
+              </select>
+    </td>
+    <td ><!-- col6 7 8 -->
+      <button type="button" ng-attr-id="{{ 'piu_' + $index }}" ng-show="$index != 0 || n > 1" ng-click="decrementN(myParentIndex)" name="input" placeholder="{{ 'rimuoviRiga' | translate }}" class="btn btn-danger btn-xs">
+        <span class="glyphicon glyphicon-minus"></span>
+      </button>
+      <button type="button" ng-attr-id="{{ 'meno_' + $index }}" ng-show="rigaRicerca[myParentIndex].field != 'group'" ng-click="gruppizza(myParentIndex)" name="input" placeholder="{{ 'testo' | translate }}" class="btn btn-warning btn-xs">
+        <span class="glyphicon glyphicon-plus"></span>
+      </button>
+      <button type="button" ng-attr-id="{{ 'meno_' + $index }}" ng-show="($index + 1) == n " ng-click="incrementN()" name="input" placeholder="{{ 'testo' | translate }}" class="btn btn-success btn-xs">
+        <span class="glyphicon glyphicon-plus"></span>
+      </button>
+
+    </td>
+  </tr>
+
+  </tbody>
+</table>

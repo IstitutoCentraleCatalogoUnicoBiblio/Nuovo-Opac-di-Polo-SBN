@@ -1,0 +1,157 @@
+<div class="container-fluid">
+	<div class="row content">
+		<ng-include src=" 'htmlView/templates/page/navbarView.htm' "></ng-include>
+		<div class="col-sm-12 col-lg-12">
+			<div class="col-sm-4 col-lg-4">
+				<h2><img src="images/ico_contact_ora.png" alt=""> {{ (controller | translate)  }}
+							</h2>
+			</div>
+			<div class="col-sm-12 padd_sf_home">
+				<div class="divTable myBoxe" id="panelFormContatti">
+				
+					<form class="form-horizontal">
+						
+					<!-- Rimosso dopo mail 10/12/2018 -->	
+					<!-- <fieldset>
+							<div class="form-group px-bottom-6" style="margin-top:20px">
+								<label for="nome" class="col-md-2 myControl-label"> {{ 'cont_nome' | translate }}<b>&nbsp;&nbsp;*</b></label>
+								<div class="col-md-3">
+									<input type="text" ng-model="form.nome" ng-init="form.nome = ''" class="form-control input-xs" id="nome" ng-attr-placeholder="{{'text' |translate}}">
+								</div>
+								<label for="cognome" class="col-md-2 myControl-label"> {{ 'cont_cognome' | translate }}<b>&nbsp;&nbsp;*</b></label>
+								<div class="col-md-3">
+									<input type="text" ng-model="form.cognome" ng-init="form.cognome = ''" class="form-control input-xs" id="cognome" ng-attr-placeholder="{{'text' |translate}}">
+								</div>
+							</div>
+						</fieldset>
+						<fieldset ng-if="false">
+							<div class="form-group px-bottom-6">
+								<label for="cognome" class="col-md-2 myControl-label"> {{ 'cont_cognome' | translate }}<b>&nbsp;&nbsp;*</b></label>
+								<div class="col-md-5">
+									<input type="text" ng-model="form.cognome" ng-init="form.cognome = ''" class="form-control input-xs" id="cognome" ng-attr-placeholder="{{'text' |translate}}">
+								</div>
+							</div>
+						</fieldset>
+
+						<fieldset>
+							<div class="form-group px-bottom-6">
+								<label for="mail" class="col-md-2 myControl-label"> {{ 'cont_mail' | translate }}<b>&nbsp;&nbsp;*</b></label>
+								<div class="col-md-3">
+									<input type="text" ng-model="form.mail" ng-init="form.mail = ''" class="form-control input-xs" id="mail" ng-attr-placeholder="{{'text' |translate}}">
+								</div>
+							</div>
+						</fieldset>
+						<fieldset>
+							<div class="form-group px-bottom-6">
+								<label for="citta" class="col-md-2 myControl-label"> {{ 'cont_citta' | translate }}<b>&nbsp;&nbsp;*</b></label>
+								<div class="col-md-3">
+									<input type="text" ng-model="form.citta" ng-init="form.citta = ''" class="form-control input-xs" id="citta" ng-attr-placeholder="{{'text' |translate}}">
+								</div>
+								<label for="paese" class="col-md-2 myControl-label"> {{ 'cont_paese' | translate }}<b>&nbsp;&nbsp;*</b></label>
+								<div class="col-md-3">
+									<input type="text" ng-model="form.paese" ng-init="form.paese = ''" class="form-control input-xs" id="paese" ng-attr-placeholder="{{'text' |translate}}">
+								</div>
+							</div>
+						</fieldset>
+						<fieldset ng-if="false">
+							<div class="form-group px-bottom-6">
+								<label for="paese" class="col-md-2 myControl-label"> {{ 'cont_paese' | translate }}<b>&nbsp;&nbsp;*</b></label>
+								<div class="col-md-3">
+									<input type="text" ng-model="form.paese" ng-init="form.paese = ''" class="form-control input-xs" id="paese" ng-attr-placeholder="{{'text' |translate}}">
+								</div>
+							</div>
+						</fieldset>
+						<fieldset>
+							<div class="form-group px-bottom-6">
+								<label for="oggetto" class="col-md-2 myControl-label"> {{ 'cont_oggetto' | translate }}<b>&nbsp;&nbsp;*</b></label>
+								<div class="col-md-3">
+							
+								    <select class="form-control input-xs" id="nDocs"  ng-model="form.oggetto" ng-init="form.oggetto = 'Richiesta di informazioni'">
+											<option value="Richiesta di informazioni">{{'cont_infoRichiesta' | translate}}</option>
+											<option value="Segnalazione di un errore">{{'cont_segnalaErrore' | translate}}</option>
+											<option value="Osservazioni e suggerimenti">{{'cont_suggerimenti' | translate}}</option>
+										</select>
+							</div>
+							</div>
+						</fieldset>
+						<fieldset>
+							<div class="form-group px-bottom-6">
+								<label for="testo" class="col-md-2 myControl-label"> {{ 'cont_testo' | translate }}<b>&nbsp;&nbsp;*</b></label>
+								<div class="col-md-3">
+									<textarea class="form-control" ng-model="form.testo" ng-init="form.testo = ''" rows="5" id="testo" name="contactText" ></textarea>
+
+								</div>
+									<label for="term_cond" class="col-md-2 myControl-label"> {{ 'cont_term_cond' | translate }}<b>&nbsp;&nbsp;*</b></label>
+								<div class="col-md-3">
+									<input type="checkbox" id="term_cond" ng-model="form.term_cond" class="input-xs"  ng-init="form.term_cond = false" >
+
+								</div>
+							</div>
+						</fieldset>
+						<fieldset ng-if="false">
+							<div class="form-group px-bottom-6">
+								<label for="term_cond" class="col-md-2 myControl-label"> {{ 'cont_term_cond' | translate }}<b>&nbsp;&nbsp;*</b></label>
+								<div class="col-md-3">
+									<input type="checkbox" id="term_cond" ng-model="form.term_cond" class="input-xs"  ng-init="form.term_cond = false" >
+
+								</div>
+							</div>
+						</fieldset> -->
+						<fieldset >
+							<div class="form-group px-bottom-6 px-top-50">
+								<center> <!-- cont_ogniMail -->
+									<label > {{ 'ref_polo_descr' | translate }} <i> {{polo.nome_referente + ' - '}}<a href="mailto:{{polo.email_referente}}">{{ polo.email_referente}}</a></i></label>
+								</center>
+
+							</div>
+						</fieldset>
+						<fieldset ng-show="polo.numero_referente && polo.numero_referente != ''">
+							<div class="form-group px-bottom-6 px-top-50">
+								<center>
+									<label > {{ 'num_tel_info' | translate }} <i> {{polo.numero_referente}}</i></label>
+								</center>
+
+							</div>
+						</fieldset>
+						<fieldset>
+							<div class="form-group px-bottom-6 px-top-50">
+								<center>
+									<label > {{ 'per_segnalazioni' | translate }} <i> <a href="mailto:{{polo.email_segnalazioni}}">{{polo.email_segnalazioni}} </a></i></label>
+								</center>
+
+							</div>
+						</fieldset>
+						<!-- rimossso mail 10/12/2018 <fieldset>
+							<div class="form-group row px-top-10">
+								<div class="col-sm-12 col-lg-12 center ">
+									<button  type="reset" class="btn btn-xs Nbtn-default" ng-click='reset()' title="{{'pulisci' | translate}}">{{'pulisci' | translate}}</button>
+									<button type="submit" ng-disabled="!validazioneDatiAllFilled()" class="btn btn-xs btn-primary" title="{{'invia' | translate}}" ng-click="onSendMail()">
+										
+										{{'invia' | translate}} </button> 
+								</div>
+							</div>
+						</fieldset> -->
+					<!-- Riunione iccu 7/9/2017 deciso di usare href	<fieldset>
+							<center>
+								<div id="errorAlertMail"style="display: none;" class="alert alert-danger alert-dismissible" role="alert">
+									<button type="button" title="{{'chiudi' | translate}}" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									{{mailError | translate}}
+								</div>
+								<div id="successAlertMail"style="display: none;" class="alert alert-success alert-dismissible" role="alert">
+									<button type="button" title="{{'chiudi' | translate}}" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<strong>{{mailError | translate}}!</strong>
+								</div>
+						</fieldset> -->
+					</form>
+					<!-- <span class="right" ><b>*&nbsp;&nbsp;</b>{{'tuttiCampiObligatori_error' | translate}}</span> -->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<span style="bottom: 0px">
+  <ng-include src=" 'htmlView/templates/page/footerView.htm' "></ng-include>
+</span>
+<ng-include src=" 'htmlView/templates/page/modalsView.htm' "></ng-include>

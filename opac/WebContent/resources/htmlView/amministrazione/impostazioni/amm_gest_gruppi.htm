@@ -1,0 +1,122 @@
+<div class="panel-group">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h5>{{selectedActivity | translate}}</h5>
+        </div>
+        <div class="panel-body">
+            <div ng-show="isLoading" class="col-md-3 centerDivLogin">
+                <div class="form-login center">
+                    <center>
+                        <div class="loader"></div>
+                    </center>
+                </div>
+
+            </div>
+            <div ng-show="!isLoading" ng-if="!edit && appGruppi.length == 0" class="alert alert-warning center px-top-20">
+               
+                            {{'nessun_elemento_inserito' | translate}}
+            </div> 
+                                   
+                <div ng-show="!isLoading && !edit" ng-if="appGruppi.length > 0" class="list-group-item" ng-repeat="gruppo in appGruppi" ng-init="showBib = false">
+                        <span>
+                                <button class="btn btn-xs btn-warning" ng-click="startEdit(gruppo,true)">
+                                    <span class="glyphicon glyphicon-cog"></span>
+                                </button>
+                            </span>
+                            <span>
+                                    <button class="btn btn-xs btn-danger" ng-click="deleteInLine(gruppo)">
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    </button>
+                                </span>
+                            <span class="link" ng-show="!showBib" ng-click="showBib = true">
+                                    <button class="btn btn-xs btn-info">
+                                            <span class="glyphicon glyphicon-chevron-down"></span>
+                                        </button>
+                            </span>
+                            <span class="link" ng-show="showBib" ng-click="showBib = false"> 
+                                <button class="btn btn-xs btn-info">
+                                    <span class="glyphicon glyphicon-chevron-up"></span>
+                                </button></span>
+        
+                    <b style="margin-left: 6px" >{{gruppo.name}}</b>
+       
+                    <div class="list-group px-top-20" style="max-width: 500px" ng-show="showBib">
+                        <div  class="list-group-item" ng-repeat="bib in gruppo.biblioteche track by $index" ng-if="!bib.deleted">
+                           
+                                {{bib.name}}
+                          
+                        </div>
+                    </div>
+                    
+                </div>
+
+            </div>
+            <form  ng-show="!isLoading" ng-if="edit" class="form-horizontal">
+                <fieldset>
+                    <div class="form-group">
+                        <label for="gruppo" class="col-sm-3 col-lg-3 myControl-label">{{ 'bib_name' | translate}}</label>
+                        <div class="col-sm-3 col-lg-3">
+                            <input type="text" class="form-control input-sm" id="user" ng-model="modifyGruppo.name">
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <div class="form-group">
+                        <label for="b" class="col-sm-3 col-lg-3 myControl-label">{{ 'biblioteche_gruppo' | translate}}</label>
+                        <div class="col-sm-3 col-lg-3">
+                            <div style="max-height: 600px; width: 400px;  overflow-y: auto; resize: both">
+                                <div class="list-group">
+                                    <div class="list-group-item" ng-repeat="bl in polo.libraries | orderBy: 'name' | orderBy: 'isil' " class="link" ng-if="!bl.deleted">
+                                        <span class="link" ng-click="$event.stopPropagation(); toggleSelectionBib(bl)">
+                                            <input ng-click="$event.stopPropagation(); toggleSelectionBib(bl)" type="checkbox" name="modifyGruppo.biblioteche[]" value="{{bl.name}}"
+                                                ng-checked="findIndex(modifyGruppo.biblioteche, 'cod_bib', bl.cod_bib) > -1 ">
+                                            <span style="padding-left: 10px;">{{bl.name}}
+                                                <i>({{bl.isil}})</i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                        <div id="error" style="display: none;" class="px-top-20 alert alert-danger alert-dismissible" role="alert">
+                          <button type="button" title="{{'chiudi' | translate}}" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                          {{ error | translate}}
+                          </div>
+                          <div id="success" style="display: none;" class="px-top-20 alert alert-success alert-dismissible" role="alert">
+                            <button type="button" title="{{'chiudi' | translate}}" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <strong>{{'ok_success_panel' | translate}}</strong> 
+                            </div>
+                      </fieldset>
+            </form>
+        </div>
+        <div ng-show="!isLoading" class="panel-footer">
+            <center>
+                <button title="{{'tooltip_insert_action' | translate}}" ng-show="!edit && (waitConfirm == undefined)" class="btn btn-md btn-success" ng-click="startInsert()">
+                    {{'amm_insert' | translate}}
+
+                </button>
+                
+                <button title="{{'tooltip_annulla_action' | translate}}" ng-show="edit || waitConfirm" class="btn btn-md btn-warning" ng-click="init()">
+                    {{'amm_annulla' | translate}}
+
+                </button>
+                <button title="{{('conferma_elimina' | translate) + " " + waitConfirm.name}}" ng-show="waitConfirm" class="btn btn-md btn-danger" ng-click="deleteConfirm(waitConfirm)">
+                        {{('conferma_elimina' | translate) + " " + waitConfirm.name}}
+                    </button>
+                <button title="{{'tooltip_conferma_action' | translate}}" ng-show="edit && !insert" class="btn btn-md btn-success" ng-click="update()">
+                    {{'amm_conferma' | translate}}
+
+                </button>
+                <button title="{{'tooltip_conferma_action' | translate}}" ng-show="edit && insert && modifyGruppo.name !='' " class="btn btn-md btn-success" ng-click="endInsert()">
+                    {{'amm_conferma_insert' | translate}}
+
+                </button>
+            </center>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,63 @@
+<div class="container-fluid">
+        <div class="row content">
+                <ng-include src=" 'htmlView/templates/page/navbarView.htm' "></ng-include>
+                <div class="col-sm-12 padd_sf_home">
+                        <div class="col-sm-2 col-lg-2">
+                                <div class="menuLateralAdmin">
+                                        <ul class="list-group">
+                                                        <li ng-click="selectActivity('')" ng-class="['list-group-item', 'link', {'active': selectedActivity ==  ''}]">{{"Help" | translate}}</li>                                                        
+                                                <li ng-repeat="activity in activities" ng-click="selectActivity(activity)" ng-class="['list-group-item', 'link', {'active': selectedActivity ==  activity}]">{{activity | translate}}</li>
+                                        </ul>
+
+                                </div>
+
+                        </div>
+                        <div ng-if="selectedActivity != ''" class="col-sm-10">
+                                <div class="menuLateralAdmin" style="padding-left: -15px;">
+                                        <div ng-if=" selectedActivity == 'amm_gest_user'" ng-include=" 'htmlView/amministrazione/impostazioni/amm_gest_user.htm'"
+                                                ng-controller="UserController"></div>
+                                        <div ng-if=" selectedActivity == 'amm_gest_polo'" ng-include=" 'htmlView/amministrazione/impostazioni/amm_gest_polo.htm'"
+                                                ng-controller="PoloController"></div>
+                                        <div ng-if=" selectedActivity == 'amm_gest_gruppi'" ng-include=" 'htmlView/amministrazione/impostazioni/amm_gest_gruppi.htm'"
+                                                ng-controller="GruppiController"></div>
+                                        <div ng-if=" selectedActivity == 'amm_gest_biblio'" ng-include=" 'htmlView/amministrazione/impostazioni/amm_gest_biblio.htm'"
+                                                ng-controller="BiblioController"></div>
+                                               
+                                 <div ng-if =" selectedActivity == 'amm_gest_link_esterni'" ng-include=" 'htmlView/amministrazione/impostazioni/amm_gest_link_esterni.htm'"
+                                                ng-controller="LinkEsterniController"></div>
+
+                                </div>
+                        </div>
+                        <div ng-if=" selectedActivity == ''" class="col-sm-10 px-top-20" style="padding-left: -15px;">
+                                <h2>
+                                        {{'select_impo' | translate}}
+                                </h2>
+                                 <div class="col-sm-10 px-top-20">
+                                        <h4>{{'amm_gest_polo' | translate}}</h4>
+                                        {{'desc_gest_polo' | translate}}
+                                </div>
+                                <div class="col-sm-10 px-top-20">
+                                        <h4>{{'amm_gest_biblio' | translate}}</h4>
+                                        {{'desc_gest_biblio' | translate}}
+                                </div>
+                                <div class="col-sm-10 px-top-20">
+                                        <h4>{{'amm_gest_gruppi' | translate}}</h4>
+                                        {{'desc_gest_gruppi' | translate}}
+                                </div>
+                                <div class="col-sm-10 px-top-20">
+                                        <h4>{{'amm_gest_link_esterni' | translate}}</h4>
+                                        {{'desc_gest_link_esterni' | translate}}
+                                </div>
+                                <div class="col-sm-10 px-top-20">
+                                        <h4>{{'amm_gest_user' | translate}}</h4>
+                                        {{'desc_gest_user' | translate}}
+                                </div>
+                             
+                        </div>
+                </div>
+
+        </div>
+</div>
+</div>
+<ng-include  src=" 'htmlView/templates/page/footerView.htm' "></ng-include>
+<ng-include src=" 'htmlView/templates/page/modalsView.htm' "></ng-include>
