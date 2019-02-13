@@ -1,7 +1,7 @@
 # Nuovo Opac di Polo SBN
-L'Opac di Polo SBN consente all'utenza web di accedere con modalità di ricerca amichevoli al catalogo in linea delle biblioteche appartenenti ad un dato Polo. Il catalogo contiene le schede descrittive dei titoli posseduti dalle biblioteche.
+Il Nuovo Opac di Polo SBN consente all'utenza di accedere con modalità di ricerca amichevoli al catalogo in linea delle biblioteche appartenenti ad un dato Polo e può essere facilmente configurato anche come Opac di biblioteca adottato da singoli istituti. 
 
-Tramite l'Opac di Polo è possibile quindi identificare i documenti di proprio interesse, individuare le biblioteche che li possiedono, accedere ai servizi da remoto eventualmente erogati dalle biblioteche. E' possibile anche effettuare ricerche tramite le cosiddette "voci di autorità", che sono voci controllate atte a garantire l'univocità di alcuni punti di accesso del catalogo e che attualmente sono presenti per gli autori e per le Classificazioni Dewey.
+Tramite l'Opac è possibile quindi identificare i documenti di proprio interesse, individuare le biblioteche che li possiedono, accedere ai servizi da remoto eventualmente erogati dalle biblioteche. E' possibile anche effettuare ricerche tramite le cosiddette "voci di autorità", che sono voci controllate atte a garantire l'univocità di alcuni punti di accesso del catalogo e che attualmente sono presenti per gli autori e per le Classificazioni Dewey.
 
 
 
