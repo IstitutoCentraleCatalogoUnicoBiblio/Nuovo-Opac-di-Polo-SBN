@@ -8,19 +8,15 @@ platforms:
   - web
 usedBy:
   - >-
-    Istituto Centrale per il Catalogo Unico delle Biblioteche Italiane e per le
-    Informazioni Bibliografiche
+    Istituto Centrale per il Catalogo Unico delle Biblioteche Italiane e per le informazioni bibliografiche
 categories:
-  - content-management
-  - customer-service-and-support
+  - OPAC (On-Line-Public-Access-Catalogue)
   - data-collection
-  - digital-asset-management
-  - document-management
 maintenance:
   type: contract
   contractors:
-    - name: '???'
-      until: '2021-01-01'
+    - name: 'Almaviva'
+      until: '2021-05-31'
 legal:
   license: AGPL-3.0-only
   mainCopyrightOwner: >-
