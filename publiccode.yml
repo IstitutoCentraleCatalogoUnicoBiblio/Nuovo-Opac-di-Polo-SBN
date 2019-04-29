@@ -10,7 +10,7 @@ usedBy:
   - >-
     Istituto Centrale per il Catalogo Unico delle Biblioteche Italiane e per le informazioni bibliografiche
 categories:
-  - OPAC (On-Line-Public-Access-Catalogue)
+  - data-visualization
   - data-collection
 maintenance:
   type: contract
