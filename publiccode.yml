@@ -60,3 +60,5 @@ description:
       - Individuazione biblioteche
       - Accesso remoto servizi bibliotecari
       - Ricerca tramite voci di autorità
+    screenshots:
+      - screenshots/nuovo_opac.png
