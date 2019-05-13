@@ -1,0 +1,64 @@
+publiccodeYmlVersion: '0.2'
+name: Nuovo OPAC di polo SBN
+releaseDate: '2019-02-04'
+url: 'https://github.com/IstitutoCentraleCatalogoUnicoBiblio/Nuovo-Opac-di-Polo-SBN'
+developmentStatus: stable
+softwareType: standalone/web
+platforms:
+  - web
+usedBy:
+  - >-
+    Istituto Centrale per il Catalogo Unico delle Biblioteche Italiane e per le informazioni bibliografiche
+categories:
+  - data-visualization
+  - data-collection
+maintenance:
+  type: contract
+  contractors:
+    - name: 'Almaviva'
+      until: '2021-05-31'
+legal:
+  license: AGPL-3.0-only
+  mainCopyrightOwner: >-
+    Istituto Centrale per il Catalogo Unico delle Biblioteche Italiane e per le informazioni bibliografiche
+  repoOwner: >-
+    Istituto Centrale per il Catalogo Unico delle Biblioteche Italiane e per le informazioni bibliografiche
+intendedAudience:
+  scope:
+    - research
+  countries:
+    - it
+localisation:
+  localisationReady: false 
+  availableLanguages:
+    - it
+it:
+  countryExtensionVersion: '0.2'
+  riuso:
+    codiceIPA: m_bac
+description:
+  it:
+    genericName: Online Public Access Catalogue
+    shortDescription: >-
+      Il Nuovo Opac di Polo SBN consente all'utenza di accedere con modalità di
+      ricerca amichevoli al catalogo in linea delle biblioteche
+    longDescription: >
+      Il Nuovo Opac di Polo SBN consente all'utenza di accedere con  modalità di
+      ricerca amichevoli al catalogo in linea delle biblioteche  appartenenti ad
+      un dato Polo e può essere facilmente configurato anche come Opac di
+      biblioteca adottato da singoli istituti.
+
+      Tramite l'Opac è possibile quindi identificare i documenti di proprio 
+      interesse, individuare le biblioteche che li possiedono, accedere ai 
+      servizi da remoto eventualmente erogati dalle biblioteche. E' possibile 
+      anche effettuare ricerche tramite le cosiddette "voci di autorità", che 
+      sono voci controllate atte a garantire l'univocità di alcuni punti di 
+      accesso del catalogo e che attualmente sono presenti per gli autori e  per
+      le Classificazioni Dewey.
+    features:
+      - Identificazione documenti
+      - Individuazione biblioteche
+      - Accesso remoto servizi bibliotecari
+      - Ricerca tramite voci di autorità
+    screenshots:
+      - screenshots/nuovo_opac.png
