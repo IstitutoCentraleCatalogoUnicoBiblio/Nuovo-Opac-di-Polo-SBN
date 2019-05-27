@@ -164,6 +164,12 @@ public class CampiRicercaDetailBean {
 	@Field("classi_PGI_686_tot")
 	private List<String> classi_PGI_686_tot;
 
+	//almaviva3 MAD export unimarc v10.3.2 per gestione del SET verso SUBSET
+	public String getLeader() {
+		String leader = unimarc.substring(7,(7+24));
+		return leader;
+	}
+	
 	public List<String> getClassi_PGI_686_tot() {
 		return classi_PGI_686_tot;
 	}

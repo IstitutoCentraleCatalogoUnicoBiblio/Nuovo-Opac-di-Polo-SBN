@@ -1,10 +1,7 @@
 # Nuovo Opac di Polo SBN
-Il Nuovo Opac di Polo SBN consente all'utenza di accedere con modalità di ricerca amichevoli al catalogo in linea delle biblioteche appartenenti ad un dato Polo e può essere facilmente configurato anche come Opac di biblioteca adottato da singoli istituti. 
+Il Nuovo Opac di Polo SBN consente all'utenza di accedere con modalità di ricerca amichevoli al catalogo in linea delle biblioteche appartenenti ad un dato Polo e può essere facilmente configurato anche come Opac di biblioteca adottato da singoli istituti.
 
 Tramite l'Opac è possibile quindi identificare i documenti di proprio interesse, individuare le biblioteche che li possiedono, accedere ai servizi da remoto eventualmente erogati dalle biblioteche. E' possibile anche effettuare ricerche tramite le cosiddette "voci di autorità", che sono voci controllate atte a garantire l'univocità di alcuni punti di accesso del catalogo e che attualmente sono presenti per gli autori e per le Classificazioni Dewey.
-
-
-
 ## Licenza 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 

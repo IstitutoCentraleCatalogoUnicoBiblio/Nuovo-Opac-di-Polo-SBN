@@ -235,21 +235,21 @@
           <!--INI prima box-->
           <div ng-attr-id="{{ 'riga_' + $index }}" class="boxOCopen" >
 
-            <ul class="nav nav-tabs">
-              <li ng-attr-id="{{ 'li_Dettaglio_' + $index }}" class="active link" data-toggle="tooltip" data-placement="left" title="{{ 'tooltip_dettaglio' | translate }}">
-                <a data-toggle="tab" data-target="#{{ 'Dettaglio_' + $index }}">{{ 'etichette' | translate }}</a>
+            <ul ng-attr-id="{{ 'tabList_' + $index }}" class="nav nav-tabs">
+              <li ng-attr-id="{{ 'li_Dettaglio_' + $index }}" ng-class="['link']" title="{{ 'tooltip_dettaglio' | translate }}">
+                <a ng-attr-id="{{ 'li_Dettaglio_link_' + $index }}" data-toggle="tab" data-target="#{{ 'Dettaglio_' + $index }}">{{ 'etichette' | translate }}</a>
               </li>
-              <li ng-attr-id="{{ 'li_Localizzazione_' + $index }}" class="link" data-toggle="tooltip" data-placement="left" title="{{ 'tooltip_localizzazioni' | translate }}"
-                ng-if="dettagli[$index].tag950">
-                <a data-toggle="tab" data-target="#{{ 'Localizzazione_' + $index }}">{{ 'collocazioneTab' | translate }}</a>
+              <li ng-attr-id="{{ 'li_Localizzazione_' + $index }}" ng-class="['link']"  title="{{ 'tooltip_localizzazioni' | translate }}"
+                ><!-- ng-show="dettagli[$index].tag950" Almaviva3 EVO BVE apertura tab su dove lo trovi -->
+                <a ng-attr-id="{{ 'li_Localizzazione_link_' + $index }}" data-toggle="tab" data-target="#{{ 'Localizzazione_' + $index }}" >{{ 'collocazioneTab' | translate }}</a>
               </li>
-              <li ng-attr-id="{{ 'li_Unimarc_' + $index }}" class="link" data-toggle="tooltip" data-placement="left" title="{{'tooltip_unimarc' | translate}}">
-                <a data-toggle="tab" data-target="#{{ 'Unimarc_' + $index }}">Unimarc</a>
+              <li ng-attr-id="{{ 'li_Unimarc_' + $index }}" ng-class="['link']" title="{{'tooltip_unimarc' | translate}}">
+                <a ng-attr-id="{{ 'li_Unimarc_link_' + $index }}" data-toggle="tab" data-target="#{{ 'Unimarc_' + $index }}">Unimarc</a>
               </li>
             </ul>
 
             <div class="tab-content">
-              <div style="line-height: 0.31234567895;" ng-attr-id="{{ 'Dettaglio_' + $index }}" class="tab-pane active">
+              <div style="line-height: 0.31234567895;" ng-attr-id="{{ 'Dettaglio_' + $index }}"   ng-class="['tab-pane']">
                 <ng-include src=" 'htmlView/opac/biblio/labelDetailSingleDocument.htm' "></ng-include>
 
 
@@ -261,18 +261,18 @@
                   <button type="submit" class="btn btn-outline-primary btn-xs" ng-click="print($index)" data-toggle="tooltip" data-placement="left"
                     title="{{ 'stampa' | translate }}">{{'stampa' | translate}}</button>
                   <a href="mailto:{{polo.email_segnalazioni}}?subject=Segnalazione per documento: {{d.id}} &body=Salve, vorrei effettuare la seguente segnalazione per il documento: {{d.id}}">
-                    <button type="submit" class="btn btn-outline-primary btn-xs" data-toggle="tooltip" data-placement="left" title="{{ 'segnala' | translate }}">{{'segnala' | translate}}</button>
+                    <button type="submit" class="btn btn-outline-primary btn-xs" title="{{ 'segnala' | translate }}">{{'segnala' | translate}}</button>
                   </a>
                 </div>
                 <!--INI Submit funzionalità-->
                 <!-- NOTE qui finiscono le label  -->
               </div>
 
-              <div ng-attr-id="{{ 'Localizzazione_' + $index }}" class="tab-pane fade">
+              <div ng-attr-id="{{ 'Localizzazione_' + $index }}" ng-class="['tab-pane']">
                 <ng-include src=" 'htmlView/opac/biblio/tabLocalizzazioni.htm' "></ng-include>
               </div>
 
-              <div ng-attr-id="{{ 'Unimarc_' + $index }}" class="tab-pane fade">
+              <div ng-attr-id="{{ 'Unimarc_' + $index }}"  ng-class="['tab-pane']">
                 <p ng-bind-html="dettagli[$index].unimarc | unimarc"></p>
               </div>
 

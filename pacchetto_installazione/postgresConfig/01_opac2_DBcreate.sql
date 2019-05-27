@@ -4,7 +4,7 @@
 -- Database  : opacDB
 -- Version   : PostgreSQL 
 
-CREATE DATABASE "opacDB" WITH OWNER = "postgres" ENCODING = 'UTF8' TABLESPACE = "pg_default" TEMPLATE = "template0";
+CREATE DATABASE "opac2DB" WITH OWNER = "postgres" ENCODING = 'UTF8' TABLESPACE = "pg_default" TEMPLATE = "template0";
 
 
 

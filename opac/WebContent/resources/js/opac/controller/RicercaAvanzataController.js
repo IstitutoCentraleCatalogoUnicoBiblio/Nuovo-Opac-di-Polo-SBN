@@ -29,9 +29,6 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
       }
       if (flag) {
         LocalSessionSettingsServices.initSessionFilters();
-        
-
-        //  LocalSessionSettingsServices.setFormatoDigitale(null);
         $route.reload();
       } 
       //inizializzazione delle variabili della form di ricerca
@@ -175,7 +172,6 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
           $scope.toggleSelectionBib(b);
       })
       $scope.clearAllNonGrupp = function(biblioteche) {
-        //  $scope.selectionBibl = [];
           biblioteche.forEach(function(b){
             if(b.gruppi.length == 0)
               $scope.toggleSelectionBib(b);
@@ -183,7 +179,6 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
         };
     };
     $scope.clearAllNonGrupp = function(biblioteche) {
-    //  $scope.selectionBibl = [];
       biblioteche.forEach(function(b){
         if(b.gruppi.length == 0)
           $scope.toggleSelectionBib(b);
@@ -191,37 +186,21 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
     };
     $scope.selectionBibl = LocalSessionSettingsServices.getAllBiblioteche();
     $scope.toggleSelectionBib = function toggleSelectionBib(bibs) {
-      ////console.log("biblioteche", bibs);
-
-      //var idx = $scope.selectionBibl.indexOf(bibs);
-      var idx = findIndex($scope.selectionBibl, "cod_bib", bibs.cod_bib)
-      // Is currently selected
+       var idx = findIndex($scope.selectionBibl, "cod_bib", bibs.cod_bib)
       if (idx > -1) {
         $scope.selectionBibl.splice(idx, 1);
-      }
-      // Is newly selected
-      else {
+      }else {
         $scope.selectionBibl.push(bibs);
       }
-      // ////console.log("Selection: ",$scope.selection);
       LocalSessionSettingsServices.setBiblioteche($scope.selectionBibl);
-
-      //////console.log("Bib in session", LocalSessionSettingsServices.getAllBiblioteche());
-
-    };
+    	};
     $scope.selectionLevel = LocalSessionSettingsServices.getLevel();
     $scope.toggleSelectionLevel = function toggleSelectionLevel(l) {
-      ////console.log("level", $scope.selectionLevel);
       var idx = $scope.selectionLevel.indexOf(l.cod);
 
-      // Is currently selected
-
-      //var idx = findIndex($scope.selectionLevel,"cod",l.cod);
       if (idx > -1) {
         $scope.selectionLevel.splice(idx, 1);
-      }
-      // Is newly selected
-      else {
+      } else {
         $scope.selectionLevel.push(l.cod);
 
       }
@@ -231,24 +210,16 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
     $scope.menuMatInv = CodiciServices.getMaterialeInv();
     $scope.materiale_inv = LocalSessionSettingsServices.getMaterialeInv();
     $scope.toggleMateriale_inv = function togglemateriale_inv(l) {
-      ////console.log("mat_inv", $scope.materiale_inv);
       var idx = $scope.materiale_inv.indexOf(l.cod);
-
-      // Is currently selected
-
-      //var idx = findIndex($scope.materiale_inv,"cod",l.cod);
       if (idx > -1) {
         $scope.materiale_inv.splice(idx, 1);
-      }
-      // Is newly selected
-      else {
+      } else {
         $scope.materiale_inv.push(l.cod);
 
       }
       LocalSessionSettingsServices.setMaterialeInv($scope.materiale_inv);
 
     };
-//    $scope.copDigitaleValues = ["Y", "B", "DC"];
     $scope.copDigitaleValues = [ "B", "DC"];
 
     $scope.copia_digitale = LocalSessionSettingsServices.getFormatoDigitale()
@@ -265,12 +236,9 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
     $scope.toggleSelectionTipoRecord = function toggleSelectionTipoRecord(l) {
 
       var idx = $scope.selectionTipoRec.indexOf(l.cod);
-      // Is currently selected
-      if (idx > -1) {
+     if (idx > -1) {
         $scope.selectionTipoRec.splice(idx, 1);
-      }
-      // Is newly selected
-      else {
+      } else {
         $scope.selectionTipoRec.push(l.cod);
       }
       LocalSessionSettingsServices.setTipoRec($scope.selectionTipoRec);
@@ -281,7 +249,6 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
       var bibliotecheSelezionateformato_vd = LocalSessionSettingsServices.getAllBiblioteche();
       var formatoDigitale = LocalSessionSettingsServices.getFormatoDigitale();
       var bibFilters = [];
-      ////console.log("bibliotecheSelezionate", bibliotecheSelezionateformato_vd);
       bibliotecheSelezionateformato_vd.forEach(function (b) {
         var bibApp = {
           field: "library",
@@ -331,7 +298,6 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
         }
         selctMatInvFilters.push(lapp);
       });
-      //		 ////console.log("BibFilters", bibFilters);
       var filterFormatoDigitale = {
         filters: []
       }
@@ -361,8 +327,6 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
           }
           filterFormatoDigitale.filters.push(lapp);
         }
-
-
         //formatoDigitale
       }
       var filtersGroupSpecifica = {
@@ -433,8 +397,6 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
       if (filtersGroupSpecifica.filters.length > 0) {
         toPostJson.filters.filters.push(filtersGroupSpecifica);
       }
-
-      //		////console.info("MyTopost", toPostJson);
       runSearch(toPostJson);
     };
 
@@ -598,9 +560,6 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
       toSplice.forEach(function(ind){
         myRigaRicerca.splice(ind,1)
       })
-      ////console.log("Dal server:", $scope.rigaRicerca);
-      ////console.log("Sortato:", myRigaRicerca);
-
       delete $scope.rigaRicerca;
       $scope.rigaRicerca = JSON.parse(JSON.stringify(myRigaRicerca));
       $scope.n = $scope.rigaRicerca.length;
@@ -618,22 +577,18 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
       $scope.rigaRicerca[indice].otherFiltersGroup = [];
 
       var filtro = new filterPrototype();
-      //var filtro = filterPrototype($scope.rigaRicerca[indice].value, $scope.rigaRicerca[indice].field, $scope.rigaRicerca[indice].match, $scope.rigaRicerca[indice].operator);
       filtro.field = $scope.rigaRicerca[indice].field;
       filtro.match = $scope.rigaRicerca[indice].match;
       filtro.operator = "OR";
       $scope.rigaRicerca[indice].otherFiltersGroup.push(filtro)
 
       $scope.rigaRicerca[indice].otherFiltersGroup[0].value = $scope.rigaRicerca[indice].value;
-      // filtro = new filterPrototype();
       filtro = new filterPrototype();
-      //var filtro = filterPrototype($scope.rigaRicerca[indice].value, $scope.rigaRicerca[indice].field, $scope.rigaRicerca[indice].match, $scope.rigaRicerca[indice].operator);
       filtro.field = $scope.rigaRicerca[indice].field;
       filtro.match = $scope.rigaRicerca[indice].match;
       filtro.operator = "OR";
       $scope.rigaRicerca[indice].otherFiltersGroup.push(filtro)
       $scope.rigaRicerca[indice].field = "group";
-      //$scope.rigaRicerca[indice].value = "group" + indice;
       $scope.rigaRicerca[indice].value = ""
     };
     $scope.incrementToGroup = function (idxRiga) {
@@ -681,7 +636,6 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
       ////console.log("terms request", termine);
       if (campiNoTerms.indexOf($scope.currentTerm) > -1) {
         $('#loading').modal('hide');
-   //     $scope.rigaRicerca[appIdx].value = '';
         switch($scope.currentTerm.toLowerCase()) {
           case 'lingua':
           $scope.terminiTrovati =  CodiciServices.getLingua();
@@ -940,12 +894,6 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
       runSearch(LocalSessionSettingsServices.riCerca(ricerca, LocalSessionSettingsServices));
     };
 
-    /*    $scope.ricercaSpecializzata = {
-          musica: null,
-          grafica: null,
-          cartografia: null,
-          audiovisivi: null
-        }; */
     $scope.ricercaSpecializzata = LocalSessionSettingsServices.getCurrentRicercaSpecializzata();
     $scope.ricercaSpecMenu = {
       musica: {},
@@ -1066,6 +1014,25 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
       }
       return filterArray;
     }
+ // Refactoring Almaviva3 19/04/2019	
+	var glyphiconAddClassPlus = function(id) {
+		$(id).removeClass("glyphicon-minus");
+		$(id).addClass("glyphicon-plus")
+
+	}
+	var glyphiconAddClassMinus = function(id) {
+		$(id).removeClass("glyphicon-plus");
+		$(id).addClass("glyphicon-minus")
+		}
+	var closePanelSpecializzata = function (categoriesToClose) {
+		var hash = "#panel_spec"
+	    var body = "_body";
+		categoriesToClose.forEach(function(category){
+            $(hash + category + body).fadeOut("fast");
+            glyphiconAddClassPlus('#glypanel_spec' + category + '_body');
+
+        })
+	}
     $scope.managerPannelliRicercaSpecializzata = function (element, start) {
       $scope.selectedSpec = element.toUpperCase();
       var arraysTipi = []
@@ -1075,15 +1042,13 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
 
       $('#panel_spec' + element + '_body').fadeToggle('slow');
       if ($('#glypanel_spec' + element + '_body').hasClass("glyphicon-plus")) {
-        $('#glypanel_spec' + element + '_body').removeClass("glyphicon-plus");
-        $('#glypanel_spec' + element + '_body').addClass("glyphicon-minus")
+    	  glyphiconAddClassMinus('#glypanel_spec' + element + '_body');
         //salvo in sessione
         LocalSessionSettingsServices.setCurrentRicercaSpecializzata($scope.ricercaSpecializzata, element.toUpperCase());
       } else {
-        $('#glypanel_spec' + element + '_body').removeClass("glyphicon-minus");
-        $('#glypanel_spec' + element + '_body').addClass("glyphicon-plus")
+      
+        glyphiconAddClassPlus('#glypanel_spec' + element + '_body');
         LocalSessionSettingsServices.setCurrentRicercaSpecializzata(null, null);
-        //  LocalSessionSettingsServices.setTipoRec(arraysTipi)
         $scope.ricercaSpecializzata.musica = null;
         $scope.ricercaSpecializzata.grafica = null;
         $scope.ricercaSpecializzata.audiovisivi = null;
@@ -1099,21 +1064,11 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
           $scope.ricercaSpecializzata.cartografia = null;
           $scope.ricercaSpecializzata.audiovisivi = null;
           $scope.ricercaSpecializzata.mav = null;
-
-          $(hash + "Cartografia" + body).fadeOut("fast");
-          $('#glypanel_spec' + 'Cartografia' + '_body').removeClass("glyphicon-minus");
-          $('#glypanel_spec' + 'Cartografia' + '_body').addClass("glyphicon-plus")
-
-          $(hash + "Audiovisivi" + body).fadeOut("fast");
-          $('#glypanel_spec' + 'Audiovisivi' + '_body').removeClass("glyphicon-minus");
-          $('#glypanel_spec' + 'Audiovisivi' + '_body').addClass("glyphicon-plus")
-
-          $(hash + "Musica" + body).fadeOut("fast");
-          $('#glypanel_spec' + 'Musica' + '_body').removeClass("glyphicon-minus");
-          $('#glypanel_spec' + 'Musica' + '_body').addClass("glyphicon-plus")
-          $(hash + "Mav" + body).fadeOut("fast");
-          $('#glypanel_spec' + 'Mav' + '_body').removeClass("glyphicon-minus");
-          $('#glypanel_spec' + 'Mav' + '_body').addClass("glyphicon-plus")
+          
+          // Refactoring chiudo pannelli non inerenti Almaviva3 19/04/2019	
+          var categoriesToClose = ["Cartografia", "Audiovisivi", "Musica", "Mav"];
+          closePanelSpecializzata(categoriesToClose)
+         
           if (isUndefined(start)) {
             arraysTipi = ["k"]
             //Fix per ritorno da ricerca
@@ -1135,22 +1090,10 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
           $scope.ricercaSpecializzata.grafica = null;
           $scope.ricercaSpecializzata.audiovisivi = null;
           $scope.ricercaSpecializzata.mav = null;
+       // Refactoring chiudo pannelli non inerenti Almaviva3 19/04/2019	
+          var categoriesToClose = ["Grafica", "Audiovisivi", "Musica", "Mav"];
+          closePanelSpecializzata(categoriesToClose)
 
-          $(hash + "Audiovisivi" + body).fadeOut("fast");
-          $('#glypanel_spec' + 'Audiovisivi' + '_body').removeClass("glyphicon-minus");
-          $('#glypanel_spec' + 'Audiovisivi' + '_body').addClass("glyphicon-plus")
-
-          $(hash + "Musica" + body).fadeOut("fast");
-          $('#glypanel_spec' + 'Musica' + '_body').removeClass("glyphicon-minus");
-          $('#glypanel_spec' + 'Musica' + '_body').addClass("glyphicon-plus")
-
-          $(hash + "Grafica" + body).fadeOut("fast");
-          $('#glypanel_spec' + 'Grafica' + '_body').removeClass("glyphicon-minus");
-          $('#glypanel_spec' + 'Grafica' + '_body').addClass("glyphicon-plus")
-
-          $(hash + "Mav" + body).fadeOut("fast");
-          $('#glypanel_spec' + 'Mav' + '_body').removeClass("glyphicon-minus");
-          $('#glypanel_spec' + 'Mav' + '_body').addClass("glyphicon-plus")
           if (isUndefined(start)) {
             arraysTipi = ['e', 'f'];
             if (!containsAll(arraysTipi, $scope.selectionTipoRec)) {
@@ -1167,22 +1110,10 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
           $scope.ricercaSpecializzata.cartografia = null;
           $scope.ricercaSpecializzata.audiovisivi = null;
           $scope.ricercaSpecializzata.mav = null;
-
-          $(hash + "Cartografia" + body).fadeOut("fast");
-          $('#glypanel_spec' + 'Cartografia' + '_body').removeClass("glyphicon-minus");
-          $('#glypanel_spec' + 'Cartografia' + '_body').addClass("glyphicon-plus")
-
-          $(hash + "Audiovisivi" + body).fadeOut("fast");
-          $('#glypanel_spec' + 'Audiovisivi' + '_body').removeClass("glyphicon-minus");
-          $('#glypanel_spec' + 'Audiovisivi' + '_body').addClass("glyphicon-plus")
-
-          $(hash + "Grafica" + body).fadeOut("fast");
-          $('#glypanel_spec' + 'Grafica' + '_body').removeClass("glyphicon-minus");
-          $('#glypanel_spec' + 'Grafica' + '_body').addClass("glyphicon-plus")
-
-          $(hash + "Mav" + body).fadeOut("fast");
-          $('#glypanel_spec' + 'Mav' + '_body').removeClass("glyphicon-minus");
-          $('#glypanel_spec' + 'Mav' + '_body').addClass("glyphicon-plus")
+       // Refactoring chiudo pannelli non inerenti Almaviva3 19/04/2019	
+          var categoriesToClose = ["Grafica", "Audiovisivi", "Cartografia", "Mav"];
+          closePanelSpecializzata(categoriesToClose)
+          
           if (isUndefined(start)) {
             arraysTipi = ['c', 'd', 'g', 'i', 'j'];
             if (!containsAll(arraysTipi, $scope.selectionTipoRec)) {
@@ -1198,21 +1129,10 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
           $scope.ricercaSpecializzata.cartografia = null;
           $scope.ricercaSpecializzata.grafica = null;
           $scope.ricercaSpecializzata.mav = null;
-          $(hash + "Cartografia" + body).fadeOut("fast");
-          $('#glypanel_spec' + 'Cartografia' + '_body').removeClass("glyphicon-minus");
-          $('#glypanel_spec' + 'Cartografia' + '_body').addClass("glyphicon-plus")
-
-          $(hash + "Musica" + body).fadeOut("fast");
-          $('#glypanel_spec' + 'Musica' + '_body').removeClass("glyphicon-minus");
-          $('#glypanel_spec' + 'Musica' + '_body').addClass("glyphicon-plus")
-
-          $(hash + "Grafica" + body).fadeOut("fast");
-          $('#glypanel_spec' + 'Grafica' + '_body').removeClass("glyphicon-minus");
-          $('#glypanel_spec' + 'Grafica' + '_body').addClass("glyphicon-plus")
-
-          $(hash + "Audiovisivi" + body).fadeOut("fast");
-          $('#glypanel_spec' + 'Audiovisivi' + '_body').removeClass("glyphicon-minus");
-          $('#glypanel_spec' + 'Audiovisivi' + '_body').addClass("glyphicon-plus")
+       // Refactoring chiudo pannelli non inerenti Almaviva3 19/04/2019	
+          var categoriesToClose = ["Grafica", "Musica", "Cartografia", "Audiovisivi"];
+          closePanelSpecializzata(categoriesToClose)
+          
 
           break;
         case "MAV":
@@ -1220,18 +1140,10 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
           $scope.ricercaSpecializzata.cartografia = null;
           $scope.ricercaSpecializzata.grafica = null;
           $scope.ricercaSpecializzata.audiovisivi = null;
-
-          $(hash + "Cartografia" + body).fadeOut("fast");
-          $('#glypanel_spec' + 'Cartografia' + '_body').removeClass("glyphicon-minus");
-          $('#glypanel_spec' + 'Cartografia' + '_body').addClass("glyphicon-plus")
-
-          $(hash + "Musica" + body).fadeOut("fast");
-          $('#glypanel_spec' + 'Musica' + '_body').removeClass("glyphicon-minus");
-          $('#glypanel_spec' + 'Musica' + '_body').addClass("glyphicon-plus")
-
-          $(hash + "Grafica" + body).fadeOut("fast");
-          $('#glypanel_spec' + 'Grafica' + '_body').removeClass("glyphicon-minus");
-          $('#glypanel_spec' + 'Grafica' + '_body').addClass("glyphicon-plus")
+       // Refactoring chiudo pannelli non inerenti Almaviva3 19/04/2019	
+          var categoriesToClose = ["Grafica", "Cartografia", "Musica"];
+          closePanelSpecializzata(categoriesToClose)
+          
           if (isUndefined(start)) {
             arraysTipi = ['c', 'd', 'g', 'i', 'j'];
             if (!containsAll(arraysTipi, $scope.selectionTipoRec)) {
@@ -1249,7 +1161,6 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
       $scope.selectionTipoRec = LocalSessionSettingsServices.getTipoRec();
 
     }
-
     $timeout(function () {
       normalizeText();
 

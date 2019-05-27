@@ -24,9 +24,9 @@ public class BiblioModel {
 
 	private Integer id;
 
-	private String cod_bib, cod_polo, name, cod_appl_servizi, isil;
+	private String cod_bib, cod_polo, name, cod_appl_servizi, isil, dettaglio_tab;
 
-	private Boolean kardex, sbnweb, link_servizi, deleted, flag_logo;
+	private Boolean kardex, sbnweb, link_servizi, deleted, flag_logo ;
 
 	private List<Gruppi> gruppi;
 
@@ -124,6 +124,14 @@ public class BiblioModel {
 
 	public void setFlag_logo(Boolean flag_logo) {
 		this.flag_logo = flag_logo;
+	}
+
+	public String getDettaglio_tab() {
+		return dettaglio_tab;
+	}
+
+	public void setDettaglio_tab(String dettaglio_tab) {
+		this.dettaglio_tab = dettaglio_tab;
 	}
 
 }

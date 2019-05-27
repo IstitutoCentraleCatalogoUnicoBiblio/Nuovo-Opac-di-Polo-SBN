@@ -63,7 +63,7 @@ public class Biblio {
 	@Column(name = "kardex")
 	private String kardex;
 
-	@Column(name = "sbnweb")
+	@Column(name = "posseduto")
 	private String sbnweb;
 	@Column(name = "cod_appl_servizi")
 	private String cod_appl_servizi;
@@ -83,7 +83,7 @@ public class Biblio {
 	@ManyToMany // prima la join che referenzia a te e poi agli altri
 	@JoinTable(name = "rel_bibliogruppi", joinColumns = @JoinColumn(name = "id_biblio"), inverseJoinColumns = @JoinColumn(name = "id_gruppi"))
 	private List<Gruppi> gruppi;
-
+	
 	public List<Gruppi> getGruppi() {
 		List<Gruppi> grupsNoBib = new ArrayList<>();
 		for (Gruppi gruppo : gruppi) {
@@ -206,5 +206,5 @@ public class Biblio {
 	public void setFlag_logo(String flag_logo) {
 		this.flag_logo = flag_logo;
 	}
-	
+
 }

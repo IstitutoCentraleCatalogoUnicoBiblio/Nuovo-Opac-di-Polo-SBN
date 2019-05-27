@@ -2,23 +2,6 @@
 
 /* DEFINIZIONE E CARICAMENTO TABELLA CLASSIFICAZIONI DEWEY (codici da 0 a 999) */
 
---drop table public.classificazioni;
---drop sequence if exists cassificazioni_id_seq;
-CREATE TABLE public.classificazioni (
-	id SERIAL NOT NULL,
-    classe varchar(3) NOT NULL UNIQUE,
-    descr varchar(240) NOT NULL,
-    posizione numeric NOT NULL,
-	CONSTRAINT classificazioni_pkey PRIMARY KEY (id)
-);
-
-
-COMMENT ON TABLE public.classificazioni IS 'Riferimenti generali sulle classificazioni Dewey (codici da 0 a 999)';
-COMMENT ON COLUMN public.classificazioni.id IS 'Id record';
-COMMENT ON COLUMN public.classificazioni.classe IS 'Codice classe';
-COMMENT ON COLUMN public.classificazioni.descr IS 'Descrizione classe';
-COMMENT ON COLUMN public.classificazioni.posizione IS 'Numero di livello dell''alberatura';
-
 INSERT INTO public.classificazioni (classe, descr, posizione) VALUES('0', 'GENERALITA', 1);
 INSERT INTO public.classificazioni (classe, descr, posizione) VALUES('1', 'FILOSOFIA PSICOLOGIA', 1);
 INSERT INTO public.classificazioni (classe, descr, posizione) VALUES('2', 'RELIGIONE', 1);

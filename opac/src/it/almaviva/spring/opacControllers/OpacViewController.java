@@ -70,7 +70,7 @@ public class OpacViewController {
 
 	@Autowired
 	WikipediaClientServices wikiManager = new WikipediaClientServices();
-
+	
 	@Autowired
 	MLOLClientServices mlolSearch = new MLOLClientServices();
 	APISearchDocumentController searchController = new APISearchDocumentController();

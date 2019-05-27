@@ -8,6 +8,9 @@
 <base href="${pageContext.request.contextPath}/">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta http-equiv="X-UA-Compatible" content="IE=11" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
 <link rel="apple-touch-icon" sizes="57x57"
 	href="images/favicons/apple-icon-57x57.png">
 <link rel="apple-touch-icon" sizes="60x60"
@@ -56,29 +59,24 @@
 <script src="lib/jquery/jquery-3.3.1.min.js"></script>
 <script src="lib/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
 <script src="lib/bootstrap-3.3.7-dist/js/jquery.dataTables.min.js"></script>
-
+<!-- Libs -->
 <script type="text/javascript" src="lib/FileSaver.js"></script>
 <script type="text/javascript" src="lib/Utils.js"></script>
 <script type="text/javascript" src="lib/Paging.js"></script>
 <script type="text/javascript" src="lib/slider/src/slider.js"></script>
-<!-- Cookies banner law -->
-<script type="text/javascript" id="cookiebanner"
-	src="lib/Cookies-util.js" data-position="bottom"
-	data-message="We use cookies to improve your browsing experience.">
-	
-</script>
+<script type="text/javascript" src="lib/cookies/angular-cookie-law.min.js"></script>
 
 <!-- Angular Utility -->
 <script type="text/javascript" src="js/opac/app.js"></script>
 <script type="text/javascript" src="js/opac/filters.js"></script>
-<script type="text/javascript" src="js/opac/dummyControllers.js"></script>
 <script type="text/javascript"
 	src="js/opac/services/decodes/AngularDecodesFilters.js"></script>
 
 <!-- ViewControllers -->
 <script type="text/javascript" src="js/opac/controller/HomeController.js"></script>
 <script type="text/javascript" src="js/opac/controller/DetailController.js"></script>
-<!-- <script type="text/javascript" src="js/opac/controller/RicercaAvanzataController.js"></script> -->
+<script type="text/javascript" src="js/opac/dummyControllers.js"></script>
+
 <!-- Services -->
 <script type="text/javascript" src="js/opac/services/ApiServices.js"></script>
 <script type="text/javascript"
@@ -95,8 +93,8 @@
 	href="lib/bootstrap-3.3.7-dist/css/bootstrap.css">
 <link rel="stylesheet" type="text/css"
 	href="lib/bootstrap-3.3.7-dist/css/dataTables.bootstrap.min.css">
-<!-- <link rel="stylesheet" type="text/css"
-	href="lib/bootstrap-3.3.7-dist/css/bootstrap-datepicker3.css"> -->
+<link rel="stylesheet" type="text/css"
+	href="lib/cookies/angular-cookie-law.min.css">
 <link rel="stylesheet" type="text/css" href="lib/slider/src/slider.css">
 <script type="text/javascript" src="lib/incipit-lib/verovio-toolkit.js"></script>
 <script type="text/javascript" src="lib/incipit-lib/midiweb.js"></script>
@@ -110,6 +108,10 @@ var base_url = "${pageContext.request.contextPath}";
 </script>
 </head>
 <body ng-app="opac2">
+<cookie-law-banner position="bottom" 
+message="{{'cookies_text' | translate}}" 
+policy-url="meta/Guida_utente-opac2-1.0.10.pdf"></cookie-law-banner>
+
 	<div ng-view></div>
 </body>
 <noscript>

@@ -5,19 +5,27 @@
 
 # Indice
 1. [Premessa](#1-Premessa)
+   - 1.1 [Sistema Linux - Ambiente e configurazione di base](#11-Sistema-Linux-Ambiente-e-configurazione-di-base)
+   - 1.2 [Prerequisiti software del server](#12-Prerequisiti-software-del-server)
+   - 1.3 [Configurazione di Apache](#13-Configurazione-di-Apache)
+   - 1.4 [Configurazione di PostgreSQL](#14-Configurazione-di-PostgreSQL)
 2. [Predisposizione dell'ambiente per OPAC2](#2-Predisposizione-dell'ambiente-per-OPAC2)
+   - 2.1 [Kit di installazione](#21-Kit-di-installazione)
+   - 2.2 [Predisposizione dell'ambiente](#22-Predisposizione-dellambiente)
 3. [Creazione del database Postgres opacDB](#3-Creazione-del-database-Postgres-opacDB)
 4. [Caricamento dei core di Solr](#4-Caricamento-dei-core-di-Solr)
 5. [Importazione dei dati delle biblioteche](#5-Importazione-dei-dati-delle-biblioteche)
 6. [Definizione e impostazione delle politiche di backup](#6-Definizione-e-impostazione-delle-politiche-di-backup)
-7. [Nomenclatura delle directory](#7-Nomenclatura-delle-directory)
+   - 6.1 [Il backup dell'ambiente](#61-Il-backup-dellambiente)
+   - 6.2 [Il backup della base dati Postgres](#62-Il-backup-della-base-dati-Postgres)
+   - 6.3 [Le shell di backup](#63-Le-shell-di-backup)
 
 
 ## 1. Premessa
 
 Obiettivo del presente documento è descrivere le operazioni da eseguire per l'installazione dell'applicazione **Nuovo Opac di Polo SBN** (da qui per brevità OPAC2) e la sua configurazione.
 
-I prodotti da installare e le shell di configurazione sono contenuti nel **kit di installazione**, cioè il file **pacchetto\_installazione.tar.gz** che verrà descritto in dettaglio in seguito.
+I prodotti da installare e le shell di configurazione sono contenuti nel **kit di installazione**, cioè il file **pacchetto\_installazione_{versione di rilascio}.zip** che verrà descritto in dettaglio in seguito.
 
 ### 1.1 Sistema Linux - Ambiente e configurazione di base
 
@@ -27,7 +35,7 @@ Si raccomanda di scegliere la lingua inglese per il processo di configurazione e
 
 Vediamo in dettaglio i principali prerequisiti per una corretta ed efficiente configurazione di base del sistema.
 
-**Il Sistema Operativo (da qui SO) dovrebbe essere installato con le seguenti caratteristiche:**
+Il **Sistema Operativo** (da qui SO) dovrebbe essere installato con le seguenti caratteristiche:
 
 - indirizzamento 64 bit (scegliere quindi una immagine d'installazione di architettura x86\_64 o similare), se le caratteristiche del server fisico o virtuale lo consentono;
 - installazione in lingua italiana con tastiera italiana;
@@ -48,13 +56,13 @@ Nella partizione di sistema devono essere definiti i seguenti file system con i 
 
 | Partizione | Dimensione |
 | --- | --- |
-| / (radice)   |             2 Gbyte |
-| /usr        |                5 Gbyte |
-| /usr/local | 5 Gbyte |
-|/home | 5 Gbyte |
-|/var |  10 Gbyte |
+|/ (radice)|2 Gbyte|
+|/usr |5 Gbyte|
+|/usr/local|5 Gbyte|
+|/home|5 Gbyte |
+|/var | 10 Gbyte |
 |/tmp  | 1 Gbyte|
-|/opt |  5 Gbyte|
+|/opt | 5 Gbyte|
 
 Nella partizione dei dati (che si può creare con LVM successivamente all'installazione del SO), devono essere definiti i seguenti file system con i dimensionamenti consigliati:
 
@@ -77,6 +85,15 @@ Il server Linux che deve ospitare l'applicazione richiede una serie di prerequis
 | Apache Solr DB | 6.x |
 | Prodotto AWSTATS |   |
 
+
+Per poter utilizzare la shell di predisposizione dell'ambiente presente nel kit di installazione le seguenti directory devono essere sotto **/tomcat** _(utente proprietario tomcat)_
+
+| directory | descrizione |
+| --- | --- |
+| apache-tomcat-8.0.x | il nome esatto dipende dalla versione adottata |
+| solr-6.x | il nome esatto dipende dalla versione adottata |
+
+
 **Altri prerequisiti tecnici**
 
 - Apertura del firewall verso il DNS delle API Google
@@ -85,13 +102,13 @@ Il server Linux che deve ospitare l'applicazione richiede una serie di prerequis
 Per poter poi effettivamente utilizzare le API è necessario avere ottenuto da Google le credenziali per l'accesso.
 
 - Apertura del firewall verso il DNS del dominio OpenData dell'Anagrafe delle Biblioteche (per effettuare il comando **wget** del file **biblioteche.zip**)
-[http://opendata.anagrafe.iccu.sbn.it/biblioteche.zip](http://opendata.anagrafe.iccu.sbn.it/biblioteche.zip)
+**[http://opendata.anagrafe.iccu.sbn.it/biblioteche.zip](http://opendata.anagrafe.iccu.sbn.it/biblioteche.zip)**
 
 - Se il polo utilizza l'applicativo SBNWeb è necessaria l'apertura del firewall verso il DNS dell'applicativo
 
-L'ambiente di base deve essere quindi in parte predisposto in fase di installazione dei prodotti di cui sopra e viene poi completato utilizzando la shell **predisposizioneAmbiente.sh** che fa parte del kit di installazione.
+L'ambiente di base deve essere quindi in parte predisposto in fase di installazione dei prodotti di cui sopra per venire poi completato utilizzando la shell **predisposizioneAmbiente.sh** che fa parte del kit di installazione.
 
-### 1.3 Configurazione di Apache di SO
+### 1.3 Configurazione di Apache
 
 Apache può essere installato durante l'installazione del SO oppure successivamente con **yum**.
 
@@ -109,12 +126,12 @@ creare/modificare il file: **proxy\_ajp.conf**
 
 con il seguente contenuto:
 
-        <VirtualHost \*:80\>
+        <VirtualHost *:80>
                 ServerName nome_dns_del_server
                 ErrorLog /var/log/httpd/opac2.error.log
                 CustomLog /var/log/httpd/opac2.log combined
                 ProxyPass /opac2 ajp://localhost:8009/opac2
-        <VirtualHost>
+        </VirtualHost>
 
 ### 1.4 Configurazione di PostgreSQL
 
@@ -173,7 +190,7 @@ Devono esistere i seguenti utenti:
 
 ### 2.1 Kit di installazione
 
-Il kit di installazione **pacchetto\_installazione.tar.gz** comprende:
+Il kit di installazione **pacchetto\_installazione_{versione di rilascio}.zip** comprende:
 
 - shell scripting **predisposizioneAmbiente.sh** (per la predisposizione di base dell'ambiente operativo a partire dal kit)
 - file **opac2.war** e file **opacDB.properties** (eseguibile e file di configurazione del front-end dell'applicativo OPAC2)
@@ -184,25 +201,47 @@ Il kit di installazione **pacchetto\_installazione.tar.gz** comprende:
 - directory **solrConfig** (contiene sottodirectory con i file di configurazione di Solr e shell per la creazione dei core)
 - directory **SolrMarcSbnIndexer** (contiene l'applicativo per l'indicizzazione degli scarichi UNIMARC e shell per la sua personalizzazione e per l'esecuzione delle indicizzazioni e del backup)
 - directory **bibliotecheImporter** (contiene eseguibili, shell e sottodirectory per la procedura batch di allineamento dei dati delle biblioteche memorizzati sul database Postgres)
-- shell scripting **aggiuntaNuovoPolo.sh** (per la configurazione su Solr e SolrMarc di un eventuale nuovo polo da aggiungere su un server già operativo.
-- File immagine **logo\_libro.png** da utilizzare come logo di default per le biblioteche prive di un proprio logo.
+- directory **immagini\_loghi** contenente il file immagine **sbnweb.png** (da utilizzare in assenza di un logo specifico del polo nelle pagine dell'applicativo) e il file immagine **logo\_libro.png** (da utilizzare come logo di default per le biblioteche prive di un proprio logo)
 - Directory **backup** (contiene la shell _pg\_dump.sh_ per il backup del database Postgres. Cfr. paragrafo 4.3)
 
 ### 2.2 Predisposizione dell'ambiente
 
-Loggarsi come utente **tomcat**.
+Loggarsi come utente **tomcat**. 
 
-Estrarre in tale posizione il contenuto del file **pacchetto\_installazione.tar.gz**.
+Estrarre nella homedir di tomcat (**/tomcat**) il contenuto del file **pacchetto\_installazione_{versione di rilascio}.zip**.
 
 Verificare e impostare opportunamente i parametri presenti nel file **opacDB.properties** che configura l'accesso al database Postgres **opacDB** e in particolare:
 
-        DB_URL=jdbc:postgresql://localhost:5432/opacDB (localhost oppure IP della macchina su cui risiede il DB)
-        DB_USER=opac
-        DB_PASSWORD=opacadm (utenza/password per accedere al DB)
-        DB_SCHEMA=public
-        DNS_MAIL=localhost (riferimento al mail server. localhost oppure IP della macchina su cui risiede il mail server )
-        MITTENTE_MAIL=mail@mail-fittizia.it (indirizzo che verrà utilizzato come mittente per le mail inviate da OPAC2)
-        OPAC_PATH_LOGHI=loghi (path dove sono presenti il logo del Polo e i loghi utilizzati per le singole biblioteche)
+- DB_URL=jdbc:postgresql://localhost:5432/opacDB &rarr; localhost oppure IP della macchina su cui risiede il DB
+- DB_USER=opac &rarr; utenza per accedere al DB
+- DB_PASSWORD=opacadm &rarr; password per accedere al DB
+- DB_SCHEMA=public
+- OPAC_PATH_LOGHI=loghi &rarr; path dove sono presenti il logo del Polo e i loghi utilizzati per le singole biblioteche
+- DNS_MAIL=localhost &rarr; riferimento al mail server: localhost oppure IP della macchina su cui risiede il mail server 
+- MITTENTE_MAIL=mail@mail-fittizia.it &rarr; mittente delle mail inviate da OPAC2
+- LOGIN_MAIL=true/false &rarr; default=false (*)
+- USERNAME_MAIL=username per login su mail server &rarr; default=vuoto (*)
+- PASSWORD_MAIL=password per login su mail server &rarr; default=vuoto (*)
+- ELEMENTI_464_{codice polo}=numero di elementi da visualizzare in "Comprende" nel dettaglio del documento (**)
+- PROXY_CONNECTION_URL=url oppure ip di un server proxy da usare per interrogare wikipedia (**)
+- PROXY_CONNECTION_PORT=porta di un proxy da usare per  interrogare wikipedia (**)
+
+
+*(\*) Parametri opzionali.* Possono esistere le seguenti combinazioni:
+
+- LOGIN_MAIL=false &rarr; il server di posta non necessita di credenziali di accesso e i parametri USERNAME_MAIL/PASSWORD_MAIL possono essere vuoti o assenti;
+- LOGIN_MAIL=true &rarr; il server di posta necessita di credenziali di accesso impostate in USERNAME_MAIL e PASSWORD_MAIL;
+- parametri non indicati nel file di properties &rarr; equivale a LOGIN_MAIL=false e USERNAME_MAIL/PASSWORD_MAIL vuoti
+
+_(**) Parametro opzionale._  
+- ELEMENTI_464_{codice polo} Se non valorizzato il default è 12
+- PROXY_CONNECTION_URL Se non valorizzato non viene usato alcun proxy 
+- PROXY_CONNECTION_PORT  Se non valorizzato non viene usato alcun proxy 
+
+### *Attenzione*
+Se è necessario usare un proxy per uscire sul web va impostata la seguente riga nel file **catalina.sh** nella cartella bin di tomcat server sostituendo i valori richiesti.
+
+        JAVA_OPTS="$JAVA_OPTS -Dhttp.proxyHost={ip_url del proxy} -Dhttp.proxyPort={la porta del proxy} -Dhttp.nonProxyHosts='localhost|{se necessario l'ip della macchina SBNWeb associata al polo}' -Djava.net.useSystemProxies=true"
 
 Portarsi quindi sotto la directory **pacchetto\_installazione** ed eseguire la shell
 
@@ -226,12 +265,12 @@ Avuta conferma la shell provvede a:
 - copiare il file di properties di OPAC2 **opacDB.properties** in /tomcat e il file **opac2.war** in **/tomcat/apache/webapps**
 - copiare le shell per la creazione dei core (in **/tomcat/solr/bin**) e le cartelle di configurazione di Solr **opac\_polo\_configs\*** (in **/tomcat/solr/server/solr/configsets**)
 - creare i file di configurazione del polo per SolrMarc (**opacsbn\_config.\*.properties**) a partire dai template di configurazione impostando codice polo, IP e porta di Solr con quelli indicati durante l'esecuzione della shell
-- creare la directory per le immagini o i loghi di polo e biblioteche copiandoci il file **logo\_libro.png** (da utilizzare come logo di default per le biblioteche del polo).
+- creare le directory per le immagini e/o i loghi di polo e biblioteche copiandoci i file **sbnweb.png** e **logo\_libro.png** (loghi di default rispettivamente per il polo e per le biblioteche).
 
-**NB:** Per le pagine dell'applicazione è previsto un logo **generico** con la dicitura **SBNWeb**. Per personalizzarlo occorre creare un logo con il nome del polo da salvare come **logo\_polo\_scritta\_POLO.png** e da copiare nella directory dei loghi
+**NB:** Per personalizzare il logo del polo che compare nelle pagine dell'applicativo occorre creare, a partire da **sbnweb.png**, un file immagine con il nome **logo\_polo\_scritta\_{POLO}.png** da salvare nella directory dei loghi del polo. La personalizzazione del logo di una biblioteca può invece essere fatta in un momento successivo utilizzando le funzioni di amministrazione.    
 
 - far partire Solr sulla porta indicata
-- creare il core Solr per biblio e per l'authority degli autori
+- creare il core Solr per i documenti (**biblio_{POLO}**) e per l'authority degli autori (**authority_{POLO}**)
 
 ## 3. Creazione del database Postgres **opacDB**
 
@@ -269,23 +308,21 @@ e verificare nel file _creaDBStrutture.log_ che le strutture dati siano state co
 
 creare uno script personalizzato per il polo che deve essere inizializzato a partire dal template '_03\_opac2\_DBinsert\_poloXXX.template.sql'_.
 
-L'attività è finalizzata al caricamento nel DB dei dati e delle configurazioni del polo, delle  biblioteche del polo, dei dati relativi a categorie di fruizione e materiale inventariale, dei dati dell'utente gestore di amministrazione e di ulteriori configurazioni di base che consentono di controllare il comportamento dell'applicativo.
+L'attività è finalizzata al caricamento nel DB dei dati e delle configurazioni di base del polo, delle biblioteche del polo, dei dati relativi a categorie di fruizione e materiale inventariale e dei dati dell'utente gestore di amministrazione. 
+
+Possono anche essere indicate - in base alle specifiche caratteristiche del polo - ulteriori configurazioni che consentono di personalizzare/controllare il comportamento dell'applicativo tra cui la definizione degli applicativi dei servizi attivabili con la relativa url di attivazione (si propone per default SBNWeb) e le credenziali per l'esecuzione delle ricerche anche su MediaLibraryOnLine (se il polo è associato al servizio).
 
 Per ciascun polo occorre quindi creare uno script con i dati reali del polo da caricare.
 
-Esempio: per il polo **ABC** si creerà lo script '_03\_opac2\_DBinsert\_poloABC.sql'_.
+Ad esempio: per il polo **ABC** si creerà lo script '_03\_opac2\_DBinsert\_poloABC.sql'_.
 
 lanciare quindi il seguente comando
 
-        psql -d opacDB -L iniDB\ABC.log –f ./03_opac2_DBinsert_poloABC.sql
+        psql -d opacDB -L iniDB\_ABC.log –f ./03_opac2_DBinsert_poloABC.sql
 
 e verificare nel file _iniDB\_ABC.log_ che le tabelle siano state correttamente inizializzate.
 
-4. Definire nel DB le funzioni per la gestione di categorie di fruizione e materiale inventariale: file '_04\_opac2\_DBfunction.sql'_
-
-Solo per i poli che utilizzano il gestionale SBNWeb e che producono in fase di export UNIMARC i file accessori necessari, possono essere definite le funzioni **allineaFruizione** e **allineaMaterialeInv** per confrontare – e se necessario aggiornare – i dati presenti nelle tabelle **cat\_fruizione950** (categorie di fruizione) e **materialeInventariale** (materiale inventariale) rispetto ai corrispondenti codici presenti su SBNWeb.
-
-Se il polo utilizza un gestionale diverso da SBNWeb oppure non produce i necessari file accessori l'allineamento dei valori nelle corrispondenti tabelle non può essere effettuato utilizzando le suddette funzioni.
+4. Definire nel DB le funzioni _allineaFruizione_ e _allineaMaterialeInv_ per la gestione di categorie di fruizione e materiale inventariale: file '_04\_opac2\_DBfunction.sql'_
 
 lanciare il seguente comando
 
@@ -293,6 +330,18 @@ lanciare il seguente comando
 
 e verificare nel file _functionDB.log_ che i dati siano stati caricati correttamente.
 
+Le funzioni di cui sopra consentiranno di confrontare – e se necessario aggiornare – le tabelle **cat\_fruizione950** (categorie di fruizione) e **materialeInventariale** (materiale inventariale) del database Postgres **opacDB** a partire dai file testuali *"CategorieDiFruizione_{POLO}.txt"* e *"MaterialeInventariale_$POLO.txt"* che contengono la decodifica dei codici utilizzati nelle etichette 950 dei record UNIMARC per definire rispettivamente la categoria di fruizione (sottocampo $f) e il materiale inventariale (sottocampo $e[18-19]). 
+
+I file testuali di input devono avere i record nel formato "codice|decodifica|" (con i campi separati da | (pipe)) e devono trovarsi nella directory dei file da indicizzare su Solr.
+
+Le funzioni possono essere attivate eseguendo la shell seguente (presente nella directory di indicizzazione SolrMarcSbnIndexer)
+  
+        ./allineaCodici_opac2.sh {POLO} 
+
+se si vogliono differenziare i log in base al numero dello scarico UNIMARC contenente i file accessori utilizzati eseguire 
+
+		./allineaCodici_opac2.sh {POLO} {numeroScarico}
+        
 5. Definire e popolare la tabella delle Classificazioni Dewey per la gestione del Navigatore Dewey: file '_05\_carica\_tabella\_classificazioni.sql'_
 
 lanciare il seguente comando
@@ -303,60 +352,54 @@ e verificare nel file _caricaClassi.log_ che i dati siano stati caricati corrett
 
 A questo punto il database di gestione **opacDB** può considerarsi inizializzato.
 
+NB: verificare nel file di configurazione di Postgres **pg_hba.conf** la modalità di autenticazione utilizzata per local.
+Eventualmente modificarla in 
+**local   all   all   trust**
+
 ## 4. Caricamento dei core di Solr
 
 Una volta completata la configurazione dell'ambiente e l'inizializzazione del database Postgres occorre caricare i core definiti su Solr.
 
 L'input per il caricamento di un core è uno scarico dei dati in formato UNIMARC.
 
-Per il core biblio occorre uno scarico UNIMARC dei documenti (con esclusione delle collane che non sono gestite in OPAC2). Per il core authority occorre invece uno scarico UNIMARC dell'authority degli autori.
+Per il core **biblio_{POLO}** occorre uno scarico UNIMARC dei documenti (con esclusione delle collane che non sono gestite in OPAC2). Per il core **authority_{POLO}** occorre invece uno scarico UNIMARC dell'authority degli autori.
 
-Sulla macchina OPAC posizionarsi su **/tomcat/SolrMarcSbnIndexer**
+Sulla macchina di OPAC2 posizionarsi su **/tomcat/SolrMarcSbnIndexer**
 
 Per il caricamento dei documenti
 
-- copiare nella cartella  **files/POLO** il file UNIMARC che deve essere utilizzato per il caricamento del core.
-- Eseguire caricaOPAC2.sh (e seguire le indicazioni della shell) per caricare i dati dei documenti (core biblio\_POLO).
+- copiare nella cartella  **files/{POLO}** il file UNIMARC che deve essere utilizzato per il caricamento del core.
+- Eseguire **caricaOPAC2.sh** (e seguire le indicazioni della shell) per caricare i dati nel core **biblio\_{POLO}**.
 
 Ad es.:
 
         nohup sh caricaOPAC2.sh POLO 8983 POLO_totale.mrc NO &
 
-- Controllare esito in **logs/caricaOPAC\_POLO\_AAAAMMGG.log**
+- Controllare esito in **logs/caricaOPAC\_{POLO}\_{AAAAMMGG}.log**
 
 Per il caricamento dell'authority degli Autori
 
-- Trasferire il file UNIMARC in **/tomcat/SolrMarcSbnIndexer/files/POLO** (al momento non c'è uno script che lo fa in automatico)
+- copiare nella cartella  **files/{POLO}** il file UNIMARC che deve essere utilizzato per il caricamento del core
 
-- Eseguire caricaAUTH.sh (e seguire le indicazioni della shell) per caricare i dati di Authority (core authority\_POLO)
+- Eseguire **caricaAUTH.sh** (e seguire le indicazioni della shell) per caricare i dati nel core **authority\_{POLO}**.
 
 Ad es.  
 
         nohup sh caricaAUTH.sh POLO 8983 AUbase_POLO.mrc NO NODATA &
 
-- Controllare esito in **logs/caricaAUTH\_POLO\_AAAAMMGG.log**
+- Controllare esito in **logs/caricaAUTH\_{POLO}\_{AAAAMMGG}.log**
 
-In testa alle shell di caricamento ci sono i parametri con cui lanciarle:
+In testa alle shell di caricamento ci sono le descrizioni dei parametri con cui lanciarle:
 
 - codice POLO
 - porta di Solr
 - nome del file UNIMARC
 - cancellazione dei dati del core SI/NO
-- Indicatore aggiornamento data (parametro non obbligatorio, se presente deve essere uguale a **NODATA** e in quel caso aggiorna il numero di occorrenze caricate ma non aggiorna la data di caricamento dell'OPAC sul db Postgres. Tali informazioni sono visualizzate nella pagina Info).
+- Indicatore di non aggiornamento della data di scarico (parametro non obbligatorio, se presente deve essere uguale a **NODATA** e in quel caso la procedura aggiorna il numero di occorrenze caricate ma non aggiorna la data di caricamento dell'OPAC sul DB Postgres. Le suddette informazioni sono visualizzate nella pagina Info dell'appicativo OPAC2).
 
-NB: se il sistema operativo non è stato installato in lingua italiana – come consigliato – ma in lingua inglese allora occorre verificare le istruzioni per l'acquisizione della data dello scarico UNIMARC elaborato. Nelle shell **caricaOPAC2.sh** e **caricaAUTH.sh** sono presenti le istruzioni settate per la lingua italiana:
+Entrambe le shell a fine caricamento effettuano la chiamata alla shell di salvataggio **backupDataSolr.sh** che crea a partire dal core appena caricato un file compresso **.tar** memorizzato nella posizione indicata dal parametro "DIR" da impostare opportunamente nella shell di salvataggio. 
 
-        GRN=`ls -la files/${POLO}/${FILE}|awk '{print $6}'`
-        MS=`ls -la files/${POLO}/${FILE}|awk '{print $7}'`
-        AN=`ls -l --time-style=**+%b %_d %Y** files/${POLO}/${FILE}|awk '{print $8}'`
-
-Per i SO in inglese devono diventare:
-
-        GRN=`ls -la files/${POLO}/${FILE}|awk '{print $7}'`
-        MS=`ls -la files/${POLO}/${FILE}|awk '{print $6}'`
-        AN=`ls -l --time-style=**+%b %_d %Y** files/${POLO}/${FILE}|awk '{print $8}'`
-
-La periodicità dell'aggiornamento dei core è definita esclusivamente dal cliente (gestore del Polo). Quello aggiornato con maggiore frequenza è il core dei documenti, mentre il core di authority, quando presente, ha una variabilità decisamente inferiore.
+La periodicità dell'aggiornamento dei core è definita esclusivamente dal cliente (gestore del Polo). Quello aggiornato con maggiore frequenza è il core dei documenti, mentre il core di authority, quando presente, ha una variabilità inferiore.
 
 ## 5. Importazione dei dati delle biblioteche
 
@@ -364,11 +407,13 @@ Per acquisire i dati di dettaglio delle biblioteche del polo occorre lanciare la
 
 Sulla macchina OPAC posizionarsi su **/tomcat/bibliotecheImporter** e lanciare la shell presente aggiungendo come parametro il codice del polo:
 
-        ./bibliotecheImporter.sh POLO
+        ./bibliotecheImporter.sh {POLO}
 
-Viene effettuato il wget del file **biblioteche.zip** dalla pagina degli OpenData dell'Anagrafe delle Biblioteche e il file viene poi elaborato per caricare i dati nelle tabelle **biblio\_dettagli** e **biblio\_contatti** del database Postgres. Questo vale solo per le biblioteche del polo che siano già state definite nella tabella **biblio** (vedi paragrafo 3 punto 3).
+Viene effettuato il wget del file **biblioteche.zip** dalla pagina degli OpenData dell'Anagrafe delle Biblioteche e il file viene poi elaborato per caricare i dati nelle tabelle **biblio\_dettagli** e **biblio\_contatti** del database Postgres **opacDB**. 
 
-L'esito dell'elaborazione – da effettuare periodicamente per rilevare eventuali aggiornamenti nei dati di dettaglio – è verificabile in **logs/bibliotecheImporter_AAAAMMGG.log**
+Gli aggiornamenti vengono effettuati soltanto per le biblioteche del polo che siano già state definite nella tabella **biblio** (vedi paragrafo 3 punto 3).
+
+L'esito dell'elaborazione – da effettuare per rilevare eventuali aggiornamenti nei dati di dettaglio – è verificabile in **logs/bibliotecheImporter_{AAAAMMGG}.log**
 
 ## 6. Definizione e impostazione delle politiche di backup
 
@@ -395,7 +440,7 @@ All'interno della directory **/tomcat** è presente anche la directory DUMP\_DB 
 
 La shell preposta al backup della base dati Postgres si trova in **/home/SCRIPTS** ed è la *pg_dump.sh* che sfrutta una utility di _PostgreSQL,_ chiamata appunto _pgdump_, per effettuare un backup logico del database indicato nella relativa istruzione.
 
-L'output dell'operazione viene posto in **_/tomcat/DUMP\_DB_** con la seguente nomenclatura:
+L'output dell'operazione viene posto in **/tomcat/DUMP\_DB** con la seguente nomenclatura:
 
         <nomehost>.<giorno>.<nomedb>.bzdump
 
@@ -419,15 +464,3 @@ Occorre copiare dalla directory _backup_ del kit di installazione la shell _pg\_
 
 L'ultimo passo è la configurazione adeguata della crontab di sistema (cioè di root) per la schedulazione dei backup.
 
-## 7. Nomenclatura delle directory
-
-Schematizziamo di seguito la struttura finale delle directory necessarie ad accogliere i prodotti software e l'applicativo OPAC2.
-
-Tutte le directory sono sotto **/tomcat** _(utente proprietario tomcat)_
-
-| directory | descrizione |
-| --- | --- |
-| apache-tomcat-8.0.x | il nome esatto dipende dalla versione adottata |
-| bibliotecheImporter | creata dalla shell di predisposizione del kit |
-| solr-6.x | il nome esatto dipende dalla versione adottata |
-| SolrMarcSbnIndexer | creata dalla shell di predisposizione del kit |

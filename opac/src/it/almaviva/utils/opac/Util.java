@@ -16,11 +16,16 @@
  ******************************************************************************/
 package it.almaviva.utils.opac;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -35,7 +40,54 @@ import it.almaviva.opac.services.ConverterCampiServices;
 public class Util {
 	private static ConverterCampiServices converter = new ConverterCampiServices();
 	private static SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-	
+	public static <T> List<T> listOf(T value) {
+		List<T> list = new ArrayList<>();
+		list.add(value);
+		return list;
+	}
+
+	public static boolean isFilled(Object value) {
+		return (value != null);
+	}
+
+	public static boolean isFilled(String value) {
+		return (value != null && !"".equals(value.trim()));
+	}
+
+	public static final boolean isFilled(Collection<?> value) {
+		return (value != null && value.size() > 0);
+	}
+
+	public static final boolean isFilled(Object[] value) {
+		return (value != null && !(value.length < 1));
+	}
+
+	public static List<String> readFile(InputStream in) {
+		List<String> output = new ArrayList<>();
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
+			String line;
+			while ((line = br.readLine()) != null) {
+				output.add(line);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return output;
+	}
+
+	public static int len(Object[] value) {
+		if (value != null)
+			return value.length;
+
+		return 0;
+	}
+
+	public static int len(char[] value) {
+		if (value != null)
+			return value.length;
+
+		return 0;
+	}
 	public static String cleanPath(String path) {
 		path = path.replace("\\", File.separator);
 		path = path.replace("/", File.separator);

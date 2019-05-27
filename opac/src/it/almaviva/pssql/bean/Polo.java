@@ -31,6 +31,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
+import it.almaviva.opac.services.PropertiesLoader;
+import it.almaviva.utils.opac.Util;
+
 @Entity(name = "tb_polo")
 @Table(name = "tb_polo")
 @NamedQueries(value = {
@@ -401,4 +404,14 @@ public class Polo implements Cloneable {
 	   }
 
 	  }
+	//Almaviva3 15/05/2019 Manutenzione, parametrizzato numero elementi nella 464
+	public String getLunghezza_464() {
+		String lunghezza_464_default = "12";
+		if(!Util.isFilled(this.code))
+			return lunghezza_464_default;
+		
+		PropertiesLoader properties = new PropertiesLoader();
+		String lungezza464 = properties.getProps("ELEMENTI_464_" + this.code.toUpperCase());
+		return Util.isFilled(lungezza464) ? lungezza464 : lunghezza_464_default;
+	}
 }

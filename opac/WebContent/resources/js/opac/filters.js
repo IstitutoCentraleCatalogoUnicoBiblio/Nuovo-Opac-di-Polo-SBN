@@ -4,13 +4,11 @@ opac2.filter("decode", function() {
 		return codice;
 	}
 });
-opac2
-		.filter("containBid",
+opac2.filter("containBid",
 				function() {
 					return function(str) {
-
-						var splitt = isUndefined(str) ? "" : str.split("|");
-						var toReturn = (!isUndefined(splitt[2])) ? (splitt[2]
+			var splitt = isUndefined(str) ? "" : str.split("|");
+			var toReturn = (!isUndefined(splitt[2])) ? (splitt[2]
 								+ " - " + splitt[1]) : splitt[1];
 						return toReturn;
 					}
@@ -64,7 +62,6 @@ opac2.filter("spaziovirgola", function() {
 });
 opac2.filter("notaINFORMATIVA", [ function() {
 	return function(str) {
-
 		str = (str.indexOf('//') > -1) ? str.substring(str.indexOf('//') + 2)
 				: str;
 		return str.trim();
@@ -111,8 +108,7 @@ opac2.filter('trim', function() {
 		if (!angular.isString(value)) {
 			return value;
 		}
-		return value.replace(/^\s+|\s+$/g, ''); // you could use .trim, but it's
-												// not going to work in IE<9
+		return value.replace(/^\s+|\s+$/g, ''); 
 	};
 });
 opac2.filter("etePersona_Auth", function() {
@@ -134,14 +130,11 @@ opac2.filter("unimarc", function() {
 
 		if (!isUndefined(inp)) {
 			// pulizia caratteri nosort
-			inp = inp.replace(/\u0088/g, "");
-			inp = inp.replace(/\u0089/g, "");
 			inp = inp.replace(/</, "&#60;");
 			inp = inp.replace(/>/, "&#62;");
+			inp = cleanNoSort(inp);
 			// replace del \n in </br> &nbsp;
-			// inp = inp.replace(/ /g,"&nbsp");
 			inp = inp.replace(/\n/g, "</br>MYBR");
-
 			var myString = inp
 			if (inp.indexOf("LEADER") > -1) {
 				myString = inp.replace(inp.substring(0, 6), "<b>LEADER</b>");
@@ -172,7 +165,6 @@ opac2.filter("clearQuery", function($filter) {
 	return function(inp) {
 		if (!isUndefined(inp)) {
 			inp = inp.replace(/:/g, "=");
-			// inp = inp.replace(/any/g, $filter('translate')("keywords"));
 			inp = inp.replace(/nomescan/g, $filter('translate')("autore"));
 			inp = inp.replace(/nomef/g, $filter('translate')("autore"));
 			inp = inp.replace(/nome_tot/g, $filter('translate')("VID"));
@@ -199,12 +191,10 @@ opac2.filter("zeroLongLat", function() {
 opac2.filter("collocazione", function() {
 	return function(testo) {
 		testo = testo.toString();
-
 		var x = '';
 		for (var i = 0; i < 9 - testo.length; i++) {
 			x += '0';
 		}
-
 		return x + testo;
 	}
 });
@@ -226,39 +216,22 @@ opac2.filter("deweyNavigatorTitle", function() {
 		switch (length) {
 		case 1:
 			return "dwy_classe";
-			break;
 		case 2:
 			return "dwy_divisione";
-			break;
 		case 3:
 			return "dwy_sezione";
-			break;
 		case 4:
 			return "dwy_codice";
-			break;
-		default:
-			break;
 		}
 	}
 });
-opac2
-		.filter(
-				"indexed",
-				function() {
+opac2.filter("indexed",	function() {
 					return function(txt) {
-
-						// txt = txt.replace(/>>/g, "*");
-						if (!isUndefined(txt)) {
-							txt = txt.replace(/>>/g, "");
-							txt = txt.replace(/<</g, "");
-							// fix segnalazione MO1 30/01/18 BID SBL0339740,
-							// RMS2644324
-							txt = txt
-									.replace(
-											/[^A-Za-z 0-9 \à\ù\ò\è \.,\?""'!@#\$%\^&\*\(\)-_=\+;:<>\/\\\|\}\{\[\]~]*/g,
-											'')
-						}
-
+				if (!isUndefined(txt)) {
+					//Pulizia dei caratteri nosort
+					txt = cleanNoSort(txt);
+					//almaviva3 pulizia no sort
+				}
 						return txt;
 					}
 				});
@@ -386,7 +359,6 @@ opac2.filter("consis_lenght", function() {
 opac2.filter("invDisponibili", function() {
 	return function(inv) {
 		var cont = 0;
-		// debugger
 		if (inv != undefined)
 			inv.forEach(function(inventario) {
 				if (!isUndefined(inventario.disponibilita.disponibile)) {
@@ -420,5 +392,32 @@ opac2.filter("trust", function($sce) {
 	return function(link) {
 		return $sce.trustAsResourceUrl(link);
 
+	};
+});
+opac2.filter("groupByCollUnimarcView", function() { 
+	return function(collocazioniUnimarcBib) {
+		var collocazioni950 = JSON.parse(JSON.stringify(collocazioniUnimarcBib));
+		var collocazioni = [];
+		/*bib: "IC"
+cd_loc: "M00"
+cd_sez: "2009"
+consis: "test"*/
+		for(var i = 0; i < collocazioni950.length; i++) {
+			var keyValue = collocazioni950[i].bib + collocazioni950[i].cd_sez +collocazioni950[i].cd_loc + ((collocazioni950[i].consis != undefined) ? collocazioni950[i].consis : '') ;
+			collocazioni950[i].key = keyValue;
+
+			var foundIn = findIndex(collocazioni, "key", collocazioni950[i].key);
+			if(foundIn > -1) {
+				collocazioni950[i].inv.forEach(function(inv){
+					collocazioni[foundIn].inv.push(inv);
+				})
+				//Trovato, copiare gli inventari
+			} else {
+				//crea collocazioneObj
+				collocazioni.push(collocazioni950[i]);
+			}
+			
+		}
+		return JSON.parse(JSON.stringify(collocazioni));
 	};
 });

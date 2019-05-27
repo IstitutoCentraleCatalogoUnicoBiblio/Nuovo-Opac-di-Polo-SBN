@@ -89,7 +89,6 @@ opac2.registerCtrl('AuthoritySearchController', ['$scope', '$translate', '$route
       delete $scope.filtri;
       $('#panelSearch').show();
       $('#resultSearchAuth').hide()
-      //  $('#errorsAuth').hide();
     }
     $scope.removeFilter = function(filtro) {
 
@@ -282,7 +281,6 @@ opac2.registerCtrl('AuthoritySearchController', ['$scope', '$translate', '$route
         $scope.analiticheHided = 0;
         $scope.sinteticheHided = 0;
         opened = 0;
-        //	$scope.showAllRighe();
         for (var i = 0; i < $scope.authoritySearch.solrDocs.documenti.length; i++) {
 
           $("#riga_detail_auth_" + i).fadeOut('slow');

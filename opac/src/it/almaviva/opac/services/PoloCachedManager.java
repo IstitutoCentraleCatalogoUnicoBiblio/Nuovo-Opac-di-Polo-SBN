@@ -110,8 +110,10 @@ public class PoloCachedManager {
 		poloJson.put("email_segnalazioni", polo.getEmail_segnalazioni());
 		poloJson.put("numero_referente", polo.getNumero_referente());
 		poloJson.put("flag_chiedi", polo.getAuthority_flags().getFlag_chiedi());
+		poloJson.put("elementi_464", polo.getLunghezza_464());
 
 		poloJson.put("hasLinkLogo", polo.hasLinkLogo());
 		return poloJson;
 	}
+	
 }

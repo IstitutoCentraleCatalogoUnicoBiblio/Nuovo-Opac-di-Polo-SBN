@@ -1,12 +1,31 @@
+.searchBar {
+	background-color: #f5f5f5;
+    margin-top: 1%;
+    height: 40px;
+    vertical-align: text-bottom !important;
+    padding-top: 0px;
+}
+.btn-red {
+	background-color:#f66578 !important;
+	 border-color:#f66578 !important;
+}
+.px-top-2 {
+  margin-top: 2px;
+}
 .shortTd {
   padding: 0px !important;
 }
-
+.text-right {
+	text-align: right;
+}
 .colour {
   color: rgb(2, 49, 103)
 }
 /*altre classi*/
-
+.scrollMapsFix {
+    line-height: 1.35;
+    overflow: hidden;
+}
 .sottolineato {
   color: #023167;
 }

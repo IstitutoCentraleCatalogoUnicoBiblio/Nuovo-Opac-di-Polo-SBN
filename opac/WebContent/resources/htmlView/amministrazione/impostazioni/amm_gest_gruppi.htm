@@ -19,21 +19,21 @@
                                    
                 <div ng-show="!isLoading && !edit" ng-if="appGruppi.length > 0" class="list-group-item" ng-repeat="gruppo in appGruppi" ng-init="showBib = false">
                         <span>
-                                <button class="btn btn-xs btn-warning" ng-click="startEdit(gruppo,true)">
+                                <button class="btn btn-xs btn-warning" ng-click="startEdit(gruppo,true)" title="{{'amm_modifica' | translate}}">
                                     <span class="glyphicon glyphicon-cog"></span>
                                 </button>
                             </span>
                             <span>
-                                    <button class="btn btn-xs btn-danger" ng-click="deleteInLine(gruppo)">
+                                    <button class="btn btn-xs btn-danger" ng-click="deleteInLine(gruppo)" title="{{'amm_elimina' | translate}}">
                                         <span class="glyphicon glyphicon-remove"></span>
                                     </button>
                                 </span>
-                            <span class="link" ng-show="!showBib" ng-click="showBib = true">
+                            <span class="link" ng-show="!showBib" ng-click="showBib = true" title="{{'tooltip_dettaglio_amm' | translate}}">
                                     <button class="btn btn-xs btn-info">
                                             <span class="glyphicon glyphicon-chevron-down"></span>
                                         </button>
                             </span>
-                            <span class="link" ng-show="showBib" ng-click="showBib = false"> 
+                            <span class="link" ng-show="showBib" ng-click="showBib = false" title="{{'chiudi' | translate}}"> 
                                 <button class="btn btn-xs btn-info">
                                     <span class="glyphicon glyphicon-chevron-up"></span>
                                 </button></span>

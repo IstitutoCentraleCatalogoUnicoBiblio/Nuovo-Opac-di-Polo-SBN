@@ -4,11 +4,11 @@
 #     Parametri: codice POLO 
 #                porta di Solr        
 #                nome del file UNIMARC
-#                cancellazione dei dati del core SI/NO
+#                cancellazione dei dati del core SI/NO (sempre = NO se si elabora uno scarico INCREMENTALE)
 #                indicatore aggiornamento data (non obbl, = NODATA non aggiorna data scarico)
 #
 # Es:
-# nohup sh caricaOPAC2.sh SBW 8983 SBW_totale.mrc NO &
+# nohup sh caricaOPAC2.sh POLO 8983 POLO_scarico.mrc NO &
 #
 ################################################################################################
 
@@ -148,35 +148,9 @@ echo "---------------------------------------------------------------------- " >
 #
 
 #--------------- Acquisizione della data dello scarico Unimarc
-#-------- per sistemi operativi in lingua inglese invertire $6 di GRN e $7 di MS
 
-GRN=`ls -la files/${POLO}/${FILE}|awk '{print $6}'`
-MS=`ls -la files/${POLO}/${FILE}|awk '{print $7}'`
-AN=`ls -l --time-style="+%b %_d %Y" files/${POLO}/${FILE}|awk '{print $8}'`
+DATASC=`date -r files/${POLO}/${FILE} +%Y%m%d`
 
-if [ ${#GRN} = 1 ]
-  then GG="0"$GRN
- else
-  GG=$GRN
-fi
-
-#--------------------- decodifica del mese
-case $MS in
-           (Jan|gen) export MESE=01 ;;
-           (Feb|feb) export MESE=02 ;;
-           (Mar|mar) export MESE=03 ;;
-           (Apr|apr) export MESE=04 ;;
-           (May|mag) export MESE=05 ;;
-           (Jun|giu) export MESE=06 ;;
-           (Jul|lug) export MESE=07 ;;
-           (Aug|ago) export MESE=08 ;;
-           (Sep|set) export MESE=09 ;;
-           (Oct|ott) export MESE=10 ;;
-           (Nov|nov) export MESE=11 ;;
-           (Dec|dic) export MESE=12 ;;
-esac
-
-DATASC=$AN$MESE$GG
 
 # Parametri chiamata jar: codice POLO, stringa identificativa del tipo di core, stringa data YYYYMMDD     
 #   BIBLIO   = core documenti

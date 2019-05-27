@@ -74,9 +74,6 @@ opac2.factory('LocalSessionSettingsServices', ['$filter', '$q', '$location', '$c
           case 500:
             return $filter('translate')('solrStopError');
             break;
-          case 1000:
-            return "We are working for you";
-            break;
           case null:
             return $filter('translate')('genericError');
             break;
@@ -110,9 +107,11 @@ opac2.factory('LocalSessionSettingsServices', ['$filter', '$q', '$location', '$c
         var expireDate = new Date();
         // debugger
         expireDate.setFullYear(expireDate.getFullYear() + 1);
-        $cookies.putObject("cataloghiPreferiti_" + settings.polo.code, settings.favorites, {
-          'expires': expireDate
-        });
+        var cookiesKey = (settings.polo.bibliotecaAsPolo) ? "cataloghiPreferiti_" + settings.polo.code + "_" + settings.polo.codBibliotecaAsPolo :
+        	"cataloghiPreferiti_" + settings.polo.code;
+        $cookies.putObject(cookiesKey, settings.favorites, {
+            'expires': expireDate
+          });
       },
 
       removeFromFavorites: function (obj) {
@@ -122,7 +121,9 @@ opac2.factory('LocalSessionSettingsServices', ['$filter', '$q', '$location', '$c
         var expireDate = new Date();
         //debugger
         expireDate.setFullYear(expireDate.getFullYear() + 1);
-        $cookies.putObject("cataloghiPreferiti_" + settings.polo.code, settings.favorites, {
+        var cookiesKey = (settings.polo.bibliotecaAsPolo) ? "cataloghiPreferiti_" + settings.polo.code + "_" + settings.polo.codBibliotecaAsPolo :
+        	"cataloghiPreferiti_" + settings.polo.code;
+        $cookies.putObject(cookiesKey, settings.favorites, {
           'expires': expireDate
         });
 
@@ -133,8 +134,12 @@ opac2.factory('LocalSessionSettingsServices', ['$filter', '$q', '$location', '$c
         return this.getAllFavoritesFromCookies();
       },
       getAllFavoritesFromCookies: function () {
-        var polo = (settings.polo == null) ? "" : settings.polo.code;
-        var returnCookies = $cookies.getObject("cataloghiPreferiti_" + polo);
+       if (settings.polo == null)
+    	   return [];
+        var cookiesKey = (settings.polo.bibliotecaAsPolo) ? "cataloghiPreferiti_" + settings.polo.code + "_" + settings.polo.codBibliotecaAsPolo :
+        	"cataloghiPreferiti_" + settings.polo.code;
+        
+        var returnCookies = $cookies.getObject(cookiesKey);
         return (isUndefined(returnCookies)) ? [] : returnCookies;
       },
       getAllLocalSessionSettings: function () {
@@ -280,12 +285,6 @@ opac2.factory('LocalSessionSettingsServices', ['$filter', '$q', '$location', '$c
         }else
             levelInSession.splice(idx, 1);
 
-      /*  var idx = levelInSession.indexOf(level);
-        if (idx > -1) {
-          levelInSession.splice(idx, 1);
-        } else {
-          levelInSession.push(level);
-        } */
         $cookies.putObject("level_", levelInSession);
       },
       setTipoRec: function (tiporecArray) {
@@ -314,13 +313,7 @@ opac2.factory('LocalSessionSettingsServices', ['$filter', '$q', '$location', '$c
         		 tiporecArray.push(tipo)
         }else
         	tiporecArray.splice(idx, 1);
-      /*  {
-
-          tiporecArray.splice(idx, 1);
-        } else {
-          tiporecArray.push(tipo);
-        }*/
-        $cookies.putObject("tipiRecord_", tiporecArray)
+          $cookies.putObject("tipiRecord_", tiporecArray)
 
       },
       setDate: function (tiporecArray) {

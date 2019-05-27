@@ -18,15 +18,27 @@ package it.almaviva.opac.services;
 
 import it.almaviva.opac.mailer.MailBean;
 import it.almaviva.opac.mailer.MailSenderInterface;
-import it.almaviva.opac.mailer.dao.MailSenderDao;
+import it.almaviva.opac.mailer.dao.MailSenderImpl;
 import it.almaviva.utils.opac.ServerStatusBean;
+import it.almaviva.utils.opac.Util;
 
 public class MailSenderServices  implements MailSenderInterface{
-	
-	MailSenderDao mailer = new MailSenderDao();
+	private static MailSenderInterface mailer;
 
 	public ServerStatusBean sendMail(MailBean recipient) {
+		if(!Util.isFilled(mailer))
+			create();
 		return mailer.sendMail(recipient);
+	}
+
+	@Override
+	public void reloadProps() {
+		mailer.reloadProps();
+		
+	}
+	public static void create () {
+		
+		mailer = new MailSenderImpl();
 	}
 
 }

@@ -1,0 +1,63 @@
+/**
+ * @palmabit/angular-cookie-law - @version v0.5.0 - @author Palmabit Srl<hello@palmabit.com>
+ */
+.cl-banner {
+  background: #F3F3F3;
+  height: auto;
+  min-height: 24px;
+  line-height: 24px;
+  color: #00698c;
+  text-align: center;
+  padding: 5px 5px;
+  z-index: 10000;
+  position: fixed;
+  left: 0;
+  width: 100%;
+}
+
+.cl-banner.top {
+  top: 0;
+}
+
+.cl-banner.bottom {
+  bottom: 0;
+}
+
+.cl-banner p {
+  color: #00698c;
+  margin: 0;
+  padding: 0;
+}
+
+.cl-banner a {
+  color: white;
+  display: inline-block;
+  border-radius: 3px;
+  text-decoration: none;
+  padding: 0 6px;
+  margin: 5px 20px 0 20px;
+}
+
+.cl-banner .cl-accept {
+  background: #007700;
+}
+
+.cl-banner .cl-accept:hover {
+  background: #009900;
+}
+
+.cl-banner .cl-disable {
+  background: #990000;
+}
+
+.cl-banner .cl-disable:hover {
+  background: #bb0000;
+}
+
+.cl-banner .cl-policy {
+  background: #0033bb;
+}
+
+.cl-banner .cl-policy:hover {
+  background: #0055dd;
+}

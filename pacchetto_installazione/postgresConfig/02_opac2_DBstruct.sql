@@ -57,7 +57,7 @@ CREATE TABLE public.biblio (
 	cod_polo bpchar(3) NOT NULL,
 	link_servizi bpchar(3) NOT NULL DEFAULT 1,
 	kardex bpchar(3) NOT NULL DEFAULT 1,
-	sbnweb bpchar(3) NOT NULL DEFAULT 1,
+	posseduto bpchar(3) NOT NULL DEFAULT 1,
 	cod_appl_servizi bpchar(1) NULL,
 	flag_logo bpchar(1) NOT NULL DEFAULT '0',
 	fl_canc bpchar(1) NULL DEFAULT 'N', 
@@ -303,4 +303,54 @@ CREATE TABLE public.user_opac (
 WITH (
 	OIDS=FALSE
 ) ;
+ 
+/* cassificazioni (per navigatore) */
+CREATE TABLE public.classificazioni (
+	id SERIAL NOT NULL,
+    classe varchar(3) NOT NULL UNIQUE,
+    descr varchar(240) NOT NULL,
+    posizione numeric NOT NULL,
+	CONSTRAINT classificazioni_pkey PRIMARY KEY (id)
+);
+COMMENT ON TABLE public.classificazioni IS 'Riferimenti generali sulle classificazioni Dewey (codici da 0 a 999)';
+COMMENT ON COLUMN public.classificazioni.id IS 'Id record';
+COMMENT ON COLUMN public.classificazioni.classe IS 'Codice classe';
+COMMENT ON COLUMN public.classificazioni.descr IS 'Descrizione classe';
+COMMENT ON COLUMN public.classificazioni.posizione IS 'Numero di livello dell''alberatura';
+
+
+/* creazione role "opac" */
+
+CREATE ROLE opac NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT LOGIN PASSWORD 'opacadm';
+/*  grant per le tabelle */
+GRANT ALL ON TABLE public.accesso_mlol TO opac;
+GRANT ALL ON TABLE public.applicativo_servizi TO opac;
+GRANT ALL ON TABLE public.biblio TO opac;
+GRANT ALL ON TABLE public.biblio_contatti TO opac;
+GRANT ALL ON TABLE public.biblio_dettagli TO opac;
+GRANT ALL ON TABLE public.cat_fruizione950 TO opac;
+GRANT ALL ON TABLE public.flag_authority TO opac;
+GRANT ALL ON TABLE public.gruppi TO opac;
+GRANT ALL ON TABLE public.link_esterni TO opac;
+GRANT ALL ON TABLE public.materialeinventariale TO opac;
+GRANT ALL ON TABLE public.rel_bibliogruppi TO opac;
+GRANT ALL ON TABLE public.tb_polo TO opac;
+GRANT ALL ON TABLE public.user_opac TO opac;
+GRANT ALL ON TABLE public.classificazioni TO opac;
+/*  grant per le sequence */
+GRANT ALL ON SEQUENCE public.accesso_mlol_id_seq TO opac;
+GRANT ALL ON SEQUENCE public.applicativo_servizi_id_seq TO opac;
+GRANT ALL ON SEQUENCE public.biblio_contatti_id_seq TO opac;
+GRANT ALL ON SEQUENCE public.biblio_dettagli_id_seq TO opac;
+GRANT ALL ON SEQUENCE public.biblio_id_seq TO opac;
+GRANT ALL ON SEQUENCE public.cat_fruizione950_id_seq TO opac;
+GRANT ALL ON SEQUENCE public.classificazioni_id_seq TO opac;
+GRANT ALL ON SEQUENCE public.flag_authority_id_seq TO opac;
+GRANT ALL ON SEQUENCE public.gruppi_id_seq TO opac;
+GRANT ALL ON SEQUENCE public.link_esterni_id_seq TO opac;
+GRANT ALL ON SEQUENCE public.materialeinventariale_id_seq TO opac;
+GRANT ALL ON SEQUENCE public.user_opac_id_seq TO opac;
+
+
+
  

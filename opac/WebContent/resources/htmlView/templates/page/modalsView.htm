@@ -245,9 +245,12 @@
       </div>
       <div class="modal-body" id="tableannateEFascicoli">
         <div class="tabella" id="myannateEFascicoli" style=" height: 450px;">
-          <table class="table table-striped color_w font_menu_lat">
+        <span ng-show="currentKardex.kardex == undefined" class="col-md-12 text-center">
+        		<h4><i>{{'nessunFascicoloDisp' | translate}}</i></h4>
+        </span>
+          <table class="table table-striped color_w font_menu_lat" ng-show="currentKardex.kardex != undefined">
             <thead>
-              <tr ng-show="currentKardex.kardex != undefined">
+              <tr >
                 <td>
                   <b><b>{{'annoFasc' |translate}}</b></b>
                 </td>
@@ -273,11 +276,11 @@
 
             </thead>
             <tbody>
-              <tr ng-show="currentKardex.kardex == undefined">
+             <!--  <tr ng-show="currentKardex.kardex == undefined">
                 <td colspan="7">
                   <h4><i>{{'nessunFascicoloDisp' | translate}}</i></h4>
                 </td>
-              </tr>
+              </tr> -->
               <tr ng-repeat=" fasc in currentKardex.kardex" ng-init="fas = fasc.volume+'|'+fasc.numerazione+'|'+fasc.dataPubblicazione.year+'-'+fasc.dataPubblicazione.month+'-'+fasc.dataPubblicazione.day+'|'+ fasc.tipo">
                 <td>
                   {{fasc.annata}}

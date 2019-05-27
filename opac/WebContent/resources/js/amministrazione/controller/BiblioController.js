@@ -18,10 +18,10 @@ opac2_amministrazione.controller('BiblioController', ['$scope', '$translate', '$
     	 ApiServices.restartProperties();
       $scope.msg = (msg) ? msg : 'ok_success_panel'
       $('#success').show();
+      $scope.isLoading = false;
       setTimeout(function () {
         $('#success').hide()
-        $scope.msg = '';
-        $scope.init()
+       // $scope.msg = '';
       }, 5000);
     };
     $scope.findIndex = function (array, cod, value) {
@@ -68,11 +68,12 @@ opac2_amministrazione.controller('BiblioController', ['$scope', '$translate', '$
           link_servizi: false,
           kardex: false,
           sbnweb: false,
-          cod_appl_servizi: '',
+          cod_appl_servizi: 'S',
           isil: '',
           flag_logo: false,
           gruppi: [],
-          id: null
+          id: null,
+          deleted: false,
         };
       } else {
         $scope.edit = true;
@@ -86,12 +87,13 @@ opac2_amministrazione.controller('BiblioController', ['$scope', '$translate', '$
           link_servizi: biblioteca.link_servizi,
           kardex: biblioteca.kardex,
           sbnweb: biblioteca.sbnweb,
-          cod_appl_servizi: biblioteca.cod_appl_servizi,
+          cod_appl_servizi:(biblioteca.cod_appl_servizi == '') ? 'S' : biblioteca.cod_appl_servizi,
           gruppi: biblioteca.gruppi,
           isil: biblioteca.isil,
           deleted: false,
           flag_logo: biblioteca.flag_logo,
-          id: biblioteca.id
+          id: biblioteca.id,
+        
         };
       }
 
@@ -99,19 +101,28 @@ opac2_amministrazione.controller('BiblioController', ['$scope', '$translate', '$
     $scope.endInsert = function () {
       //console.info("inserted", $scope.modifyBiblio)
       $scope.isLoading = true
-      $scope.$parent.uploadFoto($scope.filesToUpload, true, $scope.modifyBiblio.cod_bib, 'logo')
+       if($scope.modifyBiblio.link_servizi)
+    	  $scope.modifyBiblio.cod_appl_servizi = '';
+      
+      if($scope.polo.linkApplicativi.length == 0) {
+    	  $scope.modifyBiblio.cod_appl_servizi = '';
+    	  $scope.modifyBiblio.link_servizi = false;
+      }
+      
       ApiServices.insertBiblio($scope.modifyBiblio).then(
         function (success) {
           if (success.data.serverStatus.code == 200) {
+              $scope.$parent.uploadFoto($scope.filesToUpload, true, $scope.modifyBiblio.cod_bib, 'logo')
+
             AmmSessionServices.setPolo(success.data.polo)
 
             $scope.polo = AmmSessionServices.getPolo();
             showSuccess()
-            // $scope.init()
+             $scope.init()
           } else {
             showError('genericError')
           }
-          $scope.init()
+      //    $scope.init()
         }, function (error) {
           showError('genericError')
           $scope.isLoading = false
@@ -124,6 +135,16 @@ opac2_amministrazione.controller('BiblioController', ['$scope', '$translate', '$
 
       $scope.isLoading = true
       $scope.$parent.uploadFoto($scope.filesToUpload, true, $scope.modifyBiblio.cod_bib, 'logo')
+
+      if($scope.modifyBiblio.link_servizi == false)
+    	  $scope.modifyBiblio.cod_appl_servizi = '';
+    	
+      if($scope.polo.linkApplicativi.length == 0) {
+    	  $scope.modifyBiblio.cod_appl_servizi = '';
+    	  $scope.modifyBiblio.link_servizi = false;
+      }
+      
+      
       ApiServices.updateBiblio($scope.modifyBiblio).then(
         function (success) {
           if (success.data.serverStatus.code == 200) {
@@ -131,15 +152,14 @@ opac2_amministrazione.controller('BiblioController', ['$scope', '$translate', '$
 
             $scope.polo = AmmSessionServices.getPolo();
             showSuccess()
-            // $scope.init()
+            $scope.init()
+
           } else {
             showError('genericError')
           }
-          $scope.init()
         }, function (error) {
           showError('genericError')
           $scope.isLoading = false
-          // $scope.init()
         }
       )
 
@@ -161,7 +181,7 @@ opac2_amministrazione.controller('BiblioController', ['$scope', '$translate', '$
         isil: biblioteca.isil,
         deleted: true,
         flag_logo: biblioteca.flag_logo,
-        id: biblioteca.id
+        id: biblioteca.id,
       };
       $scope.isLoading = true
       ApiServices.deleteBiblio($scope.modifyBiblio).then(
@@ -171,15 +191,15 @@ opac2_amministrazione.controller('BiblioController', ['$scope', '$translate', '$
 
             $scope.polo = AmmSessionServices.getPolo();
             showSuccess()
-            // $scope.init()
+            $scope.init()
+
           } else {
             showError('genericError')
           }
-          $scope.init()
+       //   $scope.init()
         }, function (error) {
           showError('genericError')
           $scope.isLoading = false
-          // $scope.init()
         }
       )
 
@@ -188,6 +208,8 @@ opac2_amministrazione.controller('BiblioController', ['$scope', '$translate', '$
       $scope.waitConfirm = biblioteca;
     }
     $scope.deleteInLineConfirm = function (biblioteca) {
+    	 $scope.isLoading = true
+         $scope.edit = true;
 
       $scope.modifyBiblio = {
         cod_polo: $scope.polo.code,
@@ -201,10 +223,9 @@ opac2_amministrazione.controller('BiblioController', ['$scope', '$translate', '$
         isil: biblioteca.isil,
         deleted: true,
         flag_logo: biblioteca.flag_logo,
-        id: biblioteca.id
+        id: biblioteca.id,
       };
-      //console.info("deleted", $scope.modifyBiblio)
-      $scope.isLoading = true
+     
       ApiServices.updateBiblio($scope.modifyBiblio).then(
         function (success) {
           if (success.data.serverStatus.code == 200) {
@@ -212,7 +233,7 @@ opac2_amministrazione.controller('BiblioController', ['$scope', '$translate', '$
 
             $scope.polo = AmmSessionServices.getPolo();
             showSuccess()
-            // $scope.init()
+             $scope.init()
           } else {
             showError('genericError')
           }
@@ -239,7 +260,6 @@ opac2_amministrazione.controller('BiblioController', ['$scope', '$translate', '$
           $scope.formError = {
             isWarning: true,
             message: 'bib_gia_pres',
-            //  message: 'bib_gia_pres',
             idBib: idx
           }
         } else {

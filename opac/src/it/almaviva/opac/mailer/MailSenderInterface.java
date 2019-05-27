@@ -21,4 +21,5 @@ import it.almaviva.utils.opac.ServerStatusBean;
 public interface MailSenderInterface {
 	
 	public ServerStatusBean sendMail(MailBean recipient);
+	public void reloadProps();
 }

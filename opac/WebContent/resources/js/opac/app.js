@@ -1,6 +1,7 @@
 var opac2 = angular.module("opac2", [
   "ngRoute", "ngSanitize", "ngCookies",
-  "ngResource", "pascalprecht.translate", "angular.filter", 'bw.paging', 'ui.slider'
+  "ngResource", "pascalprecht.translate", "angular.filter", 'bw.paging', 'ui.slider',
+  'angular-cookie-law'
 ]);
 var controllers = [ 'RicercaSemplice',
 	'AuthoritySearch',
@@ -14,13 +15,15 @@ var controllers = [ 'RicercaSemplice',
 function loadControllers(controllers) {
 	console.log("Loading Async JS")
 	controllers.forEach(function(controller) {
-		var script = document.createElement('script');
-		script.type = 'text/javascript';
-		script.src = 'js/opac/controller/' + controller + "Controller.js";
-		document.body.appendChild(script);
+		loadFileJS('js/opac/controller/' + controller + "Controller.js");
 	});
 };
-
+function loadFileJS(path) {
+	var script = document.createElement('script');
+	script.type = 'text/javascript';
+	script.src = path;
+	document.body.appendChild(script);
+};
 opac2.config(["$routeProvider", "$translateProvider", "$locationProvider","$controllerProvider",
   function($routeProvider, $translateProvider, $locationProvider, $controllerProvider) {
 	
@@ -29,38 +32,18 @@ opac2.config(["$routeProvider", "$translateProvider", "$locationProvider","$cont
     $routeProvider.when("/", {
       templateUrl: "htmlView/opac/homeView.htm",
       controller: "HomeController",
-      resolve : {
-			load : function() {
-				loadControllers(controllers)
-			}
-      }
-    })
+       })
     .when("/", {
       templateUrl: "htmlView/opac/homeView.htm",
       controller: "HomeController",
-      resolve : {
-			load : function() {
-				loadControllers(controllers);
-			}
-  }
+      
     }).when("/:codPolo", {
       templateUrl: "htmlView/opac/homeView.htm",
       controller: "HomeController",
-      resolve : {
-			load : function() {
-				loadControllers(controllers);
-			}
-    }
-
+ 
     }).when("/:codPolo/ricercaSemplice", {
       templateUrl: "htmlView/opac/ricercaSempliceView.htm",
       controller: "RicercaSempliceController",
-      resolve : {
-			load : function() {
-				loadControllers(controllers);
-			}
-      }
-
     }).when("/:codPolo/authority", {
       templateUrl: "htmlView/opac/authoritySearchView.htm",
       controller: "AuthoritySearchController",
@@ -112,7 +95,6 @@ opac2.config(["$routeProvider", "$translateProvider", "$locationProvider","$cont
 			load : function() {
 				loadControllers(controllers);
 			}
-    
     }
     }).when("/:codPolo/dettaglio/autore/:id", {
       templateUrl: "htmlView/opac/detailView.htm",
@@ -130,44 +112,27 @@ opac2.config(["$routeProvider", "$translateProvider", "$locationProvider","$cont
     }).when("/:codPolo/:codBiblioteca", {
       templateUrl: "htmlView/opac/homeView.htm",
       controller: "HomeController",
-      resolve : {
-			load : function() {
-				loadControllers(controllers);
-			}
-    }
-    }).otherwise({
+      }).otherwise({
       redirectTo: "/"
     });
     //Rimuovo l'hash nell url
     $locationProvider.html5Mode(true);
     var serverURL = myUrl();
-    try{
-      $.ajax({
-        url: serverURL.substring(0, serverURL.length - 4) + "codes/lang/it.json",
-        contentType: "application/json; charset=utf-8",
-        success: function(successEN) {
+    var languages = ["it", "en"];
+   languages.forEach(function(lang){
+	   $.ajax({
+	        url: serverURL.substring(0, serverURL.length - 4) + "codes/lang/"+lang+".json",
+	        contentType: "application/json; charset=utf-8",
+	        success: function(success) {
+	            $translateProvider.translations(lang, success);
 
-            $translateProvider.translations("it", successEN);
-
-        //  //console.log($translateProvider);
-        },
-        error: function (error) {
-            //console.log("EN ERROR", error);
-        }
-      });
-    $.ajax({
-      url: serverURL.substring(0, serverURL.length - 4) + "codes/lang/en.json",
-      contentType: "application/json; charset=utf-8",
-      success: function(successEN) {
-          $translateProvider.translations("en", successEN);
-      },
-      error: function (error) {
-          //console.log("EN ERROR", error);
-      }
-    });
-  } catch(e) {
-    //console.log(e);
-  }
+	        },
+	        error: function (error) {
+	            //console.log("EN ERROR", error);
+	        }
+	      });
+   });
+     
     $translateProvider.preferredLanguage("it");
     $translateProvider.useSanitizeValueStrategy(null);
   }
@@ -178,6 +143,7 @@ opac2.run(["$rootScope", "$location", "CodiciServices", function($rootScope, $lo
   //scarico i codici dal server con json all'interno del CodiciServices
   CodiciServices.init();
   loadControllers(controllers);
+
   console.log("The SBNWeb OPAC is now running!");
 }]);
 opac2.filter('capitalize', function () {

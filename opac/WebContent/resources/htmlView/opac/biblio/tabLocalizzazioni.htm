@@ -1,219 +1,333 @@
-<div class="panel">
-  <a class="links pull-right" ng-if="polo.flag_maps" ng-click="openMaps(dettagli[$index].tag950)">{{'tabloc_biblioteca_vicina' | translate }}</a>
+<div class="panel px-top-10" ng-show="(!dettagli[$index].tag950 || checkNoCollXOpacBib(dettagli[$index].tag950))">
+	<ul>
+		<li ng-show="check4xx(dettagli[$index])">
+			{{('msg_controlla_titoli_contenuti' | translate) }}</li>
+		<li ng-show="check8xx(dettagli[$index])">
+			{{'msg_controlla_risorsa_elettronica' | translate}}</li>
+		<li	ng-show="!check4xx(dettagli[$index]) 
+				&& !check8xx(dettagli[$index])">{{'no_950'
+			| translate }}</li>
+	</ul>
+
+	<!-- <span ng-show="check4xx(dettagli[$index])"><span class="glyphicon glyphicon-certificate"></span>{{('msg_controlla_titoli_contenuti'
+			| translate) | trust}}</span></br> 
+<span ng-show="check8xx(dettagli[$index])"><span class="glyphicon glyphicon-certificate"></span>{{'msg_controlla_risorsa_elettronica'
+			| translate | trust}}</span></br> 
+			
+<span ng-show="!check4xx(dettagli[$index]) 
+				&& !check8xx(dettagli[$index])">{{'no_950' | translate }}</span> -->
 </div>
+
+<div class="panel text-right" ng-show="dettagli[$index].tag950 && !checkNoCollXOpacBib(dettagli[$index].tag950)">
+  <a class="links" ng-if="polo.flag_maps" ng-click="openMaps(dettagli[$index].tag950)">{{'tabloc_biblioteca_vicina' | translate }}</a>
+</div>
+
+
 <div class="panel-group">
-  <div ng-repeat="tag in dettagli[$index].tag950" class="panel panel-default" ng-show="(polo.bibliotecaAsPolo && polo.codBibliotecaAsPolo == tag.coll[0].bib) || !(polo.bibliotecaAsPolo)">
-    <div ng-click="serviziREST(dettagli[ $parent.$index].id, tag.coll[0].bib || tag.inv[0].bib, $parent.$index, $index)" data-toggle="collapse"
-      data-target="#{{ 'collapse_local_bib_' + $parent.$index + '_'  + $index }}" class="panel-heading link">
-      <h6 class="panel-title" title="{{'tooltip_biblioteceTempoReale' | translate}}">
-        <span class="glyphicon glyphicon-chevron-down blue" ng-show="tag.coll"></span> &nbsp;
-        <img src="images/library.svg" ng-click="$event.stopPropagation(); calculateISIL( tag.coll[0].bib || tag.inv[0].bib, $parent.$index)"
-          title="{{'visualizzaAnagrafe' | translate}}" /> &nbsp;&nbsp;
-        <span class="th_menu link"><b>{{tag.bib}}</b>&nbsp;&nbsp;</span><span ng-show="dettagli[$parent.$index].tag950[$index].richiedi != undefined && dettagli[$parent.$index].tag950[$index].richiedi == false "
-          class="disabled">({{'noServiziBib' | translate }})</span>
-        <span ng-show="tag.show950Nocoll" class="disabled">({{'noInvDisp' | translate }})</span>
-        <!--  <a  ng-href="http://anagrafe.iccu.sbn.it/isil/IT-{{ dettagli[$index].tag950.isil}}" target="_blank"> -->
-        <!--    <span   ng-click="calculateISIL( tag.coll[0].bib || tag.inv[0].bib, $parent.$index)" class="glyphicon glyphicon-link blue" title="{{'visualizzaAnagrafe' | translate}}"> -->
+	<div ng-repeat="tag in dettagli[$index].tag950"
+		class="panel panel-default"
+		ng-show="(polo.bibliotecaAsPolo && polo.codBibliotecaAsPolo == tag.coll[0].bib) || !(polo.bibliotecaAsPolo)">
+		<div ng-attr-id="{{'restCall_' + $parent.$index + '_'  + $index }}"
+			ng-click="serviziREST(dettagli[ $parent.$index].id, tag.coll[0].bib || tag.inv[0].bib, $parent.$index, $index)"
+			data-toggle="collapse"
+			ng-init="test = onShowing950($parent.$index, (polo.bibliotecaAsPolo && polo.codBibliotecaAsPolo == tag.coll[0].bib) || !(polo.bibliotecaAsPolo))"
+			;
+      data-target="#{{ 'collapse_local_bib_' + $parent.$index + '_'  + $index }}"
+			class="panel-heading link">
+			<h6 class="panel-title"
+				title="{{'tooltip_biblioteceTempoReale' | translate}}">
+				<span class="glyphicon glyphicon-chevron-down blue"
+					ng-show="tag.coll"></span> &nbsp; <img src="images/library.svg"
+					ng-click="$event.stopPropagation(); calculateISIL( tag.coll[0].bib || tag.inv[0].bib, $parent.$index)"
+					title="{{'visualizzaAnagrafe' | translate}}" /> &nbsp;&nbsp; <span
+					class="th_menu link"><b>{{tag.bib}}</b>&nbsp;&nbsp;</span><span
+					ng-show="dettagli[$parent.$index].tag950[$index].richiedi != undefined && dettagli[$parent.$index].tag950[$index].richiedi == false "
+					class="disabled">({{'noServiziBib' | translate }})</span> <span
+					ng-show="tag.show950Nocoll" class="disabled">({{'noInvDisp'
+					| translate }})</span> </span>
+			</h6>
+		</div>
+		<div ng-init="documento = dettagli[$parent.$index]"
+			ng-attr-id="{{'collapse_local_bib_' + $parent.$index + '_'  + $index }}"
+			class="panel-collapse collapse">
+			<div
+				ng-show="(tag.show950 && !tag.show950Nocoll) && tag.coll.length > 0"
+				class="panel-body">
 
-        </span>
-      </h6>
-    </div>
-    <div ng-init="documento = dettagli[$parent.$index]" ng-attr-id="{{'collapse_local_bib_' + $parent.$index + '_'  + $index }}"
-      class="panel-collapse collapse">
-      <div ng-show="tag.show950 && !tag.show950Nocoll" class="panel-body">
-        <table style="border: none;" class="table table-striped table-condensed col-md-6">
-          <thead>
-            <tr style="border-top: 1px solid #5497BC; ">
-              <td class="col-sm-2 vertical-align-top">
-                <b><b> {{ 'consistenza' | translate }}</b></b>
-              </td>
-              <td class="col-sm-1 vertical-align-top">
-                <b><b>{{ 'collocazione' | translate }}</b></b>
-              </td>
+				<table style="border: none;"
+					class="table table-striped table-condensed col-md-6">
+					<thead>
+						<tr style="border-top: 1px solid #5497BC;">
+							<td class="col-sm-2 vertical-align-top"><b><b> {{
+										'consistenza' | translate }}</b></b></td>
+							<td class="col-sm-1 vertical-align-top"><b><b>{{
+										'collocazione' | translate }}</b></b></td>
 
-              <td class="vertical-align-top">
-                <!--  <b><b>  {{'inventario' | translate}}</b></b> -->
-                <table class="table">
-                  <tr>
-                    <td>
-                      <b><b> {{ 'inventario' | translate }}</b></b>
-                    </td>
-                    <td>
-                      <b>   {{'disponibilita' |translate}}</b>
-                    </td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="border-top: 1px solid #ccdded;" ng-repeat="col in tag.coll">
-              <td class="col-sm-2">
-                {{col.consis | consis_lenght }}
-              </td>
-              <td class="col-sm-2">
-                {{col.cd_sez}} {{ col.cd_loc}} {{col.spec_loc}}
-              </td>
+							<td class="vertical-align-top">
+								<!--  <b><b>  {{'inventario' | translate}}</b></b> -->
+								<table class="table">
+									<tr>
+										<!-- <td class="col-sm-1">
+                      <b><b> {{(('sequenzaInv' | translate) | limitTo: 3) + "."}}</b></b>
+                    </td> -->
+										<td class="col-sm-4"><b><b> {{ 'inventario' |
+													translate }}</b></b></td>
+										<td><b> {{'disponibilita' |translate}}</b></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</thead>
+					<tbody ng-init="collocazioni = (tag.coll | groupByCollUnimarcView)">
+						<tr style="border-top: 1px solid #ccdded;"
+							ng-repeat="col in collocazioni" class="vertical-align-top">
+							<td class="col-sm-2 vertical-align-top">{{col.consis |
+								consis_lenght }}</td>
+							<td class="col-sm-2 vertical-align-top">{{col.cd_sez}} {{
+								col.cd_loc}} {{col.spec_loc}}</td>
 
 
-              <td ng-init="showInv = (col.inv.length == 1) ? true : false" align="center">
-                <span ng-show="!showInv" ng-click="showInv = true" style="color: #337abd;" title="{{'tooltip_visualizza_tutti' | translate }}"><span class="glyphicon glyphicon-chevron-down">{{" " +col.inv.length}}</span>
-                </span>
-                <span ng-show="(col.inv.length != 1 && showInv)" ng-click="showInv = false" style="color: #337abd;" title="{{'tooltip_chiudi_inventari' | translate }}"><span class="glyphicon glyphicon-chevron-up"></span></span>
-                <table ng-if="showInv" style="border: none;" class="table table-bordered table-condensed" ng-attr-id="{{'newTable_' + $index}}">
+							<td ng-init="showInv = (col.inv.length == 1) ? true : false">
+								<!-- <span ng-if="col.inv.length == 0"><i>{{'no_inv_coll_si' |translate}}</i></span> -->
+								<span ng-show="!showInv && col.inv.length > 0"
+								ng-click="showInv = true" style="color: #337abd;" class="links"
+								title="{{'tooltip_visualizza_tutti' | translate }}"> <span
+									class="glyphicon glyphicon-chevron-down"></span>
+									{{('tooltip_visualizza' | translate ) + " " + "(" +
+									col.inv.length + ")"}} <!-- {{" " +col.inv.length + " " + ('tabloc_inventari_totali' | translate ) }}  -->
+							</span> <span class="links"
+								ng-show="(col.inv.length != 1 && showInv) && col.inv.length > 0"
+								ng-click="showInv = false" style="color: #337abd;"
+								title="{{'tooltip_chiudi_inventari' | translate }}"><span
+									class="glyphicon glyphicon-chevron-up"></span></span>
+								<table ng-if="showInv" style="border: none;"
+									class="table table-bordered table-condensed"
+									ng-attr-id="{{'newTable_' + $index}}">
 
-                  <tbody>
-                    <tr ng-repeat="inv in col.inv">
-                      <td class="col-sm-3" ng-attr-id="{{'inventario950N_' + $index}}">
-                        {{inv.cd_serie }} {{ inv.cd_inv | collocazione }}<span ng-show="inv.precis_inv"> / {{inv.precis_inv}}</span>
-                      </td>
-                      <td>
-                       <span ng-if="inv.cd_frui && !tag.richiedi" class="disabled">{{inv.cd_frui.trim()| decodeCodFrui | translate}} </span> 
-                        
-                        <button id="disponibileXRichiestaUnimarc"
-                        type="button" class="btn btn-success btn-xs" ng-if="!(inv.cod_no_disp != '') && tag.richiedi"
-                          ng-click="$parent.$parent.prenota(documento.isbd, {serie: inv.cd_serie, numero: inv.cd_inv, bib: inv.bib, codFrui: inv.cd_frui}, {loc: col.cd_loc, sez: col.cd_sez, spec: col.spec_loc }, inv.bib, documento, tag, (documento.level == 's'))"
-                          title="{{inv.cd_frui.trim()| decodeCodFrui | translate}}">{{'disponibileXRichiesta' | translate }}</button>                       
-                        <span ng-if="inv.cod_no_disp != ''" class="disabled" title="{{'nonDisponibile' | translate }}:   {{inv.cod_no_disp}}">{{"nonDisponibileError" | translate }} </span>
-                      </td>
+									<tbody>
+										<tr ng-repeat="inv in col.inv">
+											<td class="col-sm-1">{{inv.seq_coll}}</td>
+											<td class="col-sm-3"
+												ng-attr-id="{{'inventario950N_' + $index}}">
+												{{inv.cd_serie }} {{ inv.cd_inv | collocazione }}<span
+												ng-show="inv.precis_inv"> / {{inv.precis_inv}}</span>
+											</td>
+											<td><span ng-if="inv.cd_frui && !tag.richiedi"
+												class="disabled">{{inv.cd_frui.trim()| decodeCodFrui
+													| translate}} </span>
 
-                  </tbody>
+												<button id="disponibileXRichiestaUnimarc" type="button"
+													class="btn btn-success btn-xs"
+													ng-if="!(inv.cod_no_disp != '') && tag.richiedi"
+													ng-click="$parent.$parent.prenota(documento.isbd, {serie: (inv.cd_serie == '') ? '   ' : inv.cd_serie, numero: inv.cd_inv, bib: inv.bib, codFrui: inv.cd_frui, precis_inv:inv.precis_inv}, {loc: col.cd_loc, sez: col.cd_sez, spec: col.spec_loc }, inv.bib, documento, tag, (documento.level == 's'))"
+													title="{{inv.cd_frui.trim()| decodeCodFrui | translate}}">{{'disponibileXRichiesta'
+													| translate }}</button>
 
-                </table>
-              </td>
-              </tr>
-          </tbody>
-        </table>
-      </div>
-      <!-- tabella webservice -->
-      <div ng-init="documento = dettagli[$parent.$index]" ng-show="documento.tag950[$index].webservice && !documento.tag950[$index].show950"
-        class="panel-body">
-        <!-- Table -->
-        <table style="border: none;" class="table table-striped table-condensed col-md-6">
-          <thead>
-            <tr style="border-top: 1px solid #5497BC;">
-              <td class="col-sm-2">
-                <b><b> {{ 'consistenza' | translate }}</b></b>
-              </td>
-              <td class="col-sm-1">
-                <b><b>{{ 'collocazione' | translate }}</b></b>
-              </td>
+												<button id="disponibileXFascicoliUnimarc" type="button"
+													style="background-color: #76a3ba; border-color: #76a3ba;"
+													class="btn btn-info btn-xs"
+													ng-if="!(inv.cod_no_disp != '')"
+													ng-show="documento.level == 's' && tag.richiediFascicoli"
+													ng-click="$parent.$parent.annateFasc(inv.cd_inv, {loc: col.cd_loc, sez: col.cd_sez, spec: col.spec_loc }, inv.bib, inv.cd_serie , documento, tag,inv.precis_inv)"
+													title="{{'tooltip_fascicoli' | translate}}">{{'annateEFascicoli'
+													| translate }}</button>
 
-              <td>
-                <!--  <b><b>  {{'inventario' | translate}}</b></b> -->
-                <table class="table">
-                  <tr>
-					<td class="col-sm-1">
+												<button ng-show="urlCopiaDigitale956 != null"
+													ng-init="urlCopiaDigitale956 = creaCopiaDigitaleUnimarc( inv.bib + (inv.cd_serie.length == 0 ? '   ' : inv.cd_serie  ) + (inv.cd_inv | collocazione), documento)"
+													id="disponibileXCopiaDigitale" type="button"
+													class="btn btn-info btn-red btn-xs"
+													ng-click="openCopiaDigitale(urlCopiaDigitale956)"
+													title="{{'tooltip_disp_digitale' | translate}}">
+													{{'copiaDigitale' | translate }}</button> <span
+												ng-if="inv.cod_no_disp != ''" class="disabled"
+												title="{{'nonDisponibile' | translate }}:   {{inv.cod_no_disp}}">{{"nonDisponibileError"
+													| translate }} </span></td>
+									</tbody>
+
+								</table>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!-- tabella webservice -->
+			<div ng-init="documento = dettagli[$parent.$index]"
+				ng-show="documento.tag950[$index].webservice && !documento.tag950[$index].show950"
+				class="panel-body">
+				<!-- Table -->
+				<table style="border: none;"
+					class="table table-striped table-condensed col-md-6">
+					<thead>
+						<tr style="border-top: 1px solid #5497BC;">
+							<td class="col-sm-2"><b><b> {{ 'consistenza' |
+										translate }}</b></b></td>
+							<td class="col-sm-1"><b><b>{{ 'collocazione' |
+										translate }}</b></b></td>
+
+							<td>
+								<!--  <b><b>  {{'inventario' | translate}}</b></b> -->
+								<table class="table">
+									<tr>
+										<!-- <td class="col-sm-1">
 					<b title="{{'sequenzaInv' | translate}}">{{(('sequenzaInv' | translate) | limitTo: 3) + "."}}</b>
-					</td>
-                    <td class="col-sm-3">
-                      <b>    {{ 'inventario' | translate }}  </b>
-                    </td>
-                    <td class="col-sm-3">
-                      <!--  <b> {{'titolo' | translate}}</b> -->
-                    </td>
+					</td> -->
+										<td class="col-sm-4"><b> {{ 'inventario' | translate
+												}} </b></td>
+										<!--      <td class="col-sm-3">
+                      <b> {{'titolo' | translate}}</b> 
+                    </td>-->
 
-                    <td>
-                      <b>   {{'disponibilita' |translate}}</b>
-                    </td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="border-top: 1px solid #ccdded;" ng-init="applicativo = documento.tag950[$index].applicativoRichieste" ng-repeat="collocazione in documento.tag950[$index].webservice.posseduto.collocazione">
-              <td class="col-sm-2 vertical-align-top">
-                <b ng-show="collocazione.consis"></b>{{collocazione.consis | consis_lenght }}
-              </td>
-              <td class="col-sm-2 vertical-align-top">
-                <b ng-show="collocazione.sez || collocazione.loc || collocazione.spec"> </b>{{collocazione.sez}} {{ collocazione.loc}}
-                {{collocazione.spec}} 
-              </td>
-
-
-              <td ng-init="showInv = ((collocazione.inventario.length == 1) ? true : false)" class="vertical-align-top">
-                <span ng-show="collocazione.inventario">
-                <span ng-show="(collocazione.inventario.length >  1) && showInv" class="links" ng-click="showInv = false" style="color: #337abd;"
-                  title="{{'tooltip_chiudi_inventari' | translate }}">
-                      <span class="glyphicon glyphicon-chevron-up"></span></span>
-
-                <span ng-show="!showInv" ng-click="showInv = true" style="color: #337abd;" class="links" title="{{'tooltip_visualizza_tutti' | translate }}"> 
-                  <span class="glyphicon glyphicon-chevron-down"></span>{{" " +collocazione.inventario.length
-                + " " + ('tabloc_inventari_totali' | translate ) }}
-                </span>
-                <span ng-show="tag.applicativo == 'S'">
-                <span ng-show = "!showInv && ((collocazione.inventario | invDisponibili)  > 0)">
-                  {{ " - " + (collocazione.inventario | invDisponibili) + " " + ( ((collocazione.inventario | invDisponibili) > 1) ? 'tabloc_inventari_disponibili' : 'tabloc_inventario_disponibili' | translate ) }}
-                </span>
-                <span ng-show="!showInv && ((collocazione.inventario | invPrenotabili)  > 0)">
-                 {{ " - " + (collocazione.inventario | invPrenotabili) + " " +  (((collocazione.inventario | invPrenotabili) > 1 ) ? 'tabloc_inventari_prenotabili' : 'tabloc_inventario_prenotabili' | translate ) }}
-                </span>
-                </span>
-                <table ng-show="showInv" style="border: none;" ng-show="collocazione.inventario.length > 0" class="table table-bordered table-condensed"
-                  ng-attr-id="{{'newTable_' + $index}}">
-                  <tbody>
-                    <tr ng-repeat="inventario in collocazione.inventario">
-                    <td class="col-sm-1">
-                    {{(inventario.seq) ? inventario.seq : '' }}
-                    </td>
-                      <td colspan="{{(((inventario.documento.bid != undefined) && (documento.id != inventario.documento.bid)) ? '1':'2')}}" class="col-sm-3"
-                        ng-attr-id="{{'inventarioN_' + $index}}" ng-show="inventario.numero">
-                        {{ inventario.serie.trim() + (inventario.numero | collocazione) }} <span ng-show="inventario.precis"> / {{inventario.precis}}</span>
-                      </td><!-- SEPARATO DA se non primo char '/'  la seq-->
-                      <td ng-if="((inventario.documento.bid != undefined) && (documento.id != inventario.documento.bid))" class="col-sm-3" ng-attr-id="{{'inventarioTitoloN_' + $index}}">
-                        <!--  {{'id: ' +documento.id}}{{"invid: " +inventario.documento.bid}} -->
-                        <span style="color: #337abd;" class="links" ng-show="((inventario.documento.bid != undefined) &&(documento.id != inventario.documento.bid))"
-                          ng-click="$parent.$parent.findByID(inventario.documento.bid)" title="{{inventario.documento.isbd}}">
-                              {{(inventario.documento.isbd | limitTo: 35) + ' [..]'}}
-                          </span>
-                      </td>
-
-                      <td ng-attr-id="{{'inventarioDisp_' + $index}}">
-                          <!--  ng-if="!((inventario.documento.bid != undefined) && (documento.id != inventario.documento.bid))" -->
-                        <button id="disponibileXRichiesta"
-                        type="button" class="btn btn-success btn-xs" ng-show="inventario.disponibilita.disponibile && documento.tag950[$parent.$parent.$index].webservice.useOnlineService"
-                          ng-click="$parent.$parent.prenota((documento.level == 'm' && documento.id != inventario.documento.bid) ? inventario.documento.isbd : null, inventario, collocazione, inventario.bib, documento, $parent.$parent.$index, (documento.level == 's'))"
-                          title="{{inventario.codFrui | decodeCodFrui | translate}}">{{'disponibileXRichiesta' | translate }}</button>
-
-                        <span ng-show="!inventario.disponibilita.disponibile && documento.tag950[$parent.$parent.$index].webservice.useOnlineService" class="disabled" title="{{'nonDisponibile' | translate }}: {{inventario.disponibilita.motivo}} ">{{inventario.disponibilita.motivo}}
-                           <span ng-show="inventario.disponibilita.dataDisponibilita">
-                          {{'finoAl' | translate}} {{inventario.disponibilita.dataDisponibilita.day+'/'+inventario.disponibilita.dataDisponibilita.month + '/'+inventario.disponibilita.dataDisponibilita.year}}
-                              &nbsp;&nbsp;
-                              <span ng-if="inventario.disponibilita.prenotazioni.numeroPrenotazioni" >{{('tabloc_prenotati' | translate) + ': ' + inventario.disponibilita.prenotazioni.numeroPrenotazioni}}
-                              </span> &nbsp;&nbsp;
-                        <button ng-if="inventario.disponibilita.prenotazioni.prenotabile" class="btn  btn-warning btn-xs" type="button" ng-click="$parent.$parent.prenota((documento.level == 'm' && documento.id != inventario.documento.bid) ? inventario.documento.isbd : null, inventario, collocazione,inventario.bib, documento, $parent.$parent.$index, (documento.level == 's'))"
-                          title="{{((inventario.codFrui != undefined) ? (inventario.codFrui| decodeCodFrui | translate) : '')}}">
-                                {{'prenota' | translate }} </button>
-                        </span>
-                        </span>
-
-                        <span>
-                          <button type="button" style="background-color:#76a3ba; border-color:#76a3ba;" class="btn btn-info btn-xs"
-                          ng-show="documento.level == 's' && (inventario.disponibilita.disponibile || inventario.disponibilita.prenotazioni.prenotabile) && documento.tag950[$parent.$parent.$index].richiediFascicoli &&  documento.tag950[$parent.$parent.$index].webservice.useOnlineService "
-                          ng-click="$parent.$parent.annateFasc(inventario.numero, collocazione, inventario.bib, inventario.serie , $parent.$parent.$parent.$index, $parent.$parent.$index,inventario.precis)"
-                            title="{{'tooltip_fascicoli' | translate}}">{{'annateEFascicoli' | translate }}</button>
-
-                              <button type="button"  style="background-color:#f66578; border-color:#f66578;" class="btn btn-info btn-xs"
-                              ng-show="inventario.url && documento.tag950[$parent.$parent.$index].webservice.useOnlineService"
-                              ng-click="openCopiaDigitale(inventario.url)"  title="{{'tooltip_disp_digitale' | translate}}">{{'copiaDigitale' | translate }}</button>
-                        </span>
-                        <span ng-show="!documento.tag950[$parent.$parent.$index].webservice.useOnlineService"
-                             class="disabled">{{((inventario.codFrui != undefined) ? (inventario.codFrui| decodeCodFrui | translate) : '')}}</span>
-                      </td>
-                    </tr>
-                  </tbody>
-
-                </table>
-                </span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+										<td><b> {{'disponibilita' |translate}}</b></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr style="border-top: 1px solid #ccdded;"
+							ng-init="applicativo = documento.tag950[$index].applicativoRichieste"
+							ng-repeat="collocazione in documento.tag950[$index].webservice.posseduto.collocazione">
+							<td class="col-sm-2 vertical-align-top"><b
+								ng-show="collocazione.consis"></b>{{collocazione.consis |
+								consis_lenght }}</td>
+							<td class="col-sm-2 vertical-align-top"><b
+								ng-show="collocazione.sez || collocazione.loc || collocazione.spec">
+							</b>{{collocazione.sez}} {{ collocazione.loc}} {{collocazione.spec}}
+							</td>
 
 
-  </div>
+							<td
+								ng-init="showInv = ((collocazione.inventario.length == 1) ? true : false)"
+								class="vertical-align-top"><span
+								ng-show="collocazione.inventario"> <span
+									ng-show="(collocazione.inventario.length >  1) && showInv"
+									class="links" ng-click="showInv = false"
+									style="color: #337abd;"
+									title="{{'tooltip_chiudi_inventari' | translate }}"> <span
+										class="glyphicon glyphicon-chevron-up"></span></span> <span
+									ng-show="!showInv" ng-click="showInv = true"
+									style="color: #337abd;" class="links"
+									title="{{'tooltip_visualizza_tutti' | translate }}"> <span
+										class="glyphicon glyphicon-chevron-down"></span>
+									<!-- {{" " +collocazione.inventario.length
+                + " " + ('tabloc_inventari_totali' | translate ) }} -->
+										{{('tooltip_visualizza' | translate ) +" (" +
+										collocazione.inventario.length + ")"}}
+								</span> <span ng-show="tag.applicativo == 'S'"> <span
+										ng-init="inventariDisponibiliWS = (collocazione.inventario | invDisponibili)"
+										ng-show="!showInv && (inventariDisponibiliWS > 0)"> {{
+											" - " + ( (inventariDisponibiliWS > 1) ?
+											'tabloc_inventari_disponibili' :
+											'tabloc_inventario_disponibili' | translate ) + " " +
+											inventariDisponibiliWS }} </span> <span
+										ng-init="inventariPrenotabiliWS = (collocazione.inventario | invPrenotabili)"
+										ng-show="!showInv && (inventariPrenotabiliWS  > 0)"> {{
+											" - " + ( (inventariPrenotabiliWS > 1) ?
+											'tabloc_inventari_prenotabili' :
+											'tabloc_inventario_prenotabili' | translate ) + " "+
+											inventariPrenotabiliWS }} </span>
+								</span>
+									<table ng-show="showInv" style="border: none;"
+										ng-show="collocazione.inventario.length > 0"
+										class="table table-bordered table-condensed"
+										ng-attr-id="{{'newTable_' + $index}}">
+										<tbody>
+											<tr ng-repeat="inventario in collocazione.inventario">
+												<td class="col-sm-1">{{(inventario.seq) ?
+													inventario.seq : '' }}</td>
+												<td
+													colspan="{{(((inventario.documento.bid != undefined) && (documento.id != inventario.documento.bid)) ? '1':'2')}}"
+													class="col-sm-3" ng-attr-id="{{'inventarioN_' + $index}}"
+													ng-show="inventario.numero">{{ inventario.serie +
+													(inventario.numero | collocazione) }} <span
+													ng-show="inventario.precis"> / {{inventario.precis}}</span>
+												</td>
+												<!-- SEPARATO DA se non primo char '/'  la seq-->
+												<td
+													ng-if="((inventario.documento.bid != undefined) && (documento.id != inventario.documento.bid))"
+													class="col-sm-3"
+													ng-attr-id="{{'inventarioTitoloN_' + $index}}">
+													<!--  {{'id: ' +documento.id}}{{"invid: " +inventario.documento.bid}} -->
+													<span style="color: #337abd;" class="links"
+													ng-show="((inventario.documento.bid != undefined) &&(documento.id != inventario.documento.bid))"
+													ng-click="$parent.$parent.findByID(inventario.documento.bid)"
+													title="{{('doc_con_inv' | translate) +': ' + inventario.documento.isbd}}">
+														{{(inventario.documento.isbd | limitTo: 35) +
+														((inventario.documento.isbd.length > 35) ? ' [...]' :
+														'')}} </span>
+												</td>
 
+												<td ng-attr-id="{{'inventarioDisp_' + $index}}">
+													<!--  ng-if="!((inventario.documento.bid != undefined) && (documento.id != inventario.documento.bid))" -->
+													<button id="disponibileXRichiesta" type="button"
+														class="btn btn-success btn-xs"
+														ng-show="inventario.disponibilita.disponibile && documento.tag950[$parent.$parent.$index].webservice.useOnlineService"
+														ng-click="$parent.$parent.prenota((documento.level == 'm' && documento.id != inventario.documento.bid) ? inventario.documento.isbd : null, inventario, collocazione, inventario.bib, documento, $parent.$parent.$index, (documento.level == 's'))"
+														title="{{inventario.codFrui | decodeCodFrui | translate}}">{{'disponibileXRichiesta'
+														| translate }}</button> <span
+													ng-show="!inventario.disponibilita.disponibile && documento.tag950[$parent.$parent.$index].webservice.useOnlineService"
+													class="disabled"
+													title="{{'nonDisponibile' | translate }}: {{inventario.disponibilita.motivo}} ">{{inventario.disponibilita.motivo}}
+														<span ng-show="inventario.disponibilita.dataDisponibilita">
+															{{'finoAl' | translate}}
+															{{inventario.disponibilita.dataDisponibilita.day+'/'+inventario.disponibilita.dataDisponibilita.month
+															+ '/'+inventario.disponibilita.dataDisponibilita.year}}
+															&nbsp;&nbsp; <span
+															ng-if="inventario.disponibilita.prenotazioni.numeroPrenotazioni">{{('tabloc_prenotati'
+																| translate) + ': ' +
+																inventario.disponibilita.prenotazioni.numeroPrenotazioni}}
+														</span> &nbsp;&nbsp;
+															<button
+																ng-if="inventario.disponibilita.prenotazioni.prenotabile"
+																class="btn  btn-warning btn-xs" type="button"
+																ng-click="$parent.$parent.prenota((documento.level == 'm' && documento.id != inventario.documento.bid) ? inventario.documento.isbd : null, inventario, collocazione,inventario.bib, documento, $parent.$parent.$index, (documento.level == 's'))"
+																title="{{((inventario.codFrui != undefined) ? (inventario.codFrui| decodeCodFrui | translate) : '')}}">
+																{{'prenota' | translate }}</button>
+													</span>
+												</span> <span>
+														<button type="button"
+															style="background-color: #76a3ba; border-color: #76a3ba;"
+															class="btn btn-info btn-xs"
+															ng-show="documento.level == 's' && (inventario.disponibilita.disponibile || inventario.disponibilita.prenotazioni.prenotabile) && documento.tag950[$parent.$parent.$index].richiediFascicoli "
+															ng-click="$parent.$parent.annateFasc(inventario.numero, collocazione, inventario.bib, inventario.serie , documento, tag,inventario.precis)"
+															title="{{'tooltip_fascicoli' | translate}}">{{'annateEFascicoli'
+															| translate }}</button> <!-- &&  documento.tag950[$parent.$parent.$index].webservice.useOnlineService  -->
+
+														<button type="button" class="btn btn-info btn-red btn-xs"
+															ng-show="inventario.url && documento.tag950[$parent.$parent.$index].webservice.useOnlineService"
+															ng-click="openCopiaDigitale(inventario.url)"
+															title="{{'tooltip_disp_digitale' | translate}}">{{'copiaDigitale'
+															| translate }}</button>
+												</span> <span
+													ng-show="!documento.tag950[$parent.$parent.$index].webservice.useOnlineService"
+													class="disabled">{{((inventario.codFrui !=
+														undefined) ? (inventario.codFrui| decodeCodFrui |
+														translate) : '')}}</span>
+												</td>
+											</tr>
+										</tbody>
+
+									</table>
+							</span></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+
+	</div>
+	<div class="panel text-left"
+		ng-show="((dettagli[$index].tag950 && !checkNoCollXOpacBib(dettagli[$index].tag950)) && !polo.bibliotecaAsPolo)
+		|| ((dettagli[$index].tag950 && !checkNoCollXOpacBib(dettagli[$index].tag950)) && polo.bibliotecaAsPolo && !polo.bibUsePosseduto)">
+	<!-- >	<span ng-show="check4xx(dettagli[$index])"><span class="glyphicon glyphicon-certificate"></span>{{('msg_controlla_titoli_contenuti'		| translate) | trust}}</span></br> 
+		<span ng-show="check8xx(dettagli[$index])"><span class="glyphicon glyphicon-certificate"></span>{{'msg_controlla_risorsa_elettronica'| translate | trust}}</span></br>
+	-->
+	<ul style="margin-top: 2em">
+		<li ng-show="check4xx(dettagli[$index])">
+			{{('msg_controlla_titoli_contenuti' | translate) }}</li>
+		<li ng-show="check8xx(dettagli[$index])">
+			{{'msg_controlla_risorsa_elettronica' | translate}}</li>
+	</ul>
+	</div>
 </div>

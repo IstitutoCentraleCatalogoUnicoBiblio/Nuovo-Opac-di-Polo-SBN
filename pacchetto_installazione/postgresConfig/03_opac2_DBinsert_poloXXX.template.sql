@@ -21,7 +21,7 @@ VALUES('XXX', 'Polo XXX', 'Polo XXX', NULL, 0, 0, 0, NULL,
 
 
 --Biblioteche
-INSERT INTO public.biblio (id, "name", cod_bib, cod_anagrafe, cod_polo, link_servizi, kardex, sbnweb, cod_appl_servizi, flag_logo, fl_canc) 
+INSERT INTO public.biblio (id, "name", cod_bib, cod_anagrafe, cod_polo, link_servizi, kardex, posseduto, cod_appl_servizi, flag_logo, fl_canc) 
 VALUES(NEXTVAL('biblio_id_seq'), 'Biblioteca...', ' ..', '......', 'XXX', 0, 1, 1, ' ', '0', 'N');
 --[...]
 
@@ -42,7 +42,7 @@ INSERT INTO public.cat_fruizione950 (id, cod_polo, cod_cat, desc_it, desc_en) VA
 --[...]
 
 --flag authority
-INSERT INTO public.flag_authority (id, cod_polo, flag_autori, flag_soggetti) VALUES (NEXTVAL('flag_authority_id_seq'), 'XXX', '0', '0');
+INSERT INTO public.flag_authority (id, cod_polo, flag_autori, flag_soggetti, flag_classi, flag_chiedi) VALUES (NEXTVAL('flag_authority_id_seq'), 'XXX', '0', '0', '0', '0');
 
 /* biblio_dettagli/biblio_contatti sono popolate dal batch di importazione biblioteche */
 --biblio_dettagli

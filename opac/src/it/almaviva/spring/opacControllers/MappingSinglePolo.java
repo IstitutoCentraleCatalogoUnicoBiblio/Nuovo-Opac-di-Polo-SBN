@@ -23,6 +23,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import it.almaviva.opac.externalCall.wikipedia.dao.WikipediaClientDao;
+import it.almaviva.opac.services.MailSenderServices;
+
 /**
  * <h2>Controller di mapping</h2> Classe che gestisce gli url per il
  * re-indirizzamento in base al codice del polo o biblioteca selezionati
@@ -70,7 +73,8 @@ public class MappingSinglePolo extends OpacViewController {
 	@RequestMapping(value = {"/reload","/restart"})
 	public ModelAndView reloadCache() {
 		cachedPoli.update();
-
+		MailSenderServices.create();
+		WikipediaClientDao.loadProxyConf();
 		return getListPolo();
 	}
 	/**

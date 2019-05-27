@@ -107,8 +107,11 @@ opac2.controller('DetailController', ['$scope', '$translate', '$routeParams', '$
 	    LocalSessionSettingsServices.setOpacVersion(opac_version);
 
 		$scope.polo = LocalSessionSettingsServices.getPolo();
-		if($scope.polo != null)
+		if($scope.polo != null) {
+			documentSearch();
 			return;
+		}
+			
 		if (!isUndefined(poloCode)  && !isUndefined(poloApp.polo)) {
 			$scope.setPolo(poloApp.polo, bibliotecaCode)
 		} else {

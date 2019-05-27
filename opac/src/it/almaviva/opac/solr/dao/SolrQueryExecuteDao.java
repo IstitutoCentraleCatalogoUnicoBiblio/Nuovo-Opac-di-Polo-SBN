@@ -63,7 +63,6 @@ public class SolrQueryExecuteDao implements SolrQueryExecuteInterface {
 	// classi solr
 	private SolrClient solrClient;
 	private SolrQuery query = new SolrQuery();
-	private QueryResponse response = new QueryResponse();
 	private ConverterCampiServices conv = new ConverterCampiServices();
 
 	// classi custom
@@ -225,10 +224,12 @@ public class SolrQueryExecuteDao implements SolrQueryExecuteInterface {
 			query = sort(query, searchList.getSort(), searchList.getOrder());
 
 			// Esecutione Query
-			response = solrClient.query(query);
+			QueryResponse response = solrClient.query(query);
 
 			List<AuthorityBean> autori = new ArrayList<AuthorityBean>();
-
+			
+			log.info("Trovati autori:" + response.getResults().getNumFound());
+			
 			// richiesto dettaglio
 			autori = response.getBeans(AuthorityBean.class);
 			solrClient.close();
@@ -291,7 +292,7 @@ public class SolrQueryExecuteDao implements SolrQueryExecuteInterface {
 				query = addFacet(query);
 			List<FaccettaBean> lFacc = new ArrayList<FaccettaBean>();
 			// Esecutione Query
-			response = solrClient.query(query);
+			QueryResponse response = solrClient.query(query);
 			// faccette
 			if (!searchList.getIsDetail()) {
 
@@ -403,7 +404,7 @@ public class SolrQueryExecuteDao implements SolrQueryExecuteInterface {
 			query.setTermsLowerInclusive(true);
 			query.setTermsMinCount(1);
 
-			response = solrClient.query(query);
+			QueryResponse response = solrClient.query(query);
 			TermsResponse terms = response.getTermsResponse();
 			term = terms.getTerms(field);
 
@@ -444,7 +445,7 @@ public class SolrQueryExecuteDao implements SolrQueryExecuteInterface {
 			if (tipoClasse == ClassificazioneType.TOTF)
 				query.setFacetPrefix(start);
 
-			response = solrClient.query(query);
+			QueryResponse response = solrClient.query(query);
 			for (FacetField facet : response.getFacetFields()) {
 				if (tipoClasse != ClassificazioneType.TOTF)
 					for (Count contof : facet.getValues()) {

@@ -153,22 +153,13 @@ opac2.registerCtrl('RicercaSempliceController', ['$scope', '$translate', '$route
     };
      $scope.selectionBibl = LocalSessionSettingsServices.getAllBiblioteche();
     $scope.toggleSelectionBib = function toggleSelectionBib(bibs) {
-      //console.log("biblioteche", bibs);
-
-      //var idx = $scope.selectionBibl.indexOf(bibs);
       var idx = findIndex($scope.selectionBibl, "cod_bib", bibs.cod_bib)
-      // Is currently selected
       if (idx > -1) {
         $scope.selectionBibl.splice(idx, 1);
-      }
-      // Is newly selected
-      else {
+      } else {
         $scope.selectionBibl.push(bibs);
       }
-      // //console.log("Selection: ",$scope.selection);
       LocalSessionSettingsServices.setBiblioteche($scope.selectionBibl);
-      ////console.log("Bib in session", LocalSessionSettingsServices.getAllBiblioteche());
-
     };
     $scope.findIndex = function(a,b,c) {
       return findIndex(a,b,c);
@@ -178,7 +169,6 @@ opac2.registerCtrl('RicercaSempliceController', ['$scope', '$translate', '$route
 
       var bibliotecheSelezionateXXX = LocalSessionSettingsServices.getAllBiblioteche();
       var bibFilters = [];
-      //console.log("bibliotecheSelezionate", bibliotecheSelezionateXXX);
       bibliotecheSelezionateXXX.forEach(function (b) {
         var bibApp = {
           field: "library",
@@ -189,7 +179,6 @@ opac2.registerCtrl('RicercaSempliceController', ['$scope', '$translate', '$route
         }
         bibFilters.push(bibApp);
       });
-      //			//console.log("BibFilters", bibFilters);
       var biblioteche = {
         filters: bibFilters
       };
@@ -209,7 +198,6 @@ opac2.registerCtrl('RicercaSempliceController', ['$scope', '$translate', '$route
         campoRic = {
           field: ($scope.field == "any_tutto") ? "any" : $scope.field,
           value: $scope.value
-          //		operator: "OR"
         };
       }
       
@@ -263,7 +251,6 @@ opac2.registerCtrl('RicercaSempliceController', ['$scope', '$translate', '$route
       if ($scope.value == '' || $scope.value.replace(/\*+/g, '*') == '*') {
         $('#errorFields').modal('show');
       } else {
-        //    $('#loading').modal('show');
         runSearch(toPostJson);
       }
     };
@@ -322,7 +309,6 @@ opac2.registerCtrl('RicercaSempliceController', ['$scope', '$translate', '$route
     };
     var datectExternalSearch = function() {
     	if(!isUndefined(searchResult) && searchResult != null ){
-    		//console.log("ExternalSearch()", searchResult)
     		 LocalSessionSettingsServices.setResponseFromSearch(searchResult);
     			searchResult = null
              $location.path("/" + $scope.polo.code + "/result");

@@ -130,8 +130,7 @@ function getRicercheEff() {
   return _ricercheEffettuate;
 }
 function myMap() {
-  console.log("Map should work")
-
+ // console.log("Map should work")
 }
 function getBrowser (){
   return {
@@ -150,6 +149,19 @@ function getBrowser (){
     isWebComponentsSupported: 'registerElement' in document && 'import' in document.createElement('link') && 'content' in document.createElement('template')
   };
 
+}
+function cleanNoSort(txt) {
+		txt = txt.replace(/>>/g, "");
+		txt = txt.replace(/<</g, "");
+		txt = txt.replace(/\u0088/g, "");
+		txt = txt.replace(/\u0089/g, "");
+		txt = encodeURIComponent(txt); // %C2%98 %C2%9C
+		txt = txt.replace(/%C2%98/g, "");
+		txt = txt.replace(/%C2%9C/g, "");
+		txt = txt.replace(/%1BH/g, "");
+		txt = txt.replace(/%1BI/g, "");
+		txt = decodeURIComponent(txt);
+	return txt;
 }
 
 

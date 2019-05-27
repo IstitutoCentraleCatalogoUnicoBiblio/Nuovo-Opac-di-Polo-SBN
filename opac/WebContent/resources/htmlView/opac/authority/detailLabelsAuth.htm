@@ -125,7 +125,7 @@
       <span class="col-sm-3 control-label work"></span>
       <div class="col-sm-9 text" ng-click="$event.stopPropagation(); searchForDocuments(dettagli[$index].idAuth,  dettagli[$index].authors.nome || dettagli[$index].authors.nome_ente)">
         <span class="links">{{'titoli' | translate}}</span>
-        <span ng-show="dettagli[$index].aviableTitles > 1">({{dettagli[$index].aviableTitles}})</span>
+        <span ng-show="dettagli[$index].aviableTitles > 0">({{dettagli[$index].aviableTitles}})</span>
       </div>
 
     </td>

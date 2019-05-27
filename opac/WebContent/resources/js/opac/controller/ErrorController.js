@@ -32,7 +32,6 @@ opac2.registerCtrl('ErrorController', ['$scope', '$translate', '$routeParams', '
       } else {
         $location.path("/" + $scope.polo.code + "/ricercaSemplice")
       }
-      //window.history.back();
     }
     $scope.setPolo = function(polo) {
       //console.log(polo);

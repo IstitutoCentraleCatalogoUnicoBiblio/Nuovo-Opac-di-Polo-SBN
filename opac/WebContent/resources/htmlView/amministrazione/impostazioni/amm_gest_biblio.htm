@@ -28,59 +28,45 @@
             <td>{{'cod_bib'| translate}}</td>
 
             <td>{{'bib_name'| translate}}</td>
-            <td>{{'flag_servizi'| translate}}</td>
             <td>{{'flag_kardex'| translate}}</td>
             <td>{{'flag_sbnweb'| translate}}</td>
 
-            <td>{{'bib_appl_serv'| translate}}</td>
-            <td colspan="2">{{'Logo'}}</td>
+            <td>{{'flag_servizi'| translate}}</td>
+            <td>{{'Logo'}}</td>
           </tr>
         </thead>
         <tbody>
           <tr ng-repeat="biblioteca in appBiblios | filter: filterBibAction " ng-init="edit = false" ng-if="!biblioteca.deleted">
             <td class="col-sm-1">
-                <button ng-show="!edit" class="btn btn-xs btn-warning" ng-click="startEdit(biblioteca)">
+                <button title="{{'amm_modifica' | translate}}" ng-show="!edit" class="btn btn-xs btn-warning" ng-click="startEdit(biblioteca)">
                     <span class="glyphicon glyphicon-cog"></span>
                   </button>
-                <button class="btn btn-xs btn-danger" ng-click="deleteInLine(biblioteca)">
+                <button title="{{'amm_elimina' | translate}}" class="btn btn-xs btn-danger" ng-click="deleteInLine(biblioteca)">
                     <span class="glyphicon glyphicon-remove"></span>
                 </button>
             
               </td>
             <td class="col-sm-1">
               {{biblioteca.cod_bib}}
-              <!--  <input type="text" maxlength="2" class="form-control input-sm" ng-model="biblioteca.cod_bib"  ng-disabled="!edit">     -->
             </td>
             <td>
               {{biblioteca.name}}
-              <!--  <input type="text" class="form-control input-sm" ng-model="biblioteca.name"  ng-disabled="!edit">    -->
             </td>
-            <td class="checked">
-              <!-- <input type="checkbox" ng-model="biblioteca.link_servizi"  ng-disabled="!edit">  -->
-              <span ng-class="['glyphicon',{ 'glyphicon-ok': biblioteca.link_servizi}]"></span>
-            <!--  {{biblioteca.link_servizi  +"_t" | lowercase | translate}} -->
+         
+            <td  class="checked">
+               <span ng-class="['glyphicon',{ 'glyphicon-ok': biblioteca.kardex}]"></span>
             </td>
             <td  class="checked">
-              <!--  <input type="checkbox" ng-model="biblioteca.kardex"  ng-disabled="!edit">   -->
-             <!--  {{biblioteca.kardex +"_t" | lowercase | translate}} -->
-             <span ng-class="['glyphicon',{ 'glyphicon-ok': biblioteca.kardex}]"></span>
-            </td>
-            <td  class="checked">
-              <!--  <input type="checkbox" ng-model="biblioteca.kardex"  ng-disabled="!edit">   -->
-              <!-- {{biblioteca.sbnweb +"_t" | lowercase | translate}} -->
+      
               <span ng-class="['glyphicon',{ 'glyphicon-ok': biblioteca.sbnweb}]"></span>
             </td>
             <td class="col-sm-1">
-              {{biblioteca.cod_appl_servizi | decodeApplicativoServ}}
+             <span ng-show="biblioteca.link_servizi">{{biblioteca.cod_appl_servizi | decodeApplicativoServ}} </span> 
              </td>
-           
-            <td  class="checked">
-              <span ng-class="['glyphicon',{ 'glyphicon-ok': biblioteca.flag_logo}]"></span>
-            </td>
-            <td class="col-sm-3">
-              <center>
-                  <img class="img-responsive" ng-show="biblioteca.flag_logo" ng-src='{{getImg(false, biblioteca.cod_bib)}}' id="logo_img">                  
-              </center>
+                <td class="col-sm-3 text-center">
+             
+                  <img class="img-responsive" ng-if="biblioteca.flag_logo" ng-src='{{getImg(false, biblioteca.cod_bib)}}' id="logo_img"  style="height: 90px;">                  
+            
             </td>
           </tr>
    
@@ -124,14 +110,7 @@
             </div>
           </div>
         </fieldset>
-        <fieldset>
-            <div class="form-group">
-            <label for="gruppo" class="col-sm-3 col-lg-3 myControl-label">{{ 'flag_servizi' | translate}}</label>
-            <div class="col-sm-3 col-lg-3">
-              <input type="checkbox" ng-model="modifyBiblio.link_servizi"  ng-disabled="formError.isWarning"> 
-            </div>
-            </div>
-        </fieldset>
+       
         <fieldset>
             <div class="form-group">
             <label for="gruppo" class="col-sm-3 col-lg-3 myControl-label">{{ 'flag_kardex' | translate}}</label>
@@ -143,25 +122,33 @@
        
         <fieldset>
             <div class="form-group">
-            <label for="gruppo" class="col-sm-3 col-lg-3 myControl-label" ng-disabled="formError.isWarning">{{ 'flag_sbnweb' | translate}}</label>
+            <label for="gruppo" class="col-sm-3 col-lg-3 myControl-label" ng-disabled="formError.isWarning">{{ 'flag_sbnweb_detail' | translate}}</label>
             <div class="col-sm-3 col-lg-3">
               <input type="checkbox" ng-model="modifyBiblio.sbnweb" ng-disabled="formError.isWarning"> 
             </div>
             </div>
         </fieldset>
-        <fieldset>
-            <div class="form-group">
-            <label for="gruppo" class="col-sm-3 col-lg-3 myControl-label">{{ 'bib_appl_serv' | translate}}</label>
-            <div class="col-sm-3 col-lg-3">
-                <select class="form-control input-sm" ng-model="modifyBiblio.cod_appl_servizi"  ng-disabled="formError.isWarning"> 
-                    <option ng-repeat="app_serv in applicativi_serv" ng-value="app_serv.cod_appl">
-                      {{app_serv.descrizione}}
-                    </option>
-                    </select>   
-            </div>
-            </div>
-        </fieldset>
-        <fieldset ng-if="polo.gruppi_bib.length > 0">
+         <fieldset>
+					<div class="form-group">
+						<label for="gruppo" class="col-sm-3 col-lg-3 myControl-label">{{
+							'flag_servizi_detail' | translate}}</label>
+						<div class="col-md-1">
+							<input type="checkbox" ng-model="modifyBiblio.link_servizi"
+								ng-disabled="formError.isWarning || applicativi_serv.length == 0"">
+						</div>
+						<div class="col-md-3" ng-show="modifyBiblio.link_servizi">
+							<select  class="form-control input-sm"
+								ng-model="modifyBiblio.cod_appl_servizi"
+								ng-disabled="formError.isWarning || applicativi_serv.length == 0"> <!--  ng-init="modifyBiblio.cod_appl_servizi = ( modifyBiblio.link_servizi && modifyBiblio.cod_appl_servizi == '') ? applicativi_serv[0].cod_appl : modifyBiblio.cod_appl_servizi" -->
+								<option ng-repeat="app_serv in applicativi_serv"
+									ng-value="app_serv.cod_appl" >{{app_serv.descrizione}}
+								</option>
+							</select>
+						</div>
+					</div>
+				</fieldset>
+			
+          <fieldset ng-if="polo.gruppi_bib.length > 0">
             <div class="form-group">
                 <label for="b" class="col-sm-3 col-lg-3 myControl-label">{{ 'gruppi' | translate}}</label>
                 <div class="col-sm-3 col-lg-3">
@@ -189,12 +176,13 @@
           </div>
           </div>
       </fieldset>
+      
         <fieldset ng-show="modifyBiblio.flag_logo">
           <div class="form-group">
             <label for="user" class="col-sm-3 col-lg-3 myControl-label">{{ 'Logo'}}</label>
             <div class="col-sm-3 col-lg-3">
               <input id="fileopen" type="file" accept="image/x-png,image/gif,image/jpeg" files-input ng-model="$parent.fileArray" ng-change="uploadFoto(fileArray)" ng-disabled="formError.isWarning && modifyBiblio.flag_logo">
-              <img style="margin-top: 20px;" ng-src='{{getImg(true)}}' id="logo_img" >
+              <img style="margin-top: 20px; height: 90px;" ng-src='{{getImg(true)}}' id="logo_img" >
             </div>
             
           </div>

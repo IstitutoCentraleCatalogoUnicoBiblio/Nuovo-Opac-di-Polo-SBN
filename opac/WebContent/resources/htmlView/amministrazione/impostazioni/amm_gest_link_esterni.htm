@@ -32,10 +32,10 @@
 
                     <tr ng-repeat="link in appLinkEsterni" ng-show="link.tipo_link != 'logo'">
                         <td class="col-md-1">
-                                <button ng-show="!edit" class="btn btn-xs btn-warning" ng-click="startEdit(link)">
+                                <button title="{{'amm_modifica' | translate}}" ng-show="!edit" class="btn btn-xs btn-warning" ng-click="startEdit(link)">
                                         <span class="glyphicon glyphicon-cog"></span>
                                       </button>
-                                    <button class="btn btn-xs btn-danger" ng-click="deleteInLine(link)">
+                                    <button class="btn btn-xs btn-danger" ng-click="deleteInLine(link)" title="{{'amm_elimina' | translate}}">
                                         <span class="glyphicon glyphicon-remove"></span>
                                     </button>
                         </td>

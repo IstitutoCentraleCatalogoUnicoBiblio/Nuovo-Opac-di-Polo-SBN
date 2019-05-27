@@ -63,7 +63,6 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
       var printstr = '';
       for (var i = 0; i < $scope.search.solrDocs.documenti.length; i++) {
         var sintetica = document.getElementById("sintetica_div_print_" + i);
-        // var sintetica_div = document.getElementById("sintetica_div_" + i);
         printstr += "<p> <b>" + (i + 1) + "</b> <br />"
         printstr += sintetica.innerHTML + "</p>";
         printstr += "<hr />";
@@ -128,12 +127,11 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
         month = '0' + month;
 
       var dateT = day + '/' + month + '/' + date.getFullYear()
-      //var popupWin = window.open('', '_blank', 'width=700,height=400');
       var test = '<html><head><title>OPAC - Sintetica</title></head><body><center><h1>Opac ' + $scope.polo.code + '</h1></hr>';
       test += 'Ricerca effettuata il ' + dateT;
      var sinteticaHtml = $scope.printSintetica(true)
       test += '</center>' + sinteticaHtml + '</body></html>';
-      debugger
+      
       var queryDiv =  document.getElementById("buildedQuery_id");
       var query = (queryDiv == null) ? 'Preferiti' :queryDiv.innerText;
       var obj = {
@@ -384,12 +382,10 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
       var str = null;
       var idb = -1;
       var newFilterList = [];
-      ////console.log("Richiesta: ", richiestaObj);
-      var filtriToCicle = null;
-      filtriToCicle = richiestaObj.filters.filters;
-
+     // console.log("Richiesta: ", richiestaObj);
+      var filtriToCicle =JSON.parse(JSON.stringify(richiestaObj.filters.filters));
       filtriToCicle.forEach(function (filterList, idc) {
-        filterList.filters.forEach(function (filtro, id) {
+       filterList.filters.forEach(function (filtro, id) {
           if ($scope.polo.bibliotecaAsPolo && filtro.field == 'library') {
             idb = id;
           }
@@ -397,7 +393,7 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
         if (idb > -1) {
           filterList.filters.splice(idb, 1)
           idb = -1;
-        }
+        } 
 
         if (filterList.filters.length > 0)
           newFilterList.push({
@@ -406,8 +402,14 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
             operator: filterList.operator
           });
       });
+      
       $scope.filtri = newFilterList;
     };
+    var checkSameFilter = function (filtro1, filtro2) {
+    		return (filtro1.field == filtro2.field 
+    			&& filtro1.value == filtro2.value 
+    			&& filtro1.match == filtro2.match)
+    }
     //rimozione di un filtro di ricerca filtro
     $scope.removeFilter = function (filtro) {
       //	//console.log("richiesta rimozione: ", filtro);
@@ -418,7 +420,7 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
       var filtriToCicle = null;
       toPostJson.filters.filters.forEach(function (filterList, idc) {
         filterList.filters.forEach(function (filtroSingl, ind) {
-          if (filtroSingl == filtro) {
+          if (checkSameFilter(filtroSingl, filtro)) {
             toPostJson.filters.filters[idc].filters.splice(ind, 1);
 
 
@@ -456,7 +458,7 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
             }
           } else if (filtroSingl.hasOwnProperty('otherFiltersGroup')) {
             filtroSingl.otherFiltersGroup.forEach(function (filterSinglInRecorsive, idxG) {
-              if (filtro == filterSinglInRecorsive) {
+              if (checkSameFilter(filtro, filterSinglInRecorsive)) {
                 toPostJson.filters.filters[idc].filters[ind].otherFiltersGroup.splice(idxG, 1);
               }
             });
@@ -527,9 +529,6 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
       $('#loading').modal('show');
       ApiServices.ricerca(toPostJson).then(function (success) {
         LocalSessionSettingsServices.setResponseFromSearch(null);
-
-        //console.log("SUCCESS call server", success.data);
-
         //salvo il response della ricerca
         LocalSessionSettingsServices.setResponseFromSearch(success.data);
 
@@ -743,7 +742,6 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
             toPostJson.filters.filters[0].filters.push(faccetta)
           } else {
             if (toPostJson.filters.filters.length - 1 > 0) {
-              // toPostJson.filters.filters[toPostJson.filters.filters.length - 1].operator = operator;
               if (toPostJson.filters.filters[toPostJson.filters.filters.length - 1].filters[0].field == "level") {
                 toPostJson.filters.filters[toPostJson.filters.filters.length - 1].filters[toPostJson.filters.filters[toPostJson.filters.filters.length - 1].filters.length - 1].operator = operator;
                 toPostJson.filters.filters[toPostJson.filters.filters.length - 1].filters.push(faccetta)
@@ -877,11 +875,36 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
 
 
     };
+    
+    var openOnTabSelected = function (indexLine) {
+        $timeout(function(){
+      	  //EVO BVE almaviva3 07/02/2019
+        	 $('#tabList_'+indexLine+' a[data-target="#Localizzazione_'+indexLine+'"]').tab('show');
+			 	if($scope.polo.bibUsePosseduto == false){
+			 		var idx950 = 0;
+			 		for(i = 0; i < $scope.dettagli[indexLine].tag950.length; i ++){
+			 			//debugger
+			 			var tag = $scope.dettagli[indexLine].tag950[i];
+			 			if(tag.coll.length > 0)  {
+			 				if($scope.polo.codBibliotecaAsPolo == tag.coll[0].bib) {
+		   			 			idx950 = i;
+		   			 			break;	
+			 			}
+			 			
+   			 		}   
+			 	}
+			 		var idBibToOpen950 = '#restCall_'+ indexLine + '_' + idx950;
+				 	var idCollapseToOpen = '#collapse_local_bib_'+indexLine+'_'+idx950;
+				 	 $(idBibToOpen950 +' div[data-target="'+idCollapseToOpen+'"]').collapse('show');
+				 	jQuery(idBibToOpen950)[0].click();
+			 }  //else la biblioteca usa il WS del posseduto in tempo reale e non si deve aprire
+        });
+    };
+    
     $scope.dettagli = [];
     //visualizzazione del singolo dettaglio
     $scope.detailEvent = function (ids, indexs, scrollFlag) {
       //Se ha classe P non è visualizzato il dettaglio
-
       var flagEseguiUnavolta = true;
       if (typeof ids === 'string') {
         ids = [ids];
@@ -896,12 +919,7 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
         }, "slow");
         //selectdetail([ids],index);
       }
-
-
-
       //creazione dei filtri e campi di ricerca
-
-
       var filtersGroup = {
         operator: "AND",
 
@@ -932,8 +950,6 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
         toPostJson.filters.filters.push(filtersGroup);
       }
       //Avvio la ricerca
-      //$('#loading').modal('show');
-      //debugger
       ApiServices.ricerca(toPostJson).then(function (success) {
         //console.log("SUCCESS dettaglio", success.data);
 
@@ -965,8 +981,6 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
             }
           }
         });
-        //$scope.dettagli[index] = success.data.solrDocs.documenti[0];
-
         for (var i = 0; i < $scope.search.solrDocs.documenti.length; i++) {
 
           for (var j = 0; j < success.data.solrDocs.documenti.length; j++) {
@@ -994,6 +1008,7 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
                   $scope.analitiche = $scope.analitiche - 1;
                   $scope.sintetiche = $scope.sintetiche + 1;
                 };
+                openOnTabSelected(index)
               } else {
                 prettyLog("Qualcosa è andato storto!!");
                 //console.info("J:" + j + " " + $scope.search.solrDocs.documenti[i].id, "i:" + i + " " + success.data.solrDocs.documenti[j].id, "index: " + index);
@@ -1135,31 +1150,15 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
           buildQuery($scope.search.request);
         //a che pagina siamo
         createPagine($scope.search.request.maxRows, $scope.search.solrDocs.numFound)
-
-
-        //			$('#loading').modal('toggle');
         var cont = 0;
         var mytimeout = $timeout(function () {
-
-
           $('#loading').modal('hide');
-          for (var i = 0; i < $scope.search.solrDocs.documenti.length; i++) {
-            //init dei pannelli
-            $("#Dettaglio_" + i).removeClass("active");
-            $("#Localizzazione_" + i).removeClass("active");
-            $("#Unimarc_" + i).removeClass("active");
-            $("#li_Dettaglio_" + i).removeClass("active");
-            $("#li_Localizzazione_" + i).removeClass("active");
-            $("#li_Unimarc_" + i).removeClass("active");
-            $("#Dettaglio_" + i).addClass("active");
-            $("#li_Dettaglio_" + i).addClass("active");
-          }
           if ($scope.search.solrDocs.documenti.length == 1)
             $scope.detailEvent($scope.search.solrDocs.documenti[0].id, 0, true);
 
 
           var values = [];
-          $scope.search.solrDocs.faccette[8].sottof.forEach(function (itm, i) {
+          $scope.search.solrDocs.faccette[10].sottof.forEach(function (itm, i) {
 
             var data = parseInt(itm.nome);
             values.push(data);
@@ -1202,12 +1201,9 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
     $scope.selection = $scope.favoritesList;
     $scope.toggleSelection = function toggleSelection(bibs) {
       var idx = $scope.selection.indexOf(bibs);
-      // Is currently selected
       if (idx > -1) {
         $scope.selection.splice(idx, 1);
-      }
-      // Is newly selected
-      else {
+      } else {
         $scope.selection.push(bibs);
       }
       LocalSessionSettingsServices.setBiblioteche($scope.selection);
@@ -1294,7 +1290,7 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
           runSearch(toPostJson);
       } else {
 		  
-          var toPostJson = getToPostJsonFromFindBy("nome", myArr[1])
+          var toPostJson = getToPostJsonFromFindBy("nome",myArr.length >= 2 && myArr[1].length == 10 ? myArr[1] : myArr[0])
           runSearch(toPostJson);
       }
 
@@ -1310,8 +1306,6 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
       runSearch(toPostJson);
     };
     $scope.findByPEGI = function (value) {
-
-      //value = $filter("dewey_des")(value);
       var toPostJson = getToPostJsonFromFindBy("classi_PGI_686_tot", value)
       runSearch(toPostJson);
     };
@@ -1465,9 +1459,8 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
     $(window).scroll(function (event) {
       var scrollUserPosition = $(window).scrollTop();
       if ($("#settingBar1").offset() != undefined) {
-        var scrollpoint = ($("#settingBar1").offset().top - 30);
-        // //console.log("user: " + scrollUserPosition, "offset: "+ scrollpoint)
-
+        var scrollpoint = ($("#settingBar1").offset().top - 35);
+       
         if (scrollUserPosition > scrollpoint) {
           $("#fixed").show();
 
@@ -1530,7 +1523,6 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
         if ($scope.polo.libraries[idxBib].sbnweb) {
           ApiServices.disponibilita(codBib, bid).then(function (success) {
             //console.log("SUCCESS servizi", success.data);
-            //  $scope.dettagli[index].tag950[bibIdx].webservice = success.data.posseduti
             if (success.data.serverStatus.code == 200 && !isUndefined(success.data.sbnweb.posseduto)) {
               $scope.dettagli[index].tag950[bibIdx].webservice = success.data.sbnweb;
               $scope.dettagli[index].tag950[bibIdx].webservice.useOnlineService = $scope.polo.libraries[idxBib].link_servizi;
@@ -1554,6 +1546,8 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
 
         } else if ($scope.polo.libraries[idxBib].sbnweb == false) {
           $scope.dettagli[index].tag950[bibIdx].show950 = true;
+          $scope.dettagli[index].tag950[bibIdx].show950Nocoll = ($scope.dettagli[index].tag950[bibIdx].coll.length == 0) ? true : false;
+
         } else {
           prettyLog("Biblioteca NON abilitata ai servizi", null)
         }
@@ -1563,15 +1557,17 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
       }
     };
     //serviziREST per il posseduto dei fascicoli
-    $scope.annateFasc = function (inventario, collocazione, biblioteca, serie, idxdoc, idx950, precisInv) {
+    $scope.annateFasc = function (inventario, collocazione, biblioteca, serie, documento, tag950, precisInv) {
       $("#annateEFascicoliModal").modal("show");
       biblioteca = biblioteca.trim();
+      if(serie == '')
+    	  serie = "   ";
       var inv = serie + $filter('collocazione')(inventario);
       var idxBib = findIndex($scope.polo.libraries, "cod_bib", biblioteca);
 
       if (!isUndefined($scope.polo.libraries[idxBib])) {
 
-        ApiServices.kardex(biblioteca, $scope.dettagli[idxdoc].id, inv).then(function (success) {
+        ApiServices.kardex(biblioteca, documento.id, inv).then(function (success) {
           //console.log("SUCCESS servizi kardex", success.data);
 
           if (success.data.serverStatus.code == 200 && !isUndefined(success.data.sbnweb.kardex)) {
@@ -1579,19 +1575,19 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
             $scope.currentKardex = {
               kardex: success.data.sbnweb.kardex.inventario[0].fascicolo,
               inventarioCompleto: biblioteca + " " + inv,
-              servizi: $scope.polo.libraries[idxBib].link_servizi,
+              servizi: tag950.richiedi,
               serie: serie,
               numero: inventario,
               biblioteca: biblioteca,
-              doc: $scope.dettagli[idxdoc],
-              tag950: $scope.dettagli[idxdoc].tag950[idx950],
-              precisInv: precisInv,
+              doc: documento,
+              tag950: tag950,
+              precis_inv: precisInv,
               dispInv: success.data.sbnweb.kardex.inventario[0].disponibilita,
               collBind: collocazione
-            }
+            };
+           
 
           }
-
         },
           function (error) {
             $('#loading').modal('hide');
@@ -1606,6 +1602,7 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
       if (isbdMonografia != null || !isUndefined(isbdMonografia)) {
         titoloFromISBD = isbdMonografia.split("/")[0]
       }
+      biblioteca = ' ' + biblioteca.trim();
       //FIXED: typeof int modale
       var currentTag950 = null;
       if(typeof idx950 == "number")
@@ -1641,13 +1638,10 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
             var collocazioniStr = '';
             var inventariStr = '';
             if (!isUndefined(currentTag950.webservice.posseduto.collocazione)) {
-            	if(isFascicolo) {
-            		
-            	}
-              currentTag950.webservice.posseduto.collocazione.forEach(function (collocazione) {
+            	 currentTag950.webservice.posseduto.collocazione.forEach(function (collocazione) {
               debugger
                if(isFascicolo) {
-                   collocazioniStr = biblioteca.trim() + collocazBinded.sez +" "+ collocazBinded.loc  + ((collocazione.spec) ? (" " + collocazione.spec).trim() : "") + ((inventarioBinded.seq) ? " /" + inventarioBinded.seq : '') +"|";
+                   collocazioniStr = biblioteca.trim() + collocazBinded.sez +" "+ collocazBinded.loc  + ((collocazione.spec) ? (" " + collocazione.spec).trim() : "") +"|";
 
                    collocazione.inventario.forEach(function(inventario){
                 	     if(inventario.numero == inventarioBinded.numero) {
@@ -1655,23 +1649,20 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
                       prenotaURL += "&PRECIS=";
                       prenotaURL += (inventarioBinded.precis) ? inventarioBinded.precis : '';
                       prenotaURL += "&ANNORIF=";
-                      prenotaURL += (inventario.anno) ? inventario.anno :'';
+                      prenotaURL += (inventario.anno) ? inventario.anno : '';
                     }
                    });
               } else {
-                  collocazioniStr += biblioteca.trim() + collocazione.sez +" "+ collocazione.loc + ((collocazione.spec) ? " " + collocazione.spec : "") + ((collocazione.inventario[0].seq) ? " /" +collocazione.inventario[0].seq : '') +"|";
+                  collocazioniStr += biblioteca.trim() + collocazione.sez +" "+ collocazione.loc + ((collocazione.spec) ? " " + collocazione.spec : "") + "|";
                   //collocazioniStr += collocazione.cd_loc + collocazione.cd_sez + "|";
+                  //serie a 3 spazi se è vuota
+                  if(collocazione.inventario[0].serie == '')
+                      collocazione.inventario[0].serie = "   ";
                  inventariStr += biblioteca.trim() + collocazione.inventario[0].serie + $filter("collocazione")(collocazione.inventario[0].numero) + "|"
                  
                 }
               });
-              if (collocazioniStr.length > 0) {
-                prenotaURL += "&Collocazioni=" + collocazioniStr;
-
-              }
-              if (inventariStr.length > 0) {
-                prenotaURL += "&Inventari=" + inventariStr;
-              }
+             
               if (isFascicolo && fasc) {
                   if (!isUndefined(fasc.annata))
                     prenotaURL += "&ANNORIF=" + fasc.annata;
@@ -1681,6 +1672,15 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
                     prenotaURL += "&FAS=" + fas;
                 }
             }
+            
+            if (collocazioniStr.length > 0) {
+                prenotaURL += "&Collocazioni=" + collocazioniStr;
+
+              }
+              if (inventariStr.length > 0) {
+                prenotaURL += "&Inventari=" + inventariStr;
+              }
+              
             break;
           }
           case "S":
@@ -1728,47 +1728,74 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
             }
             var collocazioniStr = '';
             var inventariStr = '';
-            if (!isUndefined(currentTag950.coll)) {
-              //FIXME: bib
-              currentTag950.coll.forEach(function (collocazione) {
-                if (collocazione.cd_sez == undefined)
-                  collocazione.cd_sez='';
-                if (collocazione.cd_loc == undefined)
-                  collocazione.cd_loc = '';
-                collocazioniStr += biblioteca.trim() + collocazione.cd_sez + " " + collocazione.cd_loc + " " + inventarioBinded.seq_coll + "|";
-                //collocazioniStr += collocazione.cd_loc + collocazione.cd_sez + "|";
-                inventariStr += biblioteca.trim() + collocazione.inv[0].cd_serie + $filter("collocazione")(collocazione.inv[0].cd_inv) + "|";
-                debugger
-                if(isFascicolo  && !fasc) {
-                    collocazione.inv.forEach(function(inventario){
-                 	    
-                    	if(inventario.cd_inv == inventarioBinded.numero) {
-                          	inventariStr = biblioteca.trim() + inventario.cd_serie + $filter("collocazione")(inventario.cd_inv) + "|"
-                       prenotaURL += "&PRECIS =" + inventario.precis_inv;
-                     }
+            if(doc.level.toUpperCase() != 'S') {
+            	
+            	//cicla su tutto senza ripetere colloazioni e prendere il primo inventario
+            	var collocazioniNonDuplicate = $filter('groupByCollUnimarcView')(currentTag950.coll);
+            	
+           	 if (!isUndefined(currentTag950.coll)) {
+                    collocazioniNonDuplicate.forEach(function (collocazione) {
+                      if (collocazione.cd_sez == undefined)
+                        collocazione.cd_sez='';
+                      if (collocazione.cd_loc == undefined)
+                        collocazione.cd_loc = '';
+                      if (collocazione.spec_loc == undefined)
+                      	collocazione.spec_loc = '';
+                      
+                      collocazioniStr += biblioteca.trim() + collocazione.cd_sez + " " + collocazione.cd_loc + (collocazione.spec_loc != '' ? (" " + collocazione.spec_loc) : '')  + "|";
+      
+                      inventariStr += biblioteca.trim() + collocazione.inv[0].cd_serie + $filter("collocazione")(collocazione.inv[0].cd_inv) + "|";
+                      debugger
+                      if(isFascicolo  && !fasc) {
+                          collocazione.inv.forEach(function(inventario){
+                       	    
+                          	if(inventario.cd_inv == inventarioBinded.numero) {
+                                	inventariStr = biblioteca.trim() + inventario.cd_serie + $filter("collocazione")(inventario.cd_inv) + "|"
+                             prenotaURL += "&PRECIS=" + inventario.precis_inv;
+                           }
+                          });
+                      }
+                      
+                   
                     });
-                }else {
-                	
-                }
-             
-              });
-              if (collocazioniStr.length > 0) {
+           	 }
+                                               
+            } else {
+                //è un periodico prendi puntuale.
+                if (collocazBinded.sez == undefined)
+                	collocazBinded.sez='';
+                
+                if (collocazBinded.loc == undefined)
+                	  collocazBinded.loc = '';
+                  
+                if (collocazBinded.spec == undefined)
+                	  collocazBinded.spec = '';
+                if (inventarioBinded.precis_inv == undefined)
+                    inventarioBinded.precis_inv = '';
+                //costruzione stringa collocazione
+                collocazioniStr += biblioteca.trim() + collocazBinded.sez + " " + collocazBinded.loc + (collocazBinded.spec != '' ? (" " + collocazBinded.spec) : '') + "|";
+
+                inventariStr += biblioteca.trim() + inventarioBinded.serie + $filter("collocazione")(inventarioBinded.numero) + "|";
+                prenotaURL += ("&PRECIS=" + ((inventarioBinded.precis_inv) ? inventarioBinded.precis_inv : ''));
+
+                if (isFascicolo && fasc) {
+                	  debugger
+                      if (!isUndefined(fasc.annata))
+                        prenotaURL += "&ANNORIF=" + fasc.annata;
+                     if (!isUndefined(fas))
+                        prenotaURL += "&FAS=" + fas;
+                    }
+            }
+                        
+            if (collocazioniStr.length > 0) {
                 prenotaURL += "&Collocazioni=" + collocazioniStr;
 
               }
               if (inventariStr.length > 0) {
                 prenotaURL += "&Inventari=" + inventariStr;
               }
-              if (isFascicolo && fasc) {
-            	  debugger
-                  if (!isUndefined(fasc.annata))
-                    prenotaURL += "&ANNORIF=" + fasc.annata;
-                  if (!isUndefined(inventarioBinded.precisInv))
-                    prenotaURL += "&PRECIS =" + (inventarioBinded.precisInv) ? inventarioBinded.precisInv : '';
-                  if (!isUndefined(fas))
-                    prenotaURL += "&fas =" + fas;
-                }
-            }
+            
+          
             break;
           }
           case "S":
@@ -1795,13 +1822,15 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
        
       }
       var target = (currentTag950.applicativo.toUpperCase() == "E" || currentTag950.applicativo.toUpperCase() == "M" ) ? "_top" : "_blank";
-      prenotaURL = prenotaURL.replace( / /g, "%20");
-      //console.info("Opening URL: ", prenotaURL);
+      prenotaURL = prenotaURL.replace(/ /g, "%20");
+     // console.info("--------"+biblioteca+"------------")
+     //console.info("URL: ", prenotaURL);
+      //console.info("-------------------")
+     
       window.open(prenotaURL, target)
     };
     $scope.openCopiaDigitale = function (url) {
       url = (url.indexOf('http') == -1) ? 'http://' + url : url;
-      //console.info("Opening URL: ", url);
       window.open(url, "_blank")
     }
     var myFirstOperatorModal = true;
@@ -1854,9 +1883,7 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
       var toPostJson = null;
       var control = toIncludi.length;
       var flagIncludes = true;
-      //toPostJson.filters.filters[0].filters[toPostJson.filters.filters[0].filters.length - 1 ].operator = toIncludi[0].operator;
       for (var i = 0; i < toIncludi.length; i++) {
-        //	toIncludi[i].operator = (!isUndefined(toIncludi[i + 1])) ? toIncludi[i+1].operator : "AND";
         var op = null;
         if (i == 0 && $scope.checkBoxModalOperator == "AND NOT") {
           op = "AND NOT";
@@ -1898,7 +1925,6 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
 
         }
       }
-      //toPostJson.filters.filters[0].filters = toPostJson.filters.filters[0].filters.concat(toIncludi);
       toIncludi = [];
       $("#facetModal").modal("hide");
       if (control > 0) {
@@ -1916,7 +1942,7 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
     if (!isUndefined(id) && detail.toUpperCase() == "DETAIL") {
       $location.path($scope.polo.code + "/dettaglio/documento/" + id);
     }
-    //Riunione iccu 7/9/2017 biblioteche 950 documento su maps
+    //Riunione iccu 7/9/2017 biblioteche 950 documento su maps - Almaviva3 manu 26/02/2019
     $scope.openMaps = function (tag950) {
       var infowindow = new google.maps.InfoWindow({
         content: "Loading..."
@@ -1936,29 +1962,38 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
         else
           biblioteche.splice(i, 1)
       });
-      var latMedia = 0;
-      var longMedia = 0;
-      var zoom = 0;
+      var infowindow = new google.maps.InfoWindow(); /* SINGLE */
+
+      //calcolo le coordinate e lo zoom medio in base alla posizione delle bibliotece 
+   	  var latMedia = 41.0;
+      var longMedia = 13.0;
+      var zoom = 5;
       var countBibDettagliate = 0;
-
-
-      for (var i = 0; i < biblioteche.length; i++) {
-        if (!isUndefined(biblioteche[i].dettaglio)) {
-          latMedia = latMedia + parseFloat(biblioteche[i].dettaglio.latitudine)
-          longMedia = longMedia + parseFloat(biblioteche[i].dettaglio.longitudine);
-          countBibDettagliate++;
-        }
-      }
-      zoom = (isNaN(latMedia) || isNaN(longMedia)) ? 5 : 11;
-      latMedia = (isNaN(latMedia)) ? 41.0 : latMedia / countBibDettagliate;
-      longMedia = (isNaN(longMedia)) ? 13.0 : longMedia / countBibDettagliate;
-
+	   var latTot = 0;
+	   var longTot = 0;
+           for (var i = 0; i < biblioteche.length; i++) {
+    	    if (!isUndefined(biblioteche[i].dettaglio)) {
+    	    	latTot = latTot + parseFloat(biblioteche[i].dettaglio.latitudine)
+                longTot = longTot + parseFloat(biblioteche[i].dettaglio.longitudine);
+                countBibDettagliate++;
+    	    	}
+            }  
+           zoom = (isNaN(latTot) || isNaN(longTot)) ? 5 : 9;
+           latMedia = (isNaN(latTot)) ? 41.0 : latTot / countBibDettagliate;
+           longMedia = (isNaN(longTot)) ? 13.0 : longTot / countBibDettagliate;
+        
+      
+      //Creo la mappa
       var mapProp = {
-        center: new google.maps.LatLng(latMedia, longMedia),
-        zoom: zoom,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-      };
-      var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+		        center: new google.maps.LatLng(latMedia, longMedia),
+		        zoom: zoom,
+		        mapTypeId: google.maps.MapTypeId.ROADMAP
+		      };
+		      //lancio la mappa
+	 map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+	  var infowindow = new google.maps.InfoWindow({
+	        content: "Loading..."
+	      });
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
           var pos = {
@@ -1968,13 +2003,9 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
 
           var marker = new google.maps.Marker({
             position: pos,
-            // animation: google.maps.Animation.BOUNCE,
             content: $filter('translate')('position_user')
           });
-
-
           google.maps.event.addListener(marker, 'mouseover', function () {
-            // where I have added .html to the marker object.
             infowindow.close();
             infowindow.setContent(this.content);
             infowindow.open(map, this);
@@ -1983,11 +2014,7 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
         }, function () {
           // handleLocationError(true, infoWindow, map.getCenter());
         });
-      } else {
-        // Browser doesn't support Geolocation
-        //console.error("No user Position supported")
-        // handleLocationError(false, infoWindow, map.getCenter());
-      }
+      } //else utente non premette l'utilizzo della posizione
 
       $("#mapsModal").on("shown.bs.modal", function () {
         google.maps.event.trigger(map, "resize");
@@ -1996,60 +2023,53 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
       });
 
       for (var i = 0; i < biblioteche.length; i++) {
+	  var marker = {};
+      var imgUrl = 'img/get/logo/'+ $scope.polo.code+'/'+ biblioteche[i].cod_bib;
+
         if (!isUndefined(biblioteche[i].dettaglio)) {
 
-          var marker = new google.maps.Marker({
-            icon: 'images/pin-mappa.png',
-            position: new google.maps.LatLng(parseFloat(biblioteche[i].dettaglio.latitudine), parseFloat(biblioteche[i].dettaglio.longitudine)),
-            //  animation: google.maps.Animation.BOUNCE
-          });
-          marker.setMap(map);
-          //Creazione del contenuto
-          //  marker.content = "<div style='width: 13px; height: 13px; overflow: hidden; position: absolute; opacity: 0.7; right: 12px; top: 10px; z-index: 10000; cursor: pointer;'>";
-          marker.content = "<a title='" + $filter('translate')('visualizzaAnagrafe') + "' href='http://anagrafe.iccu.sbn.it/isil/IT-" + biblioteche[i].dettaglio.isil + "' target='_blank' ><span class='glyphicon glyphicon-info-sign' ></span></a>";
+            	marker = new google.maps.Marker({
+                      icon: 'images/pin-mappa.png',
+                      visible: true,
+                      map: map,
+                  	position: new google.maps.LatLng(parseFloat(biblioteche[i].dettaglio.latitudine), parseFloat(biblioteche[i].dettaglio.longitudine)),
 
-          //marker.content += "</div>"
-
-          marker.content = "<p><b>" + biblioteche[i].name + "</b></br>" + biblioteche[i].dettaglio.indirizzo.trim() +
-            " - " + biblioteche[i].dettaglio.cap + " - </br>" + biblioteche[i].dettaglio.citta;
-
-          marker.content += (biblioteche[i].dettaglio.citta.trim().toLowerCase() != biblioteche[i].dettaglio.provincia.trim().toLowerCase()) ? " - " + biblioteche[i].dettaglio.provincia : "";
-          marker.content += "</p>";
-          marker.content += "<p>";
-          for (var c = 0; c < biblioteche[i].contatti.length; c++) {
-            // biblioteche[i].contatti[c]
-            if (biblioteche[i].contatti[c].tipo.toUpperCase() === "TELEFONO")
-              marker.content += $filter('translate')('info_telefono') + ": <i>" + biblioteche[i].contatti[c].valore + "</i></br>";
-          }
-          marker.content += "</p>";
-          marker.content += "<p><a title='" + $filter('capitalize')($filter('translate')('info_indicazioni') + ": " + $filter('translate')('info_openMaps')) + "' href='https://www.google.com/maps/dir/?api=1&destination=" + "biblioteca " + biblioteche[i].dettaglio.indirizzo.trim() + ", " + biblioteche[i].dettaglio.cap + ", " + biblioteche[i].dettaglio.citta + "' target='_blank' >" + $filter('translate')('info_indicazioni') + "</a>" + "</p>"
-          marker.content += "<a title='" + $filter('translate')('visualizzaAnagrafe') + "' href='http://anagrafe.iccu.sbn.it/isil/IT-" + biblioteche[i].dettaglio.isil + "' target='_blank' ><span class='glyphicon glyphicon-info-sign' ></span></a>";
-          //  marker.content += "<a title='" + $filter('translate')('info_openMaps') + "' href='https://www.google.com/maps/dir/?api=1&destination=" + biblioteche[i].dettaglio.indirizzo.trim() + ", " + biblioteche[i].dettaglio.cap +", " +biblioteche[i].dettaglio.citta + "' target='_blank' ><span class='glyphicon glyphicon-map-marker' style='margin-left: 3%;' ></span></a>";
-
-
-          for (var c = 0; c < biblioteche[i].contatti.length; c++) {
-            // biblioteche[i].contatti[c]
-
-
-            switch (biblioteche[i].contatti[c].tipo.toUpperCase()) {
-              case "E-MAIL":
-                marker.content += "<a title='" + $filter('translate')('info_inviaMail') + ": " + biblioteche[i].contatti[c].valore + "' href='mailto:" + biblioteche[i].contatti[c].valore + "' target='_blank' ><span class='glyphicon glyphicon-envelope' style='margin-left: 3%;'></span></a>";
-                break;
-              case "URL":
-                marker.content += "<a title='" + $filter('translate')('info_openUrl') + ": " + biblioteche[i].contatti[c].valore + "' href='" + biblioteche[i].contatti[c].valore + "' target='_blank' ><span class='glyphicon glyphicon-link' style='margin-left: 3%;'></span></a>";
-
-                break;
-
-              default:
-
-            }
-          }
+                    });
+	            marker.content = "<img class='img-responsive'  style='height: 90px;' src="+ imgUrl +" > </br>"; 
+	            marker.content += "<p><b>" + biblioteche[i].name + "</b></br>" + biblioteche[i].dettaglio.indirizzo.trim() +
+	              " - " + biblioteche[i].dettaglio.cap + " - " + biblioteche[i].dettaglio.citta;
+	
+	            marker.content += (biblioteche[i].dettaglio.citta.trim().toLowerCase() != biblioteche[i].dettaglio.provincia.trim().toLowerCase()) ? " - " + biblioteche[i].dettaglio.provincia : "";
+	            marker.content += "</p>";
+	            marker.content += "<p>";
+	            for (var c = 0; c < biblioteche[i].contatti.length; c++) {
+	              if (biblioteche[i].contatti[c].tipo.toUpperCase() === "TELEFONO")
+	                marker.content += $filter('translate')('info_telefono') + ": <i>" + biblioteche[i].contatti[c].valore + "</i></br>";
+	            }
+	            marker.content += "</p>";
+	            marker.content += "<p><a title='" + $filter('translate')('info_indicazioni') + ": " + $filter('translate')('info_openMaps') + "' href='https://www.google.com/maps/dir/?api=1&destination=" + "biblioteca " + biblioteche[i].dettaglio.indirizzo.trim() + ", " + biblioteche[i].dettaglio.cap + ", " + biblioteche[i].dettaglio.citta + "' target='_blank' >" + $filter('translate')('info_indicazioni') + "</a>" + "</p>"
+	            marker.content += "<a title='" + $filter('translate')('visualizzaAnagrafe') + "' href='http://anagrafe.iccu.sbn.it/isil/IT-" + biblioteche[i].dettaglio.isil + "' target='_blank' ><span class='glyphicon glyphicon-info-sign' ></span></a>";
+	            for (var c = 0; c < biblioteche[i].contatti.length; c++) {
+		              switch (biblioteche[i].contatti[c].tipo.toUpperCase()) {
+		                case "E-MAIL":
+		                  marker.content += "<a title='" + $filter('translate')('info_inviaMail') + ": " + biblioteche[i].contatti[c].valore + "' href='mailto:" + biblioteche[i].contatti[c].valore + "' target='_blank' ><span class='glyphicon glyphicon-envelope' style='margin-left: 3%;'></span></a>";
+		                  break;
+		                case "URL":
+		                  var url = (biblioteche[i].contatti[c].valore.indexOf('http') > -1) ? biblioteche[i].contatti[c].valore : 'http://' + biblioteche[i].contatti[c].valore
+		                  marker.content += "<a title='" + $filter('translate')('info_openUrl') + ": " + url + "' href='" + url + "' target='_blank' ><span class='glyphicon glyphicon-link' style='margin-left: 3%;'></span></a>";
+		
+		                  break;
+		
+		                default:
+		              }
+		            }
+	               marker.setMap(map);
+        
+          marker.content = '<div class="scrollMapsFix">' + marker.content + '</div>';
           google.maps.event.addListener(marker, 'mouseover', function () {
-            // where I have added .html to the marker object.
             infowindow.setContent(this.content);
             infowindow.open(map, this);
           });
-          // markers.push(marker);
           markers[i] = marker;
         }
       }
@@ -2088,7 +2108,6 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
     var midiStop = function () {
       $timeout(function () {
         $scope.timePlayingMidiAudio[player] = '0%'
-        //  player = '';
       }, 3000)
 
     }
@@ -2096,9 +2115,6 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
     $scope.timePlayingMidiAudio = {};
     $scope.playMidiAudio = function (midi, idxDocumento, idxIncipit) {
       player = "#inc_output_player_progress_" + idxDocumento + "_" + idxIncipit;
-      //console.log("Starting player") //"#inc_output_player_"+idxDocumento +"_" + idxIncipit
-      // $scope.timePlayingMidiAudio = 0;
-
       $("#player").midiPlayer({
         onUnpdate: function (time) {
           $scope.timePlayingMidiAudio[player] = parseInt($("#player").midiPlayer.getPlayingPercent()) + "%";
@@ -2119,5 +2135,70 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
     }
     $scope.pauseMidiAudio = function () {
       $("#player").midiPlayer.pause();
+    };
+    //Controlli per mettere messaggi dove lo trovi
+    //controllo 462/423 colltit_tip.colltit_tip_462_new
+    $scope.check4xx = function (documento) {
+    	if(documento == undefined)
+    		return false;
+    	if(documento.colltit_tip == undefined)
+    		return false;
+    	//se ci sono le 462/463 titoli contenuti
+    	return (documento.colltit_tip.colltit_tip_462_new != undefined
+        		|| documento.colltit_tip.colltit_tip_463_new != undefined
+        		|| documento.colltit_tip.colltit_tip_440_new != undefined
+        		|| documento.colltit_tip.colltit_tip_422_new != undefined
+        		|| documento.colltit_tip.colltit_tip_421_new != undefined) ? true : false;
+    }
+    //controllo 899856
+    $scope.check8xx = function (documento) {
+    	if(documento == undefined)
+    		return false;
+    	
+    	if(documento.formato_elet == undefined)
+    		return false;
+    	return (documento.formato_elet.formato_elet_856 != undefined
+        		|| documento.formato_elet.formato_elet_899 != undefined ) ? true : false;
+    }
+//controlla se ci non sono 950 per la biblioteca scelta come opac di polo
+    $scope.checkNoCollXOpacBib = function(tag950) {
+    	if(tag950 == undefined)
+    		return false;
+    	
+    	if(!$scope.polo.bibliotecaAsPolo)
+    		return false;
+    	var check = true;
+    	tag950.forEach(function(tag){
+    		//se sono inventari collocati le collocazioni sono vuote
+    		if(tag.coll.length > 0)  {
+    			if($scope.polo.codBibliotecaAsPolo == tag.coll[0].bib)  {
+    				check = false;
+        		}
+        			
+    		}
+    		
+    	})
+    	return check;
+    };
+    //Almaviva3 formato_elet_956 incrociato per tabella inventari da unimarc
+    $scope.creaCopiaDigitaleUnimarc = function (inventarioUnimarc, documento) {
+    	if(documento.formato_elet == undefined)
+    		return null;
+    	if(documento.formato_elet.formato_elet_956 != undefined) {
+    		var urlCopiaDigitale = ''
+    		for(var i = 0; i < documento.formato_elet.formato_elet_956.length; i++) {
+    			var element956 = {inv: documento.formato_elet.formato_elet_956[i].split("|")[0],
+    					url: documento.formato_elet.formato_elet_956[i].split("|")[1]};
+    			if(element956.inv == inventarioUnimarc){
+    				urlCopiaDigitale = element956.url;
+    				break;
+    			}
+    			
+    		}
+    		return (urlCopiaDigitale == '') ? null : urlCopiaDigitale; 
+    	} else {
+    		return null;
+    	}
+    	
     }
   }]);

@@ -65,7 +65,6 @@ opac2.registerCtrl('InfoPoloController', ['$scope', '$translate', '$routeParams'
 
     };
 
-    //	$route.reload();
     $scope.ricercheEseguite = LocalSessionSettingsServices.getRicercheEseguite();
     $scope.riCerca = function(ricerca) {
       runSearch(LocalSessionSettingsServices.riCerca(ricerca, LocalSessionSettingsServices));

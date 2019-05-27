@@ -18,6 +18,7 @@ package it.almaviva.spring.opacControllers;
 
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -39,7 +40,7 @@ import it.almaviva.utils.opac.ServerStatusBean;
 @Controller
 public class APIMailerController {
 	static Logger log = Logger.getLogger(APIMailerController.class);
-
+	MailSenderServices mailServ = new MailSenderServices();
 	@CrossOrigin(origins = "*")
 	// ritorna in output i dati del singolo polo
 
@@ -51,7 +52,7 @@ public class APIMailerController {
 		ModelAndView mv = new ModelAndView("response");
 
 		// invio email
-		MailSenderServices mailServ = new MailSenderServices();
+		
 		ServerStatusBean server = mailServ.sendMail(recipient);
 
 		// Creo il responseJSON

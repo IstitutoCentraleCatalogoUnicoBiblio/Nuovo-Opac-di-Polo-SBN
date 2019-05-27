@@ -9,9 +9,9 @@
 # 2. configurazione SolrMarc 
 # 3. predisposizione importer biblioteche 
 #   
-# NB: per creare il core authority eliminare commento all'esecuzione di "creaCore_auth.sh"
+# NB: per non creare il core authority occorre commentare l'esecuzione di "creaCore_auth.sh"
 #     impostare parametro "userhome" con il percorso a partire da pacchetto_installazione                 
-#     impostare i parametri "apache"/"solr"/"pacchetto" con i path corretti delle versioni dei prodotti installati
+#     impostare i parametri "apache"/"solr" con i nomi corretti delle versioni dei prodotti installati
 #  
 # Sequenza di operazioni:
 #  Chiediamo il codice polo all'utente (default XXX)
@@ -103,19 +103,19 @@ echo ...
 
 #-----------------------------------------------
 # impostare parametro "userhome" con il percorso a partire da pacchetto_installazione                 
-# impostare i parametri "apache"/"solr"/"pacchetto" con i path corretti delle versioni dei prodotti installati
+# impostare i parametri "apache"/"solr" con i nomi corretti delle versioni dei prodotti installati
 
 userhome=..
 #apache=apache-tomcat-8.5.23
-apache=tomcat
+apache=apache-tomcat-8.5.37
 #solr=solr-6.3.0
 solr=solr
-pacchetto=/tomcat/pacchetto_installazione
 
 
 echo copio importer per le biblioteche...
 #----------biblioteche
 cp -r bibliotecheImporter $userhome/.
+mkdir $userhome/bibliotecheImporter/logs
 chmod 774 $userhome/bibliotecheImporter/bibliotecheImporter.sh
 
 echo copio SolrMarc...   
@@ -146,11 +146,16 @@ echo copio shell per creazione core di solr...
 cp solrConfig/creaCore*.sh $userhome/$solr/bin/.
 chmod 774 $userhome/$solr/bin/creaCore*.sh
 mkdir $userhome/$solr/bin/logs
-
+ 
 echo configurazioni solrmarc - codice polo, ip, porta...
 #----------------aggiornamento file configurazione solrmarc
 cd $userhome/SolrMarcSbnIndexer
+
+# Crea directory logs e directory per i file con il codice polo 
+mkdir $userhome/SolrMarcSbnIndexer/logs
+mkdir $userhome/SolrMarcSbnIndexer/files
 mkdir $userhome/SolrMarcSbnIndexer/files/$polo
+
 # Cambia il nome del polo 
 sed -e ''s/XXX/''$polo''/g'' opacsbn_config.template.properties > opacsbn_config.$polo.properties1 
 sed -e ''s/XXX/''$polo''/g'' opacsbn_config.authority.template.properties > opacsbn_config.authority.$polo.properties1 
@@ -165,8 +170,8 @@ rm opacsbn_config.*.properties1
 echo creo directory per appoggio immagini o loghi polo e bib...
 mkdir $userhome/loghi
 mkdir $userhome/loghi/$polo
-cd $pacchetto
-cp $pacchetto/logo_libro.png $userhome/loghi/$polo/.
+
+cp immagini_loghi/*.png $userhome/loghi/$polo/.
 
 
 # lancio SOLR
@@ -174,10 +179,10 @@ echo lancio solr...
 cd $userhome/$solr/bin
 ./solr start -p $porta
 
-echo creo core su solr...   
+echo creo core biblio su solr...   
 ./creaCore.sh $polo
 
-#echo creo core authority su solr...   
+echo creo core authority su solr...   
 ./creaCore_auth.sh $polo
 
 echo ----------------------------

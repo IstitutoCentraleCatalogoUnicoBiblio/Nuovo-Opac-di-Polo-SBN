@@ -20,6 +20,8 @@ opac2.factory('SharedServices', ['$filter', '$q', '$location', '$cookies', "Loca
 
 			poloObj.nameBibliotecaAsPolo = (ind > -1) ? poloObj.libraries[ind].name
 					: null;
+			poloObj.bibUsePosseduto =  (ind > -1) ? poloObj.libraries[ind].sbnweb : null;
+
 			if (ind == -1)
 				poloObj.bibliotecaAsPolo = false
 
