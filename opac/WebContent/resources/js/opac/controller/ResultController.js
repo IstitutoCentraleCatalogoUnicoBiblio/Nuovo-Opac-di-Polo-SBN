@@ -533,7 +533,7 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
         LocalSessionSettingsServices.setResponseFromSearch(success.data);
 
         if (isUndefined(preferiti)) {
-          $location.path("/" + $scope.polo.code + "/result");
+          $location.path("/" + SharedServices.getParamPrefixUrlOpac($scope.polo) + "/result");
           $scope.showResult();
 
         } else {
@@ -541,7 +541,7 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
           if ($location.path().indexOf('preferiti') > -1)
             $scope.showResult();
           else
-            $location.path("/" + $scope.polo.code + "/preferiti");
+            $location.path("/" + SharedServices.getParamPrefixUrlOpac($scope.polo) + "/preferiti");
 
         }
 
@@ -1024,7 +1024,7 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
 
         //salvo in locale l'errore che si è verificato nella chiamata al server
         LocalSessionSettingsServices.setError(503);
-        $location.path("/" + $scope.polo.code + "/error");
+        $location.path("/" + SharedServices.getParamPrefixUrlOpac($scope.polo) + "/error");
       });
 
     };
@@ -1191,7 +1191,7 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
           $scope.resultFlag = false;
 
         } else {
-          $location.path($scope.polo.code + "/error")
+          $location.path(SharedServices.getParamPrefixUrlOpac($scope.polo) + "/error")
 
         }
       }
@@ -1451,7 +1451,7 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
         LocalSessionSettingsServices.setBiblioteche(newBiblioteche);
       }
 
-      $location.path("/" + $scope.polo.code + "/modifica");
+      $location.path("/" + SharedServices.getParamPrefixUrlOpac($scope.polo) + "/modifica");
     }
 
 
@@ -1476,7 +1476,7 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
         LocalSessionSettingsServices.setBiblioteche([]);
 
       }
-      $location.path("/" + $scope.polo.code + "/ricercaAvanzata");
+      $location.path("/" + SharedServices.getParamPrefixUrlOpac($scope.polo) + "/ricercaAvanzata");
     };
     $scope.calculateISIL = function (biblioteca, indDettagli) {
       var index = findIndex($scope.polo.libraries, "cod_bib", biblioteca.toUpperCase());
@@ -1940,7 +1940,7 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
     var id = $routeParams.id;
     var detail = $routeParams.detail;
     if (!isUndefined(id) && detail.toUpperCase() == "DETAIL") {
-      $location.path($scope.polo.code + "/dettaglio/documento/" + id);
+      $location.path(SharedServices.getParamPrefixUrlOpac($scope.polo) + "/dettaglio/documento/" + id);
     }
     //Riunione iccu 7/9/2017 biblioteche 950 documento su maps - Almaviva3 manu 26/02/2019
     $scope.openMaps = function (tag950) {
@@ -2141,14 +2141,18 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
     $scope.check4xx = function (documento) {
     	if(documento == undefined)
     		return false;
-    	if(documento.colltit_tip == undefined)
+    	if(documento.colltit_tip == undefined && documento.collections == undefined)
     		return false;
+    	
+    	
     	//se ci sono le 462/463 titoli contenuti
-    	return (documento.colltit_tip.colltit_tip_462_new != undefined
+    	return ( documento.collections != undefined 
+    			|| documento.colltit_tip.colltit_tip_462_new != undefined
         		|| documento.colltit_tip.colltit_tip_463_new != undefined
         		|| documento.colltit_tip.colltit_tip_440_new != undefined
         		|| documento.colltit_tip.colltit_tip_422_new != undefined
-        		|| documento.colltit_tip.colltit_tip_421_new != undefined) ? true : false;
+        		|| documento.colltit_tip.colltit_tip_421_new != undefined
+        		) ? true : false;
     }
     //controllo 899856
     $scope.check8xx = function (documento) {
@@ -2199,6 +2203,8 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
     	} else {
     		return null;
     	}
-    	
-    }
+    };
+  //Almaviva3 06/06/2019 controllo il flag isOCNSearch per verificare se esporre il bottone modifica ricerca
+	$scope.isOCNSearch = isOCNSearch ? true : false;
+	isOCNSearch = false;
   }]);

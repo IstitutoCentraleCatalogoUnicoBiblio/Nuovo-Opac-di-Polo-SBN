@@ -129,6 +129,10 @@ public class ConverterCampiDao implements ConverterCampi {
 			break;
 		case "colltit_tip_461_new_contenuti":
 			field = "colltit_tip_461_new";
+			break;
+		case "ocn":
+			field = "numeri_tip_ocn";
+			break;	
 		default:
 			field = field.trim();
 		}
@@ -230,6 +234,10 @@ public class ConverterCampiDao implements ConverterCampi {
 			break;
 		case "possessore":
 			field = "possessore";
+			break;
+		case "ocn":
+		case "numeri_tip_ocn":
+			field = "numeri_tip_ocn";
 			break;
 		default:
 

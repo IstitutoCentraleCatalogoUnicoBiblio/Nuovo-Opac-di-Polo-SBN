@@ -38,8 +38,6 @@ opac2.factory('LocalSessionSettingsServices', ['$filter', '$q', '$location', '$c
         CodiciServices.setMaterialeInv(polo.materiale_inv);
         var script = document.createElement('script');
         script.type = 'text/javascript';
-        document.title = "OPAC SBNWeb - " + polo.code;
-        
         script.src = mapsUrlApis + polo.maps_api_key + '&callback=myMap';
         if(!isUndefined(polo.maps_api_key))
           document.body.appendChild(script);

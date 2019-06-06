@@ -34,12 +34,10 @@ opac2.controller('HomeController', [
 				$location.path(path)
 			};
 			var poloCode = $routeParams.codPolo;
-			var bibliotecaCode = $routeParams.codBiblioteca;
-			prettyLog("Codice Polo nell'url", poloCode);
-			prettyLog("Biblioteca nell'url", bibliotecaCode)
-			//console.log("poloApp", poloApp)
-			//console.log("searchResult", searchResult)
-			//console.log("version", opac_version);
+			var bibliotecaCode = $routeParams.codBib;
+			console.info("Codice Polo nell'url", poloCode);
+			console.info("Biblioteca nell'url", bibliotecaCode)
+		
 			
 			$scope.loading = true;
 			var loadPolo = function() {

@@ -26,7 +26,7 @@
       </div>
       <center>
         <div class="px-top-15 col-sm-12 col-lg-12" ng-show="resultFlag == false">
-          <button type="submit" class="btn  btn-outline-primary btn-xs" ng-click="modifySearch(true)" data-toggle="tooltip" data-placement="left"
+          <button ng-show="isOCNSearch == false" type="submit" class="btn  btn-outline-primary btn-xs" ng-click="modifySearch(true)" data-toggle="tooltip" data-placement="left"
             title="{{'raffina' | translate}}">{{'raffina' | translate}}</button>
 
         </div>
@@ -99,7 +99,7 @@
 
       <span class="col-sm-8 col-lg-8">
         <ng-include ng-show="resultFlag == true && search.solrDocs.documenti.length > 1" src=" 'htmlView/opac/biblio/buttonMassiveAction.htm' "></ng-include>
-        <button ng-if="!showIngFavorites && resultFlag == true " type="submit" class="btn  btn-outline-primary btn-xs" ng-click="modifySearch(true)"
+        <button ng-show="isOCNSearch == false" ng-if="!showIngFavorites && resultFlag == true " type="submit" class="btn  btn-outline-primary btn-xs" ng-click="modifySearch(true)"
           data-toggle="tooltip" data-placement="left" title="{{'raffina' | translate}}">{{'raffina' | translate}}</button>
         <ng-include src=" 'htmlView/opac/biblio/exportButtonsList.htm' "></ng-include>
       </span>
@@ -312,7 +312,7 @@
 
     <span class="col-sm-8 col-lg-8 px-top-5">
       <ng-include ng-show="resultFlag == true && search.solrDocs.documenti.length > 1" src=" 'htmlView/opac/biblio/buttonMassiveAction.htm' "></ng-include>
-      <button ng-if="!showIngFavorites && resultFlag == true " type="submit" class="btn  btn-outline-primary btn-xs" ng-click="modifySearch(true)"
+      <button ng-show="isOCNSearch == false" ng-if="!showIngFavorites && resultFlag == true " type="submit" class="btn  btn-outline-primary btn-xs" ng-click="modifySearch(true)"
         data-toggle="tooltip" data-placement="left" title="{{'raffina' | translate}}">{{'raffina' | translate}}</button>
       <ng-include src=" 'htmlView/opac/biblio/exportButtonsList.htm' "></ng-include>
       <button ng-show="resultFlag == true && search.solrDocs.documenti.length > 1" type="submit" class="btn btn-default btn-xs"

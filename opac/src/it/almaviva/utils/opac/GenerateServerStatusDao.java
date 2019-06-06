@@ -41,7 +41,6 @@ public class GenerateServerStatusDao implements GenerateServerStatus {
 		s.setCode(codice);
 		s.setError(descrErrore);
 		s.setMessage(messaggio);
-		logServerStatus();
 		return s;
 	}
 
@@ -94,7 +93,6 @@ public class GenerateServerStatusDao implements GenerateServerStatus {
 
 		}
 
-		logServerStatus();
 		return s;
 	}
 
@@ -127,10 +125,7 @@ public class GenerateServerStatusDao implements GenerateServerStatus {
 		return server;
 	}
 
-	private void logServerStatus() {
-		log.info("Server status builded successfully");
-	}
-
+	
 	@Override
 	public ServerStatusBean generateTermsServerStatus(List<Term> terms) {
 		ServerStatusBean server = new ServerStatusBean();

@@ -29,12 +29,17 @@ opac2.factory('SharedServices', ['$filter', '$q', '$location', '$cookies', "Loca
 				poloObj.bibUseLogo = poloObj.libraries[ind].flag_logo;
 			}
 			LocalSessionSettingsServices.setPolo(poloObj)
-			if (poloObj.bibliotecaAsPolo)
-				LocalSessionSettingsServices
-						.setBiblioteche([ poloObj.libraries[ind] ]);
-			
-			return("/" + poloObj.code
-					+ "/" + pagina)
+			if (poloObj.bibliotecaAsPolo) {
+				LocalSessionSettingsServices.setBiblioteche([ poloObj.libraries[ind] ]);
+		        document.title = "OPAC SBNWeb - " + poloObj.code + poloObj.codBibliotecaAsPolo ;
+		        return("/" + poloObj.code +"/" + poloObj.codBibliotecaAsPolo
+						+ "/" + pagina)
+			} else {
+		        document.title = "OPAC SBNWeb - " + poloObj.code;
+		        return("/" + poloObj.code
+						+ "/" + pagina)
+			}
+		
 		},
 		prepareFilterFromSearchBar: function (searchValue, bibliotecaAsPolo) {
 			if(searchValue == '' || searchValue == null)
@@ -140,7 +145,10 @@ opac2.factory('SharedServices', ['$filter', '$q', '$location', '$cookies', "Loca
 		},
 		resetSessionsFilters: function() {
 			 LocalSessionSettingsServices.initSessionFilters();
-		}
+		},
+		getParamPrefixUrlOpac: function(polo) {
+			return ((polo.bibliotecaAsPolo) ?  polo.code +'/'+ polo.codBibliotecaAsPolo : polo.code)
+		} 
 		
 	}
 }]);

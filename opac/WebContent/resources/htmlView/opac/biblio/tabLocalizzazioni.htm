@@ -8,14 +8,6 @@
 				&& !check8xx(dettagli[$index])">{{'no_950'
 			| translate }}</li>
 	</ul>
-
-	<!-- <span ng-show="check4xx(dettagli[$index])"><span class="glyphicon glyphicon-certificate"></span>{{('msg_controlla_titoli_contenuti'
-			| translate) | trust}}</span></br> 
-<span ng-show="check8xx(dettagli[$index])"><span class="glyphicon glyphicon-certificate"></span>{{'msg_controlla_risorsa_elettronica'
-			| translate | trust}}</span></br> 
-			
-<span ng-show="!check4xx(dettagli[$index]) 
-				&& !check8xx(dettagli[$index])">{{'no_950' | translate }}</span> -->
 </div>
 
 <div class="panel text-right" ng-show="dettagli[$index].tag950 && !checkNoCollXOpacBib(dettagli[$index].tag950)">
@@ -258,8 +250,10 @@
 												</td>
 
 												<td ng-attr-id="{{'inventarioDisp_' + $index}}">
-													<!--  ng-if="!((inventario.documento.bid != undefined) && (documento.id != inventario.documento.bid))" -->
-													<button id="disponibileXRichiesta" type="button"
+						<span ng-show="!documento.tag950[$parent.$parent.$index].webservice.useOnlineService"
+													class="disabled">{{((inventario.codFrui !=
+														undefined) ? (inventario.codFrui| decodeCodFrui |
+														translate) : '')}}</span>													<button id="disponibileXRichiesta" type="button"
 														class="btn btn-success btn-xs"
 														ng-show="inventario.disponibilita.disponibile && documento.tag950[$parent.$parent.$index].webservice.useOnlineService"
 														ng-click="$parent.$parent.prenota((documento.level == 'm' && documento.id != inventario.documento.bid) ? inventario.documento.isbd : null, inventario, collocazione, inventario.bib, documento, $parent.$parent.$index, (documento.level == 's'))"
@@ -298,11 +292,7 @@
 															ng-click="openCopiaDigitale(inventario.url)"
 															title="{{'tooltip_disp_digitale' | translate}}">{{'copiaDigitale'
 															| translate }}</button>
-												</span> <span
-													ng-show="!documento.tag950[$parent.$parent.$index].webservice.useOnlineService"
-													class="disabled">{{((inventario.codFrui !=
-														undefined) ? (inventario.codFrui| decodeCodFrui |
-														translate) : '')}}</span>
+												</span> 
 												</td>
 											</tr>
 										</tbody>

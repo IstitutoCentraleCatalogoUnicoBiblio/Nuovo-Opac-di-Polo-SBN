@@ -132,7 +132,7 @@
 							<div class="rAvanz padding-lateral">
 								<a class="a link rAvanz" ng-click="ricercaAvanzata(false)" title="{{'tooltip_paginaRAvanz' | translate}}">{{ 'rAvanz' | translate }}</a>
 								<br ng-if="polo.useAuthority" />
-								<a ng-if="polo.useAuthority" class="a link rAvanz" ng-href="{{polo.code}}/authority" title="{{'tooltip_paginaAuthAut' | translate}}">{{ 'authority' | translate }}</a>
+								<a ng-if="polo.useAuthority" class="a link rAvanz" ng-href="{{(!polo.bibliotecaAsPolo) ? polo.code  : polo.code +'/' + polo.codBibliotecaAsPolo}}/authority" title="{{'tooltip_paginaAuthAut' | translate}}">{{ 'authority' | translate }}</a>
 							</div>
 
 

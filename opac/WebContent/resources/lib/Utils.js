@@ -75,15 +75,11 @@ function filterPrototype(value, field, match, operator, otherFiltersGroup) {
 }
 
 function myUrl() {
-
   return "api/"; 
 }
 
 function prettyLog(text, obj) {
 	return;
-  console.info("---OPAC SBNWeb logger---");
-  console.info(text + ": ", ((obj == undefined) ? "" : obj));
-  console.info("------------------");
 }
 function isEnterPressed(keyEvent) {
   return ((window.event ? keyEvent.keyCode : keyEvent.which) == 13);
@@ -93,7 +89,6 @@ function isUndefined(obj) {
 }
 
 function clearAvanzataSearch(obj, index) {
-
   switch (obj.field) {
     case "tiporec":
       $("#testo_" + index).hide();

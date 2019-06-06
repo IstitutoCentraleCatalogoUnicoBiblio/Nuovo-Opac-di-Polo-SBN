@@ -16,10 +16,6 @@
  ******************************************************************************/
 package it.almaviva.boot;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Properties;
-
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
@@ -36,16 +32,15 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import it.almaviva.boot.appVersion.Version;
 import it.almaviva.boot.appVersion.VersioningReader;
+import it.almaviva.opac.services.PropertiesLoader;
 import it.almaviva.utils.Costanti;
 
 //Classe di configurazione Database occhio sempre al package
 @Configuration
 @EnableTransactionManagement
-@ComponentScan({
-	Costanti.scanner_package
-	})
+@ComponentScan({ Costanti.scanner_package })
 public class PersistenceConfig {
-	
+
 	private Logger log = LoggerFactory.getLogger(PersistenceConfig.class);
 
 	@Bean
@@ -58,40 +53,24 @@ public class PersistenceConfig {
 	@Bean
 	public DataSource dataSource() {
 		DriverManagerDataSource ds = new DriverManagerDataSource();
-		Properties p = new Properties();
+
 		Version version = VersioningReader.getVersion();
 
 		log.info("-------------------------------------------------------------------------------");
 		log.info("------------------------------- STARTING OPAC ---------------------------------");
-		String property_file_path = System.getProperty(Costanti.user_home) + Costanti.file_properties_opac_installazione;
 
-		try {
-			p.load(new FileInputStream(property_file_path));
-			log.info("-->Versione Opac: " + version.getVersion());
-			log.info("-->Release: " + version.getLast_release());
-			log.info("-------------------------------------------------------------------------------");
-			log.info("Leggo le impostazioni del database");
-			log.info(property_file_path);
-			log.info("----");
-			ds.setDriverClassName(p.getProperty(Costanti.db_driver));
-			ds.setUrl(p.getProperty(Costanti.db_url));
-			ds.setUsername(p.getProperty(Costanti.db_user));
-			ds.setPassword(p.getProperty(Costanti.db_psw));
-			String db_schema = p.getProperty(Costanti.db_schema);
-			if(db_schema == null || "".equals(db_schema))
-				db_schema = "public";
-			ds.setSchema(db_schema);
-		} catch (IOException e) {
-		
-			log.info("Errore lettura " + Costanti.file_properties_opac_installazione + " file db: ", e);
-		} catch(Exception e) {
-			log.info("Errore lettura file di properties");
-			log.info(property_file_path);
-			log.info("", e);
-			e.printStackTrace();
-		
-		}
-		
+		log.info("-->Versione Opac: " + version.getVersion());
+		log.info("-->Release: " + version.getLast_release());
+		log.info("-------------------------------------------------------------------------------");
+		ds.setDriverClassName(PropertiesLoader.getProperty(Costanti.db_driver));
+		ds.setUrl(PropertiesLoader.getProperty(Costanti.db_url));
+		ds.setUsername(PropertiesLoader.getProperty(Costanti.db_user));
+		ds.setPassword(PropertiesLoader.getProperty(Costanti.db_psw));
+		String db_schema = PropertiesLoader.getProperty(Costanti.db_schema);
+		if (db_schema == null || "".equals(db_schema))
+			db_schema = "public";
+		ds.setSchema(db_schema);
+
 		return ds;
 	}
 

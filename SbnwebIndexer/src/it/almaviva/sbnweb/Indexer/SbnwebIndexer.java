@@ -366,7 +366,7 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 		// logger.info(record.toString());
 	}
 
-	// Developed by mary per il titolo
+	// Developed by almaviva6 per il titolo
 
 	/**
 	 * 200 $acefg sintassi: " ; a . c : e / f ; g"
@@ -1631,8 +1631,8 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 			subfields = dataField.getSubfields('u');
 			for (Iterator<Subfield> iterator2 = subfields.iterator(); iterator2.hasNext();) {
 				Subfield subfield = (Subfield) iterator2.next();
-				// fix per multipli url separati da pipe Luca Ferraro Viscardi e
-				// Mary Calogiuri
+				// fix per multipli url separati da pipe almaviva3 e
+				// almaviva4
 				resultU.add(subfield.getData().replace(" | ", Constants.separatore_url_899_no_pipe));
 			}
 			Character ind2 = dataField.getIndicator2();

@@ -17,10 +17,7 @@
 package it.almaviva.opac.services;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.List;
-import java.util.Properties;
 
 import org.springframework.web.multipart.MultipartFile;
 import org.testng.log4testng.Logger;
@@ -34,23 +31,16 @@ public class ImageServices {
 
 	static Logger log = Logger.getLogger(ImageServices.class);
 	private ImagesManagerDao imgDao = new ImagesManagerDao();
-	private Properties p = new Properties();
 
 	private String getPath(String codPolo) {
 
 		String path = null;
-		try {
-			p.load(new FileInputStream(
-					System.getProperty(Costanti.user_home) + Costanti.file_properties_opac_installazione));
-			path = System.getProperty(Costanti.user_home) + File.separator
-					+ p.getProperty(Costanti.path_loghi_properties);
-			path = path + "/" + codPolo;
-			path = Util.cleanPath(path);
-			log.info("Readed path: " + path);
-		} catch (IOException e) {
-			log.info("error searching file ", e);
-			path = null;
-		}
+		String path_loghi_properties = PropertiesLoader.getProperty(Costanti.path_loghi_properties);
+		if (!Util.isFilled(path_loghi_properties))
+			return null;
+		path = System.getProperty(Costanti.user_home) + File.separator + path_loghi_properties;
+		path = path + "/" + codPolo;
+		path = Util.cleanPath(path);
 
 		log.info("Read path img: " + path);
 		return path;
@@ -91,27 +81,35 @@ public class ImageServices {
 		String file = this.getFileNameBib(codPolo, codBib, imgType, true);
 		return imgDao.storeImg(path, files, file);
 	}
-	public Boolean rename(String codPolo, ImageType tipoImg, ImageType newName ) {
-		return imgDao.rename(this.getPath(codPolo), this.getFileNamePolo(codPolo,tipoImg), this.getFileNamePolo(codPolo,tipoImg).replace(tipoImg.toString().toLowerCase(), newName.toString().toLowerCase()));
+
+	public Boolean rename(String codPolo, ImageType tipoImg, ImageType newName) {
+		return imgDao.rename(this.getPath(codPolo), this.getFileNamePolo(codPolo, tipoImg),
+				this.getFileNamePolo(codPolo, tipoImg).replace(tipoImg.toString().toLowerCase(),
+						newName.toString().toLowerCase()));
 	}
+
 	public Boolean delete(String codPolo, ImageType tipoImg) {
-		return imgDao.delete(this.getPath(codPolo), this.getFileNamePolo(codPolo,tipoImg));
+		return imgDao.delete(this.getPath(codPolo), this.getFileNamePolo(codPolo, tipoImg));
 	}
 
 	public String getPoloLink2(String codPolo) {
 		return imgDao.getImg(this.getPath(codPolo), this.getFileNamePolo(codPolo, ImageType.LINK2));
 
 	}
+
 	public String getPoloBibLink2(String codPolo, String codBib, Boolean bibUseLogo) {
 		return imgDao.getImg(this.getPath(codPolo), this.getFileNameBib(codPolo, codBib, ImageType.LINK2, bibUseLogo));
 
 	}
+
 	public String getScrittaPolo(String codPolo) {
 		return imgDao.getImg(this.getPath(codPolo), this.getFileNamePolo(codPolo, ImageType.LOGO_POLO_SCRITTA));
 
 	}
+
 	public String getScrittaBiblio(String codPolo, String codBib, Boolean bibUseLogo) {
-		return imgDao.getImg(this.getPath(codPolo), this.getFileNameBib(codPolo, codBib, ImageType.LOGO_POLO_SCRITTA, bibUseLogo));
+		return imgDao.getImg(this.getPath(codPolo),
+				this.getFileNameBib(codPolo, codBib, ImageType.LOGO_POLO_SCRITTA, bibUseLogo));
 
 	}
 }

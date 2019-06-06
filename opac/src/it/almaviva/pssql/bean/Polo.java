@@ -410,8 +410,7 @@ public class Polo implements Cloneable {
 		if(!Util.isFilled(this.code))
 			return lunghezza_464_default;
 		
-		PropertiesLoader properties = new PropertiesLoader();
-		String lungezza464 = properties.getProps("ELEMENTI_464_" + this.code.toUpperCase());
+		String lungezza464 = PropertiesLoader.getProperty("ELEMENTI_464_" + this.code.toUpperCase());
 		return Util.isFilled(lungezza464) ? lungezza464 : lunghezza_464_default;
 	}
 }

@@ -13,7 +13,7 @@ opac2.controller('DetailController', ['$scope', '$translate', '$routeParams', '$
 
     $scope.ricercaAvanzata = function (flag) {
       LocalSessionSettingsServices.setModifyFlag(flag);
-      $location.path("/" + $scope.polo.code + "/ricercaAvanzata");
+      $location.path("/" + SharedServices.getParamPrefixUrlOpac($scope.polo) + "/ricercaAvanzata");
     };
     var showSingleDetail = function (id) {
       //creazione dei filtri e campi di ricerca
@@ -58,7 +58,7 @@ opac2.controller('DetailController', ['$scope', '$translate', '$routeParams', '$
     	 //Controllo se vid o autore
         if ($scope.idUrl[3].toUpperCase() === "V") {
         	$timeout(function(){      	
-        	$location.path($scope.polo.code + "/authority/" + $scope.idUrl);
+        	$location.path(SharedServices.getParamPrefixUrlOpac($scope.polo) + "/authority/" + $scope.idUrl);
         		
         	})
         } else {
@@ -68,20 +68,20 @@ opac2.controller('DetailController', ['$scope', '$translate', '$routeParams', '$
         $('#loading').modal('hide');
         LocalSessionSettingsServices.setResponseFromSearch(success.data);
 
-        $location.path($scope.polo.code + "/result");
+        $location.path(SharedServices.getParamPrefixUrlOpac($scope.polo) + "/result");
           }, function (error) {
         //console.log("ERROR", error.data);
         $('#loading').modal('hide');
         //salvo in loca  $('#loading').modal('hide');le l'errore che si è verificato nella chiamata al server
         LocalSessionSettingsServices.setError(503);
-        $location.path($scope.polo.code + "/error")
+        $location.path(SharedServices.getParamPrefixUrlOpac($scope.polo) + "/error")
 
       });
         }
     }
     var authorSearch = function (toPostJson) {
       $timeout(function () {
-        $location.path($scope.polo.code + "/dettaglio/documento/" + $scope.idUrl);
+        $location.path(SharedServices.getParamPrefixUrlOpac($scope.polo) + "/dettaglio/documento/" + $scope.idUrl);
       }, 100);
 
     }
@@ -98,7 +98,7 @@ opac2.controller('DetailController', ['$scope', '$translate', '$routeParams', '$
   		documentSearch();
   	};
   	var poloCode = $routeParams.codPolo;
-  	var bibliotecaCode = $routeParams.codBiblioteca;
+  	var bibliotecaCode = $routeParams.codBib;
   	prettyLog("Codice Polo nell'url", poloCode);
   	prettyLog("Biblioteca nell'url", bibliotecaCode)
   	$scope.loading = true;

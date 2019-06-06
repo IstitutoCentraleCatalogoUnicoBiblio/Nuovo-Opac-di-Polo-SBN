@@ -57,30 +57,42 @@ public class MailSenderImpl implements MailSenderInterface {
 			log.info("Valid recipient");
 			log.info("Sending eMail to " + recipient.getTo());
 
-			Properties properties = System.getProperties();
-			properties.setProperty("mail.smtp.host", props.getDnshost());
+			Properties systemProperties = System.getProperties();
 			
+			systemProperties.remove("mail.smtp.auth");
+			systemProperties.remove("mail.smtp.host");
+			systemProperties.remove("mail.transport.protocol");
+			systemProperties.remove("mail.smtp.port");
+
+			systemProperties.setProperty("mail.smtp.host", props.getDnshost());
+			systemProperties.setProperty("mail.smtp.auth", props.getIsToLogin().toString());
+			systemProperties.setProperty("mail.transport.protocol", props.mail_protocol);
+			//Se la porta è standard non la imposto, in automatico
+			if("25".equals(props.getPort_mail()))
+				systemProperties.setProperty("mail.smtp.port", props.getPort_mail());
+
 			if (props.getIsToLogin()) {
 				log.info("Logging mail");
-				properties.setProperty("mail.smtp.auth", props.getIsToLogin().toString());
-				session = Session.getDefaultInstance(properties, new javax.mail.Authenticator() {
+
+				session = Session.getDefaultInstance(systemProperties, new javax.mail.Authenticator() {
 					protected PasswordAuthentication getPasswordAuthentication() {
 						return new PasswordAuthentication(props.getUsername_login(), props.getPsw_login());
 					}
 				});
 			} else {
 				log.info("No login required");
-				properties.remove("mail.smtp.auth");
-				properties.setProperty("mail.smtp.auth", props.getIsToLogin().toString());
 
-				session = Session.getDefaultInstance(properties);
+				session = Session.getDefaultInstance(systemProperties);
 			}
 
 			try {
 				MimeMessage message = prepareMessage(recipient, session);
 
-				// Send message
-				Transport.send(message);
+				Transport transport = session.getTransport(props.mail_protocol);
+				transport.connect();
+				transport.sendMessage(message, message.getAllRecipients());
+				transport.close();
+				
 				log.info("Sent message successfully....");
 				sStatus = gssts.serverStatusFromCode(200);
 			} catch (Exception mex) {

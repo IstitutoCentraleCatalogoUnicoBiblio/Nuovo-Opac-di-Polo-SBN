@@ -92,8 +92,8 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
 
     };
     $scope.excludeTermini = ["any", "keywords", "tiporec", "level", "titolo_uniforme", "id", "bid", "bni", "issn", "isbn", "abstract","colltit_tip_461_new_contenuti"];
-
-    $scope.campiRicercaLista = ["titolo", "nome", "soggetto", "editore", "titolo_uniforme", "collezione", "titolo_raccolta", "luogo", "dewey_code", "dewey_des", "classi_PGI_686_tot","any", "keywords","semantica","isbn", "bni",  "issn", "id", "possessore", "abstract", "paese", "lingua","relator_codef_noposs", "forma", "impronta", "marca","colltit_tip_461_new_contenuti"];
+//"numeri_tip_ocn", rimossa possibilita di cercare per ocn mail iccu 06/06/2019
+    $scope.campiRicercaLista = ["titolo", "nome", "soggetto", "editore", "titolo_uniforme", "collezione", "titolo_raccolta", "luogo", "dewey_code", "dewey_des", "classi_PGI_686_tot","any", "keywords","semantica","isbn", "bni",  "issn",  "id", "possessore", "abstract", "paese", "lingua","relator_codef_noposs", "forma", "impronta", "marca","colltit_tip_461_new_contenuti"];
     $scope.tipiRecord = CodiciServices.getTipiRecord();
     $scope.levelBib = CodiciServices.getLivelloBibliografico();
     $scope.clearSearch(false);
@@ -127,10 +127,10 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
         LocalSessionSettingsServices.setResponseFromSearch(success.data);
         $('#loading').modal('hide');
         if (isUndefined(preferiti)) {
-          $location.path("/" + $scope.polo.code + "/result");
+          $location.path("/" + SharedServices.getParamPrefixUrlOpac($scope.polo) + "/result");
 
         } else {
-          $location.path("/" + $scope.polo.code + "/preferiti");
+          $location.path("/" + SharedServices.getParamPrefixUrlOpac($scope.polo) + "/preferiti");
 
         }
 
@@ -869,7 +869,7 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
     $scope.ricercaAvanzata = function (flag) {
       LocalSessionSettingsServices.setModifyFlag(flag);
       LocalSessionSettingsServices.setFormatoDigitale([])
-      $location.path("/" + $scope.polo.code + "/ricercaAvanzata");
+      $location.path("/" + SharedServices.getParamPrefixUrlOpac($scope.polo) + "/ricercaAvanzata");
     }
     $scope.findIndex = function (arrayObj, key, value) {
       var idx = -1;
@@ -1190,7 +1190,7 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
 		$location.path(path)
 	};
 	var poloCode = $routeParams.codPolo;
-	var bibliotecaCode = $routeParams.codBiblioteca;
+	var bibliotecaCode = $routeParams.codBib;
 	prettyLog("Codice Polo nell'url", poloCode);
 	prettyLog("Biblioteca nell'url", bibliotecaCode)
 	$scope.loading = true;

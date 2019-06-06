@@ -12,6 +12,80 @@ var controllers = [ 'RicercaSemplice',
 	'Error',
 	'Contatti',
 	];
+
+//Definisco un array di oggetti con l'elenco dei path a cui corrispondono,  templateUrl html e controller corrispondente
+var pages = [
+      {
+        paths: ["/:codPolo/ricercaSemplice", 
+                "/:codPolo/:codBib/ricercaSemplice"],
+        templateUrl:"htmlView/opac/ricercaSempliceView.htm",
+        controller:"RicercaSempliceController"
+    },
+    {
+        paths: ["/:codPolo/ricercaAvanzata", 
+                "/:codPolo/:codBib/ricercaAvanzata", 
+                "/:codPolo/modifica", 
+                "/:codPolo/:codBib/modifica"  ],
+        templateUrl:"htmlView/opac/ricercaAvanzataView.htm",
+        controller:"RicercaAvanzataController"
+    },
+    {
+        paths: ["/:codPolo/authority",
+                "/:codPolo/:codBib/authority", 
+                "/:codPolo/authority/:vid", 
+                "/:codPolo/:codBib/authority/:vid"],
+        templateUrl:"htmlView/opac/authoritySearchView.htm",
+        controller:"AuthoritySearchController"
+    },
+      {
+        paths: ["/:codPolo/result", 
+                "/:codPolo/:codBib/result", 
+                "/:codPolo/preferiti",
+                "/:codPolo/:codBib/preferiti"],
+        templateUrl:"htmlView/opac/resultView.htm",
+        controller:"ResultController"
+    },
+     {
+        paths: ["/:codPolo/info/polo"],
+        templateUrl:"htmlView/opac/info/infoPoloView.htm",
+        controller:"InfoPoloController"
+    },
+     {
+        paths: ["/:codPolo/info/biblioteche",
+                "/:codPolo/:codBib/info/biblioteca"],
+        templateUrl:"htmlView/opac/info/infoBibPoloView.htm",
+        controller:"InfoBibPoloController"
+    },
+     {
+        paths: ["/:codPolo/contatti",
+                "/:codPolo/:codBib/contatti"],
+        templateUrl:"htmlView/opac/info/contattiView.htm",
+        controller:"ContattiController"
+    },
+    {
+        paths: ["/:codPolo/dettaglio/documento/:id",
+                "/:codPolo/:codBib/dettaglio/documento/:id",
+                "/:codPolo/dettaglio/autore/:id",
+                "/:codPolo/:codBib/dettaglio/autore/:id"],
+        templateUrl: "htmlView/opac/detailView.htm",
+        controller:"DetailController"
+    },
+    {
+        paths: ["/:codPolo/error", 
+        	"/error", 
+        	"/:codPolo/:codBib/error"],
+        templateUrl:"htmlView/opac/errorView.htm",
+        controller:"ErrorController"
+    },
+    {
+        paths: ["/",
+                "/:codPolo", 
+               "/:codPolo/:codBib" //multipli match
+                ],
+        templateUrl:"htmlView/opac/homeView.htm",
+        controller:"HomeController"
+    }
+];
 function loadControllers(controllers) {
 	console.log("Loading Async JS")
 	controllers.forEach(function(controller) {
@@ -25,96 +99,39 @@ function loadFileJS(path) {
 	document.body.appendChild(script);
 };
 opac2.config(["$routeProvider", "$translateProvider", "$locationProvider","$controllerProvider",
-  function($routeProvider, $translateProvider, $locationProvider, $controllerProvider) {
+  function($routeProvider, $translateProvider, $locationProvider, $controllerProvider, $stateProvider) {
 	
 	opac2.registerCtrl = $controllerProvider.register;
-
-    $routeProvider.when("/", {
-      templateUrl: "htmlView/opac/homeView.htm",
-      controller: "HomeController",
-       })
-    .when("/", {
-      templateUrl: "htmlView/opac/homeView.htm",
-      controller: "HomeController",
-      
-    }).when("/:codPolo", {
-      templateUrl: "htmlView/opac/homeView.htm",
-      controller: "HomeController",
- 
-    }).when("/:codPolo/ricercaSemplice", {
-      templateUrl: "htmlView/opac/ricercaSempliceView.htm",
-      controller: "RicercaSempliceController",
-    }).when("/:codPolo/authority", {
-      templateUrl: "htmlView/opac/authoritySearchView.htm",
-      controller: "AuthoritySearchController",
-
-    }).when("/:codPolo/ricercaAvanzata", {
-      templateUrl: "htmlView/opac/ricercaAvanzataView.htm",
-      controller: "RicercaAvanzataController",
-
-    }).when("/:codPolo/modifica", {
-      templateUrl: "htmlView/opac/ricercaAvanzataView.htm",
-      controller: "RicercaAvanzataController",
-
-    }).when("/:codPolo/result", {
-      templateUrl: "htmlView/opac/resultView.htm",
-      controller: "ResultController",
-
-    }).when("/:codPolo/authority/:vid", {
-      templateUrl: "htmlView/opac/authoritySearchView.htm",
-      controller: "AuthoritySearchController",
-
-    }).when("/:codPolo/error", {
-      templateUrl: "htmlView/opac/errorView.htm",
-      controller: "ErrorController",
-
-    }).when("/:codPolo/info/polo", {
-      templateUrl: "htmlView/opac/info/infoPoloView.htm",
-      controller: "InfoPoloController",
-
-    }).when("/:codPolo/info/biblioteche", {
-      templateUrl: "htmlView/opac/info/infoBibPoloView.htm",
-      controller: "InfoBibPoloController",
-
-    }).when("/:codPolo/contatti", {
-      templateUrl: "htmlView/opac/info/contattiView.htm",
-      controller: "ContattiController",
-
-    }).when("/:codPolo/result/:detail-:id", {
-      templateUrl: "htmlView/opac/resultView.htm",
-      controller: "ResultController",
-
-    }).when("/:codPolo/preferiti", {
-      templateUrl: "htmlView/opac/resultView.htm",
-      controller: "ResultController",
-
-    }).when("/:codPolo/dettaglio/documento/:id", {
-      templateUrl: "htmlView/opac/detailView.htm",
-      controller: "DetailController",
-      resolve : {
-			load : function() {
-				loadControllers(controllers);
-			}
-    }
-    }).when("/:codPolo/dettaglio/autore/:id", {
-      templateUrl: "htmlView/opac/detailView.htm",
-      controller: "DetailController",
-      resolve : {
-			load : function() {
-				loadControllers(controllers);
-			}
-    }
-
-    }).when("/error", {
-      templateUrl: "htmlView/opac/info/errorView.htm",
-      controller: "ErrorController",
-
-    }).when("/:codPolo/:codBiblioteca", {
-      templateUrl: "htmlView/opac/homeView.htm",
-      controller: "HomeController",
-      }).otherwise({
-      redirectTo: "/"
-    });
+	//Registro i controller per la pagina definita
+	//per ogni pagina
+	for(var i = 0; i < pages.length; i++) {
+	    //per ogni path di quella pagina registro il controller
+	    pages[i].paths.forEach(function(path) {
+	    //	debugger
+	                if(pages[i].controller == "DetailController") {
+	                	$routeProvider.when(path, {
+	     	             templateUrl: pages[i].templateUrl,
+	     	             controller:  pages[i].controller,
+	     	            resolve : {
+	     		                   load: function () {
+	     						    loadControllers(controllers);
+	     		                   }
+	     		               }
+	     	        });
+	            } else {
+	            	  $routeProvider.when(path, {
+	     	             templateUrl: pages[i].templateUrl,
+	     	             controller:  pages[i].controller,
+	     	        });
+	            }
+     
+	        
+	    //        console.log($routeProvider)
+	    });
+	    //console.log(pages[i].controller + ": ", pages[i].paths )
+	}
+	console.log($routeProvider)
+	 $routeProvider.otherwise({ redirectTo: "/"  });
     //Rimuovo l'hash nell url
     $locationProvider.html5Mode(true);
     var serverURL = myUrl();

@@ -53,7 +53,7 @@
 <script type="text/javascript" src="lib/angular/angular-sanitize.min.js"></script>
 <script type="text/javascript" src="lib/angular/angular-cookies.min.js"></script>
 <script type="text/javascript" src="lib/angular/angular-filter.js"></script>
-<script type="text/javascript" src="lib/angular/angular-route.min.js"></script>
+<script type="text/javascript" src="lib/angular/angular-route.js"></script>
 <script type="text/javascript"
 	src="lib/angular-translate/angular-translate.min.js"></script>
 <script src="lib/jquery/jquery-3.3.1.min.js"></script>
@@ -105,6 +105,7 @@ var poloApp =  ${response};
 var searchResult =  ${searchResult};
 var opac_version =  ${opac_version};
 var base_url = "${pageContext.request.contextPath}";
+var isOCNSearch = ${isOCNSearch};
 </script>
 </head>
 <body ng-app="opac2">

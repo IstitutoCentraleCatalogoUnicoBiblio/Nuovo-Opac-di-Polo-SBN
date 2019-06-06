@@ -219,6 +219,7 @@ Verificare e impostare opportunamente i parametri presenti nel file **opacDB.pro
 - OPAC_PATH_LOGHI=loghi &rarr; path dove sono presenti il logo del Polo e i loghi utilizzati per le singole biblioteche
 - DNS_MAIL=localhost &rarr; riferimento al mail server: localhost oppure IP della macchina su cui risiede il mail server 
 - MITTENTE_MAIL=mail@mail-fittizia.it &rarr; mittente delle mail inviate da OPAC2
+- PORT_MAIL=25 &rarr; Porta su cui è attivo il servizio del mail server (*)
 - LOGIN_MAIL=true/false &rarr; default=false (*)
 - USERNAME_MAIL=username per login su mail server &rarr; default=vuoto (*)
 - PASSWORD_MAIL=password per login su mail server &rarr; default=vuoto (*)
@@ -227,16 +228,17 @@ Verificare e impostare opportunamente i parametri presenti nel file **opacDB.pro
 - PROXY_CONNECTION_PORT=porta di un proxy da usare per  interrogare wikipedia (**)
 
 
-*(\*) Parametri opzionali.* Possono esistere le seguenti combinazioni:
+*(\*) Parametri opzionali per l'invio delle mail*</br> Possono esistere le seguenti combinazioni:
 
-- LOGIN_MAIL=false &rarr; il server di posta non necessita di credenziali di accesso e i parametri USERNAME_MAIL/PASSWORD_MAIL possono essere vuoti o assenti;
+- LOGIN_MAIL=false oppure non presente &rarr; il server di posta non necessita di credenziali di accesso e i parametri USERNAME_MAIL / PASSWORD_MAIL / PORT_MAIL possono essere vuoti o assenti;
 - LOGIN_MAIL=true &rarr; il server di posta necessita di credenziali di accesso impostate in USERNAME_MAIL e PASSWORD_MAIL;
-- parametri non indicati nel file di properties &rarr; equivale a LOGIN_MAIL=false e USERNAME_MAIL/PASSWORD_MAIL vuoti
+- PORT_MAIL &rarr; Se non impostato l'applicativo utilizza di default la porta 25. Viene preso in considerazione solo se *LOGIN_MAIL=true*.
+
 
 _(**) Parametro opzionale._  
-- ELEMENTI_464_{codice polo} Se non valorizzato il default è 12
-- PROXY_CONNECTION_URL Se non valorizzato non viene usato alcun proxy 
-- PROXY_CONNECTION_PORT  Se non valorizzato non viene usato alcun proxy 
+- ELEMENTI_464_{codice polo} &rarr; Se non valorizzato il default è 12
+- PROXY_CONNECTION_URL &rarr; Se non valorizzato non viene usato alcun proxy 
+- PROXY_CONNECTION_PORT &rarr; Se non valorizzato non viene usato alcun proxy 
 
 ### *Attenzione*
 Se è necessario usare un proxy per uscire sul web va impostata la seguente riga nel file **catalina.sh** nella cartella bin di tomcat server sostituendo i valori richiesti.

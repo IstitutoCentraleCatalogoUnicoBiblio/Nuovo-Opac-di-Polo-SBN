@@ -53,10 +53,10 @@ opac2.registerCtrl('RicercaSempliceController', ['$scope', '$translate', '$route
         LocalSessionSettingsServices.setResponseFromSearch(success.data);
 
         if (isUndefined(preferiti)) {
-          $location.path("/" + $scope.polo.code + "/result");
+          $location.path("/" + SharedServices.getParamPrefixUrlOpac($scope.polo) + "/result");
 
         } else {
-          $location.path("/" + $scope.polo.code + "/preferiti");
+          $location.path("/" + SharedServices.getParamPrefixUrlOpac($scope.polo) + "/preferiti");
 
         }
 
@@ -66,7 +66,7 @@ opac2.registerCtrl('RicercaSempliceController', ['$scope', '$translate', '$route
 
         //salvo in locale l'errore che si è verificato nella chiamata al server
         LocalSessionSettingsServices.setError(503);
-        $location.path($scope.polo.code + "/error");
+        $location.path(SharedServices.getParamPrefixUrlOpac($scope.polo) + "/error");
 
       });
     }
@@ -109,21 +109,21 @@ opac2.registerCtrl('RicercaSempliceController', ['$scope', '$translate', '$route
     $scope.ricercaAvanzata = function (flag) {
       LocalSessionSettingsServices.setModifyFlag(flag);
       LocalSessionSettingsServices.setFormatoDigitale([])
-      $location.path("/" + $scope.polo.code + "/ricercaAvanzata");
+      $location.path("/" + SharedServices.getParamPrefixUrlOpac($scope.polo) + "/ricercaAvanzata");
     }
     $scope.novita = function (novitaDate) {
       ApiServices.novita(novitaDate).then(function(success){
         //console.log("SUCCESS novita", success.data)
          //salvo il response della ricerca
          LocalSessionSettingsServices.setResponseFromSearch(success.data);
-         $location.path("/" + $scope.polo.code + "/result");
+         $location.path("/" + SharedServices.getParamPrefixUrlOpac($scope.polo) + "/result");
        
       }, function (error){
         $('#loading').modal('hide');
         //console.log("ERROR novita", error);
         
         LocalSessionSettingsServices.setError(400);
-        $location.path($scope.polo.code+"/error");
+        $location.path(SharedServices.getParamPrefixUrlOpac($scope.polo)+"/error");
       })
     };
     $scope.addAllToSelected = function(biblioteche) {
@@ -273,7 +273,7 @@ opac2.registerCtrl('RicercaSempliceController', ['$scope', '$translate', '$route
 		$location.path(path)
 	};
     var poloCode = $routeParams.codPolo;
-	var bibliotecaCode = $routeParams.codBiblioteca;
+	var bibliotecaCode = $routeParams.codBib;
 	prettyLog("Codice Polo nell'url", poloCode);
 	prettyLog("Biblioteca nell'url", bibliotecaCode)
     var loadPolo = function() {
@@ -307,15 +307,15 @@ opac2.registerCtrl('RicercaSempliceController', ['$scope', '$translate', '$route
       runSearch(LocalSessionSettingsServices.riCerca(ricerca, LocalSessionSettingsServices));
       //ricerca qualcosa
     };
-    var datectExternalSearch = function() {
+    var detectExternalSearch = function() {
     	if(!isUndefined(searchResult) && searchResult != null ){
     		 LocalSessionSettingsServices.setResponseFromSearch(searchResult);
     			searchResult = null
-             $location.path("/" + $scope.polo.code + "/result");
+             $location.path("/" + SharedServices.getParamPrefixUrlOpac($scope.polo) + "/result");
     	}
     
     }
 
-    datectExternalSearch();
+    detectExternalSearch();
     LocalSessionSettingsServices.initSessionFilters(); 
   }]);

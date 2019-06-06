@@ -23,10 +23,10 @@ opac2.registerCtrl('ContattiController', ['$scope', '$translate', '$routeParams'
         LocalSessionSettingsServices.setResponseFromSearch(success.data);
 
         if (isUndefined(preferiti)) {
-          $location.path("/" + $scope.polo.code + "/result");
+          $location.path("/" + SharedServices.getParamPrefixUrlOpac($scope.polo) + "/result");
 
         } else {
-          $location.path("/" + $scope.polo.code + "/preferiti");
+          $location.path("/" + SharedServices.getParamPrefixUrlOpac($scope.polo) + "/preferiti");
 
         }
 
@@ -42,7 +42,7 @@ opac2.registerCtrl('ContattiController', ['$scope', '$translate', '$routeParams'
     $scope.ricercaAvanzata = function(flag) {
       LocalSessionSettingsServices.setModifyFlag(flag);
       LocalSessionSettingsServices.setFormatoDigitale([])
-      $location.path("/" + $scope.polo.code + "/ricercaAvanzata");
+      $location.path("/" + SharedServices.getParamPrefixUrlOpac($scope.polo) + "/ricercaAvanzata");
     }
     $scope.myFunc = function(mytxt) {
       $scope.value = mytxt;
@@ -80,7 +80,7 @@ opac2.registerCtrl('ContattiController', ['$scope', '$translate', '$routeParams'
 		$location.path(path)
 	};
     var poloCode = $routeParams.codPolo;
-	var bibliotecaCode = $routeParams.codBiblioteca;
+	var bibliotecaCode = $routeParams.codBib;
 	prettyLog("Codice Polo nell'url", poloCode);
 	prettyLog("Biblioteca nell'url", bibliotecaCode)
     var loadPolo = function() {

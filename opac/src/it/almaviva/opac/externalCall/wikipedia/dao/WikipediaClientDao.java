@@ -39,9 +39,8 @@ public class WikipediaClientDao implements WikipediaClientModelInt {
 			loadProxyConf();
 	}
 	public static void loadProxyConf() {
-		PropertiesLoader properties = new PropertiesLoader();
-		String proxy_url = properties.getProps("PROXY_CONNECTION_URL");
-		String proxy_port = properties.getProps("PROXY_CONNECTION_PORT");
+		String proxy_url = PropertiesLoader.getProperty("PROXY_CONNECTION_URL");
+		String proxy_port = PropertiesLoader.getProperty("PROXY_CONNECTION_PORT");
 		use_proxy_url = Util.isFilled(proxy_url) ? proxy_url : null;
 		try {
 			use_proxy_port = Util.isFilled(proxy_port) ? Integer.parseInt(proxy_port) : 8080;

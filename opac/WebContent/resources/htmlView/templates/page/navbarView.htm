@@ -3,7 +3,7 @@
 	<!-- Nome del Polo -->
 	<div class="col-md-5" id="poloTitle" style="padding-left: 0px">
 		<div class="col-md-12" style="padding-left: 0px">
-			<a ng-href="{{(polo.code && !isAdministration) ? polo.code + '/ricercaSemplice' : '#'}} " title="{{(!isAdministration) ? 'tooltip_paginaRSempl' : '' | translate}}">
+			<a ng-href="{{(polo.code && !isAdministration) ? ((!polo.bibliotecaAsPolo) ? polo.code  : polo.code +'/' + polo.codBibliotecaAsPolo) + '/ricercaSemplice' : '#'}} " title="{{(!isAdministration) ? 'tooltip_paginaRSempl' : '' | translate}}">
 			<img ng-if="polo.code" class="img-responsive"
 				ng-src="img/get/logo_polo_scritta/{{(!polo.bibliotecaAsPolo) ? polo.code  : polo.code +'/' + polo.codBibliotecaAsPolo}}"
 				on-error-src="images/sbnweb.png" style="max-height: 65px;"> 
@@ -59,7 +59,7 @@
 	<div class="collapse navbar-collapse">
 		<ul class="nav navbar-nav menu padd_L_nav">
 		<li ng-if="flagVisualizza" ng-show="(controller != 'rSemplice') && !user && flagVisualizza"><a
-		ng-href="{{polo.code}}/ricercaSemplice" 
+		ng-href="{{(!polo.bibliotecaAsPolo) ? polo.code  : polo.code +'/' + polo.codBibliotecaAsPolo}}/ricercaSemplice" 
 		title="{{'tooltip_paginaRSempl' | translate}}" class="a logout link"
 				> <span class="glyphicon glyphicon-home"></span>
 					{{ 'Home' | translate }}
@@ -72,7 +72,7 @@
 			</a></li>
 			<li ng-if="flagVisualizza"><a
 				title="{{'tooltip_guida_utente' | translate }}"
-				class="a logout link" href="meta/Guida_utente-opac2-1.1.0.pdf"
+				class="a logout link" href="meta/Guida_utente-opac2-1.1.1.pdf"
 				target="_blank"> <span class="glyphicon glyphicon-book"></span>
 					{{ 'guidaUtente' | translate }}
 			</a></li>
@@ -93,7 +93,7 @@
 			<li ng-if="flagVisualizza"><a
 				title="{{'tooltip_invia_mail_contatto' | translate}}"
 				ng-if="polo.code && !user" class="a logout link"
-				ng-href="{{polo.code}}/contatti"> <span
+				ng-href="{{(!polo.bibliotecaAsPolo) ? polo.code  : polo.code +'/' + polo.codBibliotecaAsPolo}}/contatti"> <span
 					class="glyphicon glyphicon-envelope"></span> {{ 'contatti' |
 					translate }}
 			</a></li>
@@ -107,7 +107,7 @@
 			<li ng-if="flagVisualizza"><a
 				ng-if="!polo.bibliotecaAsPolo && polo.code && !user"
 				title="{{'tooltip_info_polo' | translate}}" class="a logout link"
-				ng-href="{{polo.code}}/info/polo"> <span
+				ng-href="{{(!polo.bibliotecaAsPolo) ? polo.code  : polo.code +'/' + polo.codBibliotecaAsPolo}}/info/polo"> <span
 					class="glyphicon glyphicon-info-sign"></span> {{
 					'InfoPoloController' | translate }}
 			</a></li>
@@ -115,7 +115,7 @@
 			<li ng-if="flagVisualizza"><a ng-if="polo.code && !user"
 				title="{{(polo.bibliotecaAsPolo)? 'tooltip_info_biblioteca': 'tooltip_lista_biblioteche'
 					| translate }}"
-				class="a logout link" ng-href="{{polo.code}}/info/biblioteche">
+				class="a logout link" ng-href="{{(!polo.bibliotecaAsPolo) ? polo.code + '/info/biblioteche'  : polo.code +'/' + polo.codBibliotecaAsPolo + '/info/biblioteca'}}">
 					<span class="glyphicon glyphicon-info-sign"></span> {{
 					(polo.bibliotecaAsPolo)? 'info_biblioteca': 'InfoBibPoloController'
 					| translate }}
@@ -192,7 +192,7 @@
 <!-- Almaviva3 evo BVE 09/05/2019 rimossa breadcumb spostata qui la searchBar -->
 <div class="searchBar" ng-if="polo != undefined || poloList != undefined" ng-show="(controller != 'rSemplice') && !user && flagVisualizza">
 	<span class="col-md-4 px-top-5">
-		<a ng-href="{{polo.code}}/ricercaSemplice" title="{{'tooltip_paginaRSempl' | translate}}">{{'rSemplice' | translate }}</a>
+		<a ng-href="{{(!polo.bibliotecaAsPolo) ? polo.code  : polo.code +'/' + polo.codBibliotecaAsPolo}}/ricercaSemplice" title="{{'tooltip_paginaRSempl' | translate}}">{{'rSemplice' | translate }}</a>
 		 - 
 		<a ng-class="['a','link', {'disabled': (controller == 'rAvanz') }]"
 			ng-click="ricercaAvanzata(false)"
@@ -200,7 +200,7 @@
 			translate }}</a> <!-- class rimosso  rAvanz ng-show="(controller != 'rAvanz')"  -->
 			
 		 - <a ng-if="polo.useAuthority"
-			 ng-class="['a','link', {'disabled': (controller == 'authority') }]" ng-href="{{polo.code}}/authority"
+			 ng-class="['a','link', {'disabled': (controller == 'authority') }]" ng-href="{{(!polo.bibliotecaAsPolo) ? polo.code  : polo.code +'/' + polo.codBibliotecaAsPolo}}/authority"
 			title="{{'tooltip_paginaAuthAut' | translate}}">{{ 'authority' |
 			translate }}</a> <!-- class rimosso  rAuth  ng-show="(controller != 'authority')"-->
 	</span>

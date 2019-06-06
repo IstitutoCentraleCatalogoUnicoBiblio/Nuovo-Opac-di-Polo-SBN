@@ -13,9 +13,11 @@ public class MailProperties {
 	private String mittenteMail;
 	private String username_login;
 	private String psw_login;
+	private String port_mail = "25";
 	private Boolean isToLogin = false;
 	private final String charset = "text/html; charset=\"utf-8\"";
-	private PropertiesLoader p = new PropertiesLoader();
+	public final String mail_protocol = "smtp";
+
 
 	public MailProperties() {
 		super();
@@ -34,20 +36,22 @@ public class MailProperties {
 	private void loadProps() {
 		log.info("lettura conf. Mail");
 
-			String dns = p.getProps("DNS_MAIL");
-			String mittente_mail = p.getProps("MITTENTE_MAIL");
-			String mailIsToLogin = p.getProps("LOGIN_MAIL");
-			String username_login = p.getProps("USERNAME_MAIL");
-			String psw_login = p.getProps("PASSWORD_MAIL");
+			String dns = PropertiesLoader.getProperty("DNS_MAIL");
+			String mittente_mail = PropertiesLoader.getProperty("MITTENTE_MAIL");
+			String mailIsToLogin = PropertiesLoader.getProperty("LOGIN_MAIL");
+			String username_login = PropertiesLoader.getProperty("USERNAME_MAIL");
+			String psw_login = PropertiesLoader.getProperty("PASSWORD_MAIL");
+			String port_mail = PropertiesLoader.getProperty("PORT_MAIL");
 
 			this.dnshost = (Util.isFilled(dns)) ? dns : "";
 			this.mittenteMail = (Util.isFilled(mittente_mail)) ? mittente_mail : "";
 
 			if (Util.isFilled(mailIsToLogin)) {
 				log.info("Configurazione login mail server");
-				this.username_login = (Util.isFilled(username_login)) ? dns : "";
+				this.username_login = (Util.isFilled(username_login)) ? username_login : "";
 				this.psw_login = (Util.isFilled(psw_login)) ? psw_login : "";
 				this.isToLogin = parseBoolean(mailIsToLogin);
+				this.port_mail = (Util.isFilled(port_mail)) ? port_mail : "25";
 
 			}
 		}
@@ -96,10 +100,22 @@ public class MailProperties {
 		return charset;
 	}
 
+	
+	
+	public String getPort_mail() {
+		return port_mail;
+	}
+
+	public void setPort_mail(String port_mail) {
+		this.port_mail = port_mail;
+	}
+
 	@Override
 	public String toString() {
 		return "MailProperties [dnshost=" + dnshost + ", mittenteMail=" + mittenteMail + ", username_login="
-				+ username_login + ", psw_login=" + psw_login + ", isToLogin=" + isToLogin + "]";
+				+ username_login + ", psw_login=" + psw_login + ", port_mail=" + port_mail + ", isToLogin=" + isToLogin
+				+ ", charset=" + charset + "]";
 	}
 
+	
 }

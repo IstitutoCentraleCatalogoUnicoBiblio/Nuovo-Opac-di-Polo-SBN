@@ -30,7 +30,7 @@ opac2.registerCtrl('ErrorController', ['$scope', '$translate', '$routeParams', '
       if ($scope.polo === undefined) {
         $location.path("/home")
       } else {
-        $location.path("/" + $scope.polo.code + "/ricercaSemplice")
+        $location.path("/" + SharedServices.getParamPrefixUrlOpac($scope.polo) + "/ricercaSemplice")
       }
     }
     $scope.setPolo = function(polo) {
@@ -58,7 +58,7 @@ opac2.registerCtrl('ErrorController', ['$scope', '$translate', '$routeParams', '
         }
 
 
-        $location.path("/" + success.data.polo.code + "/ricercaSemplice")
+        $location.path("/" + SharedServices.getParamPrefixUrlOpac(success.data.polo) + "/ricercaSemplice")
       }, function(error) {
   $('#loading').modal('hide');
         //console.log("ERROR connecting server", error);
@@ -69,7 +69,7 @@ opac2.registerCtrl('ErrorController', ['$scope', '$translate', '$routeParams', '
     };
     $scope.ricercaAvanzata = function(flag) {
       LocalSessionSettingsServices.setModifyFlag(flag);
-      $location.path("/" + $scope.polo.code + "/ricercaAvanzata");
+      $location.path("/" + SharedServices.getParamPrefixUrlOpac($scope.polo) + "/ricercaAvanzata");
     };
     //NOTE: metodo di cerca per la barra di ricerca
     $scope.find = function() {

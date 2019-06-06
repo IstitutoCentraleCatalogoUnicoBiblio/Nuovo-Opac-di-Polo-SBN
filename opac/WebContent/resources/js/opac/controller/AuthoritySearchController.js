@@ -55,7 +55,7 @@ opac2.registerCtrl('AuthoritySearchController', ['$scope', '$translate', '$route
     LocalSessionSettingsServices.clearAdvancedSearchSession();
     $scope.ricercaAvanzata = function(flag) {
       LocalSessionSettingsServices.setModifyFlag(flag);
-      $location.path("/" + $scope.polo.code + "/ricercaAvanzata");
+      $location.path("/" + SharedServices.getParamPrefixUrlOpac($scope.polo) + "/ricercaAvanzata");
     }
     //NOTE: metodo per la pagina selezionata
     $scope.selectPage = function(page, pagesize, totalPage) {
@@ -207,10 +207,10 @@ opac2.registerCtrl('AuthoritySearchController', ['$scope', '$translate', '$route
         LocalSessionSettingsServices.setResponseFromSearch(success.data);
 
         if (isUndefined(preferiti)) {
-          $location.path("/" + $scope.polo.code + "/result");
+          $location.path("/" + SharedServices.getParamPrefixUrlOpac($scope.polo) + "/result");
 
         } else {
-          $location.path("/" + $scope.polo.code + "/preferiti");
+          $location.path("/" + SharedServices.getParamPrefixUrlOpac($scope.polo) + "/preferiti");
 
         }
 
@@ -326,7 +326,7 @@ opac2.registerCtrl('AuthoritySearchController', ['$scope', '$translate', '$route
           $scope.resultFlag = false;
 
         } else {
-          $location.path($scope.polo.code + "/error")
+          $location.path(SharedServices.getParamPrefixUrlOpac($scope.polo) + "/error")
 
         }
       }
@@ -670,7 +670,7 @@ opac2.registerCtrl('AuthoritySearchController', ['$scope', '$translate', '$route
 			$location.path(path)
 		};
 	var poloCode = $routeParams.codPolo;
-	var bibliotecaCode = $routeParams.codBiblioteca;
+	var bibliotecaCode = $routeParams.codBib;
 	prettyLog("Codice Polo nell'url", poloCode);
 	prettyLog("Biblioteca nell'url", bibliotecaCode)
 	$scope.loading = true;
