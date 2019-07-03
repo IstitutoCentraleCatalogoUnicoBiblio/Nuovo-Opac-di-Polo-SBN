@@ -93,7 +93,9 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
     };
     $scope.excludeTermini = ["any", "keywords", "tiporec", "level", "titolo_uniforme", "id", "bid", "bni", "issn", "isbn", "abstract","colltit_tip_461_new_contenuti"];
 //"numeri_tip_ocn", rimossa possibilita di cercare per ocn mail iccu 06/06/2019
-    $scope.campiRicercaLista = ["titolo", "nome", "soggetto", "editore", "titolo_uniforme", "collezione", "titolo_raccolta", "luogo", "dewey_code", "dewey_des", "classi_PGI_686_tot","any", "keywords","semantica","isbn", "bni",  "issn",  "id", "possessore", "abstract", "paese", "lingua","relator_codef_noposs", "forma", "impronta", "marca","colltit_tip_461_new_contenuti"];
+$scope.campiRicercaLista = ["nome", "titolo", "collezione", "titolo_uniforme", "luogo", "editore", "marca", "paese", "lingua", "soggetto",
+"dewey_code", "dewey_des", "classi_PGI_686_tot", "any", "keywords", "abstract", "impronta", "isbn", "issn", "bni", "id", "relator_codef", 
+"possessore", "titolo_raccolta"]; // "semantica", "forma"
     $scope.tipiRecord = CodiciServices.getTipiRecord();
     $scope.levelBib = CodiciServices.getLivelloBibliografico();
     $scope.clearSearch(false);
@@ -207,6 +209,19 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
       LocalSessionSettingsServices.setLevel($scope.selectionLevel);
 
     };
+    $scope.selectionFormaMusicale = LocalSessionSettingsServices.getFormaMusicale();
+    $scope.toggleSelectionFormaMusicale = function toggleSelectionFormaMusicale(l) {
+      var idx = $scope.selectionFormaMusicale.indexOf(l.cod);
+
+      if (idx > -1) {
+        $scope.selectionFormaMusicale.splice(idx, 1);
+      } else {
+        $scope.selectionFormaMusicale.push(l.cod);
+
+      }
+      LocalSessionSettingsServices.setFormaMusicale($scope.selectionFormaMusicale);
+
+    };
     $scope.menuMatInv = CodiciServices.getMaterialeInv();
     $scope.materiale_inv = LocalSessionSettingsServices.getMaterialeInv();
     $scope.toggleMateriale_inv = function togglemateriale_inv(l) {
@@ -271,6 +286,21 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
 
         }
         lvlFilters.push(lapp);
+      });
+      /* spostamento forma musicale almaviva3 17/06/2019 */
+      var selectedFMusicale = $scope.selectionFormaMusicale;
+
+      var fMusicaleFilters = [];
+
+      selectedFMusicale.forEach(function (b) {
+        var lapp = {
+          field: "formaf",
+          value: b,
+          operator: "OR",
+        match:'completePhrase'
+
+        }
+        fMusicaleFilters.push(lapp);
       });
       var selectedTipoRec = $scope.selectionTipoRec;
 
@@ -348,6 +378,12 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
         filters: lvlFilters,
         operator: "AND"
       };
+      /* spostamento forma musicale almaviva3 17/06/2019 */
+
+      var formeMusicali = {
+    	        filters: fMusicaleFilters,
+    	        operator: "AND"
+    	  };
       var materiali_inv = {
         filters: selctMatInvFilters,
         operator: "AND"
@@ -382,6 +418,12 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
         toPostJson.filters.filters.push(livelli);
         toPostJson.filters.filters[toPostJson.filters.filters.length - 1].operator = livelli.operator;
       }
+      /* spostamento forma musicale almaviva3 17/06/2019 */
+
+      if (formeMusicali.filters.length > 0) {
+          toPostJson.filters.filters.push(formeMusicali);
+          toPostJson.filters.filters[toPostJson.filters.filters.length - 1].operator = formeMusicali.operator;
+        }
 
       if (materiali_inv.filters.length > 0) {
         toPostJson.filters.filters.push(materiali_inv);
@@ -421,22 +463,29 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
       return dateFilterToPost;
     };
     var filtriCleanedCont = 0
+    var deletedFromTables = 0;
     $scope.controlInit = function (filtro, isLast, index) {
-
-
-
       if (isUndefined(filtro.field)) {
         filtro.field = (index < 3 && isReistanziate) ? $scope.campiRicercaLista[index] : "";
       }
       //  debugger
       if (LocalSessionSettingsServices.isToEscludeFromTable(filtro.field)) {
+    	  deletedFromTables++;
         filtro.value = "";
         filtro.operator = "AND";
-        filtro.field = "titolo";
+        filtro.field = $scope.campiRicercaLista[index];
         filtro.match = "andWord";
         filtriCleanedCont++;
-      }
-      if (filtro.field.indexOf("f") == (filtro.field.length - 1) && filtro.field != "relator_codef_noposs" || filtro.field == "titolo_uniformef" || filtro.field == "formaf") {
+        //il terzo deve essere soggetto
+        if (index == 0)
+           filtro.field = 'titolo';
+        if (index == 1)
+            filtro.field = 'nome';
+        if (index == 2)
+        filtro.field = 'soggetto';
+
+      	} 
+      if (filtro.field.indexOf("f") == (filtro.field.length - 1) && filtro.field != "relator_codef" || filtro.field == "titolo_uniformef" || filtro.field == "formaf") {
         filtro.field = filtro.field.slice(0, -1);
       }
 
@@ -460,7 +509,15 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
           if (isReistanziate) {
             $scope.controller = 'rAvanz';
             for (var i = 0; i < $scope.n; i++) {
+              
               $scope.rigaRicerca[i].field = $scope.campiRicercaLista[i];
+               if (i == 0)
+                $scope.rigaRicerca[i].field = 'titolo';
+               if (i == 1)
+                $scope.rigaRicerca[i].field = 'nome';
+               if (i == 2)
+                $scope.rigaRicerca[i].field = 'soggetto';
+
               $scope.rigaRicerca[i].value = '';
               $scope.rigaRicerca[i].match = 'andWord';
               $scope.rigaRicerca[i].operator = 'AND'
@@ -563,6 +620,10 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
       delete $scope.rigaRicerca;
       $scope.rigaRicerca = JSON.parse(JSON.stringify(myRigaRicerca));
       $scope.n = $scope.rigaRicerca.length;
+      if(deletedFromTables > 0)
+    	  $scope.n = $scope.n - deletedFromTables;
+      if($scope.n <= 0)
+          $scope.n = 1;
     };
     $scope.incrementN = function () {
       //$scope.test();
@@ -611,7 +672,7 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
     var chronoTerm = [];
     $scope.idxChronoTerm = 0;
     //selezione della lista di codici e non da ricerca per termini
-    var campiNoTerms = ["lingua", "paese","relator_codef_noposs","forma", "classi_PGI_686_tot"];
+    var campiNoTerms = ["lingua", "paese","relator_codef","forma", "classi_PGI_686_tot"];
 
     var runTermsSearch = function (flagAddChrono, field, value, idx, idxGroup) {
       $scope.termFilterTable = {};
@@ -643,11 +704,11 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
           case 'paese':
           $scope.terminiTrovati = CodiciServices.getPaese();
           break;
-          case "relator_codef_noposs":
+          case "relator_codef":
           $scope.terminiTrovati = CodiciServices.getRelatorCode()
           break;
           case "forma":
-          $scope.terminiTrovati = CodiciServices.getForma()
+          $scope.terminiTrovati = CodiciServices.getForma();
           break;
           case "classi_pgi_686_tot":
           $scope.terminiTrovati = CodiciServices.getClassiPegi()
@@ -922,7 +983,8 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
     $scope.ricercaSpecMenu.musica.mus_pres = CodiciServices.getmus_pres();
     $scope.ricercaSpecMenu.musica.mus_tonalita = CodiciServices.getmus_tonalita();
     $scope.ricercaSpecMenu.musica.mus_rappres_genere = CodiciServices.getMus_rappres_genere();
-
+    $scope.ricercaSpecMenu.musica.mus_forma = CodiciServices.getForma();
+    
     $scope.ricercaSpecMenu.audio.av_formato_vd = CodiciServices.getav_formato_vd();
     $scope.ricercaSpecMenu.audio.av_velocita = CodiciServices.getav_velocita();
     $scope.ricercaSpecMenu.audio.av_tipo = CodiciServices.getav_tipo();
@@ -1032,7 +1094,12 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
             glyphiconAddClassPlus('#glypanel_spec' + category + '_body');
 
         })
-	}
+       
+  };
+  var initFormaMusicale = function () {
+	  $scope.selectionFormaMusicale = [];
+      LocalSessionSettingsServices.setFormaMusicale($scope.selectionFormaMusicale)  
+  };
     $scope.managerPannelliRicercaSpecializzata = function (element, start) {
       $scope.selectedSpec = element.toUpperCase();
       var arraysTipi = []
@@ -1041,7 +1108,8 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
       var hash = "#panel_spec";
 
       $('#panel_spec' + element + '_body').fadeToggle('slow');
-      if ($('#glypanel_spec' + element + '_body').hasClass("glyphicon-plus")) {
+      var hasClassPlus = $('#glypanel_spec' + element + '_body').hasClass("glyphicon-plus");
+      if (hasClassPlus) {
     	  glyphiconAddClassMinus('#glypanel_spec' + element + '_body');
         //salvo in sessione
         LocalSessionSettingsServices.setCurrentRicercaSpecializzata($scope.ricercaSpecializzata, element.toUpperCase());
@@ -1071,17 +1139,16 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
          
           if (isUndefined(start)) {
             arraysTipi = ["k"]
-            //Fix per ritorno da ricerca
-            if (($scope.selectionTipoRec.length == arraysTipi.length) && containsAll(arraysTipi, $scope.selectionTipoRec))
-              $scope.selectionTipoRec = [];
-
-            if (!containsAll(arraysTipi, $scope.selectionTipoRec)) {
+            
+            if (!containsAll(arraysTipi, $scope.selectionTipoRec) && hasClassPlus) {
 
               LocalSessionSettingsServices.setTipoRec(arraysTipi)
+              initFormaMusicale();
             } else {
-              LocalSessionSettingsServices.setTipoRec([])
+              $scope.selectionTipoRec = removeItemsInArray($scope.selectionTipoRec, arraysTipi);
+              LocalSessionSettingsServices.setTipoRec($scope.selectionTipoRec)
               $scope.ricercaSpecializzata.grafica = null;
-
+              
             }
           }
           break;
@@ -1096,10 +1163,12 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
 
           if (isUndefined(start)) {
             arraysTipi = ['e', 'f'];
-            if (!containsAll(arraysTipi, $scope.selectionTipoRec)) {
+            if (!containsAll(arraysTipi, $scope.selectionTipoRec)  && hasClassPlus) {
               LocalSessionSettingsServices.setTipoRec(arraysTipi)
+              initFormaMusicale();
             } else {
-              LocalSessionSettingsServices.setTipoRec([])
+              $scope.selectionTipoRec = removeItemsInArray($scope.selectionTipoRec, arraysTipi);
+              LocalSessionSettingsServices.setTipoRec($scope.selectionTipoRec)
               $scope.ricercaSpecializzata.cartografia = null;
             }
           }
@@ -1116,10 +1185,12 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
           
           if (isUndefined(start)) {
             arraysTipi = ['c', 'd', 'g', 'i', 'j'];
-            if (!containsAll(arraysTipi, $scope.selectionTipoRec)) {
+            if (!containsAll(arraysTipi, $scope.selectionTipoRec)  && hasClassPlus) {
               LocalSessionSettingsServices.setTipoRec(arraysTipi)
+              initFormaMusicale();
             } else {
-              LocalSessionSettingsServices.setTipoRec([])
+              $scope.selectionTipoRec = removeItemsInArray($scope.selectionTipoRec, arraysTipi);
+              LocalSessionSettingsServices.setTipoRec($scope.selectionTipoRec)
               $scope.ricercaSpecializzata.musica = null;
             }
           }
@@ -1144,12 +1215,21 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
           var categoriesToClose = ["Grafica", "Cartografia", "Musica"];
           closePanelSpecializzata(categoriesToClose)
           
-          if (isUndefined(start)) {
+          if (isUndefined(start) || start == 'raffinatoFMus') {
             arraysTipi = ['c', 'd', 'g', 'i', 'j'];
-            if (!containsAll(arraysTipi, $scope.selectionTipoRec)) {
+            if(start == 'raffinatoFMus') {
+                LocalSessionSettingsServices.setTipoRec(arraysTipi)
+                 $scope.selectionTipoRec = LocalSessionSettingsServices.getTipoRec();
+            	return;
+            }
+            	
+            if (!containsAll(arraysTipi, $scope.selectionTipoRec)  && hasClassPlus) {
+            	
               LocalSessionSettingsServices.setTipoRec(arraysTipi)
             } else {
-              LocalSessionSettingsServices.setTipoRec([])
+              $scope.selectionTipoRec = removeItemsInArray($scope.selectionTipoRec, arraysTipi);
+              LocalSessionSettingsServices.setTipoRec($scope.selectionTipoRec)
+              initFormaMusicale();
               $scope.ricercaSpecializzata.mav = null;
             }
           }
@@ -1179,8 +1259,8 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
     }
     $scope.loadedSpecImport = function () {
       var panel = LocalSessionSettingsServices.getTypeRicercaSpecializzata();
-      $timeout(function () {
-        $scope.managerPannelliRicercaSpecializzata($filter('capitalize')(panel), true)
+      $timeout(function () {//almaviva3 10/06/2019 controllo se è stato raffinato per forma musicale
+        $scope.managerPannelliRicercaSpecializzata($filter('capitalize')(panel), (isReistanziate == false &&  $scope.selectionFormaMusicale.length > 0) ? 'raffinatoFMus' : true)
       }, 500)
 
     };

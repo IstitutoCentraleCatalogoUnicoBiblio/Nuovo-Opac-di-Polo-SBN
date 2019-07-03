@@ -16,19 +16,16 @@
  ******************************************************************************/
 package it.almaviva.opac.externalCall.sbnweb.dao;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
+
+import com.linkedin.urls.Url;
+import com.linkedin.urls.detection.UrlDetector;
+import com.linkedin.urls.detection.UrlDetectorOptions;
 
 import org.apache.log4j.Logger;
 import org.springframework.http.client.support.BasicAuthorizationInterceptor;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
-
-import com.linkedin.urls.Url;
-import com.linkedin.urls.detection.UrlDetector;
-import com.linkedin.urls.detection.UrlDetectorOptions;
 
 import it.almaviva.opac.externalCall.sbnweb.PossedutoModel;
 import it.almaviva.opac.externalCall.sbnweb.SbnWebServiceType;

@@ -126,14 +126,14 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
       if ((String(month)).length == 1)
         month = '0' + month;
 
+        var queryDiv =  document.getElementById("buildedQuery_id");
+        var query = (queryDiv == null) ? 'Preferiti' :queryDiv.innerText;
       var dateT = day + '/' + month + '/' + date.getFullYear()
       var test = '<html><head><title>OPAC - Sintetica</title></head><body><center><h1>Opac ' + $scope.polo.code + '</h1></hr>';
-      test += 'Ricerca effettuata il ' + dateT;
+      test += ('Ricerca effettuata il ' + dateT + '</br>' + query) ;
      var sinteticaHtml = $scope.printSintetica(true)
       test += '</center>' + sinteticaHtml + '</body></html>';
       
-      var queryDiv =  document.getElementById("buildedQuery_id");
-      var query = (queryDiv == null) ? 'Preferiti' :queryDiv.innerText;
       var obj = {
         to: $scope.sinteticaMail,
         html: (!$scope.isBidSegnalato) ? test : null,
@@ -452,7 +452,11 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
               case "formato_elet_856":
               case "formato_elet":
                 LocalSessionSettingsServices.manageFormatoDigitale(filtro, false);
-                break
+                break;
+              case "formaf":
+              case "forma":
+                  LocalSessionSettingsServices.manageFormaMusicale(filtro.value, false);
+            	  break;
               default:
                 LocalSessionSettingsServices.isSpecializzataField(filtro, false)
             }
@@ -664,8 +668,9 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
           LocalSessionSettingsServices.manageLevel(value, true);
 
           if (!isModal) {
-            toPostJson.filters.filters[0].filters[toPostJson.filters.filters[0].filters.length - 1].operator = operator;
-            toPostJson.filters.filters[0].filters.push(faccetta)
+              toPostJson.filters.filters.push(faccettaGroup);
+           // toPostJson.filters.filters[0].filters[toPostJson.filters.filters[0].filters.length - 1].operator = operator;
+          //  toPostJson.filters.filters[0].filters.push(faccetta)
           } else {
             if (toPostJson.filters.filters.length - 1 > 0) {
               // toPostJson.filters.filters[toPostJson.filters.filters.length - 1].operator = operator;
@@ -699,8 +704,10 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
           }
           LocalSessionSettingsServices.manageTipoRec(value, true);
           if (!isModal) {
-            toPostJson.filters.filters[0].filters[toPostJson.filters.filters[0].filters.length - 1].operator = operator;
-            toPostJson.filters.filters[0].filters.push(faccetta)
+              toPostJson.filters.filters.push(faccettaGroup);
+
+        	  // toPostJson.filters.filters[0].filters[toPostJson.filters.filters[0].filters.length - 1].operator = operator;
+          //  toPostJson.filters.filters[0].filters.push(faccetta)
           } else {
             if (toPostJson.filters.filters.length - 1 > 0) {
               // toPostJson.filters.filters[toPostJson.filters.filters.length - 1].operator = operator;
@@ -719,6 +726,43 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
             }
           }
           break;
+        case "formaf":
+        case "forma":
+            var faccetta = {
+              field: field,
+              value: value,
+              operator: "AND",
+              match: "completePhrase"
+            };
+            var faccettaGroup = {
+              filters: [faccetta],
+              operator: operator
+            }
+            LocalSessionSettingsServices.manageFormaMusicale(value, true);
+            if (!isModal) {
+                toPostJson.filters.filters.push(faccettaGroup);
+             // toPostJson.filters.filters[0].filters[toPostJson.filters.filters[0].filters.length - 1].operator = operator;
+           //   toPostJson.filters.filters[0].filters.push(faccetta)
+            } else {
+              if (toPostJson.filters.filters.length - 1 > 0) {
+                // toPostJson.filters.filters[toPostJson.filters.filters.length - 1].operator = operator;
+                if (toPostJson.filters.filters[toPostJson.filters.filters.length - 1].filters[0].field == "formaf" ||
+                		toPostJson.filters.filters[toPostJson.filters.filters.length - 1].filters[0].field == "formaf") {
+                  toPostJson.filters.filters[toPostJson.filters.filters.length - 1].filters[toPostJson.filters.filters[toPostJson.filters.filters.length - 1].filters.length - 1].operator = operator;
+                  toPostJson.filters.filters[toPostJson.filters.filters.length - 1].filters.push(faccetta)
+                } else {
+                  toPostJson.filters.filters.push(faccettaGroup);
+                  toPostJson.filters.filters[toPostJson.filters.filters.length - 2].operator = operator;
+
+                }
+             } else {
+                toPostJson.filters.filters.push(faccettaGroup);
+                toPostJson.filters.filters[0].operator = operator;
+                $scope.operatorAppoggio = operator;
+              }
+            }
+            LocalSessionSettingsServices.setCurrentRicercaSpecializzata({mav: null, musica: null, grafica: null, audiovisivi: null, cartografia: null}, "MAV".toUpperCase());
+            break;
         case "library":
 
           var faccetta = {
@@ -738,8 +782,10 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
           };
           LocalSessionSettingsServices.manageBiblioteche(bib, true);
           if (!isModal) {
-            toPostJson.filters.filters[0].filters[toPostJson.filters.filters[0].filters.length - 1].operator = operator;
-            toPostJson.filters.filters[0].filters.push(faccetta)
+           // toPostJson.filters.filters[0].filters[toPostJson.filters.filters[0].filters.length - 1].operator = operator;
+           // toPostJson.filters.filters[0].filters.push(faccetta)
+              toPostJson.filters.filters.push(faccettaGroup);
+
           } else {
             if (toPostJson.filters.filters.length - 1 > 0) {
               if (toPostJson.filters.filters[toPostJson.filters.filters.length - 1].filters[0].field == "level") {
@@ -769,8 +815,10 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
           LocalSessionSettingsServices.manageFormatoDigitale(faccetta, true);
 
           if (!isModal) {
-            toPostJson.filters.filters[0].filters[toPostJson.filters.filters[0].filters.length - 1].operator = operator;
-            toPostJson.filters.filters[0].filters.push(faccetta)
+          //  toPostJson.filters.filters[0].filters[toPostJson.filters.filters[0].filters.length - 1].operator = operator;
+          //  toPostJson.filters.filters[0].filters.push(faccetta)
+              toPostJson.filters.filters.push(faccettaGroup);
+
           } else {
             if (toPostJson.filters.filters.length - 1 > 0) {
               // toPostJson.filters.filters[toPostJson.filters.filters.length - 1].operator = operator;
@@ -1437,6 +1485,17 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
         }
         LocalSessionSettingsServices.setTipoRec(newSelectedTipoRec);
       }
+      /* almaviva3 17/06/2016 spostamento forma musicale */
+      if ($scope.excludedFormaMusicaleService.length > 0) {
+          var formaCodes = CodiciServices.getForma();
+          var newSelectedFormaMus = [];
+          for (var i = 0; i < formaCodes.length; i++) {
+            if ($scope.excludedFormaMusicaleService.indexOf(formaCodes[i].cod) === -1) {
+            	newSelectedFormaMus.push(formaCodes[i].cod)
+            }
+          }
+          LocalSessionSettingsServices.setFormaMusicale(newSelectedFormaMus);
+        }
       if ($scope.excludedLibraryService.length > 0) {
         var bibliotecheCodes = CodiciServices.getBiblioteche();
         var newBiblioteche = [];
@@ -1871,6 +1930,7 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
       $scope.excludedLevelService = [];
       $scope.excludedTipoRecService = [];
       $scope.excludedLibraryService = [];
+      $scope.excludedFormaMusicaleService = [];
       toIncludi = [];
       for (var i = 0; i < $scope.myChecBoxeFacetList.length; i++) {
         $scope.myChecBoxeFacetList[i] = false;
@@ -1879,6 +1939,7 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
     $scope.excludedLevelService = [];
     $scope.excludedTipoRecService = [];
     $scope.excludedLibraryService = [];
+    $scope.excludedFormaMusicaleService = [];
     $scope.confermaFacet = function () {
       var toPostJson = null;
       var control = toIncludi.length;
@@ -1917,6 +1978,13 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
             toPostJson = $scope.raffina(toIncludi[i].field, toIncludi[i].value, op, true);
 
             break;
+          case "forma":
+          case "formaf":
+        	  if ($scope.checkBoxModalOperator.toUpperCase() === "AND NOT") {
+                  $scope.excludedFormaMusicaleService.push(toIncludi[i].value);
+                }
+                toPostJson = $scope.raffina(toIncludi[i].field, toIncludi[i].value, op, true);
+        	  break;
           default:
             if (flagIncludes) {
               toPostJson = $scope.raffina(toIncludi[i].field, toIncludi[i].value, op, true, toIncludi);

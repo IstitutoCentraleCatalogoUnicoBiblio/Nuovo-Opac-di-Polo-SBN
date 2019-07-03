@@ -36,7 +36,15 @@ fieldset {
     font-size: 12px;
     line-height: 1.5;
 }
-/*----- LOGIN -----*/
+/*----- pointer-events: none; -----*/
+.spanDisabled {
+  background-color: #eee;
+  opacity: 1;
+  
+  border-top-left-radius: 3px !important;
+  border-bottom-left-radius: 3px !important;
+  cursor: pointer;
+}
 
 .divLogin {
   display: block;

@@ -12,6 +12,11 @@
 .px-top-2 {
   margin-top: 2px;
 }
+.scrollable-dropdown {
+    height: auto;
+    max-height: 300px;
+    overflow-x: hidden;
+}
 .shortTd {
   padding: 0px !important;
 }
@@ -20,6 +25,9 @@
 }
 .colour {
   color: rgb(2, 49, 103)
+}
+.colour-yellow {
+  color: #e88510;
 }
 /*altre classi*/
 .scrollMapsFix {

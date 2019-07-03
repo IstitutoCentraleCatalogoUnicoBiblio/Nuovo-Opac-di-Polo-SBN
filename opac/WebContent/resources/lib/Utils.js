@@ -11,7 +11,16 @@ var re = /\S+@\S+\.\S+/;
 function validateEmail(email) {
   return re.test(email);
 }
-
+var removeItemsInArray = function (array, itemsToRemove) {
+    var toRemove = itemsToRemove;
+    toRemove.forEach(function(item) {
+    var index = array.indexOf(item);
+      if (index > -1) {
+        array.splice(index, 1);
+      }
+    }) 
+    return array;
+  };
 function findIndexInValue(arrayObj, key, value) {
   var idx = false;
   for (var i = 0; i < arrayObj.length; i++) {

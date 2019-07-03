@@ -1,6 +1,5 @@
 package it.almaviva.spring.opacControllers;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.json.JSONObject;
@@ -41,7 +40,7 @@ public class MappingOpacController extends GenericOpacController {
 		JSONObject searchResult = search(filters, codPolo);
 
 		view.addObject("searchResult", searchResult);
-		// dico ad angular che è stato cercato per ocn
+		// dico ad angular che ï¿½ stato cercato per ocn
 		view.addObject("isOCNSearch", "ocn".equals(searchField) ? true : false);
 
 
@@ -65,7 +64,7 @@ public class MappingOpacController extends GenericOpacController {
 		JSONObject searchResult = search(filters, codPolo);
 
 		view.addObject("searchResult", searchResult);
-		// dico ad angular che è stato cercato per ocn
+		// dico ad angular che ï¿½ stato cercato per ocn
 		view.addObject("isOCNSearch", "ocn".equals(searchField) ? true : false);
 		log.info("Tentativo di ricerca: " + searchText);
 		return view;

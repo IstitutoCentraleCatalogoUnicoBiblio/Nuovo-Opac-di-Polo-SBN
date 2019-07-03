@@ -33,13 +33,46 @@
             </div>
           </div>
           </section>
-        <!--  <div class="form-group row label-rSpecializzata">
-            <label for="segnatura" class="col-sm-3 col-lg-3 mycontrol-label-left ">{{ 'segnatura' | translate }}</label>
-            <div class="col-sm-5 col-lg-5">
-              <input type="text" id="segnatura" ng-model="ricercaSpecializzata.mav.segnatura" class="form-control  input-xs">
-            </div>
-          </div> -->
-          <section>
+           <section>
+            <!-- almaviva3 17/06/2019 forma spostata qui -->
+           <div class="form-group row label-rSpecializzata">
+           
+            <label for="forma" class="col-md-3 mycontrol-label-left  " aria-label="{{'forma' | translate}}">{{ 'forma' | translate }}</label>
+
+							<div ng-attr-id="{{ 'forma' }}" class="col-md-6">
+
+								<div class="dropdown">
+
+									<button class="btn btn-default dropdown-toggle btn-xs " type="button" data-toggle="dropdown" ng-click="">
+										{{"selected" | translate}}
+										<span ng-show="selectionFormaMusicale.length > 0">
+											<i>{{selectionFormaMusicale.length}}</i>
+										</span>
+									<span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu scrollable-dropdown">
+									<li><input type="text" class="form-control " ng-model="formaFilter" ng-attr-placeholder="{{'filter'|translate}}" ng-init="formaFilter = ''">
+									</li>
+										<li ng-attr-id="{{'formaf_'+$index}}" ng-repeat="forma in ricercaSpecMenu.musica.mus_forma |  filter:formaFilter | orderBy: 'txt'" class="link">
+											<a ng-click="$event.stopPropagation(); toggleSelectionFormaMusicale(forma)">
+												<input ng-click="$event.stopPropagation(); toggleSelectionFormaMusicale(forma)" type="checkbox" name="selectionFormaMusicale[]" value="{{forma.name}}"
+												 ng-checked="selectionFormaMusicale.indexOf(forma.cod) > -1">
+												<span style="padding-left: 10px;" ng-init="forma.txt = (forma.cod | decodeForma | translate)">{{(forma.text |translate)}}</span>
+											</a>
+										</li>
+
+									</ul>
+
+									<span ng-show="selectionFormaMusicale.length > 0" ng-repeat="formaS in selectionFormaMusicale | limitTo: 3">
+										<i>{{formaS | decodeForma |translate | lowercase}}<span ng-if="selectionFormaMusicale[$index + 1]">,</span>
+										</i>
+									</span>
+									<span ng-show="selectionFormaMusicale.length > 3 ">
+										<i>[...]</i>
+									</span>
+								</div>
+							</div>
+          </div>
           <div class="form-group row label-rSpecializzata">
             <label for="tonalita" class="col-sm-3 col-lg-3 mycontrol-label-left "aria-label="{{'tonality' | translate}}">{{ 'tonality' | translate }}</label>
             <div class="col-sm-5 col-lg-5">
@@ -115,9 +148,10 @@
               <select id="rappres_genere" ng-model="ricercaSpecializzata.mav.rappres_genere" class="form-control  input-xs">
                   <option value=""></option>
                   <option ng-repeat="tip in ricercaSpecMenu.musica.mus_rappres_genere" value="{{tip.cod}}">{{tip.cod | decodeMus_rappres_genere | translate }}
-                  </select>
+                 </select>
             </div>
           </div>
+        
         </div>
       </div>
 

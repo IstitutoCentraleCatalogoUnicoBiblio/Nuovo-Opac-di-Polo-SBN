@@ -163,10 +163,6 @@ opac2.registerCtrl('InfoBibPoloController', ['$scope', '$translate', '$routePara
 	              if ($scope.polo.libraries[i].contatti[c].tipo.toUpperCase() === "TELEFONO")
 	                marker.content += $filter('translate')('info_telefono') + ": <i>" + $scope.polo.libraries[i].contatti[c].valore + "</i></br>";
 	            }
-	            for (var c = 0; c < $scope.polo.libraries[i].contatti.length; c++) {
-		              if ($scope.polo.libraries[i].contatti[c].tipo.toUpperCase() === "FAX")
-		                marker.content += $filter('translate')('info_fax') + ": <i>" + $scope.polo.libraries[i].contatti[c].valore + "</i></br>";
-		            }
 	            marker.content += "</p>";
 	            marker.content += "<p><a title='" + $filter('translate')('info_indicazioni') + ": " + $filter('translate')('info_openMaps') + "' href='https://www.google.com/maps/dir/?api=1&destination=" + "biblioteca " + $scope.polo.libraries[i].dettaglio.indirizzo.trim() + ", " + $scope.polo.libraries[i].dettaglio.cap + ", " + $scope.polo.libraries[i].dettaglio.citta + "' target='_blank' >" + $filter('translate')('info_indicazioni') + "</a>" + "</p>"
 	            marker.content += "<a title='" + $filter('translate')('visualizzaAnagrafe') + "' href='http://anagrafe.iccu.sbn.it/isil/IT-" + $scope.polo.libraries[i].dettaglio.isil + "' target='_blank' ><span class='glyphicon glyphicon-info-sign' ></span></a>";

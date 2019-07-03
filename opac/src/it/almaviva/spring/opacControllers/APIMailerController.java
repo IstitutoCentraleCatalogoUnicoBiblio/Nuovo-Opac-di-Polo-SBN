@@ -18,7 +18,6 @@ package it.almaviva.spring.opacControllers;
 
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -74,7 +73,7 @@ public class APIMailerController {
 
 		recipient.setText("Ciao Utente, l'opac invia anche le mail!");
 		recipient.setTo(mail);
-		recipient.setHtml("<h1>Bla bla bla questo è un testo </i>html</i></h1>");
+		recipient.setHtml("<h1>Bla bla bla questo ï¿½ un testo </i>html</i></h1>");
 
 		MailSenderServices mailer = new MailSenderServices();
 

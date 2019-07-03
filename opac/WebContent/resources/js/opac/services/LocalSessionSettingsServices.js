@@ -1,6 +1,6 @@
 opac2.factory('LocalSessionSettingsServices', ['$filter', '$q', '$location', '$cookies', "CodiciServices", "$injector",
   function ($filter, $q, $location, $cookies, CodiciServices) {
-    var excludeField = ["formato_vd", "dataf", "datada", "dataa", "level", "tag977", "library", "tiporec", "undefined", "biblioteca", "formato_elet_copia", "formato_elet", "formato_elet_856"];
+    var excludeField = ["forma","formaf", "formato_vd", "dataf", "datada", "dataa", "level", "tag977", "library", "tiporec", "undefined", "biblioteca", "formato_elet_copia", "formato_elet", "formato_elet_856"];
     var rSpecializzataField = ["grafica_tipspec", "grafica_disegno_fun", "grafica_tip", "grafica_col", "grafica_supp", "grafica_disegno_tip", "formato_elet",
       "cart_tipo_scala", "cart_rapp_orizz", "cart_rapp_vert", "cart_orig", "cart_longitudinew", "cart_longitudinee", "cart_latitudinen", "cart_latitudines", "cart_col", "cart_foto_supp", "cart_foto_forma", "cart_foto_tec", "cart_foto_ripr", "cart_alt", "cart_imm",
       "cart_forma_doc", "longitudineda_EST", "longitudinea_OVEST", "longitudinea_EST", "longitudineda_OVEST", "longitudinea_MERIDIANO", "longitudineda_MERIDIANO", "latitudinea_NORD", "latitudineda_SUD", "latitudinea_SUD", "latitudineda_NORD", "latitudinea_EQUATORE", "latitudineda_EQUATORE", "segnatura", "tonalita", "organico_tip_1", "organico_tip_2", "tipo_elab", "organico_tip_3", "organico_tip_4", "incipit", "rappres", "rappres_genere", "av_formato_vd", "av_velocita", "av_tipo", "av_tecnica_vd", "av_materiale", "av_formato", "av_forma_pubbl", "av_formato_pres", "av_tecnica", "av_colore", "av_suono", "mat_inv_950", "libretto"
@@ -27,6 +27,7 @@ opac2.factory('LocalSessionSettingsServices', ['$filter', '$q', '$location', '$c
     var formatoDigitale = [];
     var materiale_inv = [];
     var opac_version = null;
+    var formaMusicale = [];
     return {
 
       setPolo: function (polo) {
@@ -227,6 +228,7 @@ opac2.factory('LocalSessionSettingsServices', ['$filter', '$q', '$location', '$c
         settings.level = arrayVuoto;
         $cookies.remove("tipiRecord_")
         $cookies.remove("level_")
+        formaMusicale = JSON.parse(JSON.stringify([]))
         //  ricercheAppoggio = arrayVuoto;
         //console.log("svuotato", settings);
       },
@@ -260,6 +262,7 @@ opac2.factory('LocalSessionSettingsServices', ['$filter', '$q', '$location', '$c
 
         $cookies.putObject("level_", levelArray);
       },
+      
       getLevel: function () {
         var toReturn = $cookies.getObject("level_");
         if (toReturn == undefined) {
@@ -285,6 +288,34 @@ opac2.factory('LocalSessionSettingsServices', ['$filter', '$q', '$location', '$c
 
         $cookies.putObject("level_", levelInSession);
       },
+      setFormaMusicale: function (formaMusicaleNew) {
+    	  formaMusicale = JSON.parse(JSON.stringify(formaMusicaleNew));
+          //$cookies.putObject("formaMusicale_", formaMusicale);
+        },
+        getFormaMusicale: function () {
+            var toReturn = formaMusicale;//$cookies.getObject("formaMusicale_");
+            if (toReturn == undefined) {
+              //  toReturn = [];
+              return [];
+            } else {
+              return toReturn;
+            }
+        },
+        manageFormaMusicale: function (forma, isToAdd) {
+
+            var fmusArray = JSON.parse(JSON.stringify(formaMusicale))
+            if (fmusArray == undefined) {
+            	fmusArray = [];
+            }
+            var idx = fmusArray.indexOf(forma);
+           
+            if(isToAdd) 
+            {	 if (idx == -1)
+            	fmusArray.push(forma)
+            }else
+            	fmusArray.splice(idx, 1);
+            formaMusicale = JSON.parse(JSON.stringify(fmusArray));
+          },
       setTipoRec: function (tiporecArray) {
         $cookies.putObject("tipiRecord_", tiporecArray)
       },
@@ -339,6 +370,7 @@ opac2.factory('LocalSessionSettingsServices', ['$filter', '$q', '$location', '$c
         $cookies.remove("tipiRecord_")
         $cookies.remove("level_")
         $cookies.remove("date_")
+       formaMusicale = JSON.parse(JSON.stringify([]))
       },
 
       setPreNavigazione: function (toPost) {
@@ -448,8 +480,10 @@ opac2.factory('LocalSessionSettingsServices', ['$filter', '$q', '$location', '$c
           grafica = ["grafica_tipspec", "grafica_supp", "grafica_col", "grafica_tip", "grafica_disegno_tip", "grafica_disegno_fun"],
           cartografia = ["cart_scala", "cart_tipo_scala", "cart_rapp_orizda", "cart_rapp_oriza", "cart_rapp_vertda", "cart_rapp_verta", "cart_orig", "cart_col", "cart_foto_supp", "cart_foto_forma", "cart_forma_doc", "longitudineda_EST", "longitudinea_OVEST", "longitudinea_EST", "longitudineda_OVEST", "longitudinea_MERIDIANO", "longitudineda_MERIDIANO", "latitudinea_NORD", "latitudineda_SUD", "latitudinea_SUD", "latitudineda_NORD", "latitudinea_EQUATORE", "latitudineda_EQUATORE"];
         if (mav.indexOf(filter.field) > -1) {
+        	
           typeRicercaSpecializzata = "mav";
-          filter.value = (filter.field == 'libretto' && filter.value.toUpperCase() == 'Y') ? true : filter.value
+          filter.value = (filter.field == 'libretto' && filter.value.toUpperCase() == 'Y') ? true : filter.value;
+          
           this.isSpecializzata(filter, isToInsert);
         }
        else if (grafica.indexOf(filter.field) > -1) {
@@ -537,6 +571,7 @@ opac2.factory('LocalSessionSettingsServices', ['$filter', '$q', '$location', '$c
         this.clearAdvancedSearchSession();
         this.setMaterialeInv([]);
         this.setTipoRec([]);
+        this.setFormaMusicale([]);
         this.setFormatoDigitale([]);
         if (!settings.polo.bibliotecaAsPolo)
          this.setBiblioteche([]);
@@ -582,9 +617,10 @@ opac2.factory('LocalSessionSettingsServices', ['$filter', '$q', '$location', '$c
               case "formato_elet":
               imp.setFormatoDigitale(["Y"]);
                 break;
-              default:
-              //console.log("isSpecializzataField", imp.isSpecializzataField(filtro, true))
-              
+              case "forma":
+              case "formaf": 
+            	  imp.manageFormaMusicale(filtro.value, true);
+            	  break;
             }
           })
         });

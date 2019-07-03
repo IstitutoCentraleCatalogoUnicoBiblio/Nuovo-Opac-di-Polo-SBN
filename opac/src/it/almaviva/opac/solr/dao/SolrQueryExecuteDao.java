@@ -23,15 +23,18 @@ import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
+import org.apache.solr.client.solrj.SolrRequest.METHOD;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.beans.BindingException;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrClient.RemoteSolrException;
+import org.apache.solr.client.solrj.request.QueryRequest;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.FacetField.Count;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.response.TermsResponse;
 import org.apache.solr.client.solrj.response.TermsResponse.Term;
+import org.apache.solr.common.util.NamedList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -277,7 +280,6 @@ public class SolrQueryExecuteDao implements SolrQueryExecuteInterface {
 
 			// apertura client http
 			solrClient = new HttpSolrClient(urlBuilder.getSolrUrl(codPolo, coreType));
-
 			// creazione della query
 			query = new SolrQuery(queryStr);
 
@@ -292,7 +294,12 @@ public class SolrQueryExecuteDao implements SolrQueryExecuteInterface {
 				query = addFacet(query);
 			List<FaccettaBean> lFacc = new ArrayList<FaccettaBean>();
 			// Esecutione Query
-			QueryResponse response = solrClient.query(query);
+			//Almaviva3 17/06/2019 URI-TOO Long passata a chiamata post per modifica spostamento forma
+			  QueryRequest queryRequest=new QueryRequest(query);
+	            queryRequest.setMethod(METHOD.POST);
+	          //  NamedList nl=solrClient.request(queryRequest);
+	            NamedList<Object> nl=solrClient.request(queryRequest);
+	            QueryResponse response =new QueryResponse(nl, solrClient);
 			// faccette
 			if (!searchList.getIsDetail()) {
 
@@ -408,7 +415,7 @@ public class SolrQueryExecuteDao implements SolrQueryExecuteInterface {
 			TermsResponse terms = response.getTermsResponse();
 			term = terms.getTerms(field);
 
-			log.info("Numero terms trovati: " + term.size());
+			log.info("Numero terms" + request.toString() + " trovati: " + term.size());
 
 		} catch (RemoteSolrException | SolrServerException | IOException | IndexOutOfBoundsException
 				| NullPointerException | BindingException e) {

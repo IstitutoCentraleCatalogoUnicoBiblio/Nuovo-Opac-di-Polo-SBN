@@ -17,6 +17,7 @@
 package it.almaviva.opac.Test.main;
 
 import it.almaviva.opac.mailer.MailBean;
+import it.almaviva.opac.mailer.dao.MailSenderImpl;
 import it.almaviva.opac.services.MailSenderServices;
 
 public class MailAppMain {
@@ -26,6 +27,7 @@ public class MailAppMain {
 
 		recipient.setText("OPAC SBNWeb");
 		recipient.setTo("test@test.it");
+		recipient.setHtml("<h1>HelloWolrd</h1>");
 
 		MailSenderServices mailer = new MailSenderServices();
 		mailer.sendMail(recipient);

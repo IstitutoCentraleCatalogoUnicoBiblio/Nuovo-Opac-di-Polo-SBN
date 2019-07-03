@@ -80,7 +80,8 @@
 								<td class="col-sm-2 col-lg-2" ng-if=" rigaRicerca[$index].field != 'group'">
 									<select ng-attr-id="{{ 'campoRicerca_' + $index }}" class=" form-control  input-sm" ng-init="rigaRicerca[$index].field = controlInit(rigaRicerca[$index], $last, $index)"
 									 ng-model="rigaRicerca[$index].field" ng-change="changeCampo($index)">
-										<option ng-repeat="singleCampo in campiRicercaLista" value="{{singleCampo}}">{{singleCampo | translate }}
+										<option ng-repeat="singleCampo in campiRicercaLista" value="{{singleCampo}}">
+												{{(singleCampo | translate )}}{{ (singleCampo != 'any' && singleCampo != 'keywords') ? '' : ((singleCampo == 'keywords') ? '**' : '*') }}
 										</option>
 										<option ng-show="false" value="group">{{'group' | translate}}</option>
 
@@ -90,8 +91,24 @@
 									<div style="width: 99%" ng-attr-id="{{ 'testo_' + $index }}" ng-class="{'input-group input-group-sm': !(excludeTermini.indexOf(rigaRicerca[$index].field) > -1)  } "> 
 										<input ng-disabled="rigaRicerca[$index].field == '' || rigaRicerca[$index].field == 'paese' || rigaRicerca[$index].field=='lingua'  || rigaRicerca[$index].field=='relator_codef_noposs' || rigaRicerca[$index].field=='relator_codef'  || rigaRicerca[$index].field=='forma'"
 										 ng-class="{'disabled':rigaRicerca[$index].field == ''}" type="text" name="input" ng-model="rigaRicerca[$index].value"
-										 ng-attr-placeholder="{{ 'testo' | translate }}" class="form-control input-sm" style="height: 30px;">
-										<span title="{{'tooltip_cercaTermine' | translate}}" ng-show="!(excludeTermini.indexOf(rigaRicerca[$index].field) > -1) "
+										 ng-attr-placeholder="{{ 'testo' | translate }}" class="form-control input-sm" style="height: 30px;"
+										 ng-show=" rigaRicerca[$index].field != 'paese' && rigaRicerca[$index].field !='lingua'  && rigaRicerca[$index].field !='relator_codef_noposs' && rigaRicerca[$index].field !='relator_codef'  && rigaRicerca[$index].field !='forma'"
+										 >
+										 <span ng-show="rigaRicerca[$index].field == 'paese' || rigaRicerca[$index].field=='lingua'  || rigaRicerca[$index].field=='relator_codef_noposs' || rigaRicerca[$index].field=='relator_codef'  || rigaRicerca[$index].field=='forma'"
+										 class="form-control input-sm spanDisabled" style="height: 30px;"
+										 ng-click="ricercaTermine(myParentIndex)"
+										title="{{ (rigaRicerca[$index].field == 'paese' || rigaRicerca[$index].field=='lingua'  || rigaRicerca[$index].field=='relator_codef_noposs' || rigaRicerca[$index].field=='relator_codef'  || rigaRicerca[$index].field=='forma') ? 'tooltip_guardaLista' :'tooltip_cercaTermine' | translate}}"
+										> 
+										 <span ng-if="rigaRicerca[$index].field == 'lingua'">{{rigaRicerca[$index].value | decodeLang | translate}}</span>
+										 <span ng-if="rigaRicerca[$index].field == 'paese'">{{rigaRicerca[$index].value | decodeCountry | translate}}</span>
+										 <span ng-if="rigaRicerca[$index].field == 'relator_codef'">{{rigaRicerca[$index].value | decodeRelatorCodeTerm | translate}}</span>
+										 <span ng-if="rigaRicerca[$index].field == 'forma'">{{rigaRicerca[$index].value | decodeForma | translate}}</span>
+										 <span ng-if="rigaRicerca[$index].field == 'classi_PGI_686_tot'">{{rigaRicerca[$index].value | decodePegi | translate}}</span>
+									  
+										</span>
+
+
+										<span title="{{ (rigaRicerca[$index].field == 'paese' || rigaRicerca[$index].field=='lingua'  || rigaRicerca[$index].field=='relator_codef_noposs' || rigaRicerca[$index].field=='relator_codef'  || rigaRicerca[$index].field=='forma') ? 'tooltip_guardaLista' :'tooltip_cercaTermine' | translate}}" ng-show="!(excludeTermini.indexOf(rigaRicerca[$index].field) > -1) "
 										 ng-click="ricercaTermine(myParentIndex)" class="input-group-addon link">
 											<span class="glyphicon glyphicon-list"></span>
 										</span>
@@ -117,17 +134,34 @@
 											<td class="tdInGroupCampo">
 												<select ng-attr-id="{{ 'campoRicercaGroup_' + $index }}" class="form-control  input-sm" ng-init="rigaRicerca[myParentIndex].otherFiltersGroup[$index].field = controlInit(rigaRicerca[myParentIndex].otherFiltersGroup[$index], $last, $index)"
 												 ng-model="rigaRicerca[myParentIndex].otherFiltersGroup[$index].field" ng-change="changeCampo(myParentIndex, $index)">
-													<option ng-repeat="singleCampo in campiRicercaLista" value="{{singleCampo}}">{{singleCampo | translate }}
-													</option>
+													<option ng-repeat="singleCampo in campiRicercaLista" value="{{singleCampo}}">
+															{{(singleCampo | translate )}}{{ (singleCampo != 'any' && singleCampo != 'keywords') ? '' : ((singleCampo == 'keywords') ? '**' : '*') }}
+														</option>
 												</select>
 											</td>
 											<td class="tdInGroupText">
 												<div style="width:100%" ng-attr-id="{{ 'testoGropup_' + $index }}" ng-class="{'input-group input-group-sm': !(excludeTermini.indexOf(rigaRicerca[myParentIndex].otherFiltersGroup[$index].field) > -1)  } ">
 													<input ng-disabled="rigaRicerca[myParentIndex].otherFiltersGroup[$index].field == '' || rigaRicerca[myParentIndex].otherFiltersGroup[$index].field == 'paese' || rigaRicerca[myParentIndex].otherFiltersGroup[$index].field=='lingua' || rigaRicerca[myParentIndex].otherFiltersGroup[$index].field=='relator_codef' || rigaRicerca[myParentIndex].otherFiltersGroup[$index].field=='forma'"
 													 ng-class="{'disabled':rigaRicerca[myParentIndex].otherFiltersGroup[$index].field == ''}" type="text" name="input"
-													 ng-model="rigaRicerca[myParentIndex].otherFiltersGroup[$index].value" ng-attr-placeholder="{{ 'testo' | translate }}"
-													 class="form-control input-sm" style="height: 30px;">
-													<span title="{{'tooltip_cercaTermine' | translate}}" ng-if="!(excludeTermini.indexOf(rigaRicerca[myParentIndex].otherFiltersGroup[$index].field) > -1) "
+													 ng-model="rigaRicerca[myParentIndex].otherFiltersGroup[$index].value" ng-attr-placeholder="{{  'testo' | translate }}"
+													 class="form-control input-sm" style="height: 30px;"
+													 ng-show="rigaRicerca[myParentIndex].otherFiltersGroup[$index].field != 'paese' && rigaRicerca[myParentIndex].otherFiltersGroup[$index].field !='lingua'  && rigaRicerca[myParentIndex].otherFiltersGroup[$index].field !='relator_codef_noposs' && rigaRicerca[myParentIndex].otherFiltersGroup[$index].field !='relator_codef'  && rigaRicerca[myParentIndex].otherFiltersGroup[$index].field !='forma'"
+													 >
+
+													 <span ng-show="rigaRicerca[myParentIndex].otherFiltersGroup[$index].field == 'paese' || rigaRicerca[myParentIndex].otherFiltersGroup[$index].field=='lingua'  || rigaRicerca[myParentIndex].otherFiltersGroup[$index].field=='relator_codef_noposs' || rigaRicerca[myParentIndex].otherFiltersGroup[$index].field=='relator_codef'  || rigaRicerca[myParentIndex].otherFiltersGroup[$index].field=='forma'"
+													 class="form-control input-sm spanDisabled" style="height: 30px;" 
+													 ng-click="ricercaTermine(myParentIndex, $index)"
+title="{{ (rigaRicerca[myParentIndex].otherFiltersGroup[$index].field  == 'paese' || rigaRicerca[myParentIndex].otherFiltersGroup[$index].field =='lingua'  || rigaRicerca[myParentIndex].otherFiltersGroup[$index].field =='relator_codef_noposs' || rigaRicerca[myParentIndex].otherFiltersGroup[$index].field =='relator_codef'  || rigaRicerca[myParentIndex].otherFiltersGroup[$index].field =='forma') ? 'tooltip_guardaLista' :'tooltip_cercaTermine' | translate}}"
+													 > 
+													 <span ng-if="rigaRicerca[myParentIndex].otherFiltersGroup[$index].field == 'lingua'">{{rigaRicerca[myParentIndex].otherFiltersGroup[$index].value | decodeLang | translate}}</span>
+													 <span ng-if="rigaRicerca[myParentIndex].otherFiltersGroup[$index].field == 'paese'">{{rigaRicerca[myParentIndex].otherFiltersGroup[$index].value | decodeCountry | translate}}</span>
+													 <span ng-if="rigaRicerca[myParentIndex].otherFiltersGroup[$index].field == 'relator_codef'">{{rigaRicerca[myParentIndex].otherFiltersGroup[$index].value | decodeRelatorCodeTerm | translate}}</span>
+													 <span ng-if="rigaRicerca[myParentIndex].otherFiltersGroup[$index].field == 'forma'">{{rigaRicerca[myParentIndex].otherFiltersGroup[$index].value | decodeForma | translate}}</span>
+													 <span ng-if="rigaRicerca[myParentIndex].otherFiltersGroup[$index].field == 'classi_PGI_686_tot'">{{rigaRicerca[myParentIndex].otherFiltersGroup[$index].value | decodePegi | translate}}</span>
+												  
+													</span>
+
+													<span title="{{ (rigaRicerca[myParentIndex].otherFiltersGroup[$index].field  == 'paese' || rigaRicerca[myParentIndex].otherFiltersGroup[$index].field =='lingua'  || rigaRicerca[myParentIndex].otherFiltersGroup[$index].field =='relator_codef_noposs' || rigaRicerca[myParentIndex].otherFiltersGroup[$index].field =='relator_codef'  || rigaRicerca[myParentIndex].otherFiltersGroup[$index].field =='forma') ? 'tooltip_guardaLista' :'tooltip_cercaTermine' | translate}}" ng-if="!(excludeTermini.indexOf(rigaRicerca[myParentIndex].otherFiltersGroup[$index].field) > -1) "
 													 ng-click="ricercaTermine(myParentIndex, $index)" class="input-group-addon link">
 														<span class="glyphicon glyphicon-list"></span>
 													</span>
@@ -475,7 +509,12 @@
 						</div>
 
 					</fieldset>
-
+					<fieldset class="text-right colour-yellow">
+						<span>{{( 'any' | translate) + '* ' +('cerca_in_any' | translate)}}</span>
+					</fieldset>
+					<fieldset class="text-right colour-yellow">
+						<span>{{( 'keywords' | translate) + '** ' +('cerca_in_keywords' | translate)}}</span>
+					</fieldset>
 
 					<fieldset>
 						<hr style="border-top: 2px solid#5497BC;" />

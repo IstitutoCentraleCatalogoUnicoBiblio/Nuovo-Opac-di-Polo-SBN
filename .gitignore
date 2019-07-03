@@ -2,3 +2,5 @@ target/
 build/
 bin/
 .settings/
+.vscode/
+.classpath

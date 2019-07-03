@@ -9,7 +9,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta http-equiv="X-UA-Compatible" content="IE=11" />
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate" />
 <meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
 <link rel="apple-touch-icon" sizes="57x57"
 	href="images/favicons/apple-icon-57x57.png">

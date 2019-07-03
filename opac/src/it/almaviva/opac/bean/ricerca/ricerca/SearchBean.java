@@ -17,7 +17,6 @@
 package it.almaviva.opac.bean.ricerca.ricerca;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

@@ -61,7 +61,7 @@
           <table class="table table-hover color_w font_menu_lat" ng-if="terminiTrovati.length > 0">
                    <tbody>
 
-              <tr ng-repeat="t in terminiTrovati |  filter:termFilterTable.cod">
+              <tr ng-repeat="t in terminiTrovati |  filter:termFilterTable.cod | orderBy: 'txt'" >
                 <td ng-if="currentTerm != 'paese' && currentTerm != 'lingua' && currentTerm != 'relator_codef' && currentTerm != 'forma'&& currentTerm != 'classi_PGI_686_tot'" ng-attr-id="{{'termine_riga_' + $index}}" ng-click="scrivi(t.term)"
                   class="termini link">
                   <a class="link">
@@ -76,11 +76,11 @@
                   <span ng-if="currentTerm != 'classi_PGI_686_tot'">({{t.cod}})</span>
                   <a class="link">
 
-                    <span style="padding-left: 15px;" ng-if="currentTerm == 'lingua'">{{t.cod | decodeLang | translate}}</span>
-                    <span style="padding-left: 15px;" ng-if="currentTerm == 'paese'">{{t.cod | decodeCountry | translate}}</span>
-                    <span style="padding-left: 15px;" ng-if="currentTerm == 'relator_codef'">{{t.cod | decodeRelatorCodeTerm | translate}}</span>
-                    <span style="padding-left: 15px;" ng-if="currentTerm == 'forma'">{{t.cod | decodeForma | translate}}</span>
-                    <span style="padding-left: 15px;" ng-if="currentTerm == 'classi_PGI_686_tot'">{{t.cod | decodePegi | translate}}</span>
+                    <span style="padding-left: 15px;" ng-if="currentTerm == 'lingua'" ng-init="t.txt = (t.cod | decodeLang | translate)">{{t.cod | decodeLang | translate}}</span>
+                    <span style="padding-left: 15px;" ng-if="currentTerm == 'paese'" ng-init="t.txt = (t.cod | decodeCountry | translate)">{{t.cod | decodeCountry | translate}}</span>
+                    <span style="padding-left: 15px;" ng-if="currentTerm == 'relator_codef'" ng-init="t.txt = (t.cod | decodeRelatorCodeTerm | translate)">{{t.cod | decodeRelatorCodeTerm | translate}}</span>
+                    <span style="padding-left: 15px;" ng-if="currentTerm == 'forma'" ng-init="t.txt = (t.cod | decodeForma | translate)">{{t.cod | decodeForma | translate}}</span>
+                    <span style="padding-left: 15px;" ng-if="currentTerm == 'classi_PGI_686_tot'" ng-init="t.txt = (t.cod | decodePegi | translate)">{{t.cod | decodePegi | translate}}</span>
                   </a>
 
 
@@ -214,11 +214,11 @@
                     <span ng-show="fList.nome == 'lingua'">{{fListSingle.nome | decodeLang | translate}}</span>
                     <span ng-show="fList.nome == 'library'">{{fListSingle.nome | decodeBib | translate}}</span>
                     <span ng-show="fList.nome == 'relator_codef'">{{fListSingle.nome | decodeRelatorCodeTerm | translate}}</span>
-                    <span ng-show="fList.nome == 'forma'">{{fListSingle.nome | decodeForma | translate}}</span>
+                    <span ng-show="fList.nome == 'forma' || fList.nome == 'formaf' "  >{{fListSingle.nome | decodeForma | translate}}</span>
                     <span ng-show="fList.nome != 'level' && fList.nome != 'tiporec' &&
                         fList.nome != 'paese' &&
                         fList.nome != 'lingua'  &&
-                        fList.nome != 'library' && fList.nome != 'relator_codef' && fList.nome != 'forma'">{{fListSingle.nome}}</span>
+                        fList.nome != 'library' && fList.nome != 'relator_codef' && fList.nome != 'forma' && fList.nome != 'formaf'">{{fListSingle.nome}}</span>
                       </font>
                       <span style="padding-left: 15px;">({{fListSingle.value}})</span>
                 </td>

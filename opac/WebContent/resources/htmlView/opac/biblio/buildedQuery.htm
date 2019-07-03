@@ -16,8 +16,11 @@
   <b style="cursor:default" ng-if="fsg.field == 'status_voce'">{{ 'vero' | translate }}</b>
   <b style="cursor:default" ng-if="fsg.field == 'relator_codef'">{{ fsg.value | decodeRelatorCodeTerm | translate }}</b>  
   <b style="cursor:default" ng-if="fsg.field == 'forma' || fsg.field == 'formaf'">{{ fsg.value | decodeForma | translate }}</b>
-  
-  <b style="cursor:default" ng-if="!(fsg.field == 'level' || fsg.field == 'tiporec' || fsg.field == 'library' || fsg.field == 'relator_codef' || fsg.field == 'forma' || fsg.field == 'formaf')">{{fsg.value }}</b>
+  <b style="cursor:default" ng-if="fsg.field == 'lingua'">{{ fsg.value | decodeLang | translate }}</b>
+  <b style="cursor:default" ng-if="fsg.field == 'paese'">{{ fsg.value | decodeCountry | translate }}</b>
+
+  <b style="cursor:default" ng-if="!(fsg.field == 'level' || fsg.field == 'tiporec' || fsg.field == 'library' || fsg.field == 'relator_codef' || fsg.field == 'forma' || fsg.field == 'formaf' 
+  || fsg.field == 'lingua' || fsg.field == 'paese' )">{{fsg.value }}</b>
   <span ng-show="!(polo.bibliotecaAsPolo && fsg.field == 'library')" data-toggle="tooltip" data-placement="left" title="{{'rimuovi_filtro' | translate}}" ng-attr-id="{{ 'removeFacc_' + $index }}" ng-click="removeFilter(fsg)" class="glyphicon glyphicon-remove link"></span>
   </span> <span ng-if="f.otherFiltersGroup">)</span>
 
@@ -29,9 +32,12 @@
   <b style="cursor:default" ng-if="f.field == 'formato_elet_856'">{{'vero' | translate }}</b>
   <b style="cursor:default" ng-if="f.field == 'formato_elet'">{{'vero' | translate }}</b>
   <b style="cursor:default" ng-if="f.field == 'relator_codef'">{{ f.value | decodeRelatorCodeTerm | translate }}</b>
+  <b style="cursor:default" ng-if="f.field == 'lingua'">{{ f.value | decodeLang | translate }}</b>
+  <b style="cursor:default" ng-if="f.field == 'paese'">{{ f.value | decodeCountry | translate }}</b>
+
   <b style="cursor:default" ng-if="f.field == 'forma' || f.field == 'formaf'">{{ f.value | decodeForma | translate }}</b>
   <b style="cursor:default" ng-if="f.field == 'libretto'">{{f.value | translate }}</b>
-  <b style="cursor:default" ng-if="!(f.field == 'libretto' || f.field == 'relator_codef' || f.field == 'level' || f.field == 'tiporec' || f.field == 'library' || f.field == 'formato_elet' || f.field == 'formato_elet_856' || f.field == 'formato_elet_copia' || f.field == 'forma' || f.field == 'formaf')">{{f.value }}</b>
+  <b style="cursor:default" ng-if="!(f.field == 'libretto' || f.field == 'relator_codef' || f.field == 'level' || f.field == 'tiporec' || f.field == 'library' || f.field == 'formato_elet' || f.field == 'formato_elet_856' || f.field == 'formato_elet_copia' || f.field == 'forma' || f.field == 'formaf' || f.field == 'lingua' || f.field == 'paese')">{{f.value }}</b>
   <span  ng-show="!(polo.bibliotecaAsPolo && f.field == 'library')" data-toggle="tooltip" data-placement="left" title="Rimuovi filtro" ng-attr-id="{{ 'removeFacc_' + $index }}" ng-click="removeFilter(f)" class="glyphicon glyphicon-remove link"></span>
   </span>
   )
