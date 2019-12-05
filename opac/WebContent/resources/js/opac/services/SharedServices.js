@@ -10,7 +10,6 @@ opac2.factory('SharedServices', ['$filter', '$q', '$location', '$cookies', "Loca
 				return ("/");
 			}
 			//console.log("Selezionato polo: " + poloObj.code + " biblioteca: " + bibliotecaCode)
-
 			poloObj.bibliotecaAsPolo = (!isUndefined(bibliotecaCode)) ? true
 					: false;
 			poloObj.codBibliotecaAsPolo = (!isUndefined(bibliotecaCode)) ? bibliotecaCode
@@ -123,8 +122,6 @@ opac2.factory('SharedServices', ['$filter', '$q', '$location', '$cookies', "Loca
 		        };
 		        filtersGroup.filters.push(campoRic);
 		      });
-
-
 		      //oggetto da inviare al server
 		      var toPostJson = {
 		        start: 0,

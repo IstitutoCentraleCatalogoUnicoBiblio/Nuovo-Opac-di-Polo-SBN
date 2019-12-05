@@ -7,6 +7,8 @@ function findIndex(arrayObj, key, value) {
   }
   return idx;
 }
+function stringIsFilled(text) {return !(text == undefined || text == null || text == ''); }
+
 var re = /\S+@\S+\.\S+/;
 function validateEmail(email) {
   return re.test(email);

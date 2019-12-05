@@ -16,13 +16,14 @@
  ******************************************************************************/
 package it.almaviva.pssql.bean;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-
+@Cacheable(false)
 @Entity(name = "accesso_mlol")
 @Table(name = "accesso_mlol")
 public class AccessoMlol {

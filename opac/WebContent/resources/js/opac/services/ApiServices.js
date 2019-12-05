@@ -2,156 +2,67 @@ opac2.factory('ApiServices', ['$http', '$filter', '$q', '$location', 'LocalSessi
   function($http, $filter, $q, $location, LocalSessionSettingsServices) {
     var serverURL = myUrl();
     return {
+    	loadRequest: function(method, url, data, headers, dataType) {
+    		return $http({
+    	          method: method,
+    	          url: url,
+    	          data: data,
+    	          headers: headers,
+    	          dataType: dataType
+    	        });
+    	},
       ricerca: function(val) {
         var polo = LocalSessionSettingsServices.getPolo();
         var apiURL = serverURL + polo.code + "/search/documents";
-        prettyLog("toPostJson in JSON", JSON.stringify(val));
-        prettyLog("toPostJson in OBJ", val)
-        // var toPost =   $.param(val);
-        var deferred = $q.defer();
-        return $http({
-          method: 'post',
-          url: apiURL,
-          data: val,
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          dataType: "json"
-        });
+        return this.loadRequest('post', apiURL, val, {'Content-Type': 'application/json'}, "json");
       },
       ricercaAuth: function(val) {
         var polo = LocalSessionSettingsServices.getPolo();
         var apiURL = serverURL + polo.code + "/search/authority";
         prettyLog("toPostJson in JSON", JSON.stringify(val));
         prettyLog("toPostJson in OBJ", val)
-        // var toPost =   $.param(val);
-        var deferred = $q.defer();
-        return $http({
-          method: 'post',
-          url: apiURL,
-          data: val,
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          dataType: "json"
-        });
+        return this.loadRequest('post', apiURL, val, {'Content-Type': 'application/json'}, "json");
       },
       export: function(val, exportType) {
         var polo = LocalSessionSettingsServices.getPolo();
         var apiURL = serverURL + polo.code + "/search/documents/export/" + exportType;
-    //    prettyLog("EXPORT - toPostJson in JSON", JSON.stringify(val));
-        prettyLog("EXPORT - toPostJson in OBJ", val)
-        // var toPost =   $.param(val);
-        var deferred = $q.defer();
-        return $http({
-          method: 'post',
-          url: apiURL,
-          data: val,
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          dataType: "json"
-        });
+        return this.loadRequest('post', apiURL, val, {'Content-Type': 'application/json'}, "json");
       },
       mail: function(val) {
         var polo = LocalSessionSettingsServices.getPolo();
         var apiURL = serverURL + polo.code + "/mail/";
-      //  prettyLog("MAILER - toPostJson in JSON", JSON.stringify(val));
-        prettyLog("MAILER - Req. toPostJson in OBJ", val)
-        // var toPost =   $.param(val);
-        var deferred = $q.defer();
-        return $http({
-          method: 'post',
-          url: apiURL,
-          data: val,
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          dataType: "json"
-        });
+        return this.loadRequest('post', apiURL, val, {'Content-Type': 'application/json'}, "json");
       },
       getPolo: function(polo, bib) {
         var polo = LocalSessionSettingsServices.getPolo();
         var apiURL = serverURL + "getPolo" + "/" + polo.code;
         if (bib != undefined)
           apiURL += "/" +bib.trim()
-          
-        var deferred = $q.defer();
-        return $http({
-          method: 'post',
-          url: apiURL,
-          data: null,
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          dataType: "json"
-        });
+       return this.loadRequest('post', apiURL, val, {'Content-Type': 'application/json'}, "json");
       },
       getPoloList: function(polo) {
         var apiURL = serverURL + "getPolo";
-        var deferred = $q.defer();
-        return $http({
-          method: 'post',
-          url: apiURL,
-          data: null,
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          dataType: "json"
-        });
+        return this.loadRequest('post', apiURL, null, {'Content-Type': 'application/json'}, "json");
       },
       getTermini: function(termine) {
         var polo = LocalSessionSettingsServices.getPolo();
-
         var apiURL = serverURL + polo.code + "/search/terms";
-        var deferred = $q.defer();
-        return $http({
-          method: 'post',
-          url: apiURL,
-          data: termine,
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          dataType: "json"
-        });
+        return this.loadRequest('post', apiURL, termine, {'Content-Type': 'application/json'}, "json");
       },
       disponibilita: function(bib, id) {
         var polo = LocalSessionSettingsServices.getPolo();
-
         var apiURL = serverURL + "services/posseduto/" + polo.code + "/" + bib + "/" + id;
-        //console.log(apiURL);
-        var deferred = $q.defer();
-        return $http({
-          method: 'post',
-          url: apiURL,
-          data: null,
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          dataType: "json"
-        });
+        return this.loadRequest('post', apiURL, null, {'Content-Type': 'application/json'}, "json");
       },
       kardex: function(bib, id, inventario) {
         var polo = LocalSessionSettingsServices.getPolo();
-
         var apiURL = serverURL + "services/kardex/" + polo.code + "/" + bib + "/" + id + "/" + inventario;
-        //console.log(apiURL);
-        var deferred = $q.defer();
-        return $http({
-          method: 'post',
-          url: apiURL,
-          data: null,
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          dataType: "json"
-        });
+        return this.loadRequest('post', apiURL, null, {'Content-Type': 'application/json'}, "json");
       },
       novita: function(dateFrom) {
         if (isUndefined(dateFrom))
           dateFrom = '';
         var apiURL = serverURL +  LocalSessionSettingsServices.getPolo().code + "/search/novita/" + dateFrom;
-        //console.log(apiURL);
         return $http({
           method: 'get',
           url: apiURL,
@@ -169,11 +80,8 @@ opac2.factory('ApiServices', ['$http', '$filter', '$q', '$location', 'LocalSessi
               method: 'get',
               url: apiURL,
               data: null,
-                  });
+         });
       }
     }
-
-
-
   }
 ]);

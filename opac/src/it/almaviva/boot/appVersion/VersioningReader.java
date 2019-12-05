@@ -23,18 +23,23 @@ import org.apache.log4j.Logger;
 
 public class VersioningReader {
 	static Logger log = Logger.getLogger(VersioningReader.class);
-	private final static String VERSION = "VERSION";
-	private final static String LAST_RELEASE = "LAST_RELEASE";
+	//Almaviva3 23/07/2019 manutenzione, aggiunto versioning GIT per la lettura della versione. 
+	//non oiu manuale 
+	private final static String VERSION = "git.build.version"; //"VERSION";
+	private final static String LAST_RELEASE = "git.build.time";//"LAST_RELEASE";
+	private final static String GIT_VERSION = "git.commit.id.abbrev";
 	public static Version loadedVersion = null;
 
 	private static void read() {
-		CodeConverter propsReader = load_props("/appVersion.properties");
+		CodeConverter propsReader = load_props("/version.properties");//load_props("/appVersion.properties");
 		String version = propsReader.get(VERSION);
 		String last_release = propsReader.get(LAST_RELEASE);
+			String git_version = propsReader.get(GIT_VERSION);
+		
 		
 		loadedVersion = new Version();
 		loadedVersion.setLast_release(last_release);
-		loadedVersion.setVersion(version);
+		loadedVersion.setVersion(version + "-" + git_version);
 	}
 	
 	private static CodeConverter load_props(String props_file) {

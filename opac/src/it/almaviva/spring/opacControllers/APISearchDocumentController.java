@@ -83,7 +83,7 @@ public class APISearchDocumentController {
 	public ModelAndView runRequest(@RequestBody SearchBean search, @PathVariable String polo) {
 
 		// Controllo del controller e dei dati ricevuti in post
-		log.info("Controller: RicercaDocumenti x Polo" + polo);
+		log.info("--> inizio ricerca x Polo " + polo);
 		SolrResponseBean solr = queryMaker.searchRun(search, polo);
 		RicercaResponseRicercaResultMedia mlol = new RicercaResponseRicercaResultMedia();
 		Object wikipediaResult = new Object();
@@ -101,7 +101,7 @@ public class APISearchDocumentController {
 		}
 
 		// Creo il responseJSON
-		log.info("Returning JSON");
+		log.info("--> fine ricerca Returning JSON");
 
 		mv.addObject("response", generateJSONResponse(search, solr, mlol, wikipediaResult, server));
 
@@ -148,7 +148,7 @@ public class APISearchDocumentController {
 		serv.put("code", serverStatus.getCode());
 		serv.put("message", serverStatus.getMessage());
 		serv.put("error", serverStatus.getError());
-		// setto le proprietà
+		// setto le proprietï¿½
 
 		if (!(solrResponse == null)) {
 			if (request.getIsDetail() == false) {

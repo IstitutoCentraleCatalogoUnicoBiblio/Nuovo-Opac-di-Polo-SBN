@@ -19,6 +19,7 @@ package it.almaviva.opac.solr.dao;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
@@ -64,7 +65,8 @@ public class SolrQueryExecuteDao implements SolrQueryExecuteInterface {
 	static Logger log = Logger.getLogger(SolrQueryExecuteDao.class);
 
 	// classi solr
-	private SolrClient solrClient;
+	// Almaviva3 23/10/2019n problema response incrociate
+	// private SolrClient solrClient;
 	private SolrQuery query = new SolrQuery();
 	private ConverterCampiServices conv = new ConverterCampiServices();
 
@@ -87,8 +89,8 @@ public class SolrQueryExecuteDao implements SolrQueryExecuteInterface {
 			add("tiporec");
 			add("nomef");
 			add("relator_codef");
-			//add("nomef_noposs");
-			//add("relator_codef_noposs");		
+			// add("nomef_noposs");
+			// add("relator_codef_noposs");
 			add("possessoref");
 			add("soggettof");
 			add("dewey_code");
@@ -214,7 +216,7 @@ public class SolrQueryExecuteDao implements SolrQueryExecuteInterface {
 
 		try {
 			// apertura client http
-			solrClient = new HttpSolrClient(urlBuilder.getSolrUrl(codPolo, coreType));
+			SolrClient solrClient = new HttpSolrClient(urlBuilder.getSolrUrl(codPolo, coreType));
 
 			// creazione della query
 			query = new SolrQuery(queryStr);
@@ -230,24 +232,24 @@ public class SolrQueryExecuteDao implements SolrQueryExecuteInterface {
 			QueryResponse response = solrClient.query(query);
 
 			List<AuthorityBean> autori = new ArrayList<AuthorityBean>();
-			
+
 			log.info("Trovati autori:" + response.getResults().getNumFound());
-			
+
 			// richiesto dettaglio
 			autori = response.getBeans(AuthorityBean.class);
 			solrClient.close();
 			autori.forEach(autore -> {
-				solrClient = new HttpSolrClient(urlBuilder.getSolrUrl(codPolo, CoreType.BIBLIO));
-				query = new SolrQuery("nome_tot:" + autore.getIdAuth());
+
 				try {
-					QueryResponse localResponse = solrClient.query(query);
+					SolrClient clientAutori = new HttpSolrClient(urlBuilder.getSolrUrl(codPolo, CoreType.BIBLIO));
+					query = new SolrQuery("nome_tot:" + autore.getIdAuth());
+					QueryResponse localResponse = clientAutori.query(query);
 					autore.setAviableTitles(localResponse.getResults().getNumFound());
+					clientAutori.close();
+
 				} catch (RemoteSolrException | SolrServerException | IOException e) {
 					log.info("Exception on gettting titles of author");
-					// e.printStackTrace();
 				}
-
-				// autore.setAviableTitles(123);
 			});
 			// costruzione dei risultati di ritorno
 			model.setAutori(autori);
@@ -279,7 +281,7 @@ public class SolrQueryExecuteDao implements SolrQueryExecuteInterface {
 		try {
 
 			// apertura client http
-			solrClient = new HttpSolrClient(urlBuilder.getSolrUrl(codPolo, coreType));
+			SolrClient solrClient = new HttpSolrClient(urlBuilder.getSolrUrl(codPolo, coreType));
 			// creazione della query
 			query = new SolrQuery(queryStr);
 
@@ -294,12 +296,13 @@ public class SolrQueryExecuteDao implements SolrQueryExecuteInterface {
 				query = addFacet(query);
 			List<FaccettaBean> lFacc = new ArrayList<FaccettaBean>();
 			// Esecutione Query
-			//Almaviva3 17/06/2019 URI-TOO Long passata a chiamata post per modifica spostamento forma
-			  QueryRequest queryRequest=new QueryRequest(query);
-	            queryRequest.setMethod(METHOD.POST);
-	          //  NamedList nl=solrClient.request(queryRequest);
-	            NamedList<Object> nl=solrClient.request(queryRequest);
-	            QueryResponse response =new QueryResponse(nl, solrClient);
+			// Almaviva3 17/06/2019 URI-TOO Long passata a chiamata post per modifica
+			// spostamento forma
+			QueryRequest queryRequest = new QueryRequest(query);
+			queryRequest.setMethod(METHOD.POST);
+			// NamedList nl=solrClient.request(queryRequest);
+			NamedList<Object> nl = solrClient.request(queryRequest);
+			QueryResponse response = new QueryResponse(nl, solrClient);
 			// faccette
 			if (!searchList.getIsDetail()) {
 
@@ -338,17 +341,22 @@ public class SolrQueryExecuteDao implements SolrQueryExecuteInterface {
 				solrClient.close();
 				if (dbManager.getSinglePolo(codPolo).getAuthority_flags().getFlag_autori()) {
 					documenti.forEach(documento -> {
-						solrClient = new HttpSolrClient(urlBuilder.getSolrUrl(codPolo, CoreType.AUTHOR));
 						try {
+						String solrUrl = urlBuilder.getSolrUrl(codPolo, CoreType.AUTHOR);
+
 							documento.getNome_tot().forEach(name -> {
 								try {
+									SolrClient clientDocuments = new HttpSolrClient(solrUrl);
+
 									String vid = name.substring(name.indexOf("|") + 1, name.indexOf("|") + 11);
 									SolrQuery q = new SolrQuery("id:" + vid);
 									log.info("Autore: " + vid);
-									QueryResponse localResponse = solrClient.query(q);
+									QueryResponse localResponse = clientDocuments.query(q);
 
 									Boolean aviable = (localResponse.getResults().getNumFound() > 0) ? true : false;
 									documento.pushAviable(aviable);
+									clientDocuments.close();
+
 								} catch (RemoteSolrException | SolrServerException | IOException
 										| IndexOutOfBoundsException e) {
 									log.info("Exception on gettting titles of author: " + e.getMessage());
@@ -393,7 +401,7 @@ public class SolrQueryExecuteDao implements SolrQueryExecuteInterface {
 		try {
 
 			// apertura client http
-			solrClient = new HttpSolrClient(urlBuilder.getSolrUrl(codPolo, coreType));
+			SolrClient solrClient = new HttpSolrClient(urlBuilder.getSolrUrl(codPolo, coreType));
 			query = new SolrQuery();
 			query.setTerms(true);
 			query.setRequestHandler("/terms");
@@ -416,7 +424,7 @@ public class SolrQueryExecuteDao implements SolrQueryExecuteInterface {
 			term = terms.getTerms(field);
 
 			log.info("Numero terms" + request.toString() + " trovati: " + term.size());
-
+			solrClient.close();
 		} catch (RemoteSolrException | SolrServerException | IOException | IndexOutOfBoundsException
 				| NullPointerException | BindingException e) {
 
@@ -441,12 +449,12 @@ public class SolrQueryExecuteDao implements SolrQueryExecuteInterface {
 		try {
 
 			// apertura client http
-			solrClient = new HttpSolrClient(urlBuilder.getSolrUrl(cod_polo, CoreType.BIBLIO));
+			SolrClient solrClient = new HttpSolrClient(urlBuilder.getSolrUrl(cod_polo, CoreType.BIBLIO));
 			String queryValue = (start.equals("")) ? "*" : start + "*";
 			// creazione della query
 			query = new SolrQuery("dewey_code:(" + queryValue + ")");
 			// aggiunta della faccetta NullPointerException
-			
+
 			query.addFacetField(ClassificazioneType.getFacet(tipoClasse));
 			query.setFacetMinCount(MIN_FACET_COUNT);
 			if (tipoClasse == ClassificazioneType.TOTF)

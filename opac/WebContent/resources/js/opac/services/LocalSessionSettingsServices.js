@@ -83,21 +83,10 @@ opac2.factory('LocalSessionSettingsServices', ['$filter', '$q', '$location', '$c
 
       },
 
-      setResponseFromSearch: function (responseSearch) {
-        settings.responseSearch = responseSearch;
-      },
-
-      getResponseFromSearch: function () {
-        return settings.responseSearch;
-      },
-      setResponseAuthFromSearch: function (responseAuthSearch) {
-        //console.info(responseAuthSearch);
-        settings.responseAuthSearch = responseAuthSearch;
-      },
-
-      getResponseAuthFromSearch: function () {
-        return settings.responseAuthSearch;
-      },
+      setResponseFromSearch: function (responseSearch) {settings.responseSearch = responseSearch;},
+      getResponseFromSearch: function () {return settings.responseSearch;},
+      setResponseAuthFromSearch: function (responseAuthSearch) { settings.responseAuthSearch = responseAuthSearch;},
+      getResponseAuthFromSearch: function () {return settings.responseAuthSearch;},
       addToFavorites: function (obj) {
         settings.favorites = this.getAllFavorites();
 
@@ -128,10 +117,7 @@ opac2.factory('LocalSessionSettingsServices', ['$filter', '$q', '$location', '$c
 
       },
 
-      getAllFavorites: function () {
-
-        return this.getAllFavoritesFromCookies();
-      },
+      getAllFavorites: function () { return this.getAllFavoritesFromCookies();},
       getAllFavoritesFromCookies: function () {
        if (settings.polo == null)
     	   return [];
@@ -141,9 +127,7 @@ opac2.factory('LocalSessionSettingsServices', ['$filter', '$q', '$location', '$c
         var returnCookies = $cookies.getObject(cookiesKey);
         return (isUndefined(returnCookies)) ? [] : returnCookies;
       },
-      getAllLocalSessionSettings: function () {
-        return settings.favorites;
-      },
+      getAllLocalSessionSettings: function () {return settings.favorites;},
       //metodi per gestire le biblioteche selezionate
       addBiblioteche: function (bb) {
         settings.biblioteche.push(bb);
@@ -166,30 +150,12 @@ opac2.factory('LocalSessionSettingsServices', ['$filter', '$q', '$location', '$c
           }
          return settings.biblioteche;
       },
-      removeFromBiblioteche: function (obj) {
-
-        settings.biblioteche.splice(obj, 1);
-      },
-
-      getAllBiblioteche: function () {
-        return settings.biblioteche;
-      },
-
-      setDetail: function (det) {
-        settings.detailCat = det;
-      },
-
-      getDetail: function () {
-        return settings.detailCat;
-      },
-
-      setSintetica: function (sint) {
-        settings.sintetica = sint;
-      },
-
-      getSintetica: function () {
-        return settings.sintetica;
-      },
+      removeFromBiblioteche: function (obj) { settings.biblioteche.splice(obj, 1);},
+      getAllBiblioteche: function () {return settings.biblioteche;},
+      setDetail: function (det) {settings.detailCat = det;},
+      getDetail: function () {return settings.detailCat;},
+      setSintetica: function (sint) { settings.sintetica = sint; },
+      getSintetica: function () { return settings.sintetica; },
       addRicercaEseguita: function (jsonObjSearch, query, numFound) {
 
         var ricercaEseguitaLocal = {
@@ -626,11 +592,7 @@ opac2.factory('LocalSessionSettingsServices', ['$filter', '$q', '$location', '$c
         });
         return toPostJson;
       },
-      setOpacVersion: function (version) {
-    	  opac_version = version;
-      },
-      getOpacVersion: function() {
-    	 return opac_version ;
-      }
+      setOpacVersion: function (version) {opac_version = version;},
+      getOpacVersion: function() {return opac_version ;}
     }
   }])

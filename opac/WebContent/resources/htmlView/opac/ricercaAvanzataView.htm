@@ -276,7 +276,7 @@ title="{{ (rigaRicerca[myParentIndex].otherFiltersGroup[$index].field  == 'paese
 												 ng-click="$event.stopPropagation(); addAllNonGrupp(polo.libraries)"></span>
 											</li>
 											<ul>
-												<li style="list-style-type: none;" ng-show="showB" class="link" ng-repeat="bl in polo.libraries | orderBy: 'name'  "
+												<li style="list-style-type: none;" ng-show="showB" class="link" ng-repeat="bl in polo.libraries "
 												 ng-if="bl.gruppi.length == 0">
 													<span ng-click="$event.stopPropagation(); toggleSelectionBib(bl)">
 													<label class="ng-hide" for="{{'bib_' + $index}}"> </label>

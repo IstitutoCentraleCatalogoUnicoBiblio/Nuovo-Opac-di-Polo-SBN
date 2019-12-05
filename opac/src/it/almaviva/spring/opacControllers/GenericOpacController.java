@@ -139,6 +139,9 @@ public class GenericOpacController {
 		mv.addObject("response", poloJSON(poloObj));
 		mv.addObject("searchResult", dummyJsonObj);
 		mv.addObject("opac_version", version.toJson());
+		//Almaviva3 19/09/2019 Aggiunto per evitare cache JS in JSP
+		mv.addObject("opac_version_avoid_cache", version.getVersion());
+
 		mv.addObject("isOCNSearch", false);
 
 		return mv;
@@ -162,6 +165,8 @@ public class GenericOpacController {
 		mv.addObject("response", poloJSON(poloObj));
 		mv.addObject("searchResult", dummyJsonObj);
 		mv.addObject("opac_version", version.toJson());
+		//Almaviva3 19/09/2019 Aggiunto per evitare cache JS in JSP
+		mv.addObject("opac_version_avoid_cache", version.getVersion());
 		mv.addObject("isOCNSearch", false);
 
 		return mv;
@@ -199,6 +204,8 @@ public class GenericOpacController {
 			mv.addObject("response", generateJSONPolos);
 			mv.addObject("searchResult", dummyObj);
 			mv.addObject("opac_version", version.toJson());
+		//Almaviva3 19/09/2019 Aggiunto per evitare cache JS in JSP
+			mv.addObject("opac_version_avoid_cache", version.getVersion());
 			mv.addObject("isOCNSearch", false);
 
 		} catch (SQLException e) {

@@ -47,9 +47,7 @@ opac2.filter('flattenRows', function() {
 });
 opac2.filter("dewey_des", function() {
 	return function(str) {
-
 		var dew = str.split("|");
-
 		return dew[1];
 	}
 });
@@ -69,20 +67,17 @@ opac2.filter("notaINFORMATIVA", [ function() {
 } ]);
 opac2.filter("dewey_code", function() {
 	return function(str) {
-		var dews = str.split("|");
-		return dews[0];
+		var dews = str.split("|");return dews[0];
 	}
 });
 opac2.filter("nome_tot_toText", function() {
 	return function(str) {
-		var nome = str.split("|");
-		return nome[0];
+		var nome = str.split("|"); return nome[0];
 	}
 });
 opac2.filter("nome_tot_toVid", function() {
 	return function(str) {
-		var nome = str.split("|");
-		return nome[1];
+		var nome = str.split("|"); return nome[1];
 	}
 });
 
@@ -105,29 +100,24 @@ opac2.filter("nome_tot_to$5", function($filter) {
 });
 opac2.filter('trim', function() {
 	return function(value) {
-		if (!angular.isString(value)) {
-			return value;
-		}
+		if (!angular.isString(value)) {	return value;}
 		return value.replace(/^\s+|\s+$/g, ''); 
 	};
 });
 opac2.filter("etePersona_Auth", function() {
 	return function(obj) {
-
 		return (!isUndefined(obj['nome_ente'])) ? "ente" : 'persona';
 	}
 });
 opac2.filter("myDate", function() {
 	return function(date) {
 		var pattern = /(\d{1,4})(\d{2})(\d{2})/;
-
 		return isUndefined(date) ? date : new Date(date.replace(pattern,
 				'$1-$2-$3'));
 	}
 });
 opac2.filter("unimarc", function() {
 	return function(inp) {
-
 		if (!isUndefined(inp)) {
 			// pulizia caratteri nosort
 			inp = inp.replace(/</, "&#60;");
@@ -138,7 +128,6 @@ opac2.filter("unimarc", function() {
 			var myString = inp
 			if (inp.indexOf("LEADER") > -1) {
 				myString = inp.replace(inp.substring(0, 6), "<b>LEADER</b>");
-				// inp = inp.replace(/MYBR/g,"MYBR");
 			}
 			var tags = myString.split("MYBR");
 			for (var i = 0; i < tags.length; i++) {
@@ -156,7 +145,6 @@ opac2.filter("reverseUnimarc", function() {
 	return function(inp) {
 		if (!isUndefined(inp))
 			inp = inp.replace(/<\/br>/g, "\n");
-
 		return inp;
 	}
 });
@@ -179,12 +167,10 @@ opac2.filter("clearQuery", function($filter) {
 opac2.filter("zeroLongLat", function() {
 	return function(num) {
 		var testo = num.toString().replace(/-/g, "");
-
 		var x = '';
 		for (var i = 0; i < 7 - testo.length; i++) {
 			x += '0';
 		}
-
 		return x + testo;
 	}
 });
@@ -201,29 +187,19 @@ opac2.filter("collocazione", function() {
 opac2.filter("deweyNavigator", function() {
 	return function(testo) {
 		testo = testo.toString();
-		
 		var x = '';
-		for (var i = 0; i < 3 - testo.length; i++) {
-			x += '.';
-		}
-
+		for (var i = 0; i < 3 - testo.length; i++) {x += '.';}
 		return testo + x;
 	}
 });
 opac2.filter("deweyNavigatorTitle", function() {
 	return function(length) {
-
 		switch (length) {
-		case 1:
-			return "dwy_classe";
-		case 2:
-			return "dwy_divisione";
-		case 3:
-			return "dwy_sezione";
-		case 4:
-			return "dwy_codice";
-		}
-	}
+		case 1:	return "dwy_classe";
+		case 2:	return "dwy_divisione";
+		case 3:	return "dwy_sezione";
+		case 4:	return "dwy_codice";
+		}}
 });
 opac2.filter("indexed",	function() {
 					return function(txt) {
@@ -290,10 +266,8 @@ opac2.filter("tipoMateriale", function() {
 			cssClass = "adjust";
 
 		}
-		var html = '<center><span class="glyphicon glyphicon-' + cssClass
-				+ '" ></span></center>'
-
-		return html;
+		return  '<center><span class="glyphicon glyphicon-' + cssClass
+		+ '" ></span></center>';
 	}
 });
 opac2.filter('capitalize', function() {
@@ -403,7 +377,11 @@ cd_loc: "M00"
 cd_sez: "2009"
 consis: "test"*/
 		for(var i = 0; i < collocazioni950.length; i++) {
-			var keyValue = collocazioni950[i].bib + collocazioni950[i].cd_sez +collocazioni950[i].cd_loc + ((collocazioni950[i].consis != undefined) ? collocazioni950[i].consis : '') ;
+			var keyValue = collocazioni950[i].bib 
+			+ collocazioni950[i].cd_sez 
+			+ collocazioni950[i].cd_loc 
+			+ ((collocazioni950[i].consis != undefined) ? collocazioni950[i].consis : '') 
+			+ ((collocazioni950[i].spec_loc != undefined) ? collocazioni950[i].spec_loc : '');
 			collocazioni950[i].key = keyValue;
 
 			var foundIn = findIndex(collocazioni, "key", collocazioni950[i].key);

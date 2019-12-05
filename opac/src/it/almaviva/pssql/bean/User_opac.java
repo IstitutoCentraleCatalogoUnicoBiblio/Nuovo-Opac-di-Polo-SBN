@@ -16,13 +16,14 @@
  ******************************************************************************/
 package it.almaviva.pssql.bean;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import it.almaviva.opac.bean.amministrazione.LoginBean;
-
+@Cacheable(false)
 @Entity(name = "user_opac")
 @Table(name = "user_opac")
 public class User_opac {

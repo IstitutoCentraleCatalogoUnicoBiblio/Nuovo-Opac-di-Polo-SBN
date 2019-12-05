@@ -2,44 +2,32 @@ opac2.filter("decodeRelatorcode",["CodiciServices",function(e){return function(r
 opac2.filter("decodeav_suono", ["CodiciServices", function(CodiciServices) {
   return function(stringToCompare) {
     var txt = CodiciServices.decodeav_suono(stringToCompare);
-    if (txt != null)
-      return txt;
-    else
-      return stringToCompare;
+    return (txt != null) ? txt : stringToCompare;
   }
 }]);
 
 opac2.filter("decodeCodFrui", ["CodiciServices", "$translate", function(CodiciServices, $translate) {
   return function(stringToCompare) {
-    var lang =  $translate.use();
+	var lang =  $translate.use();
     return CodiciServices.decodeCodFrui(stringToCompare, lang)
   }
 }]);
 opac2.filter("decodeRelatorCodeTerm", ["CodiciServices", function(CodiciServices) {
   return function(stringToCompare) {
     var txt = CodiciServices.decodeRelatorcode(stringToCompare);
-    if (txt != null)
-      return txt;
-    else
-      return stringToCompare;
-  }
+    return (txt != null) ? txt : stringToCompare;
+    }
 }]);
 opac2.filter("decodePegi", ["CodiciServices", function(CodiciServices) {
   return function(stringToCompare) {
     var txt = CodiciServices.decodePegi(stringToCompare);
-    if (txt != null)
-      return txt;
-    else
-      return stringToCompare;
+    return (txt != null) ? txt : stringToCompare;
   }
 }]);
 opac2.filter("decodeForma", ["CodiciServices", function(CodiciServices) {
   return function(stringToCompare) {
     var txt = CodiciServices.decodeForma(stringToCompare);
-    if (txt != null)
-      return txt;
-    else
-      return stringToCompare;
+    return (txt != null) ? txt : stringToCompare;
   }
 }]);
 opac2.filter("translateLinkEsterno", [ "$translate", function( $translate) {

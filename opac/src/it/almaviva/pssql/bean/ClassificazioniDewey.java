@@ -19,6 +19,7 @@ package it.almaviva.pssql.bean;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,6 +31,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.apache.solr.client.solrj.response.FacetField.Count;
+@Cacheable(false)
 
 @Entity(name = "classificazioni")
 @Table(name = "classificazioni")

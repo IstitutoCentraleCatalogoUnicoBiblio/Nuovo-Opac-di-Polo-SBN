@@ -17,8 +17,10 @@
 package it.almaviva.pssql.bean;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
+import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,7 +35,7 @@ import javax.persistence.Table;
 
 import it.almaviva.opac.services.PropertiesLoader;
 import it.almaviva.utils.opac.Util;
-
+@Cacheable(false)
 @Entity(name = "tb_polo")
 @Table(name = "tb_polo")
 @NamedQueries(value = {
@@ -51,7 +53,7 @@ public class Polo implements Cloneable {
 	private String code;
 
 	@OneToMany(mappedBy = "polo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-	@OrderBy("name ASC")
+	//@OrderBy("fl_canc ASC, UPPER(name) ASC")
 	private List<Biblio> libraries;
 
 	@OneToMany(mappedBy = "poloreference", fetch = FetchType.LAZY)
@@ -264,6 +266,9 @@ public class Polo implements Cloneable {
 			if (!b.isDeleted())
 				biblioteche.add(b);
 		}
+		biblioteche.sort(Comparator.comparing(Biblio::getFl_canc, String.CASE_INSENSITIVE_ORDER)
+							.thenComparing(Biblio::getName, String.CASE_INSENSITIVE_ORDER));
+		
 		return biblioteche;
 	}
 

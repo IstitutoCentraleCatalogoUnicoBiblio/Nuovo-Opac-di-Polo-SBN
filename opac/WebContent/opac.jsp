@@ -47,46 +47,45 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>OPAC SBNWeb</title>
-
 <!-- Libraries -->
 
-<script type="text/javascript" src="lib/angular/angular.min.js"></script>
-<script type="text/javascript" src="lib/angular/angular-resource.min.js"></script>
-<script type="text/javascript" src="lib/angular/angular-sanitize.min.js"></script>
-<script type="text/javascript" src="lib/angular/angular-cookies.min.js"></script>
-<script type="text/javascript" src="lib/angular/angular-filter.js"></script>
-<script type="text/javascript" src="lib/angular/angular-route.js"></script>
+<script type="text/javascript" src="lib/angular/angular.min.js?v=${opac_version_avoid_cache}"></script>
+<script type="text/javascript" src="lib/angular/angular-resource.min.js?v=${opac_version_avoid_cache}"></script>
+<script type="text/javascript" src="lib/angular/angular-sanitize.min.js?v=${opac_version_avoid_cache}"></script>
+<script type="text/javascript" src="lib/angular/angular-cookies.min.js?v=${opac_version_avoid_cache}"></script>
+<script type="text/javascript" src="lib/angular/angular-filter.js?v=${opac_version_avoid_cache}"></script>
+<script type="text/javascript" src="lib/angular/angular-route.js?v=${opac_version_avoid_cache}"></script>
 <script type="text/javascript"
-	src="lib/angular-translate/angular-translate.min.js"></script>
-<script src="lib/jquery/jquery-3.3.1.min.js"></script>
-<script src="lib/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
-<script src="lib/bootstrap-3.3.7-dist/js/jquery.dataTables.min.js"></script>
+	src="lib/angular-translate/angular-translate.min.js?v=${opac_version_avoid_cache}"></script>
+<script src="lib/jquery/jquery-3.3.1.min.js?v=${opac_version_avoid_cache}"></script>
+<script src="lib/bootstrap-3.3.7-dist/js/bootstrap.min.js?v=${opac_version_avoid_cache}"></script>
+<script src="lib/bootstrap-3.3.7-dist/js/jquery.dataTables.min.js?v=${opac_version_avoid_cache}"></script>
 <!-- Libs -->
-<script type="text/javascript" src="lib/FileSaver.js"></script>
-<script type="text/javascript" src="lib/Utils.js"></script>
-<script type="text/javascript" src="lib/Paging.js"></script>
-<script type="text/javascript" src="lib/slider/src/slider.js"></script>
-<script type="text/javascript" src="lib/cookies/angular-cookie-law.min.js"></script>
+<script type="text/javascript" src="lib/FileSaver.js?v=${opac_version_avoid_cache}"></script>
+<script type="text/javascript" src="lib/Utils.js?v=${opac_version_avoid_cache}"></script>
+<script type="text/javascript" src="lib/Paging.js?v=${opac_version_avoid_cache}"></script>
+<script type="text/javascript" src="lib/slider/src/slider.js?v=${opac_version_avoid_cache}"></script>
+<script type="text/javascript" src="lib/cookies/angular-cookie-law.min.js?v=${opac_version_avoid_cache}"></script>
 
 <!-- Angular Utility -->
-<script type="text/javascript" src="js/opac/app.js"></script>
-<script type="text/javascript" src="js/opac/filters.js"></script>
+<script type="text/javascript" src="js/opac/app.js?v=${opac_version_avoid_cache}"></script>
+<script type="text/javascript" src="js/opac/filters.js?v=${opac_version_avoid_cache}"></script>
 <script type="text/javascript"
-	src="js/opac/services/decodes/AngularDecodesFilters.js"></script>
+	src="js/opac/services/decodes/AngularDecodesFilters.js?v=${opac_version_avoid_cache}"></script>
 
 <!-- ViewControllers -->
-<script type="text/javascript" src="js/opac/controller/HomeController.js"></script>
-<script type="text/javascript" src="js/opac/controller/DetailController.js"></script>
-<script type="text/javascript" src="js/opac/dummyControllers.js"></script>
+<script type="text/javascript" src="js/opac/controller/HomeController.js?v=${opac_version_avoid_cache}"></script>
+<script type="text/javascript" src="js/opac/controller/DetailController.js?v=${opac_version_avoid_cache}"></script>
+<script type="text/javascript" src="js/opac/dummyControllers.js?v=${opac_version_avoid_cache}"></script>
 
 <!-- Services -->
-<script type="text/javascript" src="js/opac/services/ApiServices.js"></script>
+<script type="text/javascript" src="js/opac/services/ApiServices.js?v=${opac_version_avoid_cache}"></script>
 <script type="text/javascript"
-	src="js/opac/services/LocalSessionSettingsServices.js"></script>
+	src="js/opac/services/LocalSessionSettingsServices.js?v=${opac_version_avoid_cache}"></script>
 <script type="text/javascript"
-	src="js/opac/services/decodes/CodiciServices.js"></script>
+	src="js/opac/services/decodes/CodiciServices.js?v=${opac_version_avoid_cache}"></script>
 <script type="text/javascript"
-	src="js/opac/services/SharedServices.js"></script>
+	src="js/opac/services/SharedServices.js?v=${opac_version_avoid_cache}"></script>
 	
 <!-- Style CSS -->
 <link rel="stylesheet" href="css/style.css">
@@ -98,9 +97,9 @@
 <link rel="stylesheet" type="text/css"
 	href="lib/cookies/angular-cookie-law.min.css">
 <link rel="stylesheet" type="text/css" href="lib/slider/src/slider.css">
-<script type="text/javascript" src="lib/incipit-lib/verovio-toolkit.js"></script>
-<script type="text/javascript" src="lib/incipit-lib/midiweb.js"></script>
-<script type="text/javascript" src="lib/incipit-lib/midiplayer.js"></script>
+<script type="text/javascript" src="lib/incipit-lib/verovio-toolkit.js?v=${opac_version_avoid_cache}"></script>
+<script type="text/javascript" src="lib/incipit-lib/midiweb.js?v=${opac_version_avoid_cache}"></script>
+<script type="text/javascript" src="lib/incipit-lib/midiplayer.js?v=${opac_version_avoid_cache}"></script>
 
 <script>
 var poloApp =  ${response};

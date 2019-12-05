@@ -104,14 +104,14 @@
 												{{inv.cd_serie }} {{ inv.cd_inv | collocazione }}<span
 												ng-show="inv.precis_inv"> / {{inv.precis_inv}}</span>
 											</td>
-											<td><span ng-if="inv.cd_frui && !tag.richiedi"
+											<td><span ng-if="inv.cd_frui && !tag.richiedi && (inv.cod_no_disp == '' || inv.cod_no_disp == undefined)"
 												class="disabled">{{inv.cd_frui.trim()| decodeCodFrui
 													| translate}} </span>
 
 												<button id="disponibileXRichiestaUnimarc" type="button"
 													class="btn btn-success btn-xs"
 													ng-if="!(inv.cod_no_disp != '') && tag.richiedi"
-													ng-click="$parent.$parent.prenota(documento.isbd, {serie: (inv.cd_serie == '') ? '   ' : inv.cd_serie, numero: inv.cd_inv, bib: inv.bib, codFrui: inv.cd_frui, precis_inv:inv.precis_inv}, {loc: col.cd_loc, sez: col.cd_sez, spec: col.spec_loc }, inv.bib, documento, tag, (documento.level == 's'))"
+													ng-click="$parent.$parent.prenota(documento.isbd, {serie: (inv.cd_serie == '') ? '   ' : inv.cd_serie, numero: inv.cd_inv, bib: inv.bib, codFrui: inv.cd_frui, precis_inv:inv.precis_inv, seq_coll:inv.seq_coll}, {loc: col.cd_loc, sez: col.cd_sez, spec: col.spec_loc }, inv.bib, documento, tag, (documento.level == 's'))"
 													title="{{inv.cd_frui.trim()| decodeCodFrui | translate}}">{{'disponibileXRichiesta'
 													| translate }}</button>
 
@@ -130,9 +130,10 @@
 													class="btn btn-info btn-red btn-xs"
 													ng-click="openCopiaDigitale(urlCopiaDigitale956)"
 													title="{{'tooltip_disp_digitale' | translate}}">
-													{{'copiaDigitale' | translate }}</button> <span
+													{{'copiaDigitale' | translate }}</button> 
+													<span
 												ng-if="inv.cod_no_disp != ''" class="disabled"
-												title="{{'nonDisponibile' | translate }}:   {{inv.cod_no_disp}}">{{"nonDisponibileError"
+												title="{{('nonDisponibileError' | translate) + ': '+('NODISP_' + inv.cod_no_disp.trim()| decodeCodFrui | translate)}}">{{"nonDisponibileError"
 													| translate }} </span></td>
 									</tbody>
 
@@ -250,7 +251,7 @@
 												</td>
 
 												<td ng-attr-id="{{'inventarioDisp_' + $index}}">
-						<span ng-show="!documento.tag950[$parent.$parent.$index].webservice.useOnlineService"
+						<span ng-show="!documento.tag950[$parent.$parent.$index].webservice.useOnlineService && inventario.disponibilita.disponibile"
 													class="disabled">{{((inventario.codFrui !=
 														undefined) ? (inventario.codFrui| decodeCodFrui |
 														translate) : '')}}</span>													<button id="disponibileXRichiesta" type="button"
@@ -258,10 +259,13 @@
 														ng-show="inventario.disponibilita.disponibile && documento.tag950[$parent.$parent.$index].webservice.useOnlineService"
 														ng-click="$parent.$parent.prenota((documento.level == 'm' && documento.id != inventario.documento.bid) ? inventario.documento.isbd : null, inventario, collocazione, inventario.bib, documento, $parent.$parent.$index, (documento.level == 's'))"
 														title="{{inventario.codFrui | decodeCodFrui | translate}}">{{'disponibileXRichiesta'
-														| translate }}</button> <span
-													ng-show="!inventario.disponibilita.disponibile && documento.tag950[$parent.$parent.$index].webservice.useOnlineService"
+														| translate }}</button> 
+														<!-- ng-show="!inventario.disponibilita.disponibile && documento.tag950[$parent.$parent.$index].webservice.useOnlineService"
+														 -->
+														<span
+													ng-show="!inventario.disponibilita.disponibile"
 													class="disabled"
-													title="{{'nonDisponibile' | translate }}: {{inventario.disponibilita.motivo}} ">{{inventario.disponibilita.motivo}}
+													title="{{('nonDisponibileError' | translate)+': ' + (inventario.disponibilita.motivo)}} ">{{inventario.disponibilita.motivo}}
 														<span ng-show="inventario.disponibilita.dataDisponibilita">
 															{{'finoAl' | translate}}
 															{{inventario.disponibilita.dataDisponibilita.day+'/'+inventario.disponibilita.dataDisponibilita.month

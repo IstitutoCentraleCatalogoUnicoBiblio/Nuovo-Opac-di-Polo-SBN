@@ -1656,11 +1656,20 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
           });
       }
     }
+     var slashUrl = encodeURIComponent(" /");//"%2F";
+     var pipe = encodeURIComponent('|');
+     var encodeHtml = function encodeHtml(text) {
+    	 return text.replace(/>/g, "&gt;").replace(/</g, "&lt;").replace(/"/g, "&quot;").replace(/&/g, "%26");//.replace(/;/g, "%3b");
+     }
     $scope.prenota = function (isbdMonografia, inventarioBinded, collocazBinded, biblioteca, doc, idx950, isFascicolo, fasc, fas) {
       var titoloFromISBD;
+      var titolo = '';
       if (isbdMonografia != null || !isUndefined(isbdMonografia)) {
         titoloFromISBD = isbdMonografia.split("/")[0]
+      } else {
+    	  titolo = ((doc.pre_title != undefined) ? (doc.pre_title +"*") : '') + (doc.titles.titolo_sint.split(" / ")[0]);
       }
+    	  
       biblioteca = ' ' + biblioteca.trim();
       //FIXED: typeof int modale
       var currentTag950 = null;
@@ -1674,7 +1683,7 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
     	  return;
       var prenotaURL = $scope.polo.linkApplicativi[idxApplUrl].url + "?";
       if (currentTag950.webservice) {
-          
+          //Dati da WS SBNWeb
         switch (currentTag950.applicativo.toUpperCase()) {
           //ERMES
           case "M":
@@ -1682,10 +1691,10 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
             //ERMES
             prenotaURL += "Opac=1";
             prenotaURL += "&Natura=" + doc.level.toUpperCase();
-            prenotaURL += "&Titolo=" + ((isbdMonografia != null || !isUndefined(isbdMonografia)) ? titoloFromISBD : doc.titles.titolo_sint);;
+            prenotaURL += "&Titolo=" + ((isbdMonografia != null || !isUndefined(isbdMonografia)) ? encodeHtml(titoloFromISBD) : encodeHtml (titolo));
 
             if (!isUndefined(doc.author) && (isbdMonografia == null || isUndefined(isbdMonografia))) {
-              prenotaURL += "&Autore=" + doc.author;
+              prenotaURL += "&Autore=" + encodeHtml (doc.author);
             }
 
             if (!isUndefined(doc.date) && (isbdMonografia == null || isUndefined(isbdMonografia))) {
@@ -1700,24 +1709,36 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
             	 currentTag950.webservice.posseduto.collocazione.forEach(function (collocazione) {
               debugger
                if(isFascicolo) {
-                   collocazioniStr = biblioteca.trim() + collocazBinded.sez +" "+ collocazBinded.loc  + ((collocazione.spec) ? (" " + collocazione.spec).trim() : "") +"|";
+                   collocazioniStr = biblioteca.trim() + collocazBinded.sez +" "+ collocazBinded.loc  + ((collocazione.spec) ? (" " + collocazione.spec).trim() : "") + pipe;
+                 //  collocazioniStr = biblioteca.trim() + collocazBinded.sez +" "+ collocazBinded.loc  + ((collocazione.spec) ? (" " + collocazione.spec).trim() : "") + ((collocazione.seq) ? ('/ ' + collocazione.seq.replace(/\//g, "")) : '') +"|";
 
                    collocazione.inventario.forEach(function(inventario){
-                	     if(inventario.numero == inventarioBinded.numero) {
+                	  if(inventario.numero == inventarioBinded.numero) {
                          	inventariStr = biblioteca.trim() + inventario.serie + $filter("collocazione")(inventario.numero) + "|"
                       prenotaURL += "&PRECIS=";
                       prenotaURL += (inventarioBinded.precis) ? inventarioBinded.precis : '';
                       prenotaURL += "&ANNORIF=";
                       prenotaURL += (inventario.anno) ? inventario.anno : '';
+                     if (inventario.seq) {
+                    	 collocazioniStr  =  collocazioniStr.replace(/\|/g, "");
+                    	 collocazioniStr += (slashUrl + inventario.seq.replace(/\//g, "") + "|")
+                     } 
                     }
                    });
               } else {
-                  collocazioniStr += biblioteca.trim() + collocazione.sez +" "+ collocazione.loc + ((collocazione.spec) ? " " + collocazione.spec : "") + "|";
-                  //collocazioniStr += collocazione.cd_loc + collocazione.cd_sez + "|";
+            	  //controllo seq di inventario
+            	  var seqInv = ''
+            	  if(collocazione.inventario[0].seq != undefined || collocazione.inventario[0].seq !='' )
+            		  seqInv = collocazione.inventario[0].seq;
+            	  if (seqInv == undefined)
+            		  seqInv = '';
+                //  collocazioniStr += biblioteca.trim() + collocazione.sez +" "+ collocazione.loc + ((collocazione.spec) ? " " + collocazione.spec : "") + "|";
+                  collocazioniStr += biblioteca.trim() + collocazione.sez +" "+ collocazione.loc + ((collocazione.spec) ? " " + collocazione.spec : "") + ((seqInv != '') ? (slashUrl + seqInv.replace(/\//g, "")) : '') + pipe;
+
                   //serie a 3 spazi se è vuota
                   if(collocazione.inventario[0].serie == '')
                       collocazione.inventario[0].serie = "   ";
-                 inventariStr += biblioteca.trim() + collocazione.inventario[0].serie + $filter("collocazione")(collocazione.inventario[0].numero) + "|"
+                 inventariStr += biblioteca.trim() + collocazione.inventario[0].serie + $filter("collocazione")(collocazione.inventario[0].numero) + pipe;
                  
                 }
               });
@@ -1748,7 +1769,7 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
               prenotaURL += "BIB=" + biblioteca;
               prenotaURL += "&INV=" + inventarioBinded.serie + $filter('collocazione')(inventarioBinded.numero);
               prenotaURL += "&NAT=" + doc.level.toLowerCase();
-              prenotaURL += "&TIT=" + ((isbdMonografia != null || !isUndefined(isbdMonografia)) ? titoloFromISBD : doc.titles.titolo_sint);
+              prenotaURL += "&TIT=" + ((isbdMonografia != null || !isUndefined(isbdMonografia)) ? titoloFromISBD : titolo);
 
               if (!isUndefined(doc.author) && (isbdMonografia == null || isUndefined(isbdMonografia))) {
                 prenotaURL += "&AUT=" + doc.author;
@@ -1763,9 +1784,7 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
 
         }
       } else {
-
-
-
+        //Dati da unimarc
         switch (currentTag950.applicativo.toUpperCase()) {
           //ERMES
           case "M":
@@ -1773,10 +1792,10 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
             //ERMES
             prenotaURL += "Opac=1";
             prenotaURL += "&Natura=" + doc.level.toUpperCase();
-            prenotaURL += "&Titolo=" + ((isbdMonografia != null || !isUndefined(isbdMonografia)) ? titoloFromISBD : doc.titles.titolo_sint);;
+            prenotaURL += "&Titolo=" + ((isbdMonografia != null || !isUndefined(isbdMonografia)) ? encodeHtml(titoloFromISBD) : encodeHtml (titolo));
 
             if (!isUndefined(doc.author) && (isbdMonografia == null || isUndefined(isbdMonografia))) {
-              prenotaURL += "&Autore=" + doc.author;
+              prenotaURL += "&Autore=" +  encodeHtml(doc.author);
             }
 
             if (!isUndefined(doc.date) && (isbdMonografia == null || isUndefined(isbdMonografia))) {
@@ -1794,22 +1813,25 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
             	
            	 if (!isUndefined(currentTag950.coll)) {
                     collocazioniNonDuplicate.forEach(function (collocazione) {
-                      if (collocazione.cd_sez == undefined)
+                      if (!stringIsFilled(collocazione.cd_sez))
                         collocazione.cd_sez='';
-                      if (collocazione.cd_loc == undefined)
+                      if (!stringIsFilled(collocazione.cd_loc))
                         collocazione.cd_loc = '';
-                      if (collocazione.spec_loc == undefined)
+                      if (!stringIsFilled(collocazione.spec_loc))
                       	collocazione.spec_loc = '';
-                      
-                      collocazioniStr += biblioteca.trim() + collocazione.cd_sez + " " + collocazione.cd_loc + (collocazione.spec_loc != '' ? (" " + collocazione.spec_loc) : '')  + "|";
-      
-                      inventariStr += biblioteca.trim() + collocazione.inv[0].cd_serie + $filter("collocazione")(collocazione.inv[0].cd_inv) + "|";
+                        if (!stringIsFilled(collocazione.inv[0].seq_coll ))
+                      	collocazione.inv[0].seq_coll = '';
+                     // collocazioniStr += biblioteca.trim() + collocazione.cd_sez + " " + collocazione.cd_loc + (collocazione.spec_loc != '' ? (" " + collocazione.spec_loc) : '')  + "|";
+                     //doppio slash se gia presente nella seq_coll slashUrl.replace(/%20/g,'') //18/08/2019 ERMES funziona senza doppio slash, risolto errore primo inventario collocazione
+                        collocazioniStr += biblioteca.trim() + collocazione.cd_sez+ " " + collocazione.cd_loc + (collocazione.spec_loc != '' ? (" " + collocazione.spec_loc) : '') + ((collocazione.inv[0].seq_coll) ? (slashUrl + collocazione.inv[0].seq_coll.replace(/\//g, '') ): '')+ pipe;
+
+                      inventariStr += biblioteca.trim() + collocazione.inv[0].cd_serie + $filter("collocazione")(collocazione.inv[0].cd_inv) + pipe;
                       debugger
                       if(isFascicolo  && !fasc) {
                           collocazione.inv.forEach(function(inventario){
                        	    
                           	if(inventario.cd_inv == inventarioBinded.numero) {
-                                	inventariStr = biblioteca.trim() + inventario.cd_serie + $filter("collocazione")(inventario.cd_inv) + "|"
+                                	inventariStr = biblioteca.trim() + inventario.cd_serie + $filter("collocazione")(inventario.cd_inv) + pipe
                              prenotaURL += "&PRECIS=" + inventario.precis_inv;
                            }
                           });
@@ -1832,9 +1854,10 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
                 if (inventarioBinded.precis_inv == undefined)
                     inventarioBinded.precis_inv = '';
                 //costruzione stringa collocazione
-                collocazioniStr += biblioteca.trim() + collocazBinded.sez + " " + collocazBinded.loc + (collocazBinded.spec != '' ? (" " + collocazBinded.spec) : '') + "|";
+               // collocazioniStr += biblioteca.trim() + collocazBinded.sez + " " + collocazBinded.loc + (collocazBinded.spec != '' ? (" " + collocazBinded.spec) : '') + "|";
+                collocazioniStr += biblioteca.trim() + collocazBinded.sez + " " + collocazBinded.loc + (collocazBinded.spec != '' ? (" " + collocazBinded.spec) : '') + ((inventarioBinded.seq_coll) ? (slashUrl + inventarioBinded.seq_coll.replace(/\//g, "") ): '')+ pipe;
 
-                inventariStr += biblioteca.trim() + inventarioBinded.serie + $filter("collocazione")(inventarioBinded.numero) + "|";
+                inventariStr += biblioteca.trim() + inventarioBinded.serie + $filter("collocazione")(inventarioBinded.numero) + pipe;
                 prenotaURL += ("&PRECIS=" + ((inventarioBinded.precis_inv) ? inventarioBinded.precis_inv : ''));
 
                 if (isFascicolo && fasc) {
@@ -1863,13 +1886,11 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
               prenotaURL += "BIB=" + biblioteca;
               prenotaURL += "&INV=" + inventarioBinded.serie + $filter('collocazione')(inventarioBinded.numero);
               prenotaURL += "&NAT=" + doc.level.toLowerCase();
-              prenotaURL += "&TIT=" + ((isbdMonografia != null || !isUndefined(isbdMonografia)) ? titoloFromISBD : doc.titles.titolo_sint);
+              prenotaURL += "&TIT=" + ((isbdMonografia != null || !isUndefined(isbdMonografia)) ? titoloFromISBD : titolo);
 
               if (!isUndefined(doc.author) && (isbdMonografia == null || isUndefined(isbdMonografia))) {
                 prenotaURL += "&AUT=" + doc.author;
               }
-
-
               if (!isUndefined(doc.date) && (isbdMonografia == null || isUndefined(isbdMonografia))) {
                 prenotaURL += "&ANNO=" + doc.date[0];
               }
@@ -1883,7 +1904,7 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
       var target = (currentTag950.applicativo.toUpperCase() == "E" || currentTag950.applicativo.toUpperCase() == "M" ) ? "_top" : "_blank";
       prenotaURL = prenotaURL.replace(/ /g, "%20");
      // console.info("--------"+biblioteca+"------------")
-     //console.info("URL: ", prenotaURL);
+     console.info("URL: ", prenotaURL);
       //console.info("-------------------")
      
       window.open(prenotaURL, target)
@@ -2274,5 +2295,7 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
     };
   //Almaviva3 06/06/2019 controllo il flag isOCNSearch per verificare se esporre il bottone modifica ricerca
 	$scope.isOCNSearch = isOCNSearch ? true : false;
+	if(isOCNSearch) //Se è una ricerca OCN elimino i dati di get nell'url
+		$location.search('')
 	isOCNSearch = false;
   }]);

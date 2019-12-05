@@ -95,7 +95,7 @@ function loadControllers(controllers) {
 function loadFileJS(path) {
 	var script = document.createElement('script');
 	script.type = 'text/javascript';
-	script.src = path;
+	script.src = path + "?v=" + Date.now();
 	document.body.appendChild(script);
 };
 opac2.config(["$routeProvider", "$translateProvider", "$locationProvider","$controllerProvider",

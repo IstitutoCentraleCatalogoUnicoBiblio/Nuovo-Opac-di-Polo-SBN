@@ -36,7 +36,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="biblioteca in appBiblios | filter: filterBibAction " ng-init="edit = false" ng-if="!biblioteca.deleted">
+          <tr ng-repeat="biblioteca in appBiblios | filter: filterBibAction | orderBy: 'cod_bib' " ng-init="edit = false" ng-if="!biblioteca.deleted">
             <td class="col-sm-1">
                 <button title="{{'amm_modifica' | translate}}" ng-show="!edit" class="btn btn-xs btn-warning" ng-click="startEdit(biblioteca)">
                     <span class="glyphicon glyphicon-cog"></span>

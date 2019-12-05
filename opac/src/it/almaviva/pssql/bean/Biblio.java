@@ -19,6 +19,7 @@ package it.almaviva.pssql.bean;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,7 +34,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
+@Cacheable(false)
 @Entity(name = "biblio")
 @Table(name = "biblio")
 @NamedQueries(value = {
@@ -190,9 +191,11 @@ public class Biblio {
 	public void setFl_canc(String fl_canc) {
 		this.fl_canc = fl_canc;
 	}
-
+	public String getFl_canc() {
+		return this.fl_canc;
+	}
 	public Boolean isDeleted() {
-		return fl_canc.equals("S");
+		return fl_canc.toUpperCase().equals("S");
 	}
 
 	public void setPolo(Polo polo) {

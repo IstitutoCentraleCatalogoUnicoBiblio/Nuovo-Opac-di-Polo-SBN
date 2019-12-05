@@ -16,6 +16,7 @@
  ******************************************************************************/
 package it.almaviva.pssql.bean;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -23,6 +24,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+@Cacheable(false)
 
 @Entity(name = "biblio_dettagli")
 @Table(name = "biblio_dettagli")

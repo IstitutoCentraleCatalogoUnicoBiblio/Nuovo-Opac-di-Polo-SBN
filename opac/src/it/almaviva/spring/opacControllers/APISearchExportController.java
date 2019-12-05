@@ -120,7 +120,7 @@ public class APISearchExportController {
 			for (CampiRicercaSinteticaBean str : arr) {
 
 				if (exportType.toUpperCase().equals("ID")) {
-					out.println(str.getId()+ "\n");
+					out.println(str.getId()); //+ "\n"
 					log.info("Returning Exported data");
 
 				} else if (exportType.toUpperCase().equals("UNIMARC")) {

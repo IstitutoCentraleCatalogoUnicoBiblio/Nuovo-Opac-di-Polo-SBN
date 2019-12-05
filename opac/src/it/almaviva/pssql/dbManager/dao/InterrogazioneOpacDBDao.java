@@ -24,6 +24,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import org.apache.log4j.Logger;
+import org.eclipse.persistence.config.CacheUsage;
+import org.eclipse.persistence.config.QueryHints;
 import org.springframework.stereotype.Repository;
 
 import it.almaviva.pssql.bean.Biblio;
@@ -99,9 +101,14 @@ public class InterrogazioneOpacDBDao implements InterrogazioneOpacDBInt {
 	public List<Polo> getPoloList() {
 		TypedQuery<Polo> q = em.createNamedQuery("Polo.findNonDeleted", Polo.class);
 		q.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		q.setHint(QueryHints.CACHE_USAGE, CacheUsage.DoNotCheckCache);
+
 
 		List<Polo> poli = q.getResultList();
 		log.info("Returning Polo list n: " + poli.size());
+		poli.forEach(polo -> {
+			log.info(polo.getCode());
+		});
 
 		return poli;
 	}
