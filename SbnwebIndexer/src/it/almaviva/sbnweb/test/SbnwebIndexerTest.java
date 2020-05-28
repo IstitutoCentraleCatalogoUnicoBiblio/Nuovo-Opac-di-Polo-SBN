@@ -13,9 +13,7 @@ import it.almaviva.sbnweb.util.Constants;
 public class SbnwebIndexerTest {
 	public static void main(String[] args) throws FileNotFoundException {
 		SbnwebIndexer indexer = new SbnwebIndexer("", args);
-		InputStream in = new FileInputStream("" +"SBW_00011517"
-				+ ".mrc");
-		
+		InputStream in = new FileInputStream(args[0]);
 
 		MarcReader reader = new MarcStreamReader(in);
 		while (reader.hasNext()) {
@@ -23,7 +21,6 @@ public class SbnwebIndexerTest {
 			Record record = reader.next();
 			record.getLeader().setCharCodingScheme(' ');
 			try {
-				
 
 				System.out.println("id: " + indexer.getSbnId(record) + " " + indexer.getNome_tot_noPoss(record));
 			} catch (Exception e) {

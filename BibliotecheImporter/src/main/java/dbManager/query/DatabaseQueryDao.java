@@ -1,4 +1,4 @@
-/*******************************************************************************
+﻿/*******************************************************************************
  * Copyright (C) 2019 ICCU - Istituto Centrale per il Catalogo Unico
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -121,7 +121,7 @@ public class DatabaseQueryDao {
 	}
 
 	public void insert(Biblioteca bibIns) {
-
+	//LATITUDINE E LONGITUDINE SONO INVERTITI SUL DB
 		Connection conn = db.openConnection();
 		String insertDettagli = "";
 		try {

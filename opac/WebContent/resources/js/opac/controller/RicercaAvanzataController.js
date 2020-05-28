@@ -1,4 +1,4 @@
-opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$translate', '$routeParams', '$route', '$location', '$filter', 'ApiServices', 'LocalSessionSettingsServices', 'CodiciServices', '$anchorScroll','SharedServices',
+opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$translate', '$routeParams', '$route', '$location', '$filter', 'ApiServices', 'LocalSessionSettingsServices', 'CodiciServices', '$anchorScroll', 'SharedServices',
   function ($scope, $timeout, $translate, $routeParams, $route, $location, $filter, ApiServices, LocalSessionSettingsServices, CodiciServices, $anchorScroll, SharedServices) {
     ////console.log("RicercaAvanzataController");
     $("html, body").animate({
@@ -9,7 +9,7 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
       return JSON.parse(json)
     }
     var specializzataFiltersToPhrase = ["incipit"];
-    var isToPhrase = function(field) {
+    var isToPhrase = function (field) {
       return (specializzataFiltersToPhrase.indexOf(field) > -1);
     }
     //pulisci
@@ -21,7 +21,7 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
         $scope.rigaRicerca = LocalSessionSettingsServices.getLastAdvancedSearch();
         $scope.ricercaSpecializzata = LocalSessionSettingsServices.getCurrentRicercaSpecializzata();
         $scope.ricercheEseguite = LocalSessionSettingsServices.getRicercheEseguite();
-       
+
       } else {
         $scope.rigaRicerca = null;
         $scope.ricercheEseguite = LocalSessionSettingsServices.getRicercheEseguite();
@@ -30,7 +30,7 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
       if (flag) {
         LocalSessionSettingsServices.initSessionFilters();
         $route.reload();
-      } 
+      }
       //inizializzazione delle variabili della form di ricerca
       $scope.start = 0;
       $scope.maxRows = '10';
@@ -44,11 +44,11 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
         isReistanziate = true
         LocalSessionSettingsServices.clearAdvancedSearchSession();
         LocalSessionSettingsServices.setMaterialeInv([])
-       
+
       } else {
         $scope.n = $scope.rigaRicerca.length;
         isReistanziate = false;
-       
+
       }
 
     };
@@ -68,13 +68,13 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
       }
 
     }
-    $scope.changeCampo = function(idxFiltro, idxGFilt){
-      if(isUndefined(idxGFilt)){
-        if($scope.rigaRicerca[idxFiltro].field == 'any' || $scope.rigaRicerca[idxFiltro].field == 'keywords' )
-           $scope.rigaRicerca[idxFiltro].match = 'andWord';
+    $scope.changeCampo = function (idxFiltro, idxGFilt) {
+      if (isUndefined(idxGFilt)) {
+        if ($scope.rigaRicerca[idxFiltro].field == 'any' || $scope.rigaRicerca[idxFiltro].field == 'keywords')
+          $scope.rigaRicerca[idxFiltro].match = 'andWord';
       } else {
-        if($scope.rigaRicerca[idxFiltro].otherFiltersGroup[idxGFilt].field == 'any' ||$scope.rigaRicerca[idxFiltro].otherFiltersGroup[idxGFilt].field == 'keywords' )        
-         $scope.rigaRicerca[idxFiltro].otherFiltersGroup[idxGFilt].match = 'andWord'
+        if ($scope.rigaRicerca[idxFiltro].otherFiltersGroup[idxGFilt].field == 'any' || $scope.rigaRicerca[idxFiltro].otherFiltersGroup[idxGFilt].field == 'keywords')
+          $scope.rigaRicerca[idxFiltro].otherFiltersGroup[idxGFilt].match = 'andWord'
       }
 
     }
@@ -91,11 +91,11 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
       }
 
     };
-    $scope.excludeTermini = ["any", "keywords", "tiporec", "level", "titolo_uniforme", "id", "bid", "bni", "issn", "isbn", "abstract","colltit_tip_461_new_contenuti"];
-//"numeri_tip_ocn", rimossa possibilita di cercare per ocn mail iccu 06/06/2019
-$scope.campiRicercaLista = ["nome", "titolo", "collezione", "titolo_uniforme", "luogo", "editore", "marca", "paese", "lingua", "soggetto",
-"dewey_code", "dewey_des", "classi_PGI_686_tot", "any", "keywords", "abstract", "impronta", "isbn", "issn", "bni", "id", "relator_codef", 
-"possessore", "titolo_raccolta"]; // "semantica", "forma"
+    $scope.excludeTermini = ["any", "keywords", "tiporec", "level", "titolo_uniforme", "id", "bid", "bni", "issn", "isbn", "abstract", "colltit_tip_461_new_contenuti"];
+    //"numeri_tip_ocn", rimossa possibilita di cercare per ocn mail iccu 06/06/2019
+    $scope.campiRicercaLista = ["nome", "titolo", "collezione", "titolo_uniforme", "luogo", "editore", "marca", "paese", "lingua", "soggetto",
+      "dewey_code", "dewey_des", "classi_PGI_686_tot", "any", "keywords", "abstract", "impronta", "isbn", "issn", "bni", "id", "relator_codef",
+      "possessore", "titolo_raccolta"]; // "semantica", "forma"
     $scope.tipiRecord = CodiciServices.getTipiRecord();
     $scope.levelBib = CodiciServices.getLivelloBibliografico();
     $scope.clearSearch(false);
@@ -103,7 +103,7 @@ $scope.campiRicercaLista = ["nome", "titolo", "collezione", "titolo_uniforme", "
     $scope.polo = LocalSessionSettingsServices.getPolo();
 
     $scope.flagVisualizza = true;
-    
+
     $("#bibs").hide();
 
     $scope.start = 0;
@@ -156,46 +156,46 @@ $scope.campiRicercaLista = ["nome", "titolo", "collezione", "titolo_uniforme", "
     $scope.show = function (index) {
       $("#bibs_" + index).toggle();
     }
-    $scope.addAllToSelected = function(biblioteche) {
+    $scope.addAllToSelected = function (biblioteche) {
       $scope.selectionBibl = [];
-      biblioteche.forEach(function(b){
+      biblioteche.forEach(function (b) {
         $scope.toggleSelectionBib(b);
       })
     };
-    $scope.clearBibselect = function(biblioteche) {
-      biblioteche.forEach(function(b){
+    $scope.clearBibselect = function (biblioteche) {
+      biblioteche.forEach(function (b) {
         $scope.toggleSelectionBib(b);
       })
     };
-    $scope.addAllNonGrupp = function(biblioteche) {
+    $scope.addAllNonGrupp = function (biblioteche) {
       $scope.selectionBibl = [];
-      biblioteche.forEach(function(b){
-        if(b.gruppi.length == 0)
+      biblioteche.forEach(function (b) {
+        if (b.gruppi.length == 0)
           $scope.toggleSelectionBib(b);
       })
-      $scope.clearAllNonGrupp = function(biblioteche) {
-          biblioteche.forEach(function(b){
-            if(b.gruppi.length == 0)
-              $scope.toggleSelectionBib(b);
-          })
-        };
+      $scope.clearAllNonGrupp = function (biblioteche) {
+        biblioteche.forEach(function (b) {
+          if (b.gruppi.length == 0)
+            $scope.toggleSelectionBib(b);
+        })
+      };
     };
-    $scope.clearAllNonGrupp = function(biblioteche) {
-      biblioteche.forEach(function(b){
-        if(b.gruppi.length == 0)
+    $scope.clearAllNonGrupp = function (biblioteche) {
+      biblioteche.forEach(function (b) {
+        if (b.gruppi.length == 0)
           $scope.toggleSelectionBib(b);
       })
     };
     $scope.selectionBibl = LocalSessionSettingsServices.getAllBiblioteche();
     $scope.toggleSelectionBib = function toggleSelectionBib(bibs) {
-       var idx = findIndex($scope.selectionBibl, "cod_bib", bibs.cod_bib)
+      var idx = findIndex($scope.selectionBibl, "cod_bib", bibs.cod_bib)
       if (idx > -1) {
         $scope.selectionBibl.splice(idx, 1);
-      }else {
+      } else {
         $scope.selectionBibl.push(bibs);
       }
       LocalSessionSettingsServices.setBiblioteche($scope.selectionBibl);
-    	};
+    };
     $scope.selectionLevel = LocalSessionSettingsServices.getLevel();
     $scope.toggleSelectionLevel = function toggleSelectionLevel(l) {
       var idx = $scope.selectionLevel.indexOf(l.cod);
@@ -235,7 +235,7 @@ $scope.campiRicercaLista = ["nome", "titolo", "collezione", "titolo_uniforme", "
       LocalSessionSettingsServices.setMaterialeInv($scope.materiale_inv);
 
     };
-    $scope.copDigitaleValues = [ "B", "DC"];
+    $scope.copDigitaleValues = ["B", "DC"];
 
     $scope.copia_digitale = LocalSessionSettingsServices.getFormatoDigitale()
     $scope.toggleSelectionDigitale = function toggleSelectionDigitale(l) {
@@ -251,7 +251,7 @@ $scope.campiRicercaLista = ["nome", "titolo", "collezione", "titolo_uniforme", "
     $scope.toggleSelectionTipoRecord = function toggleSelectionTipoRecord(l) {
 
       var idx = $scope.selectionTipoRec.indexOf(l.cod);
-     if (idx > -1) {
+      if (idx > -1) {
         $scope.selectionTipoRec.splice(idx, 1);
       } else {
         $scope.selectionTipoRec.push(l.cod);
@@ -297,7 +297,7 @@ $scope.campiRicercaLista = ["nome", "titolo", "collezione", "titolo_uniforme", "
           field: "formaf",
           value: b,
           operator: "OR",
-        match:'completePhrase'
+          match: 'completePhrase'
 
         }
         fMusicaleFilters.push(lapp);
@@ -381,9 +381,9 @@ $scope.campiRicercaLista = ["nome", "titolo", "collezione", "titolo_uniforme", "
       /* spostamento forma musicale almaviva3 17/06/2019 */
 
       var formeMusicali = {
-    	        filters: fMusicaleFilters,
-    	        operator: "AND"
-    	  };
+        filters: fMusicaleFilters,
+        operator: "AND"
+      };
       var materiali_inv = {
         filters: selctMatInvFilters,
         operator: "AND"
@@ -421,9 +421,9 @@ $scope.campiRicercaLista = ["nome", "titolo", "collezione", "titolo_uniforme", "
       /* spostamento forma musicale almaviva3 17/06/2019 */
 
       if (formeMusicali.filters.length > 0) {
-          toPostJson.filters.filters.push(formeMusicali);
-          toPostJson.filters.filters[toPostJson.filters.filters.length - 1].operator = formeMusicali.operator;
-        }
+        toPostJson.filters.filters.push(formeMusicali);
+        toPostJson.filters.filters[toPostJson.filters.filters.length - 1].operator = formeMusicali.operator;
+      }
 
       if (materiali_inv.filters.length > 0) {
         toPostJson.filters.filters.push(materiali_inv);
@@ -470,7 +470,7 @@ $scope.campiRicercaLista = ["nome", "titolo", "collezione", "titolo_uniforme", "
       }
       //  debugger
       if (LocalSessionSettingsServices.isToEscludeFromTable(filtro.field)) {
-    	  deletedFromTables++;
+        deletedFromTables++;
         filtro.value = "";
         filtro.operator = "AND";
         filtro.field = $scope.campiRicercaLista[index];
@@ -478,13 +478,13 @@ $scope.campiRicercaLista = ["nome", "titolo", "collezione", "titolo_uniforme", "
         filtriCleanedCont++;
         //il terzo deve essere soggetto
         if (index == 0)
-           filtro.field = 'titolo';
+          filtro.field = 'titolo';
         if (index == 1)
-            filtro.field = 'nome';
+          filtro.field = 'nome';
         if (index == 2)
-        filtro.field = 'soggetto';
+          filtro.field = 'soggetto';
 
-      	} 
+      }
       if (filtro.field.indexOf("f") == (filtro.field.length - 1) && filtro.field != "relator_codef" || filtro.field == "titolo_uniformef" || filtro.field == "formaf") {
         filtro.field = filtro.field.slice(0, -1);
       }
@@ -509,13 +509,13 @@ $scope.campiRicercaLista = ["nome", "titolo", "collezione", "titolo_uniforme", "
           if (isReistanziate) {
             $scope.controller = 'rAvanz';
             for (var i = 0; i < $scope.n; i++) {
-              
+
               $scope.rigaRicerca[i].field = $scope.campiRicercaLista[i];
-               if (i == 0)
+              if (i == 0)
                 $scope.rigaRicerca[i].field = 'titolo';
-               if (i == 1)
+              if (i == 1)
                 $scope.rigaRicerca[i].field = 'nome';
-               if (i == 2)
+              if (i == 2)
                 $scope.rigaRicerca[i].field = 'soggetto';
 
               $scope.rigaRicerca[i].value = '';
@@ -538,7 +538,7 @@ $scope.campiRicercaLista = ["nome", "titolo", "collezione", "titolo_uniforme", "
 
 
       }
-       return filtro.field;
+      return filtro.field;
     }
 
 
@@ -566,8 +566,8 @@ $scope.campiRicercaLista = ["nome", "titolo", "collezione", "titolo_uniforme", "
                 containOtherField = true
               }
 
-            }); 
-            
+            });
+
             if (containOtherField) {
               if (gruppostr.length > 0) {
                 groups.push({
@@ -591,7 +591,7 @@ $scope.campiRicercaLista = ["nome", "titolo", "collezione", "titolo_uniforme", "
                 match: match
 
               });
-            } 
+            }
           } else {
             myRigaRicerca.push($scope.rigaRicerca[i]);
           }
@@ -607,23 +607,23 @@ $scope.campiRicercaLista = ["nome", "titolo", "collezione", "titolo_uniforme", "
         }
       }
       //  debugger
-      
+
       var toSplice = []
-      myRigaRicerca.forEach(function(riga, x){
-        if( (filtriCleanedCont > 0) && riga.field == 'titolo' && riga.value == '' && riga.operator == 'AND' && riga.match == 'andWord')
+      myRigaRicerca.forEach(function (riga, x) {
+        if ((filtriCleanedCont > 0) && riga.field == 'titolo' && riga.value == '' && riga.operator == 'AND' && riga.match == 'andWord')
           toSplice.push(x);
       })
-      toSplice.splice(0,1)
-      toSplice.forEach(function(ind){
-        myRigaRicerca.splice(ind,1)
+      toSplice.splice(0, 1)
+      toSplice.forEach(function (ind) {
+        myRigaRicerca.splice(ind, 1)
       })
       delete $scope.rigaRicerca;
       $scope.rigaRicerca = JSON.parse(JSON.stringify(myRigaRicerca));
       $scope.n = $scope.rigaRicerca.length;
-      if(deletedFromTables > 0)
-    	  $scope.n = $scope.n - deletedFromTables;
-      if($scope.n <= 0)
-          $scope.n = 1;
+      if (deletedFromTables > 0)
+        $scope.n = $scope.n - deletedFromTables;
+      if ($scope.n <= 0)
+        $scope.n = 1;
     };
     $scope.incrementN = function () {
       //$scope.test();
@@ -666,17 +666,23 @@ $scope.campiRicercaLista = ["nome", "titolo", "collezione", "titolo_uniforme", "
       $scope.rigaRicerca[idxRiga].otherFiltersGroup.splice(idxRigaInGroup, 1);
       if ($scope.rigaRicerca[idxRiga].otherFiltersGroup.length == 0)
         $scope.decrementN(idxRiga);
+      if ($scope.rigaRicerca[idxRiga].otherFiltersGroup.length == 1) {
+        $scope.rigaRicerca[idxRiga].match = $scope.rigaRicerca[idxRiga].otherFiltersGroup[0].match
+        $scope.rigaRicerca[idxRiga].value = $scope.rigaRicerca[idxRiga].otherFiltersGroup[0].value
+        $scope.rigaRicerca[idxRiga].field = $scope.rigaRicerca[idxRiga].otherFiltersGroup[0].field
+        $scope.rigaRicerca[idxRiga].otherFiltersGroup = null;
+      }
     }
     var appIdx = null;
     var appIdxGroup = null;
     var chronoTerm = [];
     $scope.idxChronoTerm = 0;
     //selezione della lista di codici e non da ricerca per termini
-    var campiNoTerms = ["lingua", "paese","relator_codef","forma", "classi_PGI_686_tot"];
+    var campiNoTerms = ["lingua", "paese", "relator_codef", "forma", "classi_PGI_686_tot"];
 
     var runTermsSearch = function (flagAddChrono, field, value, idx, idxGroup) {
       $scope.termFilterTable = {};
-     field = (field == "classi_pgi_686_tot") ? "classi_PGI_686_tot" : field;
+      field = (field == "classi_pgi_686_tot") ? "classi_PGI_686_tot" : field;
       $('#loading').modal('show');
 
       var termine = {
@@ -697,23 +703,23 @@ $scope.campiRicercaLista = ["nome", "titolo", "collezione", "titolo_uniforme", "
       ////console.log("terms request", termine);
       if (campiNoTerms.indexOf($scope.currentTerm) > -1) {
         $('#loading').modal('hide');
-        switch($scope.currentTerm.toLowerCase()) {
+        switch ($scope.currentTerm.toLowerCase()) {
           case 'lingua':
-          $scope.terminiTrovati =  CodiciServices.getLingua();
-          break;
+            $scope.terminiTrovati = CodiciServices.getLingua();
+            break;
           case 'paese':
-          $scope.terminiTrovati = CodiciServices.getPaese();
-          break;
+            $scope.terminiTrovati = CodiciServices.getPaese();
+            break;
           case "relator_codef":
-          $scope.terminiTrovati = CodiciServices.getRelatorCode()
-          break;
+            $scope.terminiTrovati = CodiciServices.getRelatorCode()
+            break;
           case "forma":
-          $scope.terminiTrovati = CodiciServices.getForma();
-          break;
+            $scope.terminiTrovati = CodiciServices.getForma();
+            break;
           case "classi_pgi_686_tot":
-          $scope.terminiTrovati = CodiciServices.getClassiPegi()
-          break;
-          
+            $scope.terminiTrovati = CodiciServices.getClassiPegi()
+            break;
+
         }
         $("#terms").modal('show');
         $("#myTable").animate({
@@ -814,17 +820,17 @@ $scope.campiRicercaLista = ["nome", "titolo", "collezione", "titolo_uniforme", "
       $("#terms").modal('hide');
       $("table").scrollTop();
     }
-    $scope.find = function() {
-        //Avvio la ricerca
-        if ($scope.value == '') {
-          $('#errorFields').modal('show');
+    $scope.find = function () {
+      //Avvio la ricerca
+      if ($scope.value == '') {
+        $('#errorFields').modal('show');
 
-        } else {
-       	 var toPostJson = SharedServices.prepareFilterFromSearchBar($scope.value, $scope.polo.bibliotecaAsPolo);
-       	 if(toPostJson != null)
-       		 runSearch(toPostJson);
-        }
-       };
+      } else {
+        var toPostJson = SharedServices.prepareFilterFromSearchBar($scope.value, $scope.polo.bibliotecaAsPolo);
+        if (toPostJson != null)
+          runSearch(toPostJson);
+      }
+    };
 
     var notAllData = ["id", "keywords", "titolo"];
     $scope.findAvanz = function () {
@@ -919,7 +925,7 @@ $scope.campiRicercaLista = ["nome", "titolo", "collezione", "titolo_uniforme", "
 
       });
       if (okRicerca.length > 0 || $scope.selectionLevel.length > 0 || $scope.selectionTipoRec.length > 0 || checkDate().length > 0 ||
-        $scope.selectionBibl.length > 0 || $scope.materiale_inv.length > 0 || detecterSpecValue().length > 0 ||$scope.copia_digitale.length) {
+        $scope.selectionBibl.length > 0 || $scope.materiale_inv.length > 0 || detecterSpecValue().length > 0 || $scope.copia_digitale.length) {
         //LocalSessionSettingsServices.setLastAdvancedSearch(okRicerca);
         buildSearchQuery(okRicerca);
       } else {
@@ -944,9 +950,9 @@ $scope.campiRicercaLista = ["nome", "titolo", "collezione", "titolo_uniforme", "
     };
 
     $scope.favoritesList = LocalSessionSettingsServices.getAllFavoritesFromCookies($routeParams.codPolo);
-    $scope.preferitiEvent = function() {
-    	var toPostJson = SharedServices.buildPreferitiSearch($scope.favoritesList);
-    	if(toPostJson != null)
+    $scope.preferitiEvent = function () {
+      var toPostJson = SharedServices.buildPreferitiSearch($scope.favoritesList);
+      if (toPostJson != null)
         runSearch(toPostJson, true);
 
     };
@@ -984,7 +990,7 @@ $scope.campiRicercaLista = ["nome", "titolo", "collezione", "titolo_uniforme", "
     $scope.ricercaSpecMenu.musica.mus_tonalita = CodiciServices.getmus_tonalita();
     $scope.ricercaSpecMenu.musica.mus_rappres_genere = CodiciServices.getMus_rappres_genere();
     $scope.ricercaSpecMenu.musica.mus_forma = CodiciServices.getForma();
-    
+
     $scope.ricercaSpecMenu.audio.av_formato_vd = CodiciServices.getav_formato_vd();
     $scope.ricercaSpecMenu.audio.av_velocita = CodiciServices.getav_velocita();
     $scope.ricercaSpecMenu.audio.av_tipo = CodiciServices.getav_tipo();
@@ -1066,7 +1072,7 @@ $scope.campiRicercaLista = ["nome", "titolo", "collezione", "titolo_uniforme", "
               var filter = {
                 value: obj[prop],
                 field: prop,
-                match: (isToPhrase(prop)) ? 'phrase': 'andWord'
+                match: (isToPhrase(prop)) ? 'phrase' : 'andWord'
               };
               filterArray.push(filter);
             }
@@ -1076,30 +1082,30 @@ $scope.campiRicercaLista = ["nome", "titolo", "collezione", "titolo_uniforme", "
       }
       return filterArray;
     }
- // Refactoring Almaviva3 19/04/2019	
-	var glyphiconAddClassPlus = function(id) {
-		$(id).removeClass("glyphicon-minus");
-		$(id).addClass("glyphicon-plus")
+    // Refactoring Almaviva3 19/04/2019	
+    var glyphiconAddClassPlus = function (id) {
+      $(id).removeClass("glyphicon-minus");
+      $(id).addClass("glyphicon-plus")
 
-	}
-	var glyphiconAddClassMinus = function(id) {
-		$(id).removeClass("glyphicon-plus");
-		$(id).addClass("glyphicon-minus")
-		}
-	var closePanelSpecializzata = function (categoriesToClose) {
-		var hash = "#panel_spec"
-	    var body = "_body";
-		categoriesToClose.forEach(function(category){
-            $(hash + category + body).fadeOut("fast");
-            glyphiconAddClassPlus('#glypanel_spec' + category + '_body');
+    }
+    var glyphiconAddClassMinus = function (id) {
+      $(id).removeClass("glyphicon-plus");
+      $(id).addClass("glyphicon-minus")
+    }
+    var closePanelSpecializzata = function (categoriesToClose) {
+      var hash = "#panel_spec"
+      var body = "_body";
+      categoriesToClose.forEach(function (category) {
+        $(hash + category + body).fadeOut("fast");
+        glyphiconAddClassPlus('#glypanel_spec' + category + '_body');
 
-        })
-       
-  };
-  var initFormaMusicale = function () {
-	  $scope.selectionFormaMusicale = [];
-      LocalSessionSettingsServices.setFormaMusicale($scope.selectionFormaMusicale)  
-  };
+      })
+
+    };
+    var initFormaMusicale = function () {
+      $scope.selectionFormaMusicale = [];
+      LocalSessionSettingsServices.setFormaMusicale($scope.selectionFormaMusicale)
+    };
     $scope.managerPannelliRicercaSpecializzata = function (element, start) {
       $scope.selectedSpec = element.toUpperCase();
       var arraysTipi = []
@@ -1110,11 +1116,11 @@ $scope.campiRicercaLista = ["nome", "titolo", "collezione", "titolo_uniforme", "
       $('#panel_spec' + element + '_body').fadeToggle('slow');
       var hasClassPlus = $('#glypanel_spec' + element + '_body').hasClass("glyphicon-plus");
       if (hasClassPlus) {
-    	  glyphiconAddClassMinus('#glypanel_spec' + element + '_body');
+        glyphiconAddClassMinus('#glypanel_spec' + element + '_body');
         //salvo in sessione
         LocalSessionSettingsServices.setCurrentRicercaSpecializzata($scope.ricercaSpecializzata, element.toUpperCase());
       } else {
-      
+
         glyphiconAddClassPlus('#glypanel_spec' + element + '_body');
         LocalSessionSettingsServices.setCurrentRicercaSpecializzata(null, null);
         $scope.ricercaSpecializzata.musica = null;
@@ -1132,14 +1138,14 @@ $scope.campiRicercaLista = ["nome", "titolo", "collezione", "titolo_uniforme", "
           $scope.ricercaSpecializzata.cartografia = null;
           $scope.ricercaSpecializzata.audiovisivi = null;
           $scope.ricercaSpecializzata.mav = null;
-          
+
           // Refactoring chiudo pannelli non inerenti Almaviva3 19/04/2019	
           var categoriesToClose = ["Cartografia", "Audiovisivi", "Musica", "Mav"];
           closePanelSpecializzata(categoriesToClose)
-         
+
           if (isUndefined(start)) {
             arraysTipi = ["k"]
-            
+
             if (!containsAll(arraysTipi, $scope.selectionTipoRec) && hasClassPlus) {
 
               LocalSessionSettingsServices.setTipoRec(arraysTipi)
@@ -1148,7 +1154,7 @@ $scope.campiRicercaLista = ["nome", "titolo", "collezione", "titolo_uniforme", "
               $scope.selectionTipoRec = removeItemsInArray($scope.selectionTipoRec, arraysTipi);
               LocalSessionSettingsServices.setTipoRec($scope.selectionTipoRec)
               $scope.ricercaSpecializzata.grafica = null;
-              
+
             }
           }
           break;
@@ -1157,13 +1163,13 @@ $scope.campiRicercaLista = ["nome", "titolo", "collezione", "titolo_uniforme", "
           $scope.ricercaSpecializzata.grafica = null;
           $scope.ricercaSpecializzata.audiovisivi = null;
           $scope.ricercaSpecializzata.mav = null;
-       // Refactoring chiudo pannelli non inerenti Almaviva3 19/04/2019	
+          // Refactoring chiudo pannelli non inerenti Almaviva3 19/04/2019	
           var categoriesToClose = ["Grafica", "Audiovisivi", "Musica", "Mav"];
           closePanelSpecializzata(categoriesToClose)
 
           if (isUndefined(start)) {
             arraysTipi = ['e', 'f'];
-            if (!containsAll(arraysTipi, $scope.selectionTipoRec)  && hasClassPlus) {
+            if (!containsAll(arraysTipi, $scope.selectionTipoRec) && hasClassPlus) {
               LocalSessionSettingsServices.setTipoRec(arraysTipi)
               initFormaMusicale();
             } else {
@@ -1179,13 +1185,13 @@ $scope.campiRicercaLista = ["nome", "titolo", "collezione", "titolo_uniforme", "
           $scope.ricercaSpecializzata.cartografia = null;
           $scope.ricercaSpecializzata.audiovisivi = null;
           $scope.ricercaSpecializzata.mav = null;
-       // Refactoring chiudo pannelli non inerenti Almaviva3 19/04/2019	
+          // Refactoring chiudo pannelli non inerenti Almaviva3 19/04/2019	
           var categoriesToClose = ["Grafica", "Audiovisivi", "Cartografia", "Mav"];
           closePanelSpecializzata(categoriesToClose)
-          
+
           if (isUndefined(start)) {
             arraysTipi = ['c', 'd', 'g', 'i', 'j'];
-            if (!containsAll(arraysTipi, $scope.selectionTipoRec)  && hasClassPlus) {
+            if (!containsAll(arraysTipi, $scope.selectionTipoRec) && hasClassPlus) {
               LocalSessionSettingsServices.setTipoRec(arraysTipi)
               initFormaMusicale();
             } else {
@@ -1200,10 +1206,10 @@ $scope.campiRicercaLista = ["nome", "titolo", "collezione", "titolo_uniforme", "
           $scope.ricercaSpecializzata.cartografia = null;
           $scope.ricercaSpecializzata.grafica = null;
           $scope.ricercaSpecializzata.mav = null;
-       // Refactoring chiudo pannelli non inerenti Almaviva3 19/04/2019	
+          // Refactoring chiudo pannelli non inerenti Almaviva3 19/04/2019	
           var categoriesToClose = ["Grafica", "Musica", "Cartografia", "Audiovisivi"];
           closePanelSpecializzata(categoriesToClose)
-          
+
 
           break;
         case "MAV":
@@ -1211,20 +1217,20 @@ $scope.campiRicercaLista = ["nome", "titolo", "collezione", "titolo_uniforme", "
           $scope.ricercaSpecializzata.cartografia = null;
           $scope.ricercaSpecializzata.grafica = null;
           $scope.ricercaSpecializzata.audiovisivi = null;
-       // Refactoring chiudo pannelli non inerenti Almaviva3 19/04/2019	
+          // Refactoring chiudo pannelli non inerenti Almaviva3 19/04/2019	
           var categoriesToClose = ["Grafica", "Cartografia", "Musica"];
           closePanelSpecializzata(categoriesToClose)
-          
+
           if (isUndefined(start) || start == 'raffinatoFMus') {
             arraysTipi = ['c', 'd', 'g', 'i', 'j'];
-            if(start == 'raffinatoFMus') {
-                LocalSessionSettingsServices.setTipoRec(arraysTipi)
-                 $scope.selectionTipoRec = LocalSessionSettingsServices.getTipoRec();
-            	return;
+            if (start == 'raffinatoFMus') {
+              LocalSessionSettingsServices.setTipoRec(arraysTipi)
+              $scope.selectionTipoRec = LocalSessionSettingsServices.getTipoRec();
+              return;
             }
-            	
-            if (!containsAll(arraysTipi, $scope.selectionTipoRec)  && hasClassPlus) {
-            	
+
+            if (!containsAll(arraysTipi, $scope.selectionTipoRec) && hasClassPlus) {
+
               LocalSessionSettingsServices.setTipoRec(arraysTipi)
             } else {
               $scope.selectionTipoRec = removeItemsInArray($scope.selectionTipoRec, arraysTipi);
@@ -1260,45 +1266,45 @@ $scope.campiRicercaLista = ["nome", "titolo", "collezione", "titolo_uniforme", "
     $scope.loadedSpecImport = function () {
       var panel = LocalSessionSettingsServices.getTypeRicercaSpecializzata();
       $timeout(function () {//almaviva3 10/06/2019 controllo se è stato raffinato per forma musicale
-        $scope.managerPannelliRicercaSpecializzata($filter('capitalize')(panel), (isReistanziate == false &&  $scope.selectionFormaMusicale.length > 0) ? 'raffinatoFMus' : true)
+        $scope.managerPannelliRicercaSpecializzata($filter('capitalize')(panel), (isReistanziate == false && $scope.selectionFormaMusicale.length > 0) ? 'raffinatoFMus' : true)
       }, 500)
 
     };
-    $scope.setPolo = function(poloObj, bibliotecaCode) {
-		var path = SharedServices.initPolo(poloObj, bibliotecaCode, 'ricercaAvanzata');
-	    $scope.polo = LocalSessionSettingsServices.getPolo();
-		$location.path(path)
-	};
-	var poloCode = $routeParams.codPolo;
-	var bibliotecaCode = $routeParams.codBib;
-	prettyLog("Codice Polo nell'url", poloCode);
-	prettyLog("Biblioteca nell'url", bibliotecaCode)
-	$scope.loading = true;
-	var loadPolo = function() {
-	    LocalSessionSettingsServices.setOpacVersion(opac_version);
+    $scope.setPolo = function (poloObj, bibliotecaCode) {
+      var path = SharedServices.initPolo(poloObj, bibliotecaCode, 'ricercaAvanzata');
+      $scope.polo = LocalSessionSettingsServices.getPolo();
+      $location.path(path)
+    };
+    var poloCode = $routeParams.codPolo;
+    var bibliotecaCode = $routeParams.codBib;
+    prettyLog("Codice Polo nell'url", poloCode);
+    prettyLog("Biblioteca nell'url", bibliotecaCode)
+    $scope.loading = true;
+    var loadPolo = function () {
+      LocalSessionSettingsServices.setOpacVersion(opac_version);
 
-		$scope.polo = LocalSessionSettingsServices.getPolo();
-		if($scope.polo != null)
-			return;
-		if (!isUndefined(poloCode) && !isUndefined(poloApp.polo)) {
-			$scope.setPolo(poloApp.polo, bibliotecaCode)
-		} else {
-			if (isUndefined(poloApp.poli)) {
-				if (typeof poloApp.polo === 'object') {
-					$scope.setPolo(poloApp.polo, undefined)
-				} else {
-					//polo non definito
-					window.location.href = base_url;
-				}
+      $scope.polo = LocalSessionSettingsServices.getPolo();
+      if ($scope.polo != null)
+        return;
+      if (!isUndefined(poloCode) && !isUndefined(poloApp.polo)) {
+        $scope.setPolo(poloApp.polo, bibliotecaCode)
+      } else {
+        if (isUndefined(poloApp.poli)) {
+          if (typeof poloApp.polo === 'object') {
+            $scope.setPolo(poloApp.polo, undefined)
+          } else {
+            //polo non definito
+            window.location.href = base_url;
+          }
 
-			} else {
-			
-					LocalSessionSettingsServices.setError(503);
-					$location.path("/error");
-			}
-		}
-	};
-	loadPolo();
-    
+        } else {
+
+          LocalSessionSettingsServices.setError(503);
+          $location.path("/error");
+        }
+      }
+    };
+    loadPolo();
+
   }
 ]);

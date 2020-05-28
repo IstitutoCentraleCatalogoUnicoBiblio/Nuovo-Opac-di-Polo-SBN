@@ -130,7 +130,7 @@ public class APISearchDocumentController {
 		try {
 			GroupFilters group = new GroupFilters();
 			group = request.getFilters();
-			group = Util.andwordFilters(group);
+			//group = Util.andwordFilters(group);
 			groupfilter.put("filters", group.getFilters());
 
 			SolrQueryBuilder q = new SolrQueryBuilder();

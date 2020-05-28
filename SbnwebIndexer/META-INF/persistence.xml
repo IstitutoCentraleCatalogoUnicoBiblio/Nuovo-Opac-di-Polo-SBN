@@ -3,16 +3,37 @@
 	xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="ConverterPersistence" transaction-type="RESOURCE_LOCAL">
-		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-		<class>it.almaviva.aggiornaDBPolo.postgreSQL.bean.PoloBean </class>
-		<class>it.almaviva.aggiornaDBPolo.postgreSQL.bean.LibraryBean </class>
-
-		<exclude-unlisted-classes>false</exclude-unlisted-classes>
-
-		<properties>
+			<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+			<class>it.almaviva.aggiornaDBPolo.postgreSQL.bean.PoloBean</class>
+			           it.almaviva.aggiornaDBPolo.postgreSQL.bean.AccessoMlol
+				<class>it.almaviva.aggiornaDBPolo.postgreSQL.bean.LibraryBean</class>
+				<class>it.almaviva.aggiornaDBPolo.postgreSQL.bean.AccessoMlol</class>
+				<class>it.almaviva.aggiornaDBPolo.postgreSQL.bean.ApplicativoServiziBean</class>
+				<class>it.almaviva.aggiornaDBPolo.postgreSQL.bean.Authority_flags</class>
+				<class>it.almaviva.aggiornaDBPolo.postgreSQL.bean.CatFruizione</class>
+				<class>it.almaviva.aggiornaDBPolo.postgreSQL.bean.MaterialeInventariale</class>
+				<exclude-unlisted-classes>false</exclude-unlisted-classes>
+			     
+	<properties>
 			<property name="eclipselink.weaving" value="false"/>
 			<property name="eclipselink.logging.level" value="FINE" />
+			<property name="eclipselink.logging.level.cache" value="OFF"/>
+			<property name="eclipselink.logging.level.connection" value="INFO"/>
+			<property name="eclipselink.logging.level.propagation" value="OFF"/>
+			<property name="eclipselink.logging.level.query" value="INFO"/>
+			<property name="eclipselink.logging.level.transaction" value="INFO"/>
+			<property name="eclipselink.logging.level.jpa" value="OFF"/>
+			<property name="eclipselink.logging.level.event" value="OFF"/>
+			<property name="eclipselink.logging.level.dms" value="OFF"/>
+			<property name="eclipselink.logging.level.ddl" value="OFF"/>
+			<property name="eclipselink.logging.level.ejb" value="OFF"/>
+			<property name="eclipselink.logging.level.metadata" value="OFF"/>
+			<property name="eclipselink.logging.level.metamodel" value="OFF"/>
+			<property name="eclipselink.logging.level.sequencing" value="OFF"/>
+			<property name="eclipselink.logging.level.server" value="OFF"/>
+			<property name="eclipselink.logging.level.sql" value="INFO"/>
+			<property name="eclipselink.logging.level.weaver" value="OFF"/>
 		</properties>
 	</persistence-unit>
-
+	
 </persistence>

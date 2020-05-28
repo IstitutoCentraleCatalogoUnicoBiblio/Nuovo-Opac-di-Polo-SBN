@@ -2067,7 +2067,7 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 		 * prima parte: 700-750 a,b,c,d,e,f,g (separati da spazio)
 		 */
 		int startTag = 700;
-		int endTag = 750;
+		int endTag = 791;//750;
 
 		String subfldTags = "[a|b|c|d|e|f|g|3|4|5]";
 

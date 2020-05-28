@@ -233,6 +233,7 @@ public class SolrQueryBuilder {
 		queryToBuild = "(";
 		ListIterator<Filter> filterIterator = filters.listIterator();
 		for (Filter filter : filters) {
+			//queryToBuild += "(";
 			filterIterator.next();
 			if (filterIterator.hasNext()) {
 				if (filter.isGroup()) {
@@ -264,8 +265,8 @@ public class SolrQueryBuilder {
 						}
 
 					} else {
-						queryToBuild += checkCampi(filter.getField(), filter.getValue(), filter.getMatch(), core)
-								+ filter.getOperator() + " ";
+						queryToBuild += " (" + checkCampi(filter.getField(), filter.getValue(), filter.getMatch(), core)
+								+ ") " +filter.getOperator() + " ";
 					}
 				}
 			} else {
@@ -284,12 +285,12 @@ public class SolrQueryBuilder {
 						}
 
 					} else {
-						queryToBuild += checkCampi(filter.getField(), filter.getValue(), filter.getMatch(), core) + " ";
+						queryToBuild += " (" + checkCampi(filter.getField(), filter.getValue(), filter.getMatch(), core) + ") ";
 
 					}
 				}
 			}
-
+			//queryToBuild += ")";
 		}
 		queryToBuild += ")";
 		return queryToBuild;
@@ -336,7 +337,7 @@ public class SolrQueryBuilder {
 		return query.trim().replace("( +)", " ");
 	}
 
-	// Sono una serie di campi per cui la query su solr è campo:([value TO *])
+	// Sono una serie di campi per cui la query su solr ï¿½ campo:([value TO *])
 	// (o viceversa)
 	private List<String> fromTo() {
 		List<String> campidata = new ArrayList<String>();

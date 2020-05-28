@@ -1,4 +1,4 @@
-opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$routeParams', '$route', '$location', '$filter', '$sce', 'ApiServices', 'LocalSessionSettingsServices', 'CodiciServices','SharedServices',
+opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$routeParams', '$route', '$location', '$filter', '$sce', 'ApiServices', 'LocalSessionSettingsServices', 'CodiciServices', 'SharedServices',
   function ($timeout, $scope, $translate, $routeParams, $route, $location, $filter, $sce, ApiServices, LocalSessionSettingsServices, CodiciServices, SharedServices) {
     //console.log("ResultController");
     $('#loading').modal('hide');
@@ -126,14 +126,14 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
       if ((String(month)).length == 1)
         month = '0' + month;
 
-        var queryDiv =  document.getElementById("buildedQuery_id");
-        var query = (queryDiv == null) ? 'Preferiti' :queryDiv.innerText;
+      var queryDiv = document.getElementById("buildedQuery_id");
+      var query = (queryDiv == null) ? 'Preferiti' : queryDiv.innerText;
       var dateT = day + '/' + month + '/' + date.getFullYear()
       var test = '<html><head><title>OPAC - Sintetica</title></head><body><center><h1>Opac ' + $scope.polo.code + '</h1></hr>';
-      test += ('Ricerca effettuata il ' + dateT + '</br>' + query) ;
-     var sinteticaHtml = $scope.printSintetica(true)
+      test += ('Ricerca effettuata il ' + dateT + '</br>' + query);
+      var sinteticaHtml = $scope.printSintetica(true)
       test += '</center>' + sinteticaHtml + '</body></html>';
-      
+
       var obj = {
         to: $scope.sinteticaMail,
         html: (!$scope.isBidSegnalato) ? test : null,
@@ -370,7 +370,7 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
     $scope.page = function (n) {
       $scope.pageSize = n;
     }
-    
+
     //metodo per cambiare lingua
     $scope.changeLanguage = function (key) {
       $translate.use(key);
@@ -382,10 +382,10 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
       var str = null;
       var idb = -1;
       var newFilterList = [];
-     // console.log("Richiesta: ", richiestaObj);
-      var filtriToCicle =JSON.parse(JSON.stringify(richiestaObj.filters.filters));
+      // console.log("Richiesta: ", richiestaObj);
+      var filtriToCicle = JSON.parse(JSON.stringify(richiestaObj.filters.filters));
       filtriToCicle.forEach(function (filterList, idc) {
-       filterList.filters.forEach(function (filtro, id) {
+        filterList.filters.forEach(function (filtro, id) {
           if ($scope.polo.bibliotecaAsPolo && filtro.field == 'library') {
             idb = id;
           }
@@ -393,7 +393,7 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
         if (idb > -1) {
           filterList.filters.splice(idb, 1)
           idb = -1;
-        } 
+        }
 
         if (filterList.filters.length > 0)
           newFilterList.push({
@@ -402,16 +402,22 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
             operator: filterList.operator
           });
       });
-      
+
       $scope.filtri = newFilterList;
     };
     var checkSameFilter = function (filtro1, filtro2) {
-    		return (filtro1.field == filtro2.field 
-    			&& filtro1.value == filtro2.value 
-    			&& filtro1.match == filtro2.match)
+      return (filtro1.field == filtro2.field
+        && filtro1.value == filtro2.value
+        && filtro1.match == filtro2.match && filtro1.uuid == filtro2.uuid)
+    }
+    var deleteWord = function (value, wordToRemove) {
+      value = value.replace(wordToRemove, "");
+      value = value.trim();
+      return value;
     }
     //rimozione di un filtro di ricerca filtro
-    $scope.removeFilter = function (filtro) {
+    //almaviva3 possibilità di rimuovere una parola
+    $scope.removeFilter = function (filtro, isWord = false, wordToRemove) {
       //	//console.log("richiesta rimozione: ", filtro);
       var toPostJson = $scope.search.request;
       toPostJson.start = 0;
@@ -421,9 +427,14 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
       toPostJson.filters.filters.forEach(function (filterList, idc) {
         filterList.filters.forEach(function (filtroSingl, ind) {
           if (checkSameFilter(filtroSingl, filtro)) {
-            toPostJson.filters.filters[idc].filters.splice(ind, 1);
-
-
+            debugger
+            if (!isWord)
+              //se non è una parola da rimuovere, togli il filtro
+              toPostJson.filters.filters[idc].filters.splice(ind, 1);
+            else {
+              //Possibilità di rimuovere una parola dal filtro 
+              toPostJson.filters.filters[idc].filters[ind].value = deleteWord(toPostJson.filters.filters[idc].filters[ind].value, wordToRemove);
+            }
             switch (filtro.field) {
               case "level":
                 LocalSessionSettingsServices.manageLevel(filtro.value, false);
@@ -434,7 +445,7 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
               case "library":
                 LocalSessionSettingsServices.manageBiblioteche({
                   cod_bib: filtro.value
-                }, false );
+                }, false);
                 break;
               case "dataa":
                 var dateObj = LocalSessionSettingsServices.getDate();
@@ -455,15 +466,21 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
                 break;
               case "formaf":
               case "forma":
-                  LocalSessionSettingsServices.manageFormaMusicale(filtro.value, false);
-            	  break;
+                LocalSessionSettingsServices.manageFormaMusicale(filtro.value, false);
+                break;
               default:
                 LocalSessionSettingsServices.isSpecializzataField(filtro, false)
             }
           } else if (filtroSingl.hasOwnProperty('otherFiltersGroup')) {
             filtroSingl.otherFiltersGroup.forEach(function (filterSinglInRecorsive, idxG) {
               if (checkSameFilter(filtro, filterSinglInRecorsive)) {
-                toPostJson.filters.filters[idc].filters[ind].otherFiltersGroup.splice(idxG, 1);
+                debugger
+                if (!isWord)
+                  toPostJson.filters.filters[idc].filters[ind].otherFiltersGroup.splice(idxG, 1);
+                else {
+                  toPostJson.filters.filters[idc].filters[ind].otherFiltersGroup[idxG].value = deleteWord(toPostJson.filters.filters[idc].filters[ind].otherFiltersGroup[idxG].value, wordToRemove);
+
+                }
               }
             });
             if (filtroSingl.otherFiltersGroup.length == 0) {
@@ -498,10 +515,10 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
       var toPostJson = $scope.search.request;
       toPostJson.start = $scope.pagine[page - 1].start;
       //richiamo il server
-      if($scope.showIngFavorites) {
-        	runSearch(toPostJson, true);
-      	  return;
-        }
+      if ($scope.showIngFavorites) {
+        runSearch(toPostJson, true);
+        return;
+      }
       runSearch(toPostJson);
 
     }
@@ -587,12 +604,12 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
       toPostJson.maxRows = $scope.maxRows;
       toPostJson.order = $scope.order;
       //richiamo il server
-      if($scope.showIngFavorites) {
-      	runSearch(toPostJson, true);
-    	  return;
+      if ($scope.showIngFavorites) {
+        runSearch(toPostJson, true);
+        return;
       }
-     
-    	runSearch(toPostJson);
+
+      runSearch(toPostJson);
     }
     $scope.faccette = {
       filters: [
@@ -668,9 +685,9 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
           LocalSessionSettingsServices.manageLevel(value, true);
 
           if (!isModal) {
-              toPostJson.filters.filters.push(faccettaGroup);
-           // toPostJson.filters.filters[0].filters[toPostJson.filters.filters[0].filters.length - 1].operator = operator;
-          //  toPostJson.filters.filters[0].filters.push(faccetta)
+            toPostJson.filters.filters.push(faccettaGroup);
+            // toPostJson.filters.filters[0].filters[toPostJson.filters.filters[0].filters.length - 1].operator = operator;
+            //  toPostJson.filters.filters[0].filters.push(faccetta)
           } else {
             if (toPostJson.filters.filters.length - 1 > 0) {
               // toPostJson.filters.filters[toPostJson.filters.filters.length - 1].operator = operator;
@@ -704,10 +721,10 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
           }
           LocalSessionSettingsServices.manageTipoRec(value, true);
           if (!isModal) {
-              toPostJson.filters.filters.push(faccettaGroup);
+            toPostJson.filters.filters.push(faccettaGroup);
 
-        	  // toPostJson.filters.filters[0].filters[toPostJson.filters.filters[0].filters.length - 1].operator = operator;
-          //  toPostJson.filters.filters[0].filters.push(faccetta)
+            // toPostJson.filters.filters[0].filters[toPostJson.filters.filters[0].filters.length - 1].operator = operator;
+            //  toPostJson.filters.filters[0].filters.push(faccetta)
           } else {
             if (toPostJson.filters.filters.length - 1 > 0) {
               // toPostJson.filters.filters[toPostJson.filters.filters.length - 1].operator = operator;
@@ -719,7 +736,7 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
                 toPostJson.filters.filters[toPostJson.filters.filters.length - 2].operator = operator;
 
               }
-           } else {
+            } else {
               toPostJson.filters.filters.push(faccettaGroup);
               toPostJson.filters.filters[0].operator = operator;
               $scope.operatorAppoggio = operator;
@@ -728,41 +745,41 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
           break;
         case "formaf":
         case "forma":
-            var faccetta = {
-              field: field,
-              value: value,
-              operator: "AND",
-              match: "completePhrase"
-            };
-            var faccettaGroup = {
-              filters: [faccetta],
-              operator: operator
-            }
-            LocalSessionSettingsServices.manageFormaMusicale(value, true);
-            if (!isModal) {
+          var faccetta = {
+            field: field,
+            value: value,
+            operator: "AND",
+            match: "completePhrase"
+          };
+          var faccettaGroup = {
+            filters: [faccetta],
+            operator: operator
+          }
+          LocalSessionSettingsServices.manageFormaMusicale(value, true);
+          if (!isModal) {
+            toPostJson.filters.filters.push(faccettaGroup);
+            // toPostJson.filters.filters[0].filters[toPostJson.filters.filters[0].filters.length - 1].operator = operator;
+            //   toPostJson.filters.filters[0].filters.push(faccetta)
+          } else {
+            if (toPostJson.filters.filters.length - 1 > 0) {
+              // toPostJson.filters.filters[toPostJson.filters.filters.length - 1].operator = operator;
+              if (toPostJson.filters.filters[toPostJson.filters.filters.length - 1].filters[0].field == "formaf" ||
+                toPostJson.filters.filters[toPostJson.filters.filters.length - 1].filters[0].field == "formaf") {
+                toPostJson.filters.filters[toPostJson.filters.filters.length - 1].filters[toPostJson.filters.filters[toPostJson.filters.filters.length - 1].filters.length - 1].operator = operator;
+                toPostJson.filters.filters[toPostJson.filters.filters.length - 1].filters.push(faccetta)
+              } else {
                 toPostJson.filters.filters.push(faccettaGroup);
-             // toPostJson.filters.filters[0].filters[toPostJson.filters.filters[0].filters.length - 1].operator = operator;
-           //   toPostJson.filters.filters[0].filters.push(faccetta)
-            } else {
-              if (toPostJson.filters.filters.length - 1 > 0) {
-                // toPostJson.filters.filters[toPostJson.filters.filters.length - 1].operator = operator;
-                if (toPostJson.filters.filters[toPostJson.filters.filters.length - 1].filters[0].field == "formaf" ||
-                		toPostJson.filters.filters[toPostJson.filters.filters.length - 1].filters[0].field == "formaf") {
-                  toPostJson.filters.filters[toPostJson.filters.filters.length - 1].filters[toPostJson.filters.filters[toPostJson.filters.filters.length - 1].filters.length - 1].operator = operator;
-                  toPostJson.filters.filters[toPostJson.filters.filters.length - 1].filters.push(faccetta)
-                } else {
-                  toPostJson.filters.filters.push(faccettaGroup);
-                  toPostJson.filters.filters[toPostJson.filters.filters.length - 2].operator = operator;
+                toPostJson.filters.filters[toPostJson.filters.filters.length - 2].operator = operator;
 
-                }
-             } else {
-                toPostJson.filters.filters.push(faccettaGroup);
-                toPostJson.filters.filters[0].operator = operator;
-                $scope.operatorAppoggio = operator;
               }
+            } else {
+              toPostJson.filters.filters.push(faccettaGroup);
+              toPostJson.filters.filters[0].operator = operator;
+              $scope.operatorAppoggio = operator;
             }
-            LocalSessionSettingsServices.setCurrentRicercaSpecializzata({mav: null, musica: null, grafica: null, audiovisivi: null, cartografia: null}, "MAV".toUpperCase());
-            break;
+          }
+          LocalSessionSettingsServices.setCurrentRicercaSpecializzata({ mav: null, musica: null, grafica: null, audiovisivi: null, cartografia: null }, "MAV".toUpperCase());
+          break;
         case "library":
 
           var faccetta = {
@@ -782,9 +799,9 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
           };
           LocalSessionSettingsServices.manageBiblioteche(bib, true);
           if (!isModal) {
-           // toPostJson.filters.filters[0].filters[toPostJson.filters.filters[0].filters.length - 1].operator = operator;
-           // toPostJson.filters.filters[0].filters.push(faccetta)
-              toPostJson.filters.filters.push(faccettaGroup);
+            // toPostJson.filters.filters[0].filters[toPostJson.filters.filters[0].filters.length - 1].operator = operator;
+            // toPostJson.filters.filters[0].filters.push(faccetta)
+            toPostJson.filters.filters.push(faccettaGroup);
 
           } else {
             if (toPostJson.filters.filters.length - 1 > 0) {
@@ -815,9 +832,9 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
           LocalSessionSettingsServices.manageFormatoDigitale(faccetta, true);
 
           if (!isModal) {
-          //  toPostJson.filters.filters[0].filters[toPostJson.filters.filters[0].filters.length - 1].operator = operator;
-          //  toPostJson.filters.filters[0].filters.push(faccetta)
-              toPostJson.filters.filters.push(faccettaGroup);
+            //  toPostJson.filters.filters[0].filters[toPostJson.filters.filters[0].filters.length - 1].operator = operator;
+            //  toPostJson.filters.filters[0].filters.push(faccetta)
+            toPostJson.filters.filters.push(faccettaGroup);
 
           } else {
             if (toPostJson.filters.filters.length - 1 > 0) {
@@ -923,32 +940,32 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
 
 
     };
-    
+
     var openOnTabSelected = function (indexLine) {
-        $timeout(function(){
-      	  //EVO BVE almaviva3 07/02/2019
-        	 $('#tabList_'+indexLine+' a[data-target="#Localizzazione_'+indexLine+'"]').tab('show');
-			 	if($scope.polo.bibUsePosseduto == false){
-			 		var idx950 = 0;
-			 		for(i = 0; i < $scope.dettagli[indexLine].tag950.length; i ++){
-			 			//debugger
-			 			var tag = $scope.dettagli[indexLine].tag950[i];
-			 			if(tag.coll.length > 0)  {
-			 				if($scope.polo.codBibliotecaAsPolo == tag.coll[0].bib) {
-		   			 			idx950 = i;
-		   			 			break;	
-			 			}
-			 			
-   			 		}   
-			 	}
-			 		var idBibToOpen950 = '#restCall_'+ indexLine + '_' + idx950;
-				 	var idCollapseToOpen = '#collapse_local_bib_'+indexLine+'_'+idx950;
-				 	 $(idBibToOpen950 +' div[data-target="'+idCollapseToOpen+'"]').collapse('show');
-				 	jQuery(idBibToOpen950)[0].click();
-			 }  //else la biblioteca usa il WS del posseduto in tempo reale e non si deve aprire
-        });
+      $timeout(function () {
+        //EVO BVE almaviva3 07/02/2019
+        $('#tabList_' + indexLine + ' a[data-target="#Localizzazione_' + indexLine + '"]').tab('show');
+        if ($scope.polo.bibUsePosseduto == false) {
+          var idx950 = 0;
+          for (i = 0; i < $scope.dettagli[indexLine].tag950.length; i++) {
+            //debugger
+            var tag = $scope.dettagli[indexLine].tag950[i];
+            if (tag.coll.length > 0) {
+              if ($scope.polo.codBibliotecaAsPolo == tag.coll[0].bib) {
+                idx950 = i;
+                break;
+              }
+
+            }
+          }
+          var idBibToOpen950 = '#restCall_' + indexLine + '_' + idx950;
+          var idCollapseToOpen = '#collapse_local_bib_' + indexLine + '_' + idx950;
+          $(idBibToOpen950 + ' div[data-target="' + idCollapseToOpen + '"]').collapse('show');
+          jQuery(idBibToOpen950)[0].click();
+        }  //else la biblioteca usa il WS del posseduto in tempo reale e non si deve aprire
+      });
     };
-    
+
     $scope.dettagli = [];
     //visualizzazione del singolo dettaglio
     $scope.detailEvent = function (ids, indexs, scrollFlag) {
@@ -1105,17 +1122,17 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
       delete $scope.favoritesList;
       $scope.favoritesList = LocalSessionSettingsServices.getAllFavorites();
     };
-    $scope.find = function() {
-        //Avvio la ricerca
-        if ($scope.value == '') {
-          $('#errorFields').modal('show');
+    $scope.find = function () {
+      //Avvio la ricerca
+      if ($scope.value == '') {
+        $('#errorFields').modal('show');
 
-        } else {
-       	 var toPostJson = SharedServices.prepareFilterFromSearchBar($scope.value, $scope.polo.bibliotecaAsPolo);
-       	 if(toPostJson != null)
-       		 runSearch(toPostJson);
-        }
-       };
+      } else {
+        var toPostJson = SharedServices.prepareFilterFromSearchBar($scope.value, $scope.polo.bibliotecaAsPolo);
+        if (toPostJson != null)
+          runSearch(toPostJson);
+      }
+    };
 
     //nasconde la colonna di DX
     var hideDXColumn = function () {
@@ -1257,18 +1274,18 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
       LocalSessionSettingsServices.setBiblioteche($scope.selection);
     };
     var getToPostJsonFromFindBy = function (field, value, isExport) {
-    	var match = "andWord";
-    	switch(field) {
-	    	case "dewey_code":
-	    	case "classi_PGI_686_tot":
-	    		match = "completePhrase"
-	    		break;
-	    	case "possessore":
-	    		match = "phrase";
-	    		break;
-	    	default:
-	    		match = "andWord";
-    	}
+      var match = "andWord";
+      switch (field) {
+        case "dewey_code":
+        case "classi_PGI_686_tot":
+          match = "completePhrase"
+          break;
+        case "possessore":
+          match = "phrase";
+          break;
+        default:
+          match = "andWord";
+      }
 
       var campoRic = {
         field: field,
@@ -1332,14 +1349,14 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
     };
     $scope.findByVID = function (value) {
       var myArr = value.split("|");
-      if(myArr.length >= 3 && (myArr[2] == "320" || myArr[2] == "390" )) {
-		  
-          var toPostJson = getToPostJsonFromFindBy("possessore", myArr[0])
-          runSearch(toPostJson);
+      if (myArr.length >= 3 && (myArr[2] == "320" || myArr[2] == "390")) {
+
+        var toPostJson = getToPostJsonFromFindBy("possessore", myArr[0])
+        runSearch(toPostJson);
       } else {
-		  
-          var toPostJson = getToPostJsonFromFindBy("nome",myArr.length >= 2 && myArr[1].length == 10 ? myArr[1] : myArr[0])
-          runSearch(toPostJson);
+
+        var toPostJson = getToPostJsonFromFindBy("nome", myArr.length >= 2 && myArr[1].length == 10 ? myArr[1] : myArr[0])
+        runSearch(toPostJson);
       }
 
     };
@@ -1383,7 +1400,7 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
     };
     //NOTE: deseleziona tutto
     $scope.deSelezionaTutti = function () {
-     
+
       $scope.dettagliCheck = [];
       $scope.dettagliCheckid = [];
     };
@@ -1487,15 +1504,15 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
       }
       /* almaviva3 17/06/2016 spostamento forma musicale */
       if ($scope.excludedFormaMusicaleService.length > 0) {
-          var formaCodes = CodiciServices.getForma();
-          var newSelectedFormaMus = [];
-          for (var i = 0; i < formaCodes.length; i++) {
-            if ($scope.excludedFormaMusicaleService.indexOf(formaCodes[i].cod) === -1) {
-            	newSelectedFormaMus.push(formaCodes[i].cod)
-            }
+        var formaCodes = CodiciServices.getForma();
+        var newSelectedFormaMus = [];
+        for (var i = 0; i < formaCodes.length; i++) {
+          if ($scope.excludedFormaMusicaleService.indexOf(formaCodes[i].cod) === -1) {
+            newSelectedFormaMus.push(formaCodes[i].cod)
           }
-          LocalSessionSettingsServices.setFormaMusicale(newSelectedFormaMus);
         }
+        LocalSessionSettingsServices.setFormaMusicale(newSelectedFormaMus);
+      }
       if ($scope.excludedLibraryService.length > 0) {
         var bibliotecheCodes = CodiciServices.getBiblioteche();
         var newBiblioteche = [];
@@ -1519,7 +1536,7 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
       var scrollUserPosition = $(window).scrollTop();
       if ($("#settingBar1").offset() != undefined) {
         var scrollpoint = ($("#settingBar1").offset().top - 35);
-       
+
         if (scrollUserPosition > scrollpoint) {
           $("#fixed").show();
 
@@ -1561,9 +1578,9 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
     }
     //Gestione preferiti
     $scope.favoritesList = LocalSessionSettingsServices.getAllFavoritesFromCookies($routeParams.codPolo);
-    $scope.preferitiEvent = function() {
-    	var toPostJson = SharedServices.buildPreferitiSearch($scope.favoritesList);
-    	if(toPostJson != null)
+    $scope.preferitiEvent = function () {
+      var toPostJson = SharedServices.buildPreferitiSearch($scope.favoritesList);
+      if (toPostJson != null)
         runSearch(toPostJson, true);
 
     };
@@ -1619,8 +1636,8 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
     $scope.annateFasc = function (inventario, collocazione, biblioteca, serie, documento, tag950, precisInv) {
       $("#annateEFascicoliModal").modal("show");
       biblioteca = biblioteca.trim();
-      if(serie == '')
-    	  serie = "   ";
+      if (serie == '')
+        serie = "   ";
       var inv = serie + $filter('collocazione')(inventario);
       var idxBib = findIndex($scope.polo.libraries, "cod_bib", biblioteca);
 
@@ -1644,7 +1661,7 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
               dispInv: success.data.sbnweb.kardex.inventario[0].disponibilita,
               collBind: collocazione
             };
-           
+
 
           }
         },
@@ -1656,34 +1673,34 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
           });
       }
     }
-     var slashUrl = encodeURIComponent(" /");//"%2F";
-     var pipe = encodeURIComponent('|');
-     var encodeHtml = function encodeHtml(text) {
-    	 return text.replace(/>/g, "&gt;").replace(/</g, "&lt;").replace(/"/g, "&quot;").replace(/&/g, "%26");//.replace(/;/g, "%3b");
-     }
+    var slashUrl = encodeURIComponent(" /");//"%2F";
+    var pipe = encodeURIComponent('|');
+    var encodeHtml = function encodeHtml(text) {
+      return text.replace(/>/g, "&gt;").replace(/</g, "&lt;").replace(/"/g, "&quot;").replace(/&/g, "%26");//.replace(/;/g, "%3b");
+    }
     $scope.prenota = function (isbdMonografia, inventarioBinded, collocazBinded, biblioteca, doc, idx950, isFascicolo, fasc, fas) {
       var titoloFromISBD;
       var titolo = '';
       if (isbdMonografia != null || !isUndefined(isbdMonografia)) {
         titoloFromISBD = isbdMonografia.split("/")[0]
       } else {
-    	  titolo = ((doc.pre_title != undefined) ? (doc.pre_title +"*") : '') + (doc.titles.titolo_sint.split(" / ")[0]);
+        titolo = ((doc.pre_title != undefined) ? (doc.pre_title + "*") : '') + (doc.titles.titolo_sint.split(" / ")[0]);
       }
-    	  
+
       biblioteca = ' ' + biblioteca.trim();
       //FIXED: typeof int modale
       var currentTag950 = null;
-      if(typeof idx950 == "number")
-          currentTag950 = doc.tag950[idx950];
-      else	
-           currentTag950 = idx950;
+      if (typeof idx950 == "number")
+        currentTag950 = doc.tag950[idx950];
+      else
+        currentTag950 = idx950;
 
       var idxApplUrl = findIndex($scope.polo.linkApplicativi, "cod_appl", currentTag950.applicativo.toUpperCase());
-      if(idxApplUrl < 0)
-    	  return;
+      if (idxApplUrl < 0)
+        return;
       var prenotaURL = $scope.polo.linkApplicativi[idxApplUrl].url + "?";
       if (currentTag950.webservice) {
-          //Dati da WS SBNWeb
+        //Dati da WS SBNWeb
         switch (currentTag950.applicativo.toUpperCase()) {
           //ERMES
           case "M":
@@ -1691,10 +1708,10 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
             //ERMES
             prenotaURL += "Opac=1";
             prenotaURL += "&Natura=" + doc.level.toUpperCase();
-            prenotaURL += "&Titolo=" + ((isbdMonografia != null || !isUndefined(isbdMonografia)) ? encodeHtml(titoloFromISBD) : encodeHtml (titolo));
+            prenotaURL += "&Titolo=" + ((isbdMonografia != null || !isUndefined(isbdMonografia)) ? encodeHtml(titoloFromISBD) : encodeHtml(titolo));
 
             if (!isUndefined(doc.author) && (isbdMonografia == null || isUndefined(isbdMonografia))) {
-              prenotaURL += "&Autore=" + encodeHtml (doc.author);
+              prenotaURL += "&Autore=" + encodeHtml(doc.author);
             }
 
             if (!isUndefined(doc.date) && (isbdMonografia == null || isUndefined(isbdMonografia))) {
@@ -1706,61 +1723,66 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
             var collocazioniStr = '';
             var inventariStr = '';
             if (!isUndefined(currentTag950.webservice.posseduto.collocazione)) {
-            	 currentTag950.webservice.posseduto.collocazione.forEach(function (collocazione) {
-              debugger
-               if(isFascicolo) {
-                   collocazioniStr = biblioteca.trim() + collocazBinded.sez +" "+ collocazBinded.loc  + ((collocazione.spec) ? (" " + collocazione.spec).trim() : "") + pipe;
-                 //  collocazioniStr = biblioteca.trim() + collocazBinded.sez +" "+ collocazBinded.loc  + ((collocazione.spec) ? (" " + collocazione.spec).trim() : "") + ((collocazione.seq) ? ('/ ' + collocazione.seq.replace(/\//g, "")) : '') +"|";
+              currentTag950.webservice.posseduto.collocazione.forEach(function (collocazione) {
+                debugger
+                if (isFascicolo) {
+                  collocazioniStr = biblioteca.trim() + collocazBinded.sez + " " + collocazBinded.loc + ((collocazione.spec) ? (" " + collocazione.spec).trim() : "") + pipe;
+                  //  collocazioniStr = biblioteca.trim() + collocazBinded.sez +" "+ collocazBinded.loc  + ((collocazione.spec) ? (" " + collocazione.spec).trim() : "") + ((collocazione.seq) ? ('/ ' + collocazione.seq.replace(/\//g, "")) : '') +"|";
 
-                   collocazione.inventario.forEach(function(inventario){
-                	  if(inventario.numero == inventarioBinded.numero) {
-                         	inventariStr = biblioteca.trim() + inventario.serie + $filter("collocazione")(inventario.numero) + "|"
+                  collocazione.inventario.forEach(function (inventario) {
+                    if (inventario.numero == inventarioBinded.numero) {
+                      inventariStr = biblioteca.trim() + inventario.serie + $filter("collocazione")(inventario.numero) + "|"
                       prenotaURL += "&PRECIS=";
                       prenotaURL += (inventarioBinded.precis) ? inventarioBinded.precis : '';
                       prenotaURL += "&ANNORIF=";
                       prenotaURL += (inventario.anno) ? inventario.anno : '';
-                     if (inventario.seq) {
-                    	 collocazioniStr  =  collocazioniStr.replace(/\|/g, "");
-                    	 collocazioniStr += (slashUrl + inventario.seq.replace(/\//g, "") + "|")
-                     } 
+                      if (inventario.seq) {
+                        collocazioniStr = collocazioniStr.replace(/\|/g, "");
+                        collocazioniStr += (slashUrl + inventario.seq.replace(/\//g, "") + "|")
+                      }
                     }
-                   });
-              } else {
-            	  //controllo seq di inventario
-            	  var seqInv = ''
-            	  if(collocazione.inventario[0].seq != undefined || collocazione.inventario[0].seq !='' )
-            		  seqInv = collocazione.inventario[0].seq;
-            	  if (seqInv == undefined)
-            		  seqInv = '';
-                //  collocazioniStr += biblioteca.trim() + collocazione.sez +" "+ collocazione.loc + ((collocazione.spec) ? " " + collocazione.spec : "") + "|";
-                  collocazioniStr += biblioteca.trim() + collocazione.sez +" "+ collocazione.loc + ((collocazione.spec) ? " " + collocazione.spec : "") + ((seqInv != '') ? (slashUrl + seqInv.replace(/\//g, "")) : '') + pipe;
+                  });
+                } else {
+                  //controllo seq di inventario
+                  var seqInv = ''
+                  if (collocazione.inventario.length != 0) {
+                    if (collocazione.inventario[0].seq != undefined || collocazione.inventario[0].seq != '')
+                      seqInv = collocazione.inventario[0].seq;
+                    if (seqInv == undefined)
+                      seqInv = '';
 
-                  //serie a 3 spazi se è vuota
-                  if(collocazione.inventario[0].serie == '')
+                    collocazioniStr += biblioteca.trim() + collocazione.sez + " " + collocazione.loc + ((collocazione.spec) ? " " + collocazione.spec : "") + ((seqInv != '') ? (slashUrl + seqInv.replace(/\//g, "")) : '') + pipe;
+                    //serie a 3 spazi se è vuota
+                    if (collocazione.inventario[0].serie == '')
                       collocazione.inventario[0].serie = "   ";
-                 inventariStr += biblioteca.trim() + collocazione.inventario[0].serie + $filter("collocazione")(collocazione.inventario[0].numero) + pipe;
-                 
+                    inventariStr += biblioteca.trim() + collocazione.inventario[0].serie + $filter("collocazione")(collocazione.inventario[0].numero) + pipe;
+
+                  } else {
+
+                    collocazioniStr += biblioteca.trim() + collocazione.sez + " " + collocazione.loc + ((collocazione.spec) ? " " + collocazione.spec : "") + ((seqInv != '') ? (slashUrl + seqInv.replace(/\//g, "")) : '') + pipe;
+                  }
+
                 }
               });
-             
-              if (isFascicolo && fasc) {
-                  if (!isUndefined(fasc.annata))
-                    prenotaURL += "&ANNORIF=" + fasc.annata;
-                  if (!isUndefined(inventarioBinded.precisInv))
-                    prenotaURL += "&PRECIS=" + inventarioBinded.precisInv;
-                  if (!isUndefined(fas))
-                    prenotaURL += "&FAS=" + fas;
-                }
-            }
-            
-            if (collocazioniStr.length > 0) {
-                prenotaURL += "&Collocazioni=" + collocazioniStr;
 
+              if (isFascicolo && fasc) {
+                if (!isUndefined(fasc.annata))
+                  prenotaURL += "&ANNORIF=" + fasc.annata;
+                if (!isUndefined(inventarioBinded.precisInv))
+                  prenotaURL += "&PRECIS=" + inventarioBinded.precisInv;
+                if (!isUndefined(fas))
+                  prenotaURL += "&FAS=" + fas;
               }
-              if (inventariStr.length > 0) {
-                prenotaURL += "&Inventari=" + inventariStr;
-              }
-              
+            }
+
+            if (collocazioniStr.length > 0) {
+              prenotaURL += "&Collocazioni=" + collocazioniStr;
+
+            }
+            if (inventariStr.length > 0) {
+              prenotaURL += "&Inventari=" + inventariStr;
+            }
+
             break;
           }
           case "S":
@@ -1792,10 +1814,10 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
             //ERMES
             prenotaURL += "Opac=1";
             prenotaURL += "&Natura=" + doc.level.toUpperCase();
-            prenotaURL += "&Titolo=" + ((isbdMonografia != null || !isUndefined(isbdMonografia)) ? encodeHtml(titoloFromISBD) : encodeHtml (titolo));
+            prenotaURL += "&Titolo=" + ((isbdMonografia != null || !isUndefined(isbdMonografia)) ? encodeHtml(titoloFromISBD) : encodeHtml(titolo));
 
             if (!isUndefined(doc.author) && (isbdMonografia == null || isUndefined(isbdMonografia))) {
-              prenotaURL += "&Autore=" +  encodeHtml(doc.author);
+              prenotaURL += "&Autore=" + encodeHtml(doc.author);
             }
 
             if (!isUndefined(doc.date) && (isbdMonografia == null || isUndefined(isbdMonografia))) {
@@ -1806,78 +1828,82 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
             }
             var collocazioniStr = '';
             var inventariStr = '';
-            if(doc.level.toUpperCase() != 'S') {
-            	
-            	//cicla su tutto senza ripetere colloazioni e prendere il primo inventario
-            	var collocazioniNonDuplicate = $filter('groupByCollUnimarcView')(currentTag950.coll);
-            	
-           	 if (!isUndefined(currentTag950.coll)) {
-                    collocazioniNonDuplicate.forEach(function (collocazione) {
-                      if (!stringIsFilled(collocazione.cd_sez))
-                        collocazione.cd_sez='';
-                      if (!stringIsFilled(collocazione.cd_loc))
-                        collocazione.cd_loc = '';
-                      if (!stringIsFilled(collocazione.spec_loc))
-                      	collocazione.spec_loc = '';
-                        if (!stringIsFilled(collocazione.inv[0].seq_coll ))
-                      	collocazione.inv[0].seq_coll = '';
-                     // collocazioniStr += biblioteca.trim() + collocazione.cd_sez + " " + collocazione.cd_loc + (collocazione.spec_loc != '' ? (" " + collocazione.spec_loc) : '')  + "|";
-                     //doppio slash se gia presente nella seq_coll slashUrl.replace(/%20/g,'') //18/08/2019 ERMES funziona senza doppio slash, risolto errore primo inventario collocazione
-                        collocazioniStr += biblioteca.trim() + collocazione.cd_sez+ " " + collocazione.cd_loc + (collocazione.spec_loc != '' ? (" " + collocazione.spec_loc) : '') + ((collocazione.inv[0].seq_coll) ? (slashUrl + collocazione.inv[0].seq_coll.replace(/\//g, '') ): '')+ pipe;
+            if (doc.level.toUpperCase() != 'S') {
 
-                      inventariStr += biblioteca.trim() + collocazione.inv[0].cd_serie + $filter("collocazione")(collocazione.inv[0].cd_inv) + pipe;
-                      debugger
-                      if(isFascicolo  && !fasc) {
-                          collocazione.inv.forEach(function(inventario){
-                       	    
-                          	if(inventario.cd_inv == inventarioBinded.numero) {
-                                	inventariStr = biblioteca.trim() + inventario.cd_serie + $filter("collocazione")(inventario.cd_inv) + pipe
-                             prenotaURL += "&PRECIS=" + inventario.precis_inv;
-                           }
-                          });
+              //cicla su tutto senza ripetere colloazioni e prendere il primo inventario
+              var collocazioniNonDuplicate = $filter('groupByCollUnimarcView')(currentTag950.coll);
+
+              if (!isUndefined(currentTag950.coll)) {
+                collocazioniNonDuplicate.forEach(function (collocazione) {
+                  if (!stringIsFilled(collocazione.cd_sez))
+                    collocazione.cd_sez = '';
+                  if (!stringIsFilled(collocazione.cd_loc))
+                    collocazione.cd_loc = '';
+                  if (!stringIsFilled(collocazione.spec_loc))
+                    collocazione.spec_loc = '';
+                  if (collocazione.inv.length != 0) {
+
+                    if (!stringIsFilled(collocazione.inv[0].seq_coll))
+                      collocazione.inv[0].seq_coll = '';
+                    //doppio slash se gia presente nella seq_coll slashUrl.replace(/%20/g,'') //18/08/2019 ERMES funziona senza doppio slash, risolto errore primo inventario collocazione
+                    collocazioniStr += biblioteca.trim() + collocazione.cd_sez + " " + collocazione.cd_loc + (collocazione.spec_loc != '' ? (" " + collocazione.spec_loc) : '') + ((collocazione.inv[0].seq_coll) ? (slashUrl + collocazione.inv[0].seq_coll.replace(/\//g, '')) : '') + pipe;
+                    inventariStr += biblioteca.trim() + collocazione.inv[0].cd_serie + $filter("collocazione")(collocazione.inv[0].cd_inv) + pipe;
+                  } else {
+                    //solo la collocazione
+                    collocazioniStr += biblioteca.trim() + collocazione.cd_sez + " " + collocazione.cd_loc + (collocazione.spec_loc != '' ? (" " + collocazione.spec_loc) : '') + pipe;
+
+                  }
+                  if (isFascicolo && !fasc) {
+                    collocazione.inv.forEach(function (inventario) {
+
+                      if (inventario.cd_inv == inventarioBinded.numero) {
+                        inventariStr = biblioteca.trim() + inventario.cd_serie + $filter("collocazione")(inventario.cd_inv) + pipe
+                        prenotaURL += "&PRECIS=" + inventario.precis_inv;
                       }
-                      
-                   
                     });
-           	 }
-                                               
+                  }
+
+
+                });
+              }
+
             } else {
-                //è un periodico prendi puntuale.
-                if (collocazBinded.sez == undefined)
-                	collocazBinded.sez='';
-                
-                if (collocazBinded.loc == undefined)
-                	  collocazBinded.loc = '';
-                  
-                if (collocazBinded.spec == undefined)
-                	  collocazBinded.spec = '';
-                if (inventarioBinded.precis_inv == undefined)
-                    inventarioBinded.precis_inv = '';
-                //costruzione stringa collocazione
-               // collocazioniStr += biblioteca.trim() + collocazBinded.sez + " " + collocazBinded.loc + (collocazBinded.spec != '' ? (" " + collocazBinded.spec) : '') + "|";
-                collocazioniStr += biblioteca.trim() + collocazBinded.sez + " " + collocazBinded.loc + (collocazBinded.spec != '' ? (" " + collocazBinded.spec) : '') + ((inventarioBinded.seq_coll) ? (slashUrl + inventarioBinded.seq_coll.replace(/\//g, "") ): '')+ pipe;
+              //è un periodico prendi puntuale.
+              if (collocazBinded.sez == undefined)
+                collocazBinded.sez = '';
 
-                inventariStr += biblioteca.trim() + inventarioBinded.serie + $filter("collocazione")(inventarioBinded.numero) + pipe;
-                prenotaURL += ("&PRECIS=" + ((inventarioBinded.precis_inv) ? inventarioBinded.precis_inv : ''));
+              if (collocazBinded.loc == undefined)
+                collocazBinded.loc = '';
 
-                if (isFascicolo && fasc) {
-                	  debugger
-                      if (!isUndefined(fasc.annata))
-                        prenotaURL += "&ANNORIF=" + fasc.annata;
-                     if (!isUndefined(fas))
-                        prenotaURL += "&FAS=" + fas;
-                    }
+              if (collocazBinded.spec == undefined)
+                collocazBinded.spec = '';
+              if (inventarioBinded.precis_inv == undefined)
+                inventarioBinded.precis_inv = '';
+              //costruzione stringa collocazione
+              // collocazioniStr += biblioteca.trim() + collocazBinded.sez + " " + collocazBinded.loc + (collocazBinded.spec != '' ? (" " + collocazBinded.spec) : '') + "|";
+              collocazioniStr += biblioteca.trim() + collocazBinded.sez + " " + collocazBinded.loc + (collocazBinded.spec != '' ? (" " + collocazBinded.spec) : '') + ((inventarioBinded.seq_coll) ? (slashUrl + inventarioBinded.seq_coll.replace(/\//g, "")) : '') + pipe;
+
+              inventariStr += biblioteca.trim() + inventarioBinded.serie + $filter("collocazione")(inventarioBinded.numero) + pipe;
+              prenotaURL += ("&PRECIS=" + ((inventarioBinded.precis_inv) ? inventarioBinded.precis_inv : ''));
+
+              if (isFascicolo && fasc) {
+                debugger
+                if (!isUndefined(fasc.annata))
+                  prenotaURL += "&ANNORIF=" + fasc.annata;
+                if (!isUndefined(fas))
+                  prenotaURL += "&FAS=" + fas;
+              }
             }
-                        
-            if (collocazioniStr.length > 0) {
-                prenotaURL += "&Collocazioni=" + collocazioniStr;
 
-              }
-              if (inventariStr.length > 0) {
-                prenotaURL += "&Inventari=" + inventariStr;
-              }
-            
-          
+            if (collocazioniStr.length > 0) {
+              prenotaURL += "&Collocazioni=" + collocazioniStr;
+
+            }
+            if (inventariStr.length > 0) {
+              prenotaURL += "&Inventari=" + inventariStr;
+            }
+
+
             break;
           }
           case "S":
@@ -1899,14 +1925,14 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
 
         }
 
-       
+
       }
-      var target = (currentTag950.applicativo.toUpperCase() == "E" || currentTag950.applicativo.toUpperCase() == "M" ) ? "_top" : "_blank";
+      var target = (currentTag950.applicativo.toUpperCase() == "E" || currentTag950.applicativo.toUpperCase() == "M") ? "_top" : "_blank";
       prenotaURL = prenotaURL.replace(/ /g, "%20");
-     // console.info("--------"+biblioteca+"------------")
-     console.info("URL: ", prenotaURL);
+      // console.info("--------"+biblioteca+"------------")
+      console.info("URL: ", prenotaURL);
       //console.info("-------------------")
-     
+
       window.open(prenotaURL, target)
     };
     $scope.openCopiaDigitale = function (url) {
@@ -2001,11 +2027,11 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
             break;
           case "forma":
           case "formaf":
-        	  if ($scope.checkBoxModalOperator.toUpperCase() === "AND NOT") {
-                  $scope.excludedFormaMusicaleService.push(toIncludi[i].value);
-                }
-                toPostJson = $scope.raffina(toIncludi[i].field, toIncludi[i].value, op, true);
-        	  break;
+            if ($scope.checkBoxModalOperator.toUpperCase() === "AND NOT") {
+              $scope.excludedFormaMusicaleService.push(toIncludi[i].value);
+            }
+            toPostJson = $scope.raffina(toIncludi[i].field, toIncludi[i].value, op, true);
+            break;
           default:
             if (flagIncludes) {
               toPostJson = $scope.raffina(toIncludi[i].field, toIncludi[i].value, op, true, toIncludi);
@@ -2054,35 +2080,35 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
       var infowindow = new google.maps.InfoWindow(); /* SINGLE */
 
       //calcolo le coordinate e lo zoom medio in base alla posizione delle bibliotece 
-   	  var latMedia = 41.0;
+      var latMedia = 41.0;
       var longMedia = 13.0;
       var zoom = 5;
       var countBibDettagliate = 0;
-	   var latTot = 0;
-	   var longTot = 0;
-           for (var i = 0; i < biblioteche.length; i++) {
-    	    if (!isUndefined(biblioteche[i].dettaglio)) {
-    	    	latTot = latTot + parseFloat(biblioteche[i].dettaglio.latitudine)
-                longTot = longTot + parseFloat(biblioteche[i].dettaglio.longitudine);
-                countBibDettagliate++;
-    	    	}
-            }  
-           zoom = (isNaN(latTot) || isNaN(longTot)) ? 5 : 9;
-           latMedia = (isNaN(latTot)) ? 41.0 : latTot / countBibDettagliate;
-           longMedia = (isNaN(longTot)) ? 13.0 : longTot / countBibDettagliate;
-        
-      
+      var latTot = 0;
+      var longTot = 0;
+      for (var i = 0; i < biblioteche.length; i++) {
+        if (!isUndefined(biblioteche[i].dettaglio)) {
+          latTot = latTot + parseFloat(biblioteche[i].dettaglio.latitudine)
+          longTot = longTot + parseFloat(biblioteche[i].dettaglio.longitudine);
+          countBibDettagliate++;
+        }
+      }
+      zoom = (isNaN(latTot) || isNaN(longTot)) ? 5 : 9;
+      latMedia = (isNaN(latTot)) ? 41.0 : latTot / countBibDettagliate;
+      longMedia = (isNaN(longTot)) ? 13.0 : longTot / countBibDettagliate;
+
+
       //Creo la mappa
       var mapProp = {
-		        center: new google.maps.LatLng(latMedia, longMedia),
-		        zoom: zoom,
-		        mapTypeId: google.maps.MapTypeId.ROADMAP
-		      };
-		      //lancio la mappa
-	 map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
-	  var infowindow = new google.maps.InfoWindow({
-	        content: "Loading..."
-	      });
+        center: new google.maps.LatLng(latMedia, longMedia),
+        zoom: zoom,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      };
+      //lancio la mappa
+      map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+      var infowindow = new google.maps.InfoWindow({
+        content: "Loading..."
+      });
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
           var pos = {
@@ -2112,48 +2138,48 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
       });
 
       for (var i = 0; i < biblioteche.length; i++) {
-	  var marker = {};
-      var imgUrl = 'img/get/logo/'+ $scope.polo.code+'/'+ biblioteche[i].cod_bib;
+        var marker = {};
+        var imgUrl = 'img/get/logo/' + $scope.polo.code + '/' + biblioteche[i].cod_bib;
 
         if (!isUndefined(biblioteche[i].dettaglio)) {
 
-            	marker = new google.maps.Marker({
-                      icon: 'images/pin-mappa.png',
-                      visible: true,
-                      map: map,
-                  	position: new google.maps.LatLng(parseFloat(biblioteche[i].dettaglio.latitudine), parseFloat(biblioteche[i].dettaglio.longitudine)),
+          marker = new google.maps.Marker({
+            icon: 'images/pin-mappa.png',
+            visible: true,
+            map: map,
+            position: new google.maps.LatLng(parseFloat(biblioteche[i].dettaglio.latitudine), parseFloat(biblioteche[i].dettaglio.longitudine)),
 
-                    });
-	            marker.content = "<img class='img-responsive'  style='height: 90px;' src="+ imgUrl +" > </br>"; 
-	            marker.content += "<p><b>" + biblioteche[i].name + "</b></br>" + biblioteche[i].dettaglio.indirizzo.trim() +
-	              " - " + biblioteche[i].dettaglio.cap + " - " + biblioteche[i].dettaglio.citta;
-	
-	            marker.content += (biblioteche[i].dettaglio.citta.trim().toLowerCase() != biblioteche[i].dettaglio.provincia.trim().toLowerCase()) ? " - " + biblioteche[i].dettaglio.provincia : "";
-	            marker.content += "</p>";
-	            marker.content += "<p>";
-	            for (var c = 0; c < biblioteche[i].contatti.length; c++) {
-	              if (biblioteche[i].contatti[c].tipo.toUpperCase() === "TELEFONO")
-	                marker.content += $filter('translate')('info_telefono') + ": <i>" + biblioteche[i].contatti[c].valore + "</i></br>";
-	            }
-	            marker.content += "</p>";
-	            marker.content += "<p><a title='" + $filter('translate')('info_indicazioni') + ": " + $filter('translate')('info_openMaps') + "' href='https://www.google.com/maps/dir/?api=1&destination=" + "biblioteca " + biblioteche[i].dettaglio.indirizzo.trim() + ", " + biblioteche[i].dettaglio.cap + ", " + biblioteche[i].dettaglio.citta + "' target='_blank' >" + $filter('translate')('info_indicazioni') + "</a>" + "</p>"
-	            marker.content += "<a title='" + $filter('translate')('visualizzaAnagrafe') + "' href='http://anagrafe.iccu.sbn.it/isil/IT-" + biblioteche[i].dettaglio.isil + "' target='_blank' ><span class='glyphicon glyphicon-info-sign' ></span></a>";
-	            for (var c = 0; c < biblioteche[i].contatti.length; c++) {
-		              switch (biblioteche[i].contatti[c].tipo.toUpperCase()) {
-		                case "E-MAIL":
-		                  marker.content += "<a title='" + $filter('translate')('info_inviaMail') + ": " + biblioteche[i].contatti[c].valore + "' href='mailto:" + biblioteche[i].contatti[c].valore + "' target='_blank' ><span class='glyphicon glyphicon-envelope' style='margin-left: 3%;'></span></a>";
-		                  break;
-		                case "URL":
-		                  var url = (biblioteche[i].contatti[c].valore.indexOf('http') > -1) ? biblioteche[i].contatti[c].valore : 'http://' + biblioteche[i].contatti[c].valore
-		                  marker.content += "<a title='" + $filter('translate')('info_openUrl') + ": " + url + "' href='" + url + "' target='_blank' ><span class='glyphicon glyphicon-link' style='margin-left: 3%;'></span></a>";
-		
-		                  break;
-		
-		                default:
-		              }
-		            }
-	               marker.setMap(map);
-        
+          });
+          marker.content = "<img class='img-responsive'  style='height: 90px;' src=" + imgUrl + " > </br>";
+          marker.content += "<p><b>" + biblioteche[i].name + "</b></br>" + biblioteche[i].dettaglio.indirizzo.trim() +
+            " - " + biblioteche[i].dettaglio.cap + " - " + biblioteche[i].dettaglio.citta;
+
+          marker.content += (biblioteche[i].dettaglio.citta.trim().toLowerCase() != biblioteche[i].dettaglio.provincia.trim().toLowerCase()) ? " - " + biblioteche[i].dettaglio.provincia : "";
+          marker.content += "</p>";
+          marker.content += "<p>";
+          for (var c = 0; c < biblioteche[i].contatti.length; c++) {
+            if (biblioteche[i].contatti[c].tipo.toUpperCase() === "TELEFONO")
+              marker.content += $filter('translate')('info_telefono') + ": <i>" + biblioteche[i].contatti[c].valore + "</i></br>";
+          }
+          marker.content += "</p>";
+          marker.content += "<p><a title='" + $filter('translate')('info_indicazioni') + ": " + $filter('translate')('info_openMaps') + "' href='https://www.google.com/maps/dir/?api=1&destination=" + "biblioteca " + biblioteche[i].dettaglio.indirizzo.trim() + ", " + biblioteche[i].dettaglio.cap + ", " + biblioteche[i].dettaglio.citta + "' target='_blank' >" + $filter('translate')('info_indicazioni') + "</a>" + "</p>"
+          marker.content += "<a title='" + $filter('translate')('visualizzaAnagrafe') + "' href='http://anagrafe.iccu.sbn.it/isil/IT-" + biblioteche[i].dettaglio.isil + "' target='_blank' ><span class='glyphicon glyphicon-info-sign' ></span></a>";
+          for (var c = 0; c < biblioteche[i].contatti.length; c++) {
+            switch (biblioteche[i].contatti[c].tipo.toUpperCase()) {
+              case "E-MAIL":
+                marker.content += "<a title='" + $filter('translate')('info_inviaMail') + ": " + biblioteche[i].contatti[c].valore + "' href='mailto:" + biblioteche[i].contatti[c].valore + "' target='_blank' ><span class='glyphicon glyphicon-envelope' style='margin-left: 3%;'></span></a>";
+                break;
+              case "URL":
+                var url = (biblioteche[i].contatti[c].valore.indexOf('http') > -1) ? biblioteche[i].contatti[c].valore : 'http://' + biblioteche[i].contatti[c].valore
+                marker.content += "<a title='" + $filter('translate')('info_openUrl') + ": " + url + "' href='" + url + "' target='_blank' ><span class='glyphicon glyphicon-link' style='margin-left: 3%;'></span></a>";
+
+                break;
+
+              default:
+            }
+          }
+          marker.setMap(map);
+
           marker.content = '<div class="scrollMapsFix">' + marker.content + '</div>';
           google.maps.event.addListener(marker, 'mouseover', function () {
             infowindow.setContent(this.content);
@@ -2228,74 +2254,87 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
     //Controlli per mettere messaggi dove lo trovi
     //controllo 462/423 colltit_tip.colltit_tip_462_new
     $scope.check4xx = function (documento) {
-    	if(documento == undefined)
-    		return false;
-    	if(documento.colltit_tip == undefined && documento.collections == undefined)
-    		return false;
-    	
-    	
-    	//se ci sono le 462/463 titoli contenuti
-    	return ( documento.collections != undefined 
-    			|| documento.colltit_tip.colltit_tip_462_new != undefined
-        		|| documento.colltit_tip.colltit_tip_463_new != undefined
-        		|| documento.colltit_tip.colltit_tip_440_new != undefined
-        		|| documento.colltit_tip.colltit_tip_422_new != undefined
-        		|| documento.colltit_tip.colltit_tip_421_new != undefined
-        		) ? true : false;
+      if (documento == undefined)
+        return false;
+      if (documento.colltit_tip == undefined && documento.collections == undefined)
+        return false;
+
+
+      //se ci sono le 462/463 titoli contenuti
+      return (documento.collections != undefined
+        || documento.colltit_tip.colltit_tip_462_new != undefined
+        || documento.colltit_tip.colltit_tip_463_new != undefined
+        || documento.colltit_tip.colltit_tip_440_new != undefined
+        || documento.colltit_tip.colltit_tip_422_new != undefined
+        || documento.colltit_tip.colltit_tip_421_new != undefined
+      ) ? true : false;
     }
     //controllo 899856
     $scope.check8xx = function (documento) {
-    	if(documento == undefined)
-    		return false;
-    	
-    	if(documento.formato_elet == undefined)
-    		return false;
-    	return (documento.formato_elet.formato_elet_856 != undefined
-        		|| documento.formato_elet.formato_elet_899 != undefined ) ? true : false;
+      if (documento == undefined)
+        return false;
+
+      if (documento.formato_elet == undefined)
+        return false;
+      return (documento.formato_elet.formato_elet_856 != undefined
+        || documento.formato_elet.formato_elet_899 != undefined) ? true : false;
     }
-//controlla se ci non sono 950 per la biblioteca scelta come opac di polo
-    $scope.checkNoCollXOpacBib = function(tag950) {
-    	if(tag950 == undefined)
-    		return false;
-    	
-    	if(!$scope.polo.bibliotecaAsPolo)
-    		return false;
-    	var check = true;
-    	tag950.forEach(function(tag){
-    		//se sono inventari collocati le collocazioni sono vuote
-    		if(tag.coll.length > 0)  {
-    			if($scope.polo.codBibliotecaAsPolo == tag.coll[0].bib)  {
-    				check = false;
-        		}
-        			
-    		}
-    		
-    	})
-    	return check;
+    //controlla se ci non sono 950 per la biblioteca scelta come opac di polo
+    $scope.checkNoCollXOpacBib = function (tag950) {
+      if (tag950 == undefined)
+        return false;
+
+      if (!$scope.polo.bibliotecaAsPolo)
+        return false;
+      var check = true;
+      tag950.forEach(function (tag) {
+        //se sono inventari collocati le collocazioni sono vuote
+        if (tag.coll.length > 0) {
+          if ($scope.polo.codBibliotecaAsPolo == tag.coll[0].bib) {
+            check = false;
+          }
+
+        }
+
+      })
+      return check;
     };
     //Almaviva3 formato_elet_956 incrociato per tabella inventari da unimarc
     $scope.creaCopiaDigitaleUnimarc = function (inventarioUnimarc, documento) {
-    	if(documento.formato_elet == undefined)
-    		return null;
-    	if(documento.formato_elet.formato_elet_956 != undefined) {
-    		var urlCopiaDigitale = ''
-    		for(var i = 0; i < documento.formato_elet.formato_elet_956.length; i++) {
-    			var element956 = {inv: documento.formato_elet.formato_elet_956[i].split("|")[0],
-    					url: documento.formato_elet.formato_elet_956[i].split("|")[1]};
-    			if(element956.inv == inventarioUnimarc){
-    				urlCopiaDigitale = element956.url;
-    				break;
-    			}
-    			
-    		}
-    		return (urlCopiaDigitale == '') ? null : urlCopiaDigitale; 
-    	} else {
-    		return null;
-    	}
+      if (documento.formato_elet == undefined)
+        return null;
+      if (documento.formato_elet.formato_elet_956 != undefined) {
+        var urlCopiaDigitale = ''
+        for (var i = 0; i < documento.formato_elet.formato_elet_956.length; i++) {
+          var element956 = {
+            inv: documento.formato_elet.formato_elet_956[i].split("|")[0],
+            url: documento.formato_elet.formato_elet_956[i].split("|")[1]
+          };
+          if (element956.inv == inventarioUnimarc) {
+            urlCopiaDigitale = element956.url;
+            break;
+          }
+
+        }
+        return (urlCopiaDigitale == '') ? null : urlCopiaDigitale;
+      } else {
+        return null;
+      }
     };
-  //Almaviva3 06/06/2019 controllo il flag isOCNSearch per verificare se esporre il bottone modifica ricerca
-	$scope.isOCNSearch = isOCNSearch ? true : false;
-	if(isOCNSearch) //Se è una ricerca OCN elimino i dati di get nell'url
-		$location.search('')
-	isOCNSearch = false;
+    //Almaviva3 risoluzione prospettazione query errata 21/05/2020
+    $scope.splitSpaceQueryValue = function (value) {
+      value = value.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")
+      value = value.replace(/\s{2,}/g, " ");
+      value = value.trim();
+      return value.split(" ");
+    }
+    $scope.removeWordInFilterValue = function (filter, wordToRemove) {
+      $scope.removeFilter(filter, true, wordToRemove);
+    }
+
+    //Almaviva3 06/06/2019 controllo il flag isOCNSearch per verificare se esporre il bottone modifica ricerca
+    $scope.isOCNSearch = isOCNSearch ? true : false;
+    if (isOCNSearch) //Se è una ricerca OCN elimino i dati di get nell'url
+      $location.search('')
+    isOCNSearch = false;
   }]);

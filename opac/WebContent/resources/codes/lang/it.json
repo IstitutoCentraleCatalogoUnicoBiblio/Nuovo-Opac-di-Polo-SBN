@@ -473,10 +473,10 @@
 	"a": "a",
 	"pres": "Presentazione",
 	"segnatura": "Segnatura",
-	"organico_tip_1": "Organico sintetico della composizione",
-	"organico_tip_2": "Organico analitico della composizione",
-	"organico_tip_3": "Organico sintetico dell'elaborazione",
-	"organico_tip_4": "Organico analitico dell'elaborazione",
+	"organico_tip_1": "Organico sintetico",
+	"organico_tip_2": "Organico analitico",
+	"organico_tip_3": "Organico sintetico",
+	"organico_tip_4": "Organico analitico",
 	"rappres": "Rappresentazione",
 	"rappres_genere": "Genere di rappr.",
 	"tooltip_cerca_tuttiTitoli": "Cerca in tutti i documenti",
@@ -2557,5 +2557,6 @@
 	"msg_controlla_titoli_contenuti":"Per verificare dove lo trovi puoi cliccare sui titoli elencati in Dettaglio",
 	"msg_controlla_risorsa_elettronica":"Per accedere alle risorse digitali puoi consultare il Dettaglio",
 	"cerca_in_any": "cerca in titolo, autore, soggetto, descrizione Dewey",
-	"cerca_in_keywords": "cerca in tutti i campi"
+	"cerca_in_keywords": "cerca in tutti i campi",
+	"edizionef": "Edizione"
 }

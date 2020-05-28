@@ -40,6 +40,7 @@ import it.almaviva.opac.services.ConverterCampiServices;
 public class Util {
 	private static ConverterCampiServices converter = new ConverterCampiServices();
 	private static SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+
 	public static <T> List<T> listOf(T value) {
 		List<T> list = new ArrayList<>();
 		list.add(value);
@@ -88,11 +89,13 @@ public class Util {
 
 		return 0;
 	}
+
 	public static String cleanPath(String path) {
 		path = path.replace("\\", File.separator);
 		path = path.replace("/", File.separator);
 		return path;
 	}
+
 	public static boolean isNumeric(String input) {
 		try {
 			Integer.parseInt(input);
@@ -109,6 +112,16 @@ public class Util {
 		return sort;
 	}
 
+	//Almaviva3 21/05/2021 Fix ritorno x angular filtri di ricerca non congruente con la ricerca
+	//Il secondo giro provava a fare la ricerca con una punteggiatura che veniva esclusa per cui andava in errore
+	public static String normalizeValue(String value) {
+
+		value = value.replaceAll("[\\p{Punct} && [^*]]+", " ");
+		value = value.replaceAll("\\s+", " ");
+		value = value.trim();
+		return value;
+	}
+
 	public static GroupFilters andwordFilters(GroupFilters filtersGroup) {
 		GroupFilters appoggio = new GroupFilters();
 		List<Filters> gruppiapp = new ArrayList<Filters>();
@@ -121,13 +134,13 @@ public class Util {
 			List<Filter> filtri = ftrs.getFilters();
 			for (int i = 0; i < filtri.size(); i++) {
 				Filter filtro = filtri.get(i);
-				if (filtro.getMatch().equals(MatchType.andWord) && !filtro.getField().toLowerCase().equals("dewey_code")) {
+				if (filtro.getMatch().equals(MatchType.andWord)
+						&& !filtro.getField().toLowerCase().equals("dewey_code")) {
 					List<String> list = new ArrayList<String>();
-
 					filtro.setField(converter.converToPublic(filtro.getField()));
-					filtro.setValue(filtro.getValue().replaceAll("[\\p{Punct} && [^*]]+", " "));
-					filtro.setValue(filtro.getValue().replaceAll("\\s+", " "));
-					filtro.setValue(filtro.getValue().trim());
+					// Almaviva3 21/05/2020
+					filtro.setValue(normalizeValue(filtro.getValue()));
+
 					list = Arrays.asList(filtro.getValue().split(" "));
 					ListIterator<String> paroleListITerator = list.listIterator();
 					for (String parola : list) {
@@ -171,7 +184,8 @@ public class Util {
 
 		List<Filter> transformeds = new ArrayList<Filter>();
 		toTransform.forEach(filtroToTransform -> {
-			String[] valueParts = filtroToTransform.getValue().split(" ");
+			String value = normalizeValue(filtroToTransform.getValue());
+			String[] valueParts = value.split(" ");
 			if (valueParts.length > 1 && filtroToTransform.getMatch().equals(MatchType.andWord))
 				// Foreach parole
 				for (String valuePart : valueParts) {
@@ -189,26 +203,25 @@ public class Util {
 		date = date.trim().toUpperCase();
 		Calendar cal = Calendar.getInstance();
 		switch (DateNovitaType.checkDate(date)) {
-		case IERI: {
-			cal.add(Calendar.DATE, -1);
-			return sdf.format(cal.getTime());
-		}
-		case OGGI: {
-			return sdf.format(cal.getTime());
-		}
-		case LAST_WEEK: {
-			cal.add(Calendar.DATE, -7);
-			return sdf.format(cal.getTime());
-		}
-		case LAST_MONTH: {
-			cal.add(Calendar.MONTH, -1);
-			return sdf.format(cal.getTime());
+			case IERI: {
+				cal.add(Calendar.DATE, -1);
+				return sdf.format(cal.getTime());
+			}
+			case OGGI: {
+				return sdf.format(cal.getTime());
+			}
+			case LAST_WEEK: {
+				cal.add(Calendar.DATE, -7);
+				return sdf.format(cal.getTime());
+			}
+			case LAST_MONTH: {
+				cal.add(Calendar.MONTH, -1);
+				return sdf.format(cal.getTime());
+			}
+
+			default:
+				return date;
 		}
 
-
-		default:
-			return date;
-		}
-		
 	}
 }

@@ -344,7 +344,7 @@ public class SolrQueryExecuteDao implements SolrQueryExecuteInterface {
 						try {
 						String solrUrl = urlBuilder.getSolrUrl(codPolo, CoreType.AUTHOR);
 
-							documento.getNome_tot().forEach(name -> {
+							documento.getNome_view().forEach(name -> {
 								try {
 									SolrClient clientDocuments = new HttpSolrClient(solrUrl);
 

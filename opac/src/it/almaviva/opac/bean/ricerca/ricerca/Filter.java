@@ -20,6 +20,7 @@ import java.util.List;
 
 import it.almaviva.opac.bean.ricerca.result.MatchType;
 import it.almaviva.opac.bean.ricerca.result.OperatorType;
+import it.almaviva.utils.opac.RandomIdGenerator;
 
 //Bean di un singolo filtro vero e proprio
 public class Filter {
@@ -47,6 +48,10 @@ public class Filter {
 	// ulteriore gruppo di filtri necessario per i gruppi di gruppi
 	private List<Filter> otherFiltersGroup;
 
+	private String uuid = RandomIdGenerator.getId();
+	public String getUuid() {
+		return uuid;
+	}
 	public String getField() {
 		return field;
 	}

@@ -82,7 +82,7 @@ public class CampiRicercaDetailBean {
 
 	@Field
 	private List<String> descr;
-	@Field
+	@Field("edizione")
 	private List<String> edition;
 	// New Campi
 	@Field("av_*")

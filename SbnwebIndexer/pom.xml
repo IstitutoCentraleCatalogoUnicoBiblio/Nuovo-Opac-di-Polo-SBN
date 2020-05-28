@@ -1,9 +1,12 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>SbnwebIndexer</groupId>
 	<artifactId>SbnwebIndexer</artifactId>
 	<version>1.0.1-SNAPSHOT</version>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<resources>
@@ -14,10 +17,10 @@
 				</excludes>
 			</resource>
 		</resources>
-		
+
 		<plugins>
-	
-		<plugin>
+
+			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>3.0.2</version>
 				<executions>
@@ -49,42 +52,328 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
-		</plugins>
-	</build>
-	<dependencies>
-		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<version>2.8.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.persistence</groupId>
-			<artifactId>eclipselink</artifactId>
-			<version>2.6.4</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
-		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<version>42.0.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.solr</groupId>
-			<artifactId>solr-solrj</artifactId>
-			<version>5.5.3</version>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.persistence</groupId>
-			<artifactId>persistence-api</artifactId>
-			<version>1.0</version>
-		</dependency>
-	</dependencies>
-	
-</project>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.2.1</version>
+				<executions>
+
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<transformers>
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<mainClass>it.almaviva.aggiornaDBPolo.main.AggiornaDatabasePoloMain</mainClass>
+								</transformer>
+							</transformers>
+
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-install-plugin</artifactId>
+				<version>2.5.1</version>
+				<executions>
+					<execution>
+						<id>install-jar-lib</id>
+						<goals>
+							<goal>install-file</goal>
+						</goals>
+						<phase>validate</phase>
+						<configuration>
+							<groupId>it.almaviva.solrmarc.dependency.solr</groupId>
+							<artifactId>apache-solr-solrj-3.5-PATCHED-4-25-2015</artifactId>
+							<version>1.0</version>
+							<packaging>jar</packaging>
+							<file>${project.basedir}/lib/apache-solr-solrj-3.5-PATCHED-4-25-2015.jar</file>
+							<generatePom>true</generatePom>
+						</configuration>
+					</execution>
+					
+					<execution>
+						<id>install-jar-lib2</id>
+						<goals>
+							<goal>install-file</goal>
+						</goals>
+						<phase>validate</phase>
+						<configuration>
+							<groupId>it.almaviva.solrmarc.dependency.bsh</groupId>
+							<artifactId>bsh-2.0b4</artifactId>
+							<version>1.0</version>
+							<packaging>jar</packaging>
+							<file>${project.basedir}/lib/bsh-2.0b4.jar</file>
+							<generatePom>true</generatePom>
+						</configuration>
+					</execution>
+					<execution>
+						<id>install-jar-lib3</id>
+						<goals>
+							<goal>install-file</goal>
+						</goals>
+						<phase>validate</phase>
+						<configuration>
+							<groupId>it.almaviva.solrmarc.dependency.json</groupId>
+							<artifactId>json-simple-1.1.1</artifactId>
+							<version>1.0</version>
+							<packaging>jar</packaging>
+							<file>${project.basedir}/lib/json-simple-1.1.1.jar</file>
+							<generatePom>true</generatePom>
+						</configuration>
+					</execution>
+					<execution>
+						<id>install-jar-lib4</id>
+						<goals>
+							<goal>install-file</goal>
+						</goals>
+						<phase>validate</phase>
+						<configuration>
+							<groupId>it.almaviva.solrmarc.dependency.junit</groupId>
+							<artifactId>junit-4.7</artifactId>
+							<version>1.0</version>
+							<packaging>jar</packaging>
+							<file>${project.basedir}/lib/junit-4.7.jar</file>
+							<generatePom>true</generatePom>
+						</configuration>
+					</execution>
+					<execution>
+						<id>install-jar-lib5</id>
+						<goals>
+							<goal>install-file</goal>
+						</goals>
+						<phase>validate</phase>
+						<configuration>
+							<groupId>it.almaviva.solrmarc.dependency.junit</groupId>
+							<artifactId>junit-4.7</artifactId>
+							<version>1.0</version>
+							<packaging>jar</packaging>
+							<file>${project.basedir}/lib/junit-4.7.jar</file>
+							<generatePom>true</generatePom>
+						</configuration>
+					</execution>
+					<execution>
+						<id>install-jar-lib6</id>
+						<goals>
+							<goal>install-file</goal>
+						</goals>
+						<phase>validate</phase>
+						<configuration>
+							<groupId>it.almaviva.solrmarc.dependency.log4j</groupId>
+							<artifactId>log4j-1.2.5</artifactId>
+							<version>1.0</version>
+							<packaging>jar</packaging>
+							<file>${project.basedir}/lib/log4j-1.2.5.jar</file>
+								<generatePom>true</generatePom>
+							</configuration>
+						</execution>
+						<execution>
+							<id>install-jar-lib7</id>
+							<goals>
+								<goal>install-file</goal>
+							</goals>
+							<phase>validate</phase>
+							<configuration>
+								<groupId>it.almaviva.solrmarc.dependency.jzkit</groupId>
+								<artifactId>jzkit_client</artifactId>
+								<version>1.0</version>
+								<packaging>jar</packaging>
+								<file>${project.basedir}/lib/jzkit_client.jar</file>
+								<generatePom>true</generatePom>
+							</configuration>
+						</execution>
+						<execution>
+							<id>install-jar-lib8</id>
+							<goals>
+								<goal>install-file</goal>
+							</goals>
+							<phase>validate</phase>
+							<configuration>
+								<groupId>it.almaviva.solrmarc.dependency.marc4j</groupId>
+								<artifactId>marc4j-2.6.8</artifactId>
+								<version>1.0</version>
+								<packaging>jar</packaging>
+								<file>${project.basedir}/lib/marc4j-2.6.8.jar</file>
+								<generatePom>true</generatePom>
+							</configuration>
+						</execution>
+						<execution>
+							<id>install-jar-lib9</id>
+							<goals>
+								<goal>install-file</goal>
+							</goals>
+							<phase>validate</phase>
+							<configuration>
+								<groupId>it.almaviva.solrmarc.dependency.normalizer</groupId>
+								<artifactId>normalizer_solrmarc</artifactId>
+								<version>1.0</version>
+								<packaging>jar</packaging>
+								<file>${project.basedir}/lib/normalizer_solrmarc.jar</file>
+								<generatePom>true</generatePom>
+							</configuration>
+						</execution>
+						<execution>
+							<id>install-jar-lib10</id>
+							<goals>
+								<goal>install-file</goal>
+							</goals>
+							<phase>validate</phase>
+							<configuration>
+								<groupId>it.almaviva.solrmarc.dependency.servlet</groupId>
+								<artifactId>servlet-api-6.0.18</artifactId>
+								<version>1.0</version>
+								<packaging>jar</packaging>
+								<file>${project.basedir}/lib/servlet-api-6.0.18.jar</file>
+								<generatePom>true</generatePom>
+							</configuration>
+						</execution>
+
+					</executions>
+				</plugin>
+
+				<!-- <plugin> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-maven-plugin</artifactId> 
+				<version>2.0.3.RELEASE</version> <executions> <execution> <goals> <goal>repackage</goal> 
+				</goals> <configuration> <mainClass> it.almaviva.aggiornaDBPolo.main.AggiornaDatabasePoloMain 
+				</mainClass> <includeSystemScope>true</includeSystemScope> </configuration> 
+				</execution> </executions> </plugin> -->
+
+			</plugins>
+			<finalName>SbnwebIndexer</finalName>
+		</build>
+		<dependencies>
+			<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+			<dependency>
+				<groupId>com.google.code.gson</groupId>
+				<artifactId>gson</artifactId>
+				<version>2.8.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.persistence</groupId>
+				<artifactId>eclipselink</artifactId>
+				<version>2.6.4</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+			<dependency>
+				<groupId>org.postgresql</groupId>
+				<artifactId>postgresql</artifactId>
+				<version>42.0.0</version>
+			</dependency>
+			<!-- <dependency> <groupId>org.apache.solr</groupId> <artifactId>solr-solrj</artifactId> 
+			<version>5.5.3</version> </dependency> -->
+			<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>1.8.0-beta4</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
+			<dependency>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
+				<version>1.13</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/log4j/log4j -->
+			<dependency>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+				<version>1.2.17</version>
+			</dependency>
+
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>3.8.1</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>javax.persistence</groupId>
+				<artifactId>persistence-api</artifactId>
+				<version>1.0</version>
+			</dependency>
+			<!-- https://mvnrepository.com/artifact/commons-httpclient/commons-httpclient -->
+			<dependency>
+				<groupId>commons-httpclient</groupId>
+				<artifactId>commons-httpclient</artifactId>
+				<version>3.1</version>
+			</dependency>
+
+			<!-- Dipendenze manuali solrmarc -->
+			<dependency>
+				<groupId>it.almaviva.solrmarc.dependency.solr</groupId>
+				<artifactId>apache-solr-solrj-3.5-PATCHED-4-25-2015</artifactId>
+				<version>1.0</version>
+				<!-- <scope>system</scope> -->
+				<!-- <type>jar</type> -->
+				<!-- <systemPath>${project.basedir}/lib/apache-solr-solrj-3.5-PATCHED-4-25-2015.jar</systemPath> -->
+			</dependency>
+			<dependency>
+				<groupId>it.almaviva.solrmarc.dependency.bsh</groupId>
+				<artifactId>bsh-2.0b4</artifactId>
+				<version>1.0</version>
+				<!-- <scope>system</scope> -->
+				<!-- <type>jar</type> -->
+				<!-- <systemPath>${project.basedir}/lib/bsh-2.0b4.jar</systemPath> -->
+			</dependency>
+			<dependency>
+				<groupId>it.almaviva.solrmarc.dependency.json</groupId>
+				<artifactId>json-simple-1.1.1</artifactId>
+				<version>1.0</version>
+				<!-- <scope>system</scope> -->
+				<!-- <type>jar</type> -->
+				<!-- <systemPath>${project.basedir}/lib/json-simple-1.1.1.jar</systemPath> -->
+			</dependency>
+			<dependency>
+				<groupId>it.almaviva.solrmarc.dependency.junit</groupId>
+				<artifactId>junit-4.7</artifactId>
+				<version>1.0</version>
+				<!-- <scope>system</scope> -->
+				<!-- <type>jar</type> -->
+				<!-- <systemPath>${project.basedir}/lib/junit-4.7.jar</systemPath> -->
+			</dependency>
+			<dependency>
+				<groupId>it.almaviva.solrmarc.dependency.log4j</groupId>
+				<artifactId>log4j-1.2.5</artifactId>
+				<version>1.0</version>
+				<!-- <scope>system</scope> -->
+				<!-- <type>jar</type> -->
+				<!-- <systemPath>${project.basedir}/lib/log4j-1.2.5.jar</systemPath> -->
+			</dependency>
+			<dependency>
+				<groupId>it.almaviva.solrmarc.dependency.jzkit</groupId>
+				<artifactId>jzkit_client</artifactId>
+				<version>1.0</version>
+				<!-- <scope>system</scope> -->
+				<!-- <type>jar</type> -->
+				<!-- <systemPath>${project.basedir}/lib/jzkit_client.jar</systemPath> -->
+			</dependency>
+			<dependency>
+				<groupId>it.almaviva.solrmarc.dependency.marc4j</groupId>
+				<artifactId>marc4j-2.6.8</artifactId>
+				<version>1.0</version>
+				<!-- <scope>system</scope> -->
+				<!-- <type>jar</type> -->
+				<!-- <systemPath>${project.basedir}/lib/marc4j-2.6.8.jar</systemPath> -->
+			</dependency>
+			<dependency>
+				<groupId>it.almaviva.solrmarc.dependency.normalizer</groupId>
+				<artifactId>normalizer_solrmarc</artifactId>
+				<version>1.0</version>
+				<!-- <scope>system</scope> -->
+				<!-- <type>jar</type> -->
+				<!-- <systemPath>${project.basedir}/lib/normalizer_solrmarc.jar</systemPath> -->
+			</dependency>
+			<dependency>
+				<groupId>it.almaviva.solrmarc.dependency.servlet</groupId>
+				<artifactId>servlet-api-6.0.18</artifactId>
+				<version>1.0</version>
+				<!-- <scope>system</scope> -->
+				<!-- <type>jar</type> -->
+				<!-- <systemPath>${project.basedir}/lib/servlet-api-6.0.18.jar</systemPath> -->
+			</dependency>
+
+		</dependencies>
+
+	</project>

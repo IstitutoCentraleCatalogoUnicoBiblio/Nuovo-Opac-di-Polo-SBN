@@ -1,5 +1,5 @@
 package it.almaviva.aggiornaDBPolo.main;
-
+//it.almaviva.aggiornaDBPolo.main.AggiornaDatabasePoloMain
 import org.apache.log4j.Logger;
 
 import it.almaviva.aggiornaDBPolo.Solr.CoreType;

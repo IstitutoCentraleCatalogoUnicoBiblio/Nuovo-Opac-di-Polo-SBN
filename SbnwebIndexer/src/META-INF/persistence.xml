@@ -4,15 +4,15 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="ConverterPersistence" transaction-type="RESOURCE_LOCAL">
 			<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-			<class>it.almaviva.aggiornaDBPolo.postgreSQL.bean.PoloBean </class>
-				<class>it.almaviva.aggiornaDBPolo.postgreSQL.bean.LibraryBean </class>
+			<class>it.almaviva.aggiornaDBPolo.postgreSQL.bean.PoloBean</class>
+			           it.almaviva.aggiornaDBPolo.postgreSQL.bean.AccessoMlol
+				<class>it.almaviva.aggiornaDBPolo.postgreSQL.bean.LibraryBean</class>
 				<class>it.almaviva.aggiornaDBPolo.postgreSQL.bean.AccessoMlol</class>
 				<class>it.almaviva.aggiornaDBPolo.postgreSQL.bean.ApplicativoServiziBean</class>
 				<class>it.almaviva.aggiornaDBPolo.postgreSQL.bean.Authority_flags</class>
 				<class>it.almaviva.aggiornaDBPolo.postgreSQL.bean.CatFruizione</class>
 				<class>it.almaviva.aggiornaDBPolo.postgreSQL.bean.MaterialeInventariale</class>
-			  
-			     <exclude-unlisted-classes>false</exclude-unlisted-classes>
+				<exclude-unlisted-classes>false</exclude-unlisted-classes>
 			     
 	<properties>
 			<property name="eclipselink.weaving" value="false"/>

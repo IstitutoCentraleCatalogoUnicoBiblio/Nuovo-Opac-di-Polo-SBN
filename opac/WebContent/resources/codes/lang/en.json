@@ -470,10 +470,10 @@
 	"specvideo": "Video",
 	"pres": "Presentation",
 	"segnatura": "Shelf mark",
-	"organico_tip_1": "Synthetic medium of performance of composition",
-	"organico_tip_2": "Analytic medium of performance",
-	"organico_tip_3": "Synthetic medium of performance of arrangement",
-	"organico_tip_4": "Analytic medium of performance of arrangement",
+	"organico_tip_1": "Synthetic medium",
+	"organico_tip_2": "Analytic medium",
+	"organico_tip_3": "Synthetic medium",
+	"organico_tip_4": "Analytic medium",
 	"rappres": "Presentment",
 	"rappres_genere": "Presentment genr.",
 	"tooltip_cerca_tuttiTitoli": "Search in all documents",
@@ -2554,5 +2554,7 @@
 	"msg_controlla_titoli_contenuti":"To check where you find it, you can click on the titles in Detail",
 	"msg_controlla_risorsa_elettronica":"To access the digital resources you can see the Detail",
 	"cerca_in_any": "Search in title, author, subject, Dewey description",
-	"cerca_in_keywords": "Search in every field"
+	"cerca_in_keywords": "Search in every field",
+	"edizionef": "Edition"
+	
 }	

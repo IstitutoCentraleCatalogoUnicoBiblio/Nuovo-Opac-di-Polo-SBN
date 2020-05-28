@@ -73,18 +73,18 @@ public class APIPolo {
 					poloJson.put("flag_mlol", polo.getFlag_mlol());
 					poloJson.put("flag_wiki", polo.getFlag_wiki());
 					poloJson.put("flag_maps", polo.getFlag_maps());
-					poloJson.put("flag_chiedi", polo.getAuthority_flags().getFlag_chiedi());
+					poloJson.put("flag_chiedi", polo.getAuthority_flags() != null ? polo.getAuthority_flags().getFlag_chiedi() : "ERRORE FLAG NON IMPOSTATO/I");
 
 					poloJson.put("maps_api_key", polo.getMaps_api_key());
 					poloJson.put("linkApplicativi", polo.getLinks());
-					poloJson.put("auth_autori", polo.getAuthority_flags().getFlag_autori());
-					poloJson.put("auth_soggetti", polo.getAuthority_flags().getFlag_soggetti());
+					poloJson.put("auth_autori", polo.getAuthority_flags() != null ? polo.getAuthority_flags().getFlag_autori() : "ERRORE FLAG NON IMPOSTATO/I");
+					poloJson.put("auth_soggetti", polo.getAuthority_flags() != null ? polo.getAuthority_flags().getFlag_soggetti() : "ERRORE FLAG NON IMPOSTATO/I");
 					poloJson.put("materiale_inv", polo.materialeInv());
 					poloJson.put("codici_frui", polo.fruizioni());
 					//poloJson.put("n_docs", polo.getNrdocs());
 				//	poloJson.put("n_docs_aut", polo.getN_doc_auth());
-					poloJson.put("auth_classificazioni", polo.getAuthority_flags().getFlag_classificazioni());
-					poloJson.put("useAuthority", polo.getAuthority_flags().useButtonAuthority());
+					poloJson.put("auth_classificazioni", polo.getAuthority_flags() != null ? polo.getAuthority_flags().getFlag_classificazioni() : "ERRORE FLAG NON IMPOSTATO/I" );
+					poloJson.put("useAuthority", polo.getAuthority_flags() != null ? polo.getAuthority_flags().useButtonAuthority() : "ERRORE FLAG NON IMPOSTATO/I");
 					poloJson.put("data_scarico", polo.getDatascarico());
 					poloJson.put("nome_referente", polo.getNome_referente());
 					poloJson.put("email_referente", polo.getEmail_referente());
@@ -92,8 +92,9 @@ public class APIPolo {
 					poloJson.put("gruppi_bib", polo.getGruppiBib());
 					poloJson.put("flag_logo", polo.useLogoImg());
 					poloJson.put("maps_api_key", polo.getMaps_api_key());
-					poloJson.put("mlol_portal_id", polo.mlolCredential().getPortal_id());
-					poloJson.put("mlol_api_key", polo.mlolCredential().getApi_key());
+					
+					poloJson.put("mlol_portal_id", polo.mlolCredential() != null ? polo.mlolCredential().getPortal_id() : "");
+					poloJson.put("mlol_api_key", polo.mlolCredential() != null ? polo.mlolCredential().getApi_key(): "" );
 					poloJson.put("link_esterni", polo.getLink_esterni());
 					poloJson.put("email_segnalazioni", polo.getEmail_segnalazioni());
 					poloJson.put("numero_referente", polo.getNumero_referente());
