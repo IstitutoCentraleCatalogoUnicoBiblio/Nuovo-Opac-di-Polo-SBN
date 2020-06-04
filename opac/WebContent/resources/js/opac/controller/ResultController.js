@@ -417,7 +417,9 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
     }
     //rimozione di un filtro di ricerca filtro
     //almaviva3 possibilità di rimuovere una parola
-    $scope.removeFilter = function (filtro, isWord = false, wordToRemove) {
+    $scope.removeFilter = function (filtro, isWord, wordToRemove) {
+      if(isWord == undefined || isWord == null)
+        isWord = false;
       //	//console.log("richiesta rimozione: ", filtro);
       var toPostJson = $scope.search.request;
       toPostJson.start = 0;
