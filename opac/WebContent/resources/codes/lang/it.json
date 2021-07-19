@@ -2538,7 +2538,7 @@
 	"il_modulo":"il modulo",
 	"modulo":"Modulo ",
 	"num_tel_info":"Numero telefonico",
-	"per_segnalazioni":"Se hai riscontrato qualche problema, scrivi a ",
+	"per_segnalazioni":"Per problemi tecnici relativi al catalogo, scrivi a ",
 	"ref_polo_descr":"Referente del polo ",
 	"torna_a_opac":"Visualizza OPAC",
 	"tooltip_torna_a_opac": "Visualizza l'OPAC in una nuova pagina",
@@ -2558,5 +2558,16 @@
 	"msg_controlla_risorsa_elettronica":"Per accedere alle risorse digitali puoi consultare il Dettaglio",
 	"cerca_in_any": "cerca in titolo, autore, soggetto, descrizione Dewey",
 	"cerca_in_keywords": "cerca in tutti i campi",
-	"edizionef": "Edizione"
+	"edizionef": "Edizione",
+	"operatore_di_ricerca":"Operatore di ricerca",
+	"tipo_di_macth":"Tipo di match",
+	"campo_di_ricerca":"Campo di ricerca",
+	"elemento_da_cercare" : "Elemento di ricerca",
+	"link_esterni_title":"Visualizza un elenco di link esterni",
+	"acc_navigazione": "Vai al menu di navigazione ",
+	"acc_footer": "Vai al footer",
+	"acc_body": "Vai al contenuto della pagina",
+	"acc_apertura_nuova_finestra":"Apri in una nuova pagina il link: ",
+	"classi_686_tot_altre": "Altre classificazioni"
+
 }

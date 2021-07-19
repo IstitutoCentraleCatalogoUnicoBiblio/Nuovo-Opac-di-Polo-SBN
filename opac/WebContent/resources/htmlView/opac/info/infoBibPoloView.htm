@@ -2,7 +2,8 @@
 	<div class="row content">
 		<ng-include src=" 'htmlView/templates/page/navbarView.htm' "></ng-include>
 		<div class="col-sm-12 padd_box_LR">
-			<h2>
+			<section aria-label="{{'acc_body' | translate}}" id="acc_body">
+			<h2  role="heading" aria-level="1">
 				<img src="images/ico_info_ora.png" alt=" {{ (controller |
 				translate) }}"> {{ (controller |
 				translate) }}
@@ -37,13 +38,13 @@
 								<tr ng-repeat="bib in polo.libraries"
 									ng-click="centerInMap($index)"
 									ng-attr-id="{{biblioteca_ + $index}}">
-									<td class="link">{{bib.name}}</td>
+									<td class="blu-tema manina ">{{bib.name}}</td>
 									<td><a title="{{'visualizzaAnagrafe' | translate}}"
 										href="http://anagrafe.iccu.sbn.it/isil/IT-{{(bib.dettaglio.isil) ? bib.dettaglio.isil : bib.isil | uppercase}}"
-										target="_blank">
-											<center>
+										target="_blank" aria-label="{{( 'acc_apertura_nuova_finestra' | translate) + ' http://anagrafe.iccu.sbn.it/isil/IT-' + ((bib.dettaglio.isil) ? bib.dettaglio.isil : bib.isil)}}">
+											<div class="text-center">
 												<span class="glyphicon glyphicon-info-sign"></span>
-											</center>
+											</div>
 									</a></td>
 								</tr>
 							</tbody>
@@ -63,6 +64,7 @@
 					</div>
 				</div>
 			</div>
+		</section>
 		</div>
 	</div>
 </div>

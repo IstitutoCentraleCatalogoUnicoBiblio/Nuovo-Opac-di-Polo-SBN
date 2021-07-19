@@ -1,6 +1,7 @@
 opac2.registerCtrl('ContattiController', ['$scope', '$translate', '$routeParams', '$route', '$location', '$filter', 'ApiServices', 'LocalSessionSettingsServices', 'CodiciServices','SharedServices',
   function($scope, $translate, $routeParams, $route, $location, $filter, ApiServices, LocalSessionSettingsServices, CodiciServices, SharedServices) {
     //console.log("ContattiController");
+    updateTitle('Contatti');
     $scope.flagVisualizza = true;
     $scope.controller = "contatti";
     $scope.changeLanguage = function(key) {

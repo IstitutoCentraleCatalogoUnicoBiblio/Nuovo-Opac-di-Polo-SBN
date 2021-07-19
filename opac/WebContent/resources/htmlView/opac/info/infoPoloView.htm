@@ -4,52 +4,60 @@
 
 		<!-- titolo pagina -->
 		<div class="col-sm-12 col-lg-12">
-			<div class="col-sm-4 col-lg-4">
-				<h2>
-					<img src="images/ico_info_ora.png" alt=""> {{ (controller |
-					translate) }}
-				</h2>
-			</div>
-			<div class="col-sm-12 padd_sf_home">
-				<div class="divTable myBoxe" id="panelInfoPolo"
-					style="text-align: center;">
+			<section aria-label="{{'acc_body' | translate}}" id="acc_body">
 
-					<div class="col-md-12" style="margin-bottom: 50px;">
-						<div ng-class="[{'col-md-4':polo.auth_autori }, {'col-md-6': !polo.auth_autori }]">
-							<h1>
-								<span class="glyphicon glyphicon-calendar "></span>
-							</h1>
-							<h5>{{ 'info_poloAggiornatoal' | translate }}</h5>
-							<h4>{{toDate(polo.data_scarico)}}</h4>
-						</div>
-						<div ng-class="[{'col-md-4':polo.auth_autori }, {'col-md-6': !polo.auth_autori }]">
-							<h1>
-								<span class="glyphicon glyphicon-list-alt "></span>
-							</h1>
-							<h5>{{ 'info_nDoc' | translate }}</h5>
-							<h4>{{polo.n_docs}}</h4>
-						</div>
-						<div class="col-md-4" ng-if="polo.auth_autori">
-							<h1>
-								<span class="glyphicon glyphicon-education "></span>
-							</h1>
-							<h5>{{ 'info_nDoc_aut' | translate }}</h5>
-							<h4>{{polo.n_docs_aut}}</h4>
-						</div>
-					
-					</div>
-					<span class="pull-left">{{( 'info_referente' | translate ) + " " +polo.nome_referente + " - "}}<i><a
-							href="mailto:{{polo.email_referente}}">{{polo.email_referente}}</a></i></span>
-					<span class="pull-right">{{( 'versione_applicativo' | translate ) + " " + opac_version.version + " - "}}
-					{{( 'ultimo_release' | translate ) + " " + opac_version.last_release }}
-					</span>
+				<div class="col-sm-4 col-lg-4">
+					<h2 role="heading" aria-level="1">
+						<img src="images/ico_info_ora.png" alt=" {{ (controller |
+						translate) }}"> {{ (controller |
+					translate) }}
+					</h2>
 				</div>
-			</div>
+				<div class="col-sm-12 padd_sf_home">
+					<div class="divTable myBoxe" id="panelInfoPolo" style="text-align: center;">
+
+						<div class="col-md-12" style="margin-bottom: 50px;">
+							<div ng-class="[{'col-md-4':polo.auth_autori }, {'col-md-6': !polo.auth_autori }]">
+								<h1 role="heading" aria-level="1">
+									<span class="glyphicon glyphicon-calendar "></span>
+									<span class="hidden">>{{ 'info_poloAggiornatoal' | translate }}</span>
+								</h1>
+								<h5 role="heading" aria-level="2">{{ 'info_poloAggiornatoal' | translate }}</h5>
+								<h4 role="heading" aria-level="3">{{toDate(polo.data_scarico)}}</h4>
+							</div>
+							<div ng-class="[{'col-md-4':polo.auth_autori }, {'col-md-6': !polo.auth_autori }]">
+								<h1 role="heading" aria-level="1">
+									<span class="glyphicon glyphicon-list-alt "></span>
+									<span class="hidden">{{ 'info_nDoc' | translate }}</span>
+								</h1>
+								<h5 role="heading" aria-level="2">{{ 'info_nDoc' | translate }}</h5>
+								<h4 role="heading" aria-level="3">{{polo.n_docs}}</h4>
+							</div>
+							<div class="col-md-4" ng-if="polo.auth_autori">
+								<h1 role="heading" aria-level="1">
+									<span class="glyphicon glyphicon-education "></span>
+									<span class="hidden">{{ 'info_nDoc_aut' | translate }}</span>
+								</h1>
+								<h5 role="heading" aria-level="2">{{ 'info_nDoc_aut' | translate }}</h5>
+								<h4 role="heading" aria-level="3">{{polo.n_docs_aut}}</h4>
+							</div>
+
+						</div>
+						<span
+							class="pull-left">{{( 'info_referente' | translate ) + " " +polo.nome_referente + " - "}}<em><a
+									href="mailto:{{polo.email_referente}}">{{polo.email_referente}}</a></em></span>
+						<span
+							class="pull-right">{{( 'versione_applicativo' | translate ) + " " + opac_version.version + " - "}}
+							{{( 'ultimo_release' | translate ) + " " + opac_version.last_release }}
+						</span>
+					</div>
+				</div>
+			</section>
 		</div>
 	</div>
 </div>
 
-<span style="bottom: 0px"> <ng-include
-		src=" 'htmlView/templates/page/footerView.htm' "></ng-include>
+<span style="bottom: 0px">
+	<ng-include src=" 'htmlView/templates/page/footerView.htm' "></ng-include>
 </span>
 <ng-include src=" 'htmlView/templates/page/modalsView.htm' "></ng-include>

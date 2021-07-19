@@ -1,14 +1,16 @@
 <div class="panel-group">
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h5>{{selectedActivity | translate}}</h5>
+            <h5 role="heading" aria-level="1">{{selectedActivity | translate}}</h5>
         </div>
         <div class="panel-body">
             <div ng-show="isLoading" class="col-md-3 centerDivLogin">
                 <div class="form-login center">
-                    <center>
-                        <div class="loader"></div>
-                    </center>
+                    <div class="loadingio-spinner-rolling-d49g7b96z79">
+                        <div class="ldio-rlwckwg1g7">
+                          <div></div>
+                        </div>
+                      </div>
                 </div>
 
             </div>
@@ -28,17 +30,17 @@
                                         <span class="glyphicon glyphicon-remove"></span>
                                     </button>
                                 </span>
-                            <span class="link" ng-show="!showBib" ng-click="showBib = true" title="{{'tooltip_dettaglio_amm' | translate}}">
+                            <span class="blu-tema manina " ng-show="!showBib" ng-click="showBib = true" title="{{'tooltip_dettaglio_amm' | translate}}">
                                     <button class="btn btn-xs btn-info">
                                             <span class="glyphicon glyphicon-chevron-down"></span>
                                         </button>
                             </span>
-                            <span class="link" ng-show="showBib" ng-click="showBib = false" title="{{'chiudi' | translate}}"> 
+                            <span class="blu-tema manina " ng-show="showBib" ng-click="showBib = false" title="{{'chiudi' | translate}}"> 
                                 <button class="btn btn-xs btn-info">
                                     <span class="glyphicon glyphicon-chevron-up"></span>
                                 </button></span>
         
-                    <b style="margin-left: 6px" >{{gruppo.name}}</b>
+                    <strong style="margin-left: 6px" >{{gruppo.name}}</strong>
        
                     <div class="list-group px-top-20" style="max-width: 500px" ng-show="showBib">
                         <div  class="list-group-item" ng-repeat="bib in gruppo.biblioteche track by $index" ng-if="!bib.deleted">
@@ -52,26 +54,28 @@
 
             </div>
             <form  ng-show="!isLoading" ng-if="edit" class="form-horizontal">
+                <input type="submit" class="hidden" />
                 <fieldset>
                     <div class="form-group">
-                        <label for="gruppo" class="col-sm-3 col-lg-3 myControl-label">{{ 'bib_name' | translate}}</label>
+                        <label for="bib_name" class="col-sm-3 col-lg-3 myControl-label">{{ 'bib_name' | translate}}</label>
                         <div class="col-sm-3 col-lg-3">
-                            <input type="text" class="form-control input-sm" id="user" ng-model="modifyGruppo.name">
+                            <input type="text" class="form-control input-sm" id="bib_name" ng-model="modifyGruppo.name">
                         </div>
                     </div>
                 </fieldset>
                 <fieldset>
                     <div class="form-group">
-                        <label for="b" class="col-sm-3 col-lg-3 myControl-label">{{ 'biblioteche_gruppo' | translate}}</label>
+                        <label for="biblioteche_gruppo_1" class="col-sm-3 col-lg-3 myControl-label">{{ 'biblioteche_gruppo' | translate}}</label>
                         <div class="col-sm-3 col-lg-3">
                             <div style="max-height: 600px; width: 400px;  overflow-y: auto; resize: both">
                                 <div class="list-group">
-                                    <div class="list-group-item" ng-repeat="bl in polo.libraries | orderBy: 'name' | orderBy: 'isil' " class="link" ng-if="!bl.deleted">
-                                        <span class="link" ng-click="$event.stopPropagation(); toggleSelectionBib(bl)">
-                                            <input ng-click="$event.stopPropagation(); toggleSelectionBib(bl)" type="checkbox" name="modifyGruppo.biblioteche[]" value="{{bl.name}}"
-                                                ng-checked="findIndex(modifyGruppo.biblioteche, 'cod_bib', bl.cod_bib) > -1 ">
+                                    <div class="list-group-item" ng-repeat="bl in polo.libraries | orderBy: 'name' | orderBy: 'isil' " class="blu-tema manina " ng-if="!bl.deleted">
+                                        <span class="blu-tema manina " ng-click="$event.stopPropagation(); toggleSelectionBib(bl)">
+                                            <input ng-click="$event.stopPropagation(); toggleSelectionBib(bl)" ng-attr-id="{{'biblioteche_gruppo_' + $index}}" 
+                                            type="checkbox" name="modifyGruppo.biblioteche[]" value="{{bl.name}}" role="group"
+                                                ng-checked="findIndex(modifyGruppo.biblioteche, 'cod_bib', bl.cod_bib) > -1 " aria-label="{{bl.name}}">
                                             <span style="padding-left: 10px;">{{bl.name}}
-                                                <i>({{bl.isil}})</i>
+                                                <em>({{bl.isil}})</em>
                                             </span>
                                         </span>
                                     </div>
@@ -93,8 +97,7 @@
                       </fieldset>
             </form>
         </div>
-        <div ng-show="!isLoading" class="panel-footer">
-            <center>
+        <div ng-show="!isLoading" class="panel-footer text-center">
                 <button title="{{'tooltip_insert_action' | translate}}" ng-show="!edit && (waitConfirm == undefined)" class="btn btn-md btn-success" ng-click="startInsert()">
                     {{'amm_insert' | translate}}
 
@@ -115,7 +118,6 @@
                     {{'amm_conferma_insert' | translate}}
 
                 </button>
-            </center>
         </div>
     </div>
 

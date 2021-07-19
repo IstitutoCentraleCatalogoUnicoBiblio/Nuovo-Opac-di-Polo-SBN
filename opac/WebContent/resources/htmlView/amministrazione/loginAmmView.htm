@@ -17,10 +17,10 @@
 					</div>
 					<div class="col-md-6 px-top-20">
 						<form>
-							<input type="text" id="userName" ng-model="login.username" class="form-control input-sm chat-input" placeholder="{{'amm_user' | translate}}"
+							<input type="text" id="userName" ng-model="login.username" class="form-control input-sm chat-input" placeholder="{{'amm_user' | translate}}" aria-label="{{'amm_user' | translate}}"
 							/>
 							</br>
-							<input type="password" id="userPassword" ng-model="login.password" class="form-control input-sm chat-input" placeholder="{{'amm_psw' | translate}}"
+							<input type="password" id="userPassword" ng-model="login.password" class="form-control input-sm chat-input" placeholder="{{'amm_psw' | translate}}" aria-label="{{'amm_psw' | translate}}"
 							/>
 							</br>
 							<div class="wrapper">
@@ -31,7 +31,7 @@
 								</span>
 
 								<div id="error" style="display: none;" class="px-top-20 alert alert-danger alert-dismissible" role="alert">
-									<button type="submit" title="{{'chiudi' | translate}}" class="close" data-dismiss="alert" aria-label="Close">
+									<button type="submit" title="{{'chiudi' | translate}}" class="close" data-dismiss="alert" >
 										<span aria-hidden="true">&times;</span>
 									</button>
 									 {{ errorLogin | translate}}

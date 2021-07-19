@@ -5,7 +5,7 @@
   <tr ng-if="dettagli[$index].syntetic_title">
     <td class="shortTd">
       <span class="col-sm-3 control-label work">
-        <strong class="sottolineato"> {{'titolo' | translate }}</strong>
+        <strong class="blu-label"> {{'titolo' | translate }}</strong>
       </span>
       <div class="col-sm-9 text"> {{ (dettagli[$index].pre_title + dettagli[$index].syntetic_title) | indexed }}</div>
     </td>
@@ -13,13 +13,13 @@
   <tr ng-if="dettagli[$index].nome_view">
     <td class="shortTd">
       <span class="col-sm-3 control-label">
-        <strong class="sottolineato"> {{'nomi' | translate }}</strong>
+        <strong class="blu-label"> {{'nomi' | translate }}</strong>
       </span>
       <div class="col-sm-9 text">
         <div ng-repeat="nom in dettagli[$index].nome_view">
-          <span title="{{'naviga' | translate }}" ng-click="findByVID(nom)" class="links">{{nom | nome_tot_toText}}</span>&nbsp;&nbsp;
+          <span title="{{'naviga' | translate }}" ng-click="findByVID(nom)" class="blu-tema manina underline">{{nom | nome_tot_toText}}</span>&nbsp;&nbsp;
           <span>
-            <i ng-if="nom.split('|')[2]">({{((nom | decodeRelatorcode | translate) + " " +(nom | nome_tot_to$5 | translate) | trim) }})</i>&nbsp;&nbsp;
+            <em ng-if="nom.split('|')[2]">({{((nom | decodeRelatorcode | translate) + " " +(nom | nome_tot_to$5 | translate) | trim) }})</em>&nbsp;&nbsp;
             <span
               ng-if="dettagli[$parent.$index].authorAviables[$index] == true">[<a title="{{'tooltip_vdettAuth' | translate}}" ng-href="{{$parent.polo.code}}/dettaglio/autore/{{nom | nome_tot_toVid}}">{{'schedaAuth' | translate}}</a>]</span>
         </div>
@@ -29,7 +29,7 @@
   <tr ng-if="dettagli[$index].edition">
     <td class="shortTd">
       <span class="col-sm-3 control-label">
-        <strong class="sottolineato"> {{'edizionef' | translate }}</strong>
+        <strong class="blu-label"> {{'edizionef' | translate }}</strong>
       </span>
       <div class="col-sm-9 text">
         <div ng-repeat="edws in dettagli[$index].edition">
@@ -41,7 +41,7 @@
   <tr ng-if="dettagli[$index].numeration">
     <td class="shortTd">
       <span class="col-sm-3 control-label work">
-        <strong class="sottolineato"> {{'numerazione' | translate }}</strong>
+        <strong class="blu-label"> {{'numerazione' | translate }}</strong>
       </span>
       <div class="col-sm-9 text"> {{ dettagli[$index].numeration }}</div>
     </td>
@@ -49,7 +49,7 @@
   <tr ng-if="dettagli[$index].descr">
     <td class="shortTd">
       <span class="col-sm-3 control-label">
-        <strong class="sottolineato"> {{'descrCode' | translate }}</strong>
+        <strong class="blu-label"> {{'descrCode' | translate }}</strong>
       </span>
       <div class="col-sm-9 text">
         <div ng-repeat="descrSingleton in dettagli[$index].descr">
@@ -62,7 +62,7 @@
   <tr ng-if="dettagli[$index].note.nota">
     <td class="shortTd">
       <span class="col-sm-3 control-label">
-        <strong class="sottolineato"> {{'nota' | translate }}</strong>
+        <strong class="blu-label"> {{'nota' | translate }}</strong>
       </span>
       <div class="col-sm-9 text">
         <div ng-repeat="notaSingle in dettagli[$index].note.nota">
@@ -74,7 +74,7 @@
   <tr ng-if="dettagli[$index].note.nota_cast">
     <td class="shortTd">
       <span class="col-sm-3 control-label">
-        <strong class="sottolineato"> {{'nota_cast' | translate }}</strong>
+        <strong class="blu-label"> {{'nota_cast' | translate }}</strong>
       </span>
       <div class="col-sm-9 text">
         <div ng-repeat="notaCast in dettagli[$index].note.nota_cast">
@@ -98,7 +98,7 @@
   <tr ng-if="dettagli[$index].abstract_">
     <td class="shortTd">
       <span class="col-sm-3 control-label">
-        <strong class="sottolineato"> {{'abstract' | translate }}</strong>
+        <strong class="blu-label"> {{'abstract' | translate }}</strong>
       </span>
       <div class="col-sm-9 text">
         <div ng-repeat="abstr in dettagli[$index].abstract_">
@@ -110,7 +110,7 @@
   <tr ng-if="dettagli[$index].note.nota_contenuto">
     <td class="shortTd">
       <span class="col-sm-3 control-label">
-        <strong class="sottolineato"> {{'nota_contenuto' | translate }}</strong>
+        <strong class="blu-label"> {{'nota_contenuto' | translate }}</strong>
       </span>
       <div class="col-sm-9 text">
         <div ng-repeat="notaCont in dettagli[$index].note.nota_contenuto">
@@ -122,7 +122,7 @@
   <tr ng-if="dettagli[$index].note.nota_tiporis">
     <td class="shortTd">
       <span class="col-sm-3 control-label">
-        <strong class="sottolineato"> {{'nota_tiporis' | translate }}</strong>
+        <strong class="blu-label"> {{'nota_tiporis' | translate }}</strong>
       </span>
       <div class="col-sm-9 text">
         <div ng-repeat="notaTPS in dettagli[$index].note.nota_tiporis">
@@ -134,7 +134,7 @@
   <tr ng-if="dettagli[$index].note.nota_requisiti">
     <td class="shortTd">
       <span class="col-sm-3 control-label">
-        <strong class="sottolineato"> {{'nota_requisiti' | translate }}</strong>
+        <strong class="blu-label"> {{'nota_requisiti' | translate }}</strong>
       </span>
       <div class="col-sm-9 text">
         <div ng-repeat="notaTPS in dettagli[$index].note.nota_requisiti">
@@ -167,128 +167,128 @@
 ">
     <td class="shortTd">
       <span class="col-sm-3 control-label">
-        <strong class="sottolineato"> {{'numeri' | translate }}</strong>
+        <strong class="blu-label"> {{'numeri' | translate }}</strong>
       </span>
       <div class="col-sm-9 text">
         <!-- isbn -->
         <div ng-if="dettagli[$index].isbn">
           <span ng-repeat="isbnSingle in dettagli[$index].isbn">
-            <i class="colour">{{"isbn" | translate}}</i>{{" - "}}{{isbnSingle | indexed}}</br ng-if="dettagli[$index].isbn[$index +1 ]">
+            <em class="colour">{{"isbn" | translate}}</em>{{" - "}}{{isbnSingle | indexed}}</br ng-if="dettagli[$index].isbn[$index +1 ]">
           </span>
         </div>
 
         <!-- issn -->
         <div ng-if="dettagli[$index].issn">
           <span ng-repeat="issnSingle in dettagli[$index].issn">
-            <i class="colour">{{"issn" | translate}}</i>{{" - "}}{{issnSingle | indexed}}</br ng-if="dettagli[$index].issn[$index +1 ]">
+            <em class="colour">{{"issn" | translate}}</em>{{" - "}}{{issnSingle | indexed}}</br ng-if="dettagli[$index].issn[$index +1 ]">
           </span>
         </div>
         <!-- ismn -->
         <div ng-if="dettagli[$index].ismn">
           <span ng-repeat="ismnSingle in dettagli[$index].ismn">
-            <i class="colour">{{'ismn' | translate}}</i>{{" - "}}{{ismnSingle | indexed}}</br ng-if="dettagli[$index].ismn[$index +1 ]">
+            <em class="colour">{{'ismn' | translate}}</em>{{" - "}}{{ismnSingle | indexed}}</br ng-if="dettagli[$index].ismn[$index +1 ]">
           </span>
         </div>
         <!-- isrn -->
         <div ng-if="dettagli[$index].numbers_tip.numeri_tip_isrn">
           <span ng-repeat="isrnSingle in dettagli[$index].numbers_tip.numeri_tip_isrn">
-            <i class="colour">{{'isrn' | translate}}</i>{{" - "}}{{isrnSingle | indexed}}</br ng-if="dettagli[$index].numbers_tip.numeri_tip_isrn[$index+1]">
+            <em class="colour">{{'isrn' | translate}}</em>{{" - "}}{{isrnSingle | indexed}}</br ng-if="dettagli[$index].numbers_tip.numeri_tip_isrn[$index+1]">
           </span>
         </div>
         <!-- numeri tip V1 -->
         <div ng-if="dettagli[$index].numbers_tip.numeri_tip_V1">
           <span ng-repeat="_V1Single in dettagli[$index].numbers_tip.numeri_tip_V1">
-            <i class="colour">{{'isrc' | translate }}</i>{{" - "}}{{_V1Single | indexed}}</br ng-if="dettagli[$index].numbers_tip.numeri_tip_V1[$index+1]">
+            <em class="colour">{{'isrc' | translate }}</em>{{" - "}}{{_V1Single | indexed}}</br ng-if="dettagli[$index].numbers_tip.numeri_tip_V1[$index+1]">
           </span>
 
         </div>
         <!-- bni -->
         <div ng-if="dettagli[$index].bni">
           <span ng-repeat="bniSingle in dettagli[$index].bni">
-            <i class="colour">{{'bni' | translate }}</i>{{" - "}}{{bniSingle | indexed}}</br ng-if="dettagli[$index].bni[$index+1]">
+            <em class="colour">{{'bni' | translate }}</em>{{" - "}}{{bniSingle | indexed}}</br ng-if="dettagli[$index].bni[$index+1]">
 
           </span>
         </div>
         <div ng-if="dettagli[$index].numbers_tip.numeri_tip_leg">
           <span ng-repeat="legSingle in dettagli[$index].numbers_tip.numeri_tip_leg">
-            <i class="colour">{{'leg' | translate}}</i>{{" - "}}{{legSingle | indexed}}</br ng-if="dettagli[$index].numbers_tip.numeri_tip_leg[$index + ]">
+            <em class="colour">{{'leg' | translate}}</em>{{" - "}}{{legSingle | indexed}}</br ng-if="dettagli[$index].numbers_tip.numeri_tip_leg[$index + ]">
           </span>
         </div>
         <div ng-if="dettagli[$index].numbers_tip.numeri_tip_gov">
           <span ng-repeat="govSingle in dettagli[$index].numbers_tip.numeri_tip_gov">
-            <i class="colour">{{'gov' | translate}}</i>{{" - "}}{{govSingle | indexed}}</br ng-if="dettagli[$index].numbers_tip.numeri_tip_gov[$index+1]">
+            <em class="colour">{{'gov' | translate}}</em>{{" - "}}{{govSingle | indexed}}</br ng-if="dettagli[$index].numbers_tip.numeri_tip_gov[$index+1]">
 
           </span>
         </div>
         <div ng-if="dettagli[$index].numbers_tip.numeri_tip_ocn">
           <span ng-repeat="ocnSingle in dettagli[$index].numbers_tip.numeri_tip_ocn">
-            <i class="colour">{{'ocn_text' | translate}}</i>{{" - "}}{{ocnSingle | indexed}}</br ng-if="dettagli[$index].numbers_tip.numeri_tip_ocn[$index+1]">
+            <em class="colour">{{'ocn_text' | translate}}</em>{{" - "}}{{ocnSingle | indexed}}</br ng-if="dettagli[$index].numbers_tip.numeri_tip_ocn[$index+1]">
           </span>
         </div>
         <!--numeri tip Q -->
         <div ng-if="dettagli[$index].numbers_tip.numeri_tip_Q">
           <span ng-repeat="_QSingle in dettagli[$index].numbers_tip.numeri_tip_Q">
-            <i class="colour"> {{'numeri_tip_Q' | translate }}</i>{{" - "}}{{_QSingle | indexed}}</br ng-if="dettagli[$index].numbers_tip.numeri_tip_Q[$index+1]">
+            <em class="colour"> {{'numeri_tip_Q' | translate }}</em>{{" - "}}{{_QSingle | indexed}}</br ng-if="dettagli[$index].numbers_tip.numeri_tip_Q[$index+1]">
           </span>
 
         </div>
         <!-- num edit -->
         <div ng-if="dettagli[$index].numbers_tip.numeri_tip_E">
           <span ng-repeat="_EQSingle in dettagli[$index].numbers_tip.numeri_tip_E">
-            <i class="colour"> {{'numEdit' | translate }}</i>{{" - "}}{{_EQSingle | indexed}}</br ng-if="dettagli[$index].numbers_tip.numeri_tip_E[$index+1]">
+            <em class="colour"> {{'numEdit' | translate }}</em>{{" - "}}{{_EQSingle | indexed}}</br ng-if="dettagli[$index].numbers_tip.numeri_tip_E[$index+1]">
           </span>
         </div>
         <div ng-if="dettagli[$index].numbers_tip.numeri_tip_A">
           <span ng-repeat="_AQSingle in dettagli[$index].numbers_tip.numeri_tip_A">
-            <i class="colour">{{'numEdit' | translate }}</i>{{" - "}}{{_AQSingle | indexed}}</br ng-if="dettagli[$index].numbers_tip.numeri_tip_A[$index+1]">
+            <em class="colour">{{'numEdit' | translate }}</em>{{" - "}}{{_AQSingle | indexed}}</br ng-if="dettagli[$index].numbers_tip.numeri_tip_A[$index+1]">
 
           </span>
         </div>
         <div ng-if="dettagli[$index].numbers_tip.numeri_tip_F">
           <span ng-repeat="_FQSingle in dettagli[$index].numbers_tip.numeri_tip_F">
-            <i class="colour">{{'numEdit' | translate }}</i>{{" - "}}{{_FQSingle | indexed}}</br ng-if="dettagli[$index].numbers_tip.numeri_tip_F[$index+1]">
+            <em class="colour">{{'numEdit' | translate }}</em>{{" - "}}{{_FQSingle | indexed}}</br ng-if="dettagli[$index].numbers_tip.numeri_tip_F[$index+1]">
 
           </span>
         </div>
         <div ng-if="dettagli[$index].numbers_tip.numeri_tip_H">
           <span ng-repeat="_HQSingle in dettagli[$index].numbers_tip.numeri_tip_H">
-            <i class="colour">{{'numEdit' | translate }}</i>{{" - "}}{{_HQSingle | indexed}}</br ng-if="dettagli[$index].numbers_tip.numeri_tip_H[$index+1]">
+            <em class="colour">{{'numEdit' | translate }}</em>{{" - "}}{{_HQSingle | indexed}}</br ng-if="dettagli[$index].numbers_tip.numeri_tip_H[$index+1]">
 
           </span>
         </div>
         <div ng-if="dettagli[$index].numbers_tip.numeri_tip_O1">
           <span ng-repeat="_O1QSingle in dettagli[$index].numbers_tip.numeri_tip_O1">
-            <i class="colour"> {{'numEdit' | translate }}</i>{{" - "}}{{_O1QSingle | indexed}}</br ng-if="dettagli[$index].numbers_tip.numeri_tip_O1[$index+1]">
+            <em class="colour"> {{'numEdit' | translate }}</em>{{" - "}}{{_O1QSingle | indexed}}</br ng-if="dettagli[$index].numbers_tip.numeri_tip_O1[$index+1]">
           </span>
         </div>
         <!-- altri isn -->
         <div ng-if="dettagli[$index].numbers_tip.numeri_tip_T" ng-repeat="_TSingle in dettagli[$index].numbers_tip.numbers_tip_T">
           <span ng-repeat="_TSingle in dettagli[$index].numbers_tip.numbers_tip_T">
-            <i class="colour">{{'numeri_tip_T' | translate}}</i>{{" - "}}{{_TSingle | indexed}}</br ng-if="dettagli[$index].numbers_tip.numeri_tip_T[$index+1]">
+            <em class="colour">{{'numeri_tip_T' | translate}}</em>{{" - "}}{{_TSingle | indexed}}</br ng-if="dettagli[$index].numbers_tip.numeri_tip_T[$index+1]">
 
           </span>
         </div>
         <div ng-if="dettagli[$index].numbers_tip.numeri_tip_U">
           <span ng-repeat="_USingle in dettagli[$index].numbers_tip.numeri_tip_U">
-            <i class="colour">>{{'numeri_tip_U'}}</i>{{" - "}}{{_USingle | indexed}}</br ng-if="dettagli[$index].numbers_tip.numeri_tip_U[$index+1]">
+            <em class="colour">>{{'numeri_tip_U'}}</em>{{" - "}}{{_USingle | indexed}}</br ng-if="dettagli[$index].numbers_tip.numeri_tip_U[$index+1]">
 
           </span>
         </div>
         <div ng-if="dettagli[$index].numbers_tip.numeri_tip_P1">
           <span ng-repeat="_P1Single in dettagli[$index].numbers_tip.numeri_tip_P1">
-            <i class="colour">{{'altriSN' | translate }}</i>{{" - "}}{{_P1Single | indexed}}</br ng-if="dettagli[$index].numbers_tip.numeri_tip_P1[$index+1]">
+            <em class="colour">{{'altriSN' | translate }}</em>{{" - "}}{{_P1Single | indexed}}</br ng-if="dettagli[$index].numbers_tip.numeri_tip_P1[$index+1]">
 
           </span>
         </div>
         <div ng-if="dettagli[$index].numbers_tip.numeri_tip_X">
           <span ng-repeat="_XSingle in dettagli[$index].numbers_tip.numeri_tip_X">
-            <i class="colour">{{'altriSN' | translate }}</i>{{" - "}}{{_XSingle | indexed}}</br ng-if="dettagli[$index].numbers_tip.numeri_tip_X[$index+1]">
+            <em class="colour">{{'altriSN' | translate }}</em>{{" - "}}{{_XSingle | indexed}}</br ng-if="dettagli[$index].numbers_tip.numeri_tip_X[$index+1]">
 
           </span>
         </div>
         <div ng-if="dettagli[$index].numbers_tip.numeri_tip_Y">
           <span ng-repeat="_YSingle in dettagli[$index].numbers_tip.numeri_tip_Y">
-            <i class="colour">{{'altriSN' | translate }}</i>{{" - "}}{{_YSingle | indexed}}</br ng-if="dettagli[$index].numbers_tip.numeri_tip_Y[$index+1]">
+            <em class="colour">{{'altriSN' | translate }}</em>{{" - "}}{{_YSingle | indexed}}</br ng-if="dettagli[$index].numbers_tip.numeri_tip_Y[$index+1]">
 
           </span>
         </div>
@@ -301,7 +301,7 @@
   <tr ng-if="dettagli[$index].titles.titolo_uniforme">
     <td class="shortTd">
       <span class="col-sm-3 control-label">
-        <strong class="sottolineato"> {{'titolo_uniforme' | translate }}</strong>
+        <strong class="blu-label"> {{'titolo_uniforme' | translate }}</strong>
       </span>
       <div class="col-sm-9 text">
         <div ng-repeat="uniformeSingle in dettagli[$index].titles.titolo_uniforme">
@@ -313,7 +313,7 @@
   <tr ng-if="dettagli[$index].titles.titolo_parallelo">
     <td class="shortTd">
       <span class="col-sm-3 control-label">
-        <strong class="sottolineato"> {{'titolo_parallelo' | translate }}</strong>
+        <strong class="blu-label"> {{'titolo_parallelo' | translate }}</strong>
       </span>
       <div class="col-sm-9 text">
         <div ng-repeat="paralleloSingle in dettagli[$index].titles.titolo_parallelo">
@@ -325,7 +325,7 @@
   <tr ng-if="dettagli[$index].titles.titolo_raccolta">
     <td class="shortTd">
       <span class="col-sm-3 control-label">
-        <strong class="sottolineato"> {{'titolo_raccolta' | translate }}</strong>
+        <strong class="blu-label"> {{'titolo_raccolta' | translate }}</strong>
       </span>
       <div class="col-sm-9 text">
         <div ng-repeat="raccoltaSingle in dettagli[$index].titles.titolo_raccolta">
@@ -337,7 +337,7 @@
   <tr ng-if="dettagli[$index].otherTitles">
     <td class="shortTd">
       <span class="col-sm-3 control-label">
-        <strong class="sottolineato"> {{'altritit' | translate }}</strong>
+        <strong class="blu-label"> {{'altritit' | translate }}</strong>
       </span>
       <div class="col-sm-9 text">
         <div ng-repeat="otherTitlesSingle in dettagli[$index].otherTitles">
@@ -350,7 +350,7 @@
   <tr ng-if="dettagli[$index].tipo_elab">
     <td class="shortTd">
       <span class="col-sm-3 control-label">
-        <strong class="sottolineato"> {{'tipo_elab' | translate }}</strong>
+        <strong class="blu-label"> {{'tipo_elab' | translate }}</strong>
       </span>
       <div class="col-sm-9 text">
         <div ng-repeat="tipo_elabSingle in dettagli[$index].tipo_elab">
@@ -362,7 +362,7 @@
   <tr ng-if="dettagli[$index].rappresentation.rappres">
     <td class="shortTd">
       <span class="col-sm-3 control-label">
-        <strong class="sottolineato"> {{'rappres' | translate }}</strong>
+        <strong class="blu-label"> {{'rappres' | translate }}</strong>
       </span>
       <div class="col-sm-9 text">
         <div ng-if="dettagli[$index].rappresentation.rappres_genere ||  dettagli[$index].rappresentation.rappres">
@@ -383,21 +383,21 @@
   <tr ng-if="dettagli[$index].incipit" ng-init="docId = $index">
     <td class="shortTd">
       <span class="col-sm-3 control-label">
-        <strong class="sottolineato"> {{'incipit' | translate }}</strong>
+        <strong class="blu-label"> {{'incipit' | translate }}</strong>
       </span>
       <div class="col-sm-9 text">
         <div ng-repeat="incipitSingle in dettagli[$index].incipit track by $index" ng-init="incipitSingleDecoded = caricaSpartitoIncipit(incipitSingle, $parent.$index, $index )">
-          <i ng-if="incipitSingleDecoded.movimento" class="colour">{{('inc_movimento' | translate ) + " "}}</i>{{incipitSingleDecoded.movimento}}
-          <i ng-if="incipitSingleDecoded.strumento" class="colour">{{" - " + ('inc_strumento' | translate ) + " "}}</i>{{incipitSingleDecoded.strumento}}
-          <i ng-if="incipitSingleDecoded.forma" class="colour">{{" - " + ('inc_forma' | translate ) + " "}}</i>{{incipitSingleDecoded.forma | decodeForma |translate}}
-          <i ng-if="incipitSingleDecoded.indMovimento" class="colour">{{" - " + ('inc_indMovimento' | translate ) + " "}}</i>{{incipitSingleDecoded.indMovimento}}
-          <i ng-if="incipitSingleDecoded.tonalita" class="colour">{{" - " + ('inc_tonalita' | translate ) + " "}}</i>{{incipitSingleDecoded.tonalita.trim() | decodeMus_tonalita | translate}}
-          <i ng-if="incipitSingleDecoded.chiave" class="colour">{{" - " + ('inc_chiave' | translate ) + " "}}</i>{{incipitSingleDecoded.chiave}}
-          <i ng-if="incipitSingleDecoded.alterazioni" class="colour">{{('inc_alterazioni' | translate ) + " "}}</i>{{incipitSingleDecoded.alterazioni}}
-          <i ng-if="incipitSingleDecoded.misura" class="colour">{{" - " + ('inc_misura' | translate ) + " "}}</i>{{incipitSingleDecoded.misura}}
+          <em ng-if="incipitSingleDecoded.movimento" class="colour">{{('inc_movimento' | translate ) + " "}}</em>{{incipitSingleDecoded.movimento}}
+          <em ng-if="incipitSingleDecoded.strumento" class="colour">{{" - " + ('inc_strumento' | translate ) + " "}}</em>{{incipitSingleDecoded.strumento}}
+          <em ng-if="incipitSingleDecoded.forma" class="colour">{{" - " + ('inc_forma' | translate ) + " "}}</em>{{incipitSingleDecoded.forma | decodeForma |translate}}
+          <em ng-if="incipitSingleDecoded.indMovimento" class="colour">{{" - " + ('inc_indMovimento' | translate ) + " "}}</em>{{incipitSingleDecoded.indMovimento}}
+          <em ng-if="incipitSingleDecoded.tonalita" class="colour">{{" - " + ('inc_tonalita' | translate ) + " "}}</em>{{incipitSingleDecoded.tonalita.trim() | decodeMus_tonalita | translate}}
+          <em ng-if="incipitSingleDecoded.chiave" class="colour">{{" - " + ('inc_chiave' | translate ) + " "}}</em>{{incipitSingleDecoded.chiave}}
+          <em ng-if="incipitSingleDecoded.alterazioni" class="colour">{{('inc_alterazioni' | translate ) + " "}}</em>{{incipitSingleDecoded.alterazioni}}
+          <em ng-if="incipitSingleDecoded.misura" class="colour">{{" - " + ('inc_misura' | translate ) + " "}}</em>{{incipitSingleDecoded.misura}}
           <br/>
-          <i ng-if="incipitSingleDecoded.incipit" class="colour"> {{('inc_contesto' | translate ) + " "}}</i>{{incipitSingleDecoded.incipit}}
-          <i ng-if="incipitSingleDecoded.testuale" class="colour"> {{('inc_testuale' | translate ) + " "}}</i>{{incipitSingleDecoded.testuale}}
+          <em ng-if="incipitSingleDecoded.incipit" class="colour"> {{('inc_contesto' | translate ) + " "}}</em>{{incipitSingleDecoded.incipit}}
+          <em ng-if="incipitSingleDecoded.testuale" class="colour"> {{('inc_testuale' | translate ) + " "}}</em>{{incipitSingleDecoded.testuale}}
           <div ng-if="incipitSingleDecoded.svg && incipitSingleDecoded.incipit">
             <span ng-if="incipitSingleDecoded.svg" ng-bind-html="incipitSingleDecoded.svg"></span>
           </div>
@@ -439,7 +439,7 @@
   <tr ng-if="dettagli[$index].data_comp">
     <td class="shortTd">
       <span class="col-sm-3 control-label">
-        <strong class="sottolineato"> {{'data_comp' | translate }}</strong>
+        <strong class="blu-label"> {{'data_comp' | translate }}</strong>
       </span>
       <div class="col-sm-9 text">
         <div ng-repeat="data_compSingle in dettagli[$index].data_comp">
@@ -451,7 +451,7 @@
   <tr ng-if="dettagli[$index].presentation">
     <td class="shortTd">
       <span class="col-sm-3 control-label">
-        <strong class="sottolineato"> {{'presentation' | translate }}</strong>
+        <strong class="blu-label"> {{'presentation' | translate }}</strong>
       </span>
       <div class="col-sm-9 text">
         <div ng-repeat="presentationSingle in dettagli[$index].presentation">
@@ -463,7 +463,7 @@
   <tr ng-if="dettagli[$index].imprint">
     <td class="shortTd">
       <span class="col-sm-3 control-label">
-        <strong class="sottolineato"> {{'imprint' | translate }}</strong>
+        <strong class="blu-label"> {{'imprint' | translate }}</strong>
       </span>
       <div class="col-sm-9 text">
         <div ng-repeat="imprintigSingle in dettagli[$index].imprint">
@@ -475,7 +475,7 @@
   <tr ng-if="dettagli[$index].mark">
     <td class="shortTd">
       <span class="col-sm-3 control-label">
-        <strong class="sottolineato"> {{'marcaf' | translate }}</strong>
+        <strong class="blu-label"> {{'marcaf' | translate }}</strong>
       </span>
       <div class="col-sm-9 text">
         <div ng-repeat="markSingle in dettagli[$index].mark">
@@ -492,27 +492,27 @@
   ">
     <td class="shortTd">
       <span class="col-sm-3 control-label">
-        <strong class="sottolineato"> {{'datiComposizione' | translate }}</strong>
+        <strong class="blu-label"> {{'datiComposizione' | translate }}</strong>
       </span>
       <div class="col-sm-9 text">
         <div ng-if="dettagli[$index].organics.organico_tip_1">
           <span ng-repeat="_tip_1 in dettagli[$index].organics.organico_tip_1">
-            <i class="colour">{{("organico_tip_1" | translate | decapitalize) +" "+ ("organico_tip_1" | translate | decapitalize).split("
-              ")[1] }}</i>&nbsp;&nbsp;{{_tip_1 | translate}}
+            <em class="colour">{{("organico_tip_1" | translate | decapitalize) +" "+ ("organico_tip_1" | translate | decapitalize).split("
+              ")[1] }}</em>&nbsp;&nbsp;{{_tip_1 | translate}}
             </br ng-if="dettagli[$parent$index].organics.organico_tip_1[$index +1 ]">
           </span>
         </div>
         <div ng-if="dettagli[$index].organics.organico_tip_2">
           <span ng-repeat="_tip_2 in dettagli[$index].organics.organico_tip_2">
-            <i class="colour">{{("organico_tip_2" | translate | decapitalize) +" "+ ("organico_tip_2" | translate | decapitalize).split("
-              ")[1] }}</i>&nbsp;&nbsp;{{_tip_2 | translate}}
+            <em class="colour">{{("organico_tip_2" | translate | decapitalize) +" "+ ("organico_tip_2" | translate | decapitalize).split("
+              ")[1] }}</em>&nbsp;&nbsp;{{_tip_2 | translate}}
             </br ng-if="dettagli[$parent$index].organics.organico_tip_2[$index +1 ]">
           </span>
         </div>
 
         <div ng-if="dettagli[$index].form">
           <span ng-repeat="_forma in dettagli[$index].form">
-            <i class="colour">{{"formaf" | translate | decapitalize}}</i>&nbsp;&nbsp;{{_forma | decodeForma | translate}}
+            <em class="colour">{{"formaf" | translate | decapitalize}}</em>&nbsp;&nbsp;{{_forma | decodeForma | translate}}
             </br ng-if="dettagli[$parent$index].forma[$index +1 ]">
           </span>
         </div>
@@ -523,20 +523,20 @@
   ">
       <td class="shortTd">
         <span class="col-sm-3 control-label">
-          <strong class="sottolineato"> {{'datiElaborazione' | translate }}</strong>
+          <strong class="blu-label"> {{'datiElaborazione' | translate }}</strong>
         </span>
         <div class="col-sm-9 text">
           <div ng-if="dettagli[$index].organics.organico_tip_3">
             <span ng-repeat="_tip_3 in dettagli[$index].organics.organico_tip_3">
-              <i class="colour">{{("organico_tip_3" | translate | decapitalize) +" "+ ("organico_tip_3" | translate | decapitalize).split("
-                ")[1] }}</i>&nbsp;&nbsp;{{_tip_3 | translate}}
+              <em class="colour">{{("organico_tip_3" | translate | decapitalize) +" "+ ("organico_tip_3" | translate | decapitalize).split("
+                ")[1] }}</em>&nbsp;&nbsp;{{_tip_3 | translate}}
               </br ng-if="dettagli[$parent$index].organics.organico_tip_3[$index +1 ]">
             </span>
           </div>
           <div ng-if="dettagli[$index].organics.organico_tip_4">
             <span ng-repeat="_tip_4 in dettagli[$index].organics.organico_tip_4">
-              <i class="colour">{{("organico_tip_4" | translate | decapitalize) +" "+ ("organico_tip_4" | translate | decapitalize).split("
-                ")[1] }}</i>&nbsp;&nbsp;{{_tip_4 | translate}}
+              <em class="colour">{{("organico_tip_4" | translate | decapitalize) +" "+ ("organico_tip_4" | translate | decapitalize).split("
+                ")[1] }}</em>&nbsp;&nbsp;{{_tip_4 | translate}}
               </br ng-if="dettagli[$parent$index].organics.organico_tip_4[$index +1 ]">
             </span>
           </div>
@@ -552,30 +552,30 @@
   ">
         <td class="shortTd">
           <span class="col-sm-3 control-label">
-            <strong class="sottolineato"> {{'datiAudio' | translate }}</strong>
+            <strong class="blu-label"> {{'datiAudio' | translate }}</strong>
           </span>
           <div class="col-sm-9 text">
             <div ng-if="dettagli[$index].av.av_formato_vd">
               <span ng-repeat="_formato_vd in dettagli[$index].av.av_formato_vd">
-                <i class="colour">{{"av_formato_vd" | translate | decapitalize}}</i>&nbsp;&nbsp;{{_formato_vd | decodeav_formato_vd | translate}}
+                <em class="colour">{{"av_formato_vd" | translate | decapitalize}}</em>&nbsp;&nbsp;{{_formato_vd | decodeav_formato_vd | translate}}
                 </br ng-if="dettagli[$parent.$index].av.av_formato_vd[$index +1 ]">
               </span>
             </div>
             <div ng-if="dettagli[$index].av.av_velocita">
               <span ng-repeat="_velocita in dettagli[$index].av.av_velocita">
-                <i class="colour">{{"av_velocita" | translate | decapitalize}}</i>&nbsp;&nbsp;{{_velocita | decodeav_velocita | translate}}
+                <em class="colour">{{"av_velocita" | translate | decapitalize}}</em>&nbsp;&nbsp;{{_velocita | decodeav_velocita | translate}}
                 </br ng-if="dettagli[$parent.$index].av.av_velocita[$index +1 ]">
               </span>
             </div>
             <div ng-if="dettagli[$index].av.av_tecnica_vd">
               <span ng-repeat="_tecnica_vd in dettagli[$index].av.av_tecnica_vd">
-                <i class="colour">{{"av_tecnica_vd" | translate | decapitalize}}</i>&nbsp;&nbsp;{{_tecnica_vd | decodeav_tecnica_vd | translate}}
+                <em class="colour">{{"av_tecnica_vd" | translate | decapitalize}}</em>&nbsp;&nbsp;{{_tecnica_vd | decodeav_tecnica_vd | translate}}
                 </br ng-if="dettagli[$parent.$index].av.av_tecnica_vd[$index +1 ]">
               </span>
             </div>
             <div ng-if="dettagli[$index].av.av_accomp_vd">
               <span ng-repeat="_accomp_cd in dettagli[$index].av.av_accomp_vd">
-                <i class="colour">{{"av_accomp_vd" | translate | decapitalize}}</i>&nbsp;&nbsp;{{_accomp_cd | decodeav_accomp_vd | translate}}
+                <em class="colour">{{"av_accomp_vd" | translate | decapitalize}}</em>&nbsp;&nbsp;{{_accomp_cd | decodeav_accomp_vd | translate}}
                 </br ng-if="dettagli[$parent.$index].av.av_accomp_vd[$index +1 ]">
               </span>
             </div>
@@ -594,56 +594,56 @@
   ">
           <td class="shortTd">
             <span class="col-sm-3 control-label">
-              <strong class="sottolineato"> {{'datiVideo' | translate }}</strong>
+              <strong class="blu-label"> {{'datiVideo' | translate }}</strong>
             </span>
             <div class="col-sm-9 text">
               <div ng-if="dettagli[$index].av.av_materiale">
                 <span ng-repeat="_materiale in dettagli[$index].av.av_materiale">
-                  <i class="colour">{{"av_materiale" | translate | decapitalize}}</i>&nbsp;&nbsp;{{_materiale | decodeav_materiale | translate}}
+                  <em class="colour">{{"av_materiale" | translate | decapitalize}}</em>&nbsp;&nbsp;{{_materiale | decodeav_materiale | translate}}
                   </br ng-if="dettagli[$parent$index].av.av_materiale[$index +1 ]">
                 </span>
               </div>
               <div ng-if="dettagli[$index].av.av_formato">
                 <span ng-repeat="_formato in dettagli[$index].av.av_formato">
-                  <i class="colour">{{"av_formato" | translate | decapitalize}}</i>&nbsp;&nbsp;{{_formato | decodeav_formato | translate}}
+                  <em class="colour">{{"av_formato" | translate | decapitalize}}</em>&nbsp;&nbsp;{{_formato | decodeav_formato | translate}}
                   </br ng-if="dettagli[$parent$index].av.av_formato[$index +1 ]">
                 </span>
               </div>
               <div ng-if="dettagli[$index].av.av_forma_pubbl">
                 <span ng-repeat="_forma_pubbl in dettagli[$index].av.av_forma_pubbl">
-                  <i class="colour">{{"av_forma_pubbl" | translate | decapitalize}}</i>&nbsp;&nbsp;{{_forma_pubbl | decodeav_forma_pubbl |
+                  <em class="colour">{{"av_forma_pubbl" | translate | decapitalize}}</em>&nbsp;&nbsp;{{_forma_pubbl | decodeav_forma_pubbl |
                   translate}}
                   </br ng-if="dettagli[$parent$index].av.av_forma_pubbl[$index +1 ]">
                 </span>
               </div>
               <div ng-if="dettagli[$index].av.av_formato_pres">
                 <span ng-repeat="_formato_pres in dettagli[$index].av.av_formato_pres">
-                  <i class="colour">{{"av_formato_pres" | translate | decapitalize}}</i>&nbsp;&nbsp;{{_formato_pres | decodeav_formato_pres
+                  <em class="colour">{{"av_formato_pres" | translate | decapitalize}}</em>&nbsp;&nbsp;{{_formato_pres | decodeav_formato_pres
                   | translate}}
                   </br ng-if="dettagli[$parent$index].av.av_formato_pres[$index +1 ]">
                 </span>
               </div>
               <div ng-if="dettagli[$index].av.av_tecnica">
                 <span ng-repeat="_tecnica in dettagli[$index].av.av_tecnica">
-                  <i class="colour">{{"av_tecnica" | translate | decapitalize}}</i>&nbsp;&nbsp;{{_tecnica | decodeav_tecnica | translate}}
+                  <em class="colour">{{"av_tecnica" | translate | decapitalize}}</em>&nbsp;&nbsp;{{_tecnica | decodeav_tecnica | translate}}
                   </br ng-if="dettagli[$parent$index].av.av_tecnica[$index +1 ]">
                 </span>
               </div>
               <div ng-if="dettagli[$index].av.av_colore">
                 <span ng-repeat="_colore in dettagli[$index].av.av_colore">
-                  <i class="colour">{{"av_colore" | translate | decapitalize}}</i>&nbsp;&nbsp;{{_colore | decodeav_colore | translate}}
+                  <em class="colour">{{"av_colore" | translate | decapitalize}}</em>&nbsp;&nbsp;{{_colore | decodeav_colore | translate}}
                   </br ng-if="dettagli[$parent$index].av.av_colore[$index +1 ]">
                 </span>
               </div>
               <div ng-if="dettagli[$index].av.av_suono">
                 <span ng-repeat="_suono in dettagli[$index].av.av_suono">
-                  <i class="colour">{{"av_suono" | translate | decapitalize}}</i>&nbsp;&nbsp;{{_suono | decodeav_suono | translate}}
+                  <em class="colour">{{"av_suono" | translate | decapitalize}}</em>&nbsp;&nbsp;{{_suono | decodeav_suono | translate}}
                   </br ng-if="dettagli[$parent$index].av.av_suono[$index +1 ]">
                 </span>
               </div>
               <div ng-if="dettagli[$index].av.av_accomp">
                 <span ng-repeat="_accomp in dettagli[$index].av.av_accomp">
-                  <i class="colour">{{"av_accomp" | translate | decapitalize}}</i>&nbsp;&nbsp;{{_accomp | decodeav_accomp | translate}}
+                  <em class="colour">{{"av_accomp" | translate | decapitalize}}</em>&nbsp;&nbsp;{{_accomp | decodeav_accomp | translate}}
                   </br ng-if="dettagli[$parent$index].av.av_accomp[$index +1 ]">
                 </span>
               </div>
@@ -661,58 +661,58 @@
   ">
             <td class="shortTd">
               <span class="col-sm-3 control-label">
-                <strong class="sottolineato"> {{'datiGrafici' | translate }}</strong>
+                <strong class="blu-label"> {{'datiGrafici' | translate }}</strong>
               </span>
               <div class="col-sm-9 text">
                 <div ng-if="dettagli[$index].graphics.grafica_tipspec">
                   <span ng-repeat="_grafica_tipspec in dettagli[$index].graphics.grafica_tipspec">
-                    <i class="colour">{{"grafica_tipspec" | translate | decapitalize}}</i>&nbsp;&nbsp;{{_grafica_tipspec | decodeGrafica_tipspec
+                    <em class="colour">{{"grafica_tipspec" | translate | decapitalize}}</em>&nbsp;&nbsp;{{_grafica_tipspec | decodeGrafica_tipspec
                     | translate}}
                     </br ng-if="dettagli[$parent.$index].graphics.grafica_tipspec[$index +1 ]">
                   </span>
                 </div>
                 <div ng-if="dettagli[$index].graphics.grafica_supp">
                   <span ng-repeat="_grafica_supp in dettagli[$index].graphics.grafica_supp">
-                    <i class="colour">{{"grafica_supp" | translate | decapitalize}}</i>&nbsp;&nbsp;{{_grafica_supp | decodeGrafica_supp | translate}}
+                    <em class="colour">{{"grafica_supp" | translate | decapitalize}}</em>&nbsp;&nbsp;{{_grafica_supp | decodeGrafica_supp | translate}}
                     </br ng-if="dettagli[$parent.$index].graphics.grafica_supp[$index +1 ]">
                   </span>
                 </div>
                 <div ng-if="dettagli[$index].graphics.grafica_supp_sec">
                   <span ng-repeat="_grafica_supp_sec in dettagli[$index].graphics.grafica_supp_sec">
-                    <i class="colour">{{"grafica_supp_sec" | translate | decapitalize}}</i>&nbsp;&nbsp;{{_grafica_supp_sec | decodeGrafica_supp_sec
+                    <em class="colour">{{"grafica_supp_sec" | translate | decapitalize}}</em>&nbsp;&nbsp;{{_grafica_supp_sec | decodeGrafica_supp_sec
                     | translate}}
                     </br ng-if="dettagli[$parent.$index].graphics.grafica_supp_sec[$index +1 ]">
                   </span>
                 </div>
                 <div ng-if="dettagli[$index].graphics.grafica_col">
                   <span ng-repeat="_grafica_col in dettagli[$index].graphics.grafica_col">
-                    <i class="colour">{{"grafica_col" | translate | decapitalize}}</i>&nbsp;&nbsp;{{_grafica_col | decodeGrafica_col | translate}}
+                    <em class="colour">{{"grafica_col" | translate | decapitalize}}</em>&nbsp;&nbsp;{{_grafica_col | decodeGrafica_col | translate}}
                     </br ng-if="dettagli[$parent.$index].graphics.grafica_col[$index +1 ]">
                   </span>
                 </div>
                 <div ng-if="dettagli[$index].graphics.grafica_tip">
                   <span ng-repeat="_grafica_tip in dettagli[$index].graphics.grafica_tip">
-                    <i class="colour">{{"grafica_tip" | translate | decapitalize}}</i>&nbsp;&nbsp;{{_grafica_tip | decodeGrafica_tip | translate}}
+                    <em class="colour">{{"grafica_tip" | translate | decapitalize}}</em>&nbsp;&nbsp;{{_grafica_tip | decodeGrafica_tip | translate}}
                     </br ng-if="dettagli[$parent.$index].graphics.grafica_tip[$index +1 ]">
                   </span>
                 </div>
                 <div ng-if="dettagli[$index].graphics.grafica_disegno_tip">
                   <span ng-repeat="_grafica_disegno_tip in dettagli[$index].graphics.grafica_disegno_tip">
-                    <i class="colour">{{"grafica_disegno_tip" | translate | decapitalize}}</i>&nbsp;&nbsp;{{_grafica_disegno_tip | decodeGrafica_disegno_tip
+                    <em class="colour">{{"grafica_disegno_tip" | translate | decapitalize}}</em>&nbsp;&nbsp;{{_grafica_disegno_tip | decodeGrafica_disegno_tip
                     | translate}}
                     </br ng-if="dettagli[$parent.$index].graphics.grafica_disegno_tip[$index +1 ]">
                   </span>
                 </div>
                 <div ng-if="dettagli[$index].graphics.grafica_disegno_fun">
                   <span ng-repeat="_grafica_disegno_fun in dettagli[$index].graphics.grafica_disegno_fun">
-                    <i class="colour">{{"grafica_disegno_fun" | translate | decapitalize}}</i>&nbsp;&nbsp;{{_grafica_disegno_fun | decodeGrafica_disegno_fun
+                    <em class="colour">{{"grafica_disegno_fun" | translate | decapitalize}}</em>&nbsp;&nbsp;{{_grafica_disegno_fun | decodeGrafica_disegno_fun
                     | translate}}
                     </br ng-if="dettagli[$parent.$index].graphics.grafica_disegno_fun[$index +1 ]">
                   </span>
                 </div>
                 <div ng-if="dettagli[$index].graphics.grafica_disegno_tipspec">
                   <span ng-repeat="_tipspecSingle in dettagli[$index].graphics.grafica_disegno_tipspec">
-                    <i class="colour">{{"grafica_disegno_tipspec" | translate | decapitalize}}</i>&nbsp;&nbsp;{{_tipspecSingle | decodeGrafica_disegno_tipspec
+                    <em class="colour">{{"grafica_disegno_tipspec" | translate | decapitalize}}</em>&nbsp;&nbsp;{{_tipspecSingle | decodeGrafica_disegno_tipspec
                     | translate}}
                     </br ng-if="dettagli[$parent.$index].graphics.grafica_disegno_tipspec[$index +1 ]">
                   </span>
@@ -724,7 +724,7 @@
           <tr ng-if="dettagli[$index].cartografia.cart_dati_matem">
             <td class="shortTd">
               <span class="col-sm-3 control-label">
-                <strong class="sottolineato"> {{'cart_dati_matem' | translate}}</strong>
+                <strong class="blu-label"> {{'cart_dati_matem' | translate}}</strong>
               </span>
               <div class="col-sm-9 text">{{dettagli[$index].cartografia.cart_dati_matem}}</div>
             </td>
@@ -738,33 +738,33 @@
   ">
             <td class="shortTd">
               <span class="col-sm-3 control-label">
-                <strong class="sottolineato"> {{'scala' | translate }}</strong>
+                <strong class="blu-label"> {{'scala' | translate }}</strong>
               </span>
               <div class="col-sm-9 text">
                 <!-- cart_tipo_scala -->
                 <div ng-if="dettagli[$index].cartografia.cart_tipo_scala">
                   <span ng-repeat="cart_tipo_scalaS in dettagli[$index].cartografia.cart_tipo_scala">
-                    <i class="colour">{{"cart_tipo_scala" | translate | decapitalize}}</i>&nbsp;&nbsp;{{cart_tipo_scalaS | decodeCart_tiposcala
+                    <em class="colour">{{"cart_tipo_scala" | translate | decapitalize}}</em>&nbsp;&nbsp;{{cart_tipo_scalaS | decodeCart_tiposcala
                     | translate }}</br ng-if="dettagli[$parent.$index].cartografia.cart_tipo_scala[$index +1 ]">
                   </span>
                 </div>
                 <!-- cart_scala -->
                 <div ng-if="dettagli[$index].cartografia.cart_scala">
                   <span ng-repeat="cart_scalaS in dettagli[$index].cartografia.cart_scala">
-                    <i class="colour">{{"cart_scala" | translate | decapitalize}}</i>&nbsp;&nbsp;{{cart_scalaS | decodeCart_scala | translate}}</br
+                    <em class="colour">{{"cart_scala" | translate | decapitalize}}</em>&nbsp;&nbsp;{{cart_scalaS | decodeCart_scala | translate}}</br
                       ng-if="dettagli[$parent.$index].cartografia.cart_scala[$index +1 ]">
                   </span>
                 </div>
                 <!-- cart_rapp_orizz -->
                 <div ng-if="dettagli[$index].cartografia.cart_rapp_oriz">
                   <span ng-repeat="cart_rapp_orizzS in dettagli[$index].cartografia.cart_rapp_oriz">
-                    <i class="colour">{{"cart_rapp_orizz" | translate | decapitalize}}</i>{{" 1:"}}{{cart_rapp_orizzS}}</br ng-if="dettagli[$parent.$index].cartografia.cart_rapp_oriz[$index +1 ]">
+                    <em class="colour">{{"cart_rapp_orizz" | translate | decapitalize}}</em>{{" 1:"}}{{cart_rapp_orizzS}}</br ng-if="dettagli[$parent.$index].cartografia.cart_rapp_oriz[$index +1 ]">
                   </span>
                 </div>
                 <!-- cart_rapp_vert -->
                 <div ng-if="dettagli[$index].cartografia.cart_rapp_vert">
                   <span ng-repeat="cart_rapp_vertS in dettagli[$index].cartografia.cart_rapp_vert">
-                    <i class="colour">{{"cart_rapp_vert" | translate | decapitalize}}</i>{{" 1:"}}{{cart_rapp_vertS}}</br ng-if="dettagli$parent.[$index].cartografia.cart_rapp_vert[$index +1 ]">
+                    <em class="colour">{{"cart_rapp_vert" | translate | decapitalize}}</em>{{" 1:"}}{{cart_rapp_vertS}}</br ng-if="dettagli$parent.[$index].cartografia.cart_rapp_vert[$index +1 ]">
                   </span>
                 </div>
 
@@ -782,13 +782,13 @@
   ">
             <td class="shortTd">
               <span class="col-sm-3 control-label">
-                <strong class="sottolineato"> {{'posizione' | translate }}</strong>
+                <strong class="blu-label"> {{'posizione' | translate }}</strong>
               </span>
               <div class="col-sm-9 text">
                 <!-- cart_orig -->
                 <div ng-if="dettagli[$index].cartografia.cart_orig">
                   <span ng-repeat="cart_origS in dettagli[$index].cartografia.cart_orig">
-                    <i class="colour">{{"cart_orig" | translate | decapitalize}}</i>&nbsp;&nbsp;{{cart_origS | decodeCart_orig | translate}}</br
+                    <em class="colour">{{"cart_orig" | translate | decapitalize}}</em>&nbsp;&nbsp;{{cart_origS | decodeCart_orig | translate}}</br
                       ng-if="dettagli[$parent.$index].cartografia.cart_orig[$index +1 ]">
                   </span>
                 </div>
@@ -796,7 +796,7 @@
                 <!-- cart_longitudine -->
                 <div ng-if="dettagli[$index].cartografia.cart_longitudinee || dettagli[$index].cartografia.longitudinew">
                   <span ng-repeat="cart_longitudineeS in dettagli[$parent.$index].cartografia.cart_longitudinee">
-                    <i class="colour">{{"longitudine" | translate | decapitalize}}</i>&nbsp;&nbsp;{{"E"+ (cart_longitudineeS | zeroLongLat)
+                    <em class="colour">{{"longitudine" | translate | decapitalize}}</em>&nbsp;&nbsp;{{"E"+ (cart_longitudineeS | zeroLongLat)
                     }}{{' - '}}{{"O"+(dettagli[$index].cartografia.cart_longitudinew[$index] | zeroLongLat)}}</br ng-if="dettagli[$parent.$index].cartografia.cart_longitudinee[$index +1 ]">
                   </span>
                 </div>
@@ -804,7 +804,7 @@
                 <!-- cart_latitudine -->
                 <div ng-if="dettagli[$index].cartografia.cart_latitudines || dettagli[$index].cartografia.cart_latitudinen">
                   <span ng-repeat="cart_latitudinesS in dettagli[$index].cartografia.cart_latitudines ||  dettagli[$index].cartografia.cart_latitudinen">
-                    <i class="colour">{{"latitudine" | translate | decapitalize}}</i>&nbsp;&nbsp;{{"N"+(cart_latitudinesS | zeroLongLat) }}{{'
+                    <em class="colour">{{"latitudine" | translate | decapitalize}}</em>&nbsp;&nbsp;{{"N"+(cart_latitudinesS | zeroLongLat) }}{{'
                     - '}} {{"S"+(dettagli[$index].cartografia.cart_latitudinen[$index] | zeroLongLat)}}</br ng-if="dettagli[$parent.$index].cartografia.cart_longitudinee[$index +1 ]">
                   </span>
                 </div>
@@ -826,76 +826,76 @@
   ">
             <td class="shortTd">
               <span class="col-sm-3 control-label">
-                <strong class="sottolineato"> {{'altriDati' | translate }}</strong>
+                <strong class="blu-label"> {{'altriDati' | translate }}</strong>
               </span>
               <div class="col-sm-9 text">
                 <!-- cart_col -->
                 <div ng-if="dettagli[$index].cartografia.cart_col">
                   <span ng-repeat="cart_colS in dettagli[$index].cartografia.cart_col">
-                    <i class="colour">{{"cart_col" | translate | decapitalize}}</i>&nbsp;&nbsp;{{cart_colS | decodeCart_col | translate}}</br
+                    <em class="colour">{{"cart_col" | translate | decapitalize}}</em>&nbsp;&nbsp;{{cart_colS | decodeCart_col | translate}}</br
                       ng-if="dettagli[$parent.$index].cartografia.cart_col[$index +1 ]">
                   </span>
                 </div>
                 <!-- cart_foto_supp -->
                 <div ng-if="dettagli[$index].cartografia.cart_foto_supp">
                   <span ng-repeat="cart_foto_suppS in dettagli[$index].cartografia.cart_foto_supp">
-                    <i class="colour">{{"cart_foto_supp" | translate | decapitalize}}</i>&nbsp;&nbsp;{{cart_foto_suppS | decodeCart_foto_supp
+                    <em class="colour">{{"cart_foto_supp" | translate | decapitalize}}</em>&nbsp;&nbsp;{{cart_foto_suppS | decodeCart_foto_supp
                     | translate}}</br ng-if="dettagli[$parent.$index].cartografia.cart_foto_supp[$index +1 ]">
                   </span>
                 </div>
                 <!-- cart_foto_forma -->
                 <div ng-if="dettagli[$index].cartografia.cart_foto_forma">
                   <span ng-repeat="cart_foto_formaS in dettagli[$index].cartografia.cart_foto_forma">
-                    <i class="colour">{{"cart_foto_forma" | translate | decapitalize}}</i>&nbsp;&nbsp;{{cart_foto_formaS | decodeCart_foto_forma
+                    <em class="colour">{{"cart_foto_forma" | translate | decapitalize}}</em>&nbsp;&nbsp;{{cart_foto_formaS | decodeCart_foto_forma
                     | translate}}</br ng-if="dettagli[$parent.$index].cartografia.cart_foto_forma[$index +1 ]">
                   </span>
                 </div>
                 <!-- cart_foto_tec -->
                 <div ng-if="dettagli[$index].cartografia.cart_foto_tec">
                   <span ng-repeat="cart_foto_tecS in dettagli[$index].cartografia.cart_foto_tec">
-                    <i class="colour">{{"cart_foto_tec" | translate | decapitalize}}</i>&nbsp;&nbsp;{{cart_foto_tecS | decodeCart_foto_tec
+                    <em class="colour">{{"cart_foto_tec" | translate | decapitalize}}</em>&nbsp;&nbsp;{{cart_foto_tecS | decodeCart_foto_tec
                     | translate}}</br ng-if="dettagli[$parent.$index].cartografia.cart_foto_tec[$index +1 ]">
                   </span>
                 </div>
                 <!-- cart_foto_ripr -->
                 <div ng-if="dettagli[$index].cartografia.cart_foto_ripr">
                   <span ng-repeat="cart_foto_riprS in dettagli[$index].cartografia.cart_foto_ripr">
-                    <i class="colour">{{"cart_foto_ripr" | translate | decapitalize}}</i>&nbsp;&nbsp;{{cart_foto_riprS | decodeCart_foto_ripr
+                    <em class="colour">{{"cart_foto_ripr" | translate | decapitalize}}</em>&nbsp;&nbsp;{{cart_foto_riprS | decodeCart_foto_ripr
                     | translate}}</br ng-if="dettagli[$parent.$index].cartografia.cart_foto_ripr[$index +1 ]">
                   </span>
                 </div>
                 <!-- cart_alt -->
                 <div ng-if="dettagli[$index].cartografia.cart_alt">
                   <span ng-repeat="cart_altS in dettagli[$index].cartografia.cart_alt">
-                    <i class="colour">{{"cart_alt" | translate | decapitalize}}</i>&nbsp;&nbsp;{{cart_altS | decodeCart_alt | translate}}</br
+                    <em class="colour">{{"cart_alt" | translate | decapitalize}}</em>&nbsp;&nbsp;{{cart_altS | decodeCart_alt | translate}}</br
                       ng-if="dettagli[$parent.$index].cartografia.cart_alt[$index +1 ]">
                   </span>
                 </div>
                 <!-- cart_imm -->
                 <div ng-if="dettagli[$index].cartografia.cart_imm">
                   <span ng-repeat="cart_immS in dettagli[$index].cartografia.cart_imm">
-                    <i class="colour">{{"cart_imm" | translate | decapitalize}}</i>&nbsp;&nbsp;{{cart_immS | decodeCart_imm | translate}}</br
+                    <em class="colour">{{"cart_imm" | translate | decapitalize}}</em>&nbsp;&nbsp;{{cart_immS | decodeCart_imm | translate}}</br
                       ng-if="dettagli[$parent.$index].cartografia.cart_imm[$index +1 ]">
                   </span>
                 </div>
                 <!-- cart_forma_doc -->
                 <div ng-if="dettagli[$index].cartografia.cart_forma_doc">
                   <span ng-repeat="cart_forma_docS in dettagli[$index].cartografia.cart_forma_doc">
-                    <i class="colour">{{"cart_forma_doc" | translate | decapitalize}}</i>&nbsp;&nbsp;{{cart_forma_docS | decodeCart_forma_doc
+                    <em class="colour">{{"cart_forma_doc" | translate | decapitalize}}</em>&nbsp;&nbsp;{{cart_forma_docS | decodeCart_forma_doc
                     | translate}}</br ng-if="dettagli[$parent.$index].cartografia.cart_forma_doc[$index +1 ]">
                   </span>
                 </div>
                 <!-- cart_pos_124c -->
                 <div ng-if="dettagli[$index].cartografia.cart_pos_124c">
                   <span ng-repeat="cart_pos_124cS in dettagli[$index].cartografia.cart_pos_124c">
-                    <i class="colour">{{"cart_pos_124c" | translate | decapitalize}}</i>&nbsp;&nbsp;{{cart_pos_124cS | decodeCart_pos_124c
+                    <em class="colour">{{"cart_pos_124c" | translate | decapitalize}}</em>&nbsp;&nbsp;{{cart_pos_124cS | decodeCart_pos_124c
                     | translate}}</br ng-if="dettagli[$parent.$index].cartografia.cart_pos_124c[$index +1 ]">
                   </span>
                 </div>
                 <!-- cart_sat_124d -->
                 <div ng-if="dettagli[$index].cartografia.cart_sat_124d">
                   <span ng-repeat="cart_sat_124dS in dettagli[$index].cartogra | decapitalizefia.cart_sat_124d">
-                    <i class="colour">{{"cart_sat_124d" | translate | decapitalize}}</i>&nbsp;&nbsp;{{cart_sat_124dS | decodeCart_sat_124d
+                    <em class="colour">{{"cart_sat_124d" | translate | decapitalize}}</em>&nbsp;&nbsp;{{cart_sat_124dS | decodeCart_sat_124d
                     | translate}}</br ng-if="dettagli[$parent.$index].cartografia.cart_sat_124d[$index +1 ]">
                   </span>
                 </div>
@@ -909,12 +909,12 @@
           <tr ng-if="dettagli[$index].colltit_tip.colltit_tip_421_new">
             <td class="shortTd">
               <span class="col-sm-3 control-label">
-                <strong class="sottolineato"> {{'colltit_tip_421_new' | translate }}</strong>
+                <strong class="blu-label"> {{'colltit_tip_421_new' | translate }}</strong>
               </span>
               <div class="col-sm-9 text">
                 <div ng-repeat="tip42s1 in dettagli[$index].colltit_tip.colltit_tip_421_new">
                   <span class="shortTd">
-                   <span class="links" title="{{'naviga' | translate }}" ng-click="findByID(tip42s1)">{{tip42s1 | containBid | indexed}}</span>
+                   <span class="blu-tema manina underline" title="{{'naviga' | translate }}" ng-click="findByID(tip42s1)">{{tip42s1 | containBid | indexed}}</span>
                 </div>
               </div>
             </td>
@@ -922,11 +922,11 @@
           <tr ng-if="dettagli[$index].colltit_tip.colltit_tip_431_new">
             <td class="shortTd">
               <span class="col-sm-3 control-label">
-                <strong class="sottolineato"> {{'colltit_tip_431_new' | translate }}</strong>
+                <strong class="blu-label"> {{'colltit_tip_431_new' | translate }}</strong>
               </span>
               <div class="col-sm-9 text">
                 <div ng-repeat="tip431 in dettagli[$index].colltit_tip.colltit_tip_431_new">
-                  <span class="links" title="{{'naviga' | translate }}" ng-click="findByID(tip431)">{{tip431 | indexed | containBid}}</span>
+                  <span class="blu-tema manina underline" title="{{'naviga' | translate }}" ng-click="findByID(tip431)">{{tip431 | indexed | containBid}}</span>
                 </div>
               </div>
             </td>
@@ -934,11 +934,11 @@
           <tr ng-if="dettagli[$index].colltit_tip.colltit_tip_434_new">
             <td class="shortTd">
               <span class="col-sm-3 control-label">
-                <strong class="sottolineato"> {{'colltit_tip_434_new' | translate }}</strong>
+                <strong class="blu-label"> {{'colltit_tip_434_new' | translate }}</strong>
               </span>
               <div class="col-sm-9 text">
                 <div ng-repeat="tip434 in dettagli[$index].colltit_tip.colltit_tip_434_new">
-                  <span class="links" title="{{'naviga' | translate }}" ng-click="findByID(tip434)">{{tip434 | indexed | containBid}}</span>
+                  <span class="blu-tema manina underline" title="{{'naviga' | translate }}" ng-click="findByID(tip434)">{{tip434 | indexed | containBid}}</span>
                 </div>
               </div>
             </td>
@@ -946,11 +946,11 @@
           <tr ng-if="dettagli[$index].colltit_tip.colltit_tip_441_new">
             <td class="shortTd">
               <span class="col-sm-3 control-label">
-                <strong class="sottolineato"> {{'colltit_tip_441_new' | translate }}</strong>
+                <strong class="blu-label"> {{'colltit_tip_441_new' | translate }}</strong>
               </span>
               <div class="col-sm-9 text">
                 <div ng-repeat="tip441 in dettagli[$index].colltit_tip.colltit_tip_441_new">
-                  <span class="links" title="{{'naviga' | translate }}" ng-click="findByID(tip441)">{{tip441 | indexed | containBid}}</span>
+                  <span class="blu-tema manina underline" title="{{'naviga' | translate }}" ng-click="findByID(tip441)">{{tip441 | indexed | containBid}}</span>
                 </div>
               </div>
             </td>
@@ -958,11 +958,11 @@
           <tr ng-if="dettagli[$index].colltit_tip.colltit_tip_444_new">
             <td class="shortTd">
               <span class="col-sm-3 control-label">
-                <strong class="sottolineato"> {{'colltit_tip_444_new' | translate }}</strong>
+                <strong class="blu-label"> {{'colltit_tip_444_new' | translate }}</strong>
               </span>
               <div class="col-sm-9 text">
                 <div ng-repeat="tip444 in dettagli[$index].colltit_tip.colltit_tip_444_new">
-                  <span class="links" title="{{'naviga' | translate }}" ng-click="findByID(tip444)">{{tip444 | indexed | containBid}}</span>
+                  <span class="blu-tema manina underline" title="{{'naviga' | translate }}" ng-click="findByID(tip444)">{{tip444 | indexed | containBid}}</span>
                 </div>
               </div>
             </td>
@@ -970,11 +970,11 @@
           <tr ng-if="dettagli[$index].colltit_tip.colltit_tip_447_new">
             <td class="shortTd">
               <span class="col-sm-3 control-label">
-                <strong class="sottolineato"> {{'colltit_tip_447_new' | translate }}</strong>
+                <strong class="blu-label"> {{'colltit_tip_447_new' | translate }}</strong>
               </span>
               <div class="col-sm-9 text">
                 <div ng-repeat="tip447 in dettagli[$index].colltit_tip.colltit_tip_447_new">
-                  <span class="links" title="{{'naviga' | translate }}" ng-click="findByID(tip447)">{{tip447 | indexed | containBid}}</span>
+                  <span class="blu-tema manina underline" title="{{'naviga' | translate }}" ng-click="findByID(tip447)">{{tip447 | indexed | containBid}}</span>
                 </div>
               </div>
             </td>
@@ -982,11 +982,11 @@
           <tr ng-if="dettagli[$index].colltit_tip.colltit_tip_455_new">
             <td class="shortTd">
               <span class="col-sm-3 control-label">
-                <strong class="sottolineato"> {{'colltit_tip_455_new' | translate }}</strong>
+                <strong class="blu-label"> {{'colltit_tip_455_new' | translate }}</strong>
               </span>
               <div class="col-sm-9 text">
                 <div ng-repeat="ti455 in dettagli[$index].colltit_tip.colltit_tip_455_new">
-                  <span class="links" title="{{'naviga' | translate }}" ng-click="findByID(tip455)">{{tip455 | indexed | containBid}}</span>
+                  <span class="blu-tema manina underline" title="{{'naviga' | translate }}" ng-click="findByID(tip455)">{{tip455 | indexed | containBid}}</span>
                 </div>
               </div>
             </td>
@@ -994,11 +994,11 @@
           <tr ng-if="dettagli[$index].colltit_tip.colltit_tip_456_new">
             <td class="shortTd">
               <span class="col-sm-3 control-label">
-                <strong class="sottolineato"> {{'colltit_tip_456_new' | translate }}</strong>
+                <strong class="blu-label"> {{'colltit_tip_456_new' | translate }}</strong>
               </span>
               <div class="col-sm-9 text">
                 <div ng-repeat="tip456 in dettagli[$index].colltit_tip.colltit_tip_456_new">
-                  <span class="links" title="{{'naviga' | translate }}" ng-click="findByID(tip456)">{{tip456 | indexed | containBid}}</span>
+                  <span class="blu-tema manina underline" title="{{'naviga' | translate }}" ng-click="findByID(tip456)">{{tip456 | indexed | containBid}}</span>
                 </div>
               </div>
             </td>
@@ -1006,11 +1006,11 @@
           <tr ng-if="dettagli[$index].colltit_tip.colltit_tip_488_new">
             <td class="shortTd">
               <span class="col-sm-3 control-label">
-                <strong class="sottolineato"> {{'colltit_tip_488_new' | translate }}</strong>
+                <strong class="blu-label"> {{'colltit_tip_488_new' | translate }}</strong>
               </span>
               <div class="col-sm-9 text">
                 <div ng-repeat="tip488 in dettagli[$index].colltit_tip.colltit_tip_488_new">
-                  <span class="links" title="{{'naviga' | translate }}" ng-click="findByID(tip488)">{{tip488 | indexed | containBid}}</span>
+                  <span class="blu-tema manina underline" title="{{'naviga' | translate }}" ng-click="findByID(tip488)">{{tip488 | indexed | containBid}}</span>
                 </div>
               </div>
             </td>
@@ -1018,11 +1018,11 @@
           <tr ng-if="dettagli[$index].colltit_tip.colltit_tip_422_new">
             <td class="shortTd">
               <span class="col-sm-3 control-label">
-                <strong class="sottolineato"> {{'colltit_tip_422_new' | translate }}</strong>
+                <strong class="blu-label"> {{'colltit_tip_422_new' | translate }}</strong>
               </span>
               <div class="col-sm-9 text">
                 <div ng-repeat="tip422 in dettagli[$index].colltit_tip.colltit_tip_422_new">
-                 <span class="links" title="{{'naviga' | translate }}" ng-click="findByID(tip422)">{{tip422 | indexed | containBid}}</span> 
+                 <span class="blu-tema manina underline" title="{{'naviga' | translate }}" ng-click="findByID(tip422)">{{tip422 | indexed | containBid}}</span> 
                 </div>
               </div>
             </td>
@@ -1030,7 +1030,7 @@
           <tr ng-if="dettagli[$index].colltit_tip.colltit_tip_423_new">
             <td class="shortTd">
               <span class="col-sm-3 control-label">
-                <strong class="sottolineato"> {{'colltit_tip_423_new' | translate }}</strong>
+                <strong class="blu-label"> {{'colltit_tip_423_new' | translate }}</strong>
               </span>
               <div class="col-sm-9 text">
                 <div ng-repeat="tips423 in dettagli[$index].colltit_tip.colltit_tip_423_new">
@@ -1043,11 +1043,11 @@
           <tr ng-if="dettagli[$index].colltit_tip.colltit_tip_430_new">
             <td class="shortTd">
               <span class="col-sm-3 control-label">
-                <strong class="sottolineato"> {{'colltit_tip_430_new' | translate }}</strong>
+                <strong class="blu-label"> {{'colltit_tip_430_new' | translate }}</strong>
               </span>
               <div class="col-sm-9 text">
                 <div ng-repeat="tip430 in dettagli[$index].colltit_tip.colltit_tip_430_new">
-                  <span class="links" title="{{'naviga' | translate }}" ng-click="findByID(tip430)">{{tip430 | indexed | containBid}}</span>
+                  <span class="blu-tema manina underline" title="{{'naviga' | translate }}" ng-click="findByID(tip430)">{{tip430 | indexed | containBid}}</span>
                 </div>
               </div>
             </td>
@@ -1055,11 +1055,11 @@
           <tr ng-if="dettagli[$index].colltit_tip.colltit_tip_440_new">
             <td class="shortTd">
               <span class="col-sm-3 control-label">
-                <strong class="sottolineato"> {{'colltit_tip_440_new' | translate }}</strong>
+                <strong class="blu-label"> {{'colltit_tip_440_new' | translate }}</strong>
               </span>
               <div class="col-sm-9 text">
                 <div ng-repeat="tip440 in dettagli[$index].colltit_tip.colltit_tip_440_new">
-                  <span class="links" title="{{'naviga' | translate }}" ng-click="findByID(tip440)">{{tip440 | indexed | containBid}}</span>
+                  <span class="blu-tema manina underline" title="{{'naviga' | translate }}" ng-click="findByID(tip440)">{{tip440 | indexed | containBid}}</span>
                 </div>
               </div>
             </td>
@@ -1067,11 +1067,11 @@
           <tr ng-if="dettagli[$index].colltit_tip.colltit_tip_451_new">
             <td class="shortTd">
               <span class="col-sm-3 control-label">
-                <strong class="sottolineato"> {{'colltit_tip_451_new' | translate }}</strong>
+                <strong class="blu-label"> {{'colltit_tip_451_new' | translate }}</strong>
               </span>
               <div class="col-sm-9 text">
                 <div ng-repeat="tip451 in dettagli[$index].colltit_tip.colltit_tip_451_new">
-                  <span class="links" title="{{'naviga' | translate }}" ng-click="findByID(tip451)">{{tip451 | indexed | containBid}}</span>
+                  <span class="blu-tema manina underline" title="{{'naviga' | translate }}" ng-click="findByID(tip451)">{{tip451 | indexed | containBid}}</span>
                 </div>
               </div>
             </td>
@@ -1079,11 +1079,11 @@
           <tr ng-if="dettagli[$index].colltit_tip.colltit_tip_452_new">
             <td class="shortTd">
               <span class="col-sm-3 control-label">
-                <strong class="sottolineato"> {{'colltit_tip_452_new' | translate }}</strong>
+                <strong class="blu-label"> {{'colltit_tip_452_new' | translate }}</strong>
               </span>
               <div class="col-sm-9 text">
                 <div ng-repeat="tip452 in dettagli[$index].colltit_tip.colltit_tip_452_new">
-                  <span class="links" title="{{'naviga' | translate }}" ng-click="findByID(tip452)">{{tip452 | indexed | containBid}}</span>
+                  <span class="blu-tema manina underline" title="{{'naviga' | translate }}" ng-click="findByID(tip452)">{{tip452 | indexed | containBid}}</span>
                 </div>
               </div>
             </td>
@@ -1091,11 +1091,11 @@
           <tr ng-if="dettagli[$index].colltit_tip.colltit_tip_454_new">
             <td class="shortTd">
               <span class="col-sm-3 control-label">
-                <strong class="sottolineato"> {{'colltit_tip_454_new' | translate }}</strong>
+                <strong class="blu-label"> {{'colltit_tip_454_new' | translate }}</strong>
               </span>
               <div class="col-sm-9 text">
                 <div ng-repeat="tip454 in dettagli[$index].colltit_tip.colltit_tip_454_new">
-                  <span class="links" title="{{'naviga' | translate }}" ng-click="findByID(tip454)">{{tip454 | indexed | containBid}}</span>
+                  <span class="blu-tema manina underline" title="{{'naviga' | translate }}" ng-click="findByID(tip454)">{{tip454 | indexed | containBid}}</span>
                 </div>
               </div>
             </td>
@@ -1103,11 +1103,11 @@
           <tr ng-if="dettagli[$index].colltit_tip.colltit_tip_461_new">
             <td class="shortTd">
               <span class="col-sm-3 control-label">
-                <strong class="sottolineato"> {{'colltit_tip_461_new' | translate }}</strong>
+                <strong class="blu-label"> {{'colltit_tip_461_new' | translate }}</strong>
               </span>
               <div class="col-sm-9 text">
                 <div ng-repeat="tip461 in dettagli[$index].colltit_tip.colltit_tip_461_new">
-                  <span class="links" title="{{'naviga' | translate }}" ng-click="findByID(tip461)">{{tip461 | indexed | containBid}}</span>
+                  <span class="blu-tema manina underline" title="{{'naviga' | translate }}" ng-click="findByID(tip461)">{{tip461 | indexed | containBid}}</span>
                 </div>
               </div>
             </td>
@@ -1116,11 +1116,11 @@
             <td class="shortTd">
               <span class="col-sm-3 control-label"> <!-- almaviva3 MAD export unimarc v10.3.2 per gestione del SET verso SUBSET
                -->
-                <strong class="sottolineato"> {{((dettagli[$index].leader.charAt(8) == '1' ) ? 'colltit_tip_463_new' : 'colltit_tip_462_new' )| translate }}</strong>
+                <strong class="blu-label"> {{((dettagli[$index].leader.charAt(8) == '1' ) ? 'colltit_tip_463_new' : 'colltit_tip_462_new' )| translate }}</strong>
               </span>
               <div class="col-sm-9 text">
                 <div ng-repeat="tip462 in dettagli[$index].colltit_tip.colltit_tip_462_new">
-                  <span class="links" title="{{'naviga' | translate }}" ng-click="findByID(tip462)">{{tip462 | indexed | containBid}}</span>
+                  <span class="blu-tema manina underline" title="{{'naviga' | translate }}" ng-click="findByID(tip462)">{{tip462 | indexed | containBid}}</span>
                 </div>
               </div>
             </td>
@@ -1129,11 +1129,11 @@
           <tr ng-if="dettagli[$index].colltit_tip.colltit_tip_463_new ">
             <td class="shortTd">
               <span class="col-sm-3 control-label">
-                <strong class="sottolineato"> {{ ((dettagli[$index].level == 'a') ? 'colltit_tip_461_new' : 'colltit_tip_463_new') | translate }}</strong>
+                <strong class="blu-label"> {{ ((dettagli[$index].level == 'a') ? 'colltit_tip_461_new' : 'colltit_tip_463_new') | translate }}</strong>
               </span>
               <div class="col-sm-9 text">
                 <div ng-repeat="tip463 in dettagli[$index].colltit_tip.colltit_tip_463_new | orderBy">
-                  <span class="links" title="{{('tooltip_cerca_per' | translate) + ': ' + (tip463.split('|')[0]) }}" ng-click="findByID(tip463)">{{tip463 | indexed | containBid}}</span>
+                  <span class="blu-tema manina underline" title="{{('tooltip_cerca_per' | translate) + ': ' + (tip463.split('|')[0]) }}" ng-click="findByID(tip463)">{{tip463 | indexed | containBid}}</span>
                 </div>
               </div>
             </td>
@@ -1141,14 +1141,14 @@
           <tr ng-if="dettagli[$index].colltit_tip.colltit_tip_464_new" ng-init="limit = polo.elementi_464">
             <td class="shortTd">
               <span class="col-sm-3 control-label">
-                <strong class="sottolineato"> {{'colltit_tip_464_new' | translate }}</strong>
+                <strong class="blu-label"> {{'colltit_tip_464_new' | translate }}</strong>
               </span>
               <div class="col-sm-9 text">
                 <!-- SBW0117389 limitTo:limit464-->
                 <div ng-repeat="tip464 in dettagli[$index].colltit_tip.colltit_tip_464_new | limitTo:limit  track by $index">
-                  <span class="links" title="{{('tooltip_cerca_per' | translate) + ': ' + (tip464.split('|')[0]) }}" ng-click="findByID(tip464)">{{ (tip464.split("|")[2] ? tip464.split("|")[2] + ' - ' : '')  + (tip464.split("|")[1] | indexed) }}</span>
+                  <span class="blu-tema manina underline" title="{{('tooltip_cerca_per' | translate) + ': ' + (tip464.split('|')[0]) }}" ng-click="findByID(tip464)">{{ (tip464.split("|")[2] ? tip464.split("|")[2] + ' - ' : '')  + (tip464.split("|")[1] | indexed) }}</span>
                 </div>
-                <span class="links" ng-show="limit <  dettagli[$index].colltit_tip.colltit_tip_464_new.length" title="{{'guardapiu' | translate}}"
+                <span class="blu-tema manina underline" ng-show="limit <  dettagli[$index].colltit_tip.colltit_tip_464_new.length" title="{{'guardapiu' | translate}}"
                   ng-click="limit = limit + limit"><span class="glyphicon glyphicon-triangle-bottom"></span></span>
 
                 <!-- SBW0111541 -->
@@ -1159,13 +1159,12 @@
           <tr ng-if="dettagli[$index].soggetto">
             <td class="shortTd">
               <span class="col-sm-3 control-label">
-                <strong class="sottolineato"> {{'soggetto' | translate }}</strong>
+                <strong class="blu-label"> {{'soggetto' | translate }}</strong>
               </span>
               <div class="col-sm-9 text">
                 <div ng-repeat="sogg in dettagli[$index].soggetto">
-                  <span class="links" title="{{'naviga' | translate }}" ng-click="findBySogg(sogg)">{{sogg.split("|")[1]}}</span>
-
-
+                  <span ng-if="sogg.split('|')[1] != null || sogg.split('|')[1] != undefined " class="blu-tema manina underline" title="{{'naviga' | translate }}" ng-click="findBySogg(sogg)">{{sogg.split("|")[1]}}</span>
+                  <span ng-if="sogg.split('|')[1] == null || sogg.split('|')[1] == undefined " >{{sogg}}</span>
                 </div>
               </div>
             </td>
@@ -1173,7 +1172,7 @@
           <tr ng-if="false" ng-if="dettagli[$index].publish">
             <td class="shortTd">
               <span class="col-sm-3 control-label">
-                <strong class="sottolineato"> {{'pubblicazione' | translate }}</strong>
+                <strong class="blu-label"> {{'pubblicazione' | translate }}</strong>
               </span>
               <div class="col-sm-9 text">{{dettagli[$index].publish}}</div>
             </td>
@@ -1181,11 +1180,11 @@
           <tr ng-if="dettagli[$index].dewey.dewey_tot">
             <td class="shortTd">
               <span class="col-sm-3 control-label">
-                <strong class="sottolineato"> {{ 'dewey_tot' | translate }}</strong>
+                <strong class="blu-label"> {{ 'dewey_tot' | translate }}</strong>
               </span>
               <div class="col-sm-9 text">
                 <div ng-repeat="dews in dettagli[$index].dewey.dewey_tot">
-                  <span class="links" title="{{'naviga' | translate }}" ng-click="findByDewey(dews)">{{dews | indexed | dewey_code}}</span> {{dews | indexed | dewey_des}}
+                  <span class="blu-tema manina underline" title="{{'naviga' | translate }}" ng-click="findByDewey(dews)">{{dews | indexed | dewey_code}}</span> {{dews | indexed | dewey_des}}
 
                 </div>
               </div>
@@ -1194,12 +1193,26 @@
           <tr ng-if="dettagli[$index].classi_PGI_686_tot">
             <td class="shortTd">
               <span class="col-sm-3 control-label">
-                <strong class="sottolineato"> {{ 'classi_PGI_686_tot' | translate }}</strong>
+                <strong class="blu-label"> {{ 'classi_PGI_686_tot' | translate }}</strong>
               </span>
               <div class="col-sm-9 text">
                 <div ng-repeat="dews in dettagli[$index].classi_PGI_686_tot ">
-                  <span class="links" title="{{'naviga' | translate }}" ng-click="findByPEGI(dews)">{{dews | indexed}}</span>
+                  <span class="blu-tema manina underline" title="{{'naviga' | translate }}" ng-click="findByPEGI(dews)">{{dews | indexed}}</span>
 
+                </div>
+              </div>
+            </td>
+          </tr>
+           <!-- Altri sistemi di classificazioni Almaviva3 15/12/2020 -->
+           <tr ng-if="dettagli[$index].classi_686_tot">
+            <td class="shortTd">
+              <span class="col-sm-3 control-label">
+                <strong class="blu-label"> {{ 'classi_686_tot_altre' | translate }}</strong>
+              </span>
+              <div class="col-sm-9 text">
+                <div ng-repeat="dews in dettagli[$index].classi_686_tot " >
+                  <!--<span class="blu-tema manina underline" title="{{'naviga' | translate }}" ng-click="findByPEGI(dews)">{{dews}}</span> -->
+                  <span ng-init="classe = dews.split('|')">{{classe[0]+ ' - ' + classe[1] + ' ' + classe[2] }} </span>
                 </div>
               </div>
             </td>
@@ -1207,11 +1220,11 @@
           <tr ng-if="dettagli[$index].materia">
             <td class="shortTd">
               <span class="col-sm-3 control-label">
-                <strong class="sottolineato"> {{ 'materia' | translate }}</strong>
+                <strong class="blu-label"> {{ 'materia' | translate }}</strong>
               </span>
               <div class="col-sm-9 text">
-                <div ng-repeat="materiaS in dettagli[$index].materia">
-                  {{materiaS}}
+                <div ng-repeat="materiaS in dettagli[$index].materia"> <!-- tesi di laurea 23/09/2020-->
+                  {{materiaS.startsWith("- ") ? materiaS.substring(2) : materiaS}}
                 </div>
               </div>
             </td>
@@ -1219,11 +1232,11 @@
           <tr ng-if="dettagli[$index].collections">
             <td class="shortTd">
               <span class="col-sm-3 control-label">
-                <strong class="sottolineato"> {{'collezionef' | translate }}</strong>
+                <strong class="blu-label"> {{'collezionef' | translate }}</strong>
               </span>
               <div class="col-sm-9 text">
                 <div ng-repeat="coll in dettagli[$index].collections">
-                  <span class="links" title="{{'naviga' | translate }}" ng-click="findCollection(coll)">{{coll | indexed | containBid}}</span>
+                  <span class="blu-tema manina underline" title="{{'naviga' | translate }}" ng-click="findCollection(coll)">{{coll | indexed | containBid}}</span>
                 </div>
               </div>
             </td>
@@ -1231,7 +1244,7 @@
           <tr ng-if="false" ng-if="dettagli[$index].recordType">
             <td class="shortTd">
               <span class="col-sm-3 control-label">
-                <strong class="sottolineato"> {{'tiporec' | translate}}</strong>
+                <strong class="blu-label"> {{'tiporec' | translate}}</strong>
               </span>
               <div class="col-sm-9 text">{{dettagli[$index].recordType | decodeTiporec | translate }}</div>
             </td>
@@ -1239,7 +1252,7 @@
           <tr ng-if="false" ng-if="dettagli[$index].level">
             <td class="shortTd">
               <span class="col-sm-3 control-label">
-                <strong class="sottolineato"> {{'level' | translate}}</strong>
+                <strong class="blu-label"> {{'level' | translate}}</strong>
               </span>
               <div class="col-sm-9 text">{{dettagli[$index].level | decodeLevel | translate }}</div>
             </td>
@@ -1247,7 +1260,7 @@
           <tr ng-if="dettagli[$index].language">
             <td class="shortTd">
               <span class="col-sm-3 control-label">
-                <strong class="sottolineato"> {{'lingua' | translate }}</strong>
+                <strong class="blu-label"> {{'lingua' | translate }}</strong>
               </span>
               <div class="col-sm-9 text">
                 <div ng-repeat="ling in dettagli[$index].language">
@@ -1259,7 +1272,7 @@
           <tr ng-if="dettagli[$index].country">
             <td class="shortTd">
               <span class="col-sm-3 control-label">
-                <strong class="sottolineato"> {{'paese' | translate }}</strong>
+                <strong class="blu-label"> {{'paese' | translate }}</strong>
               </span>
               <div class="col-sm-9 text">
                 <div ng-repeat="countrySingle in dettagli[$index].country">
@@ -1272,7 +1285,7 @@
           <tr ng-if="dettagli[$index].mat_inv_950">
             <td class="shortTd">
               <span class="col-sm-3 control-label">
-                <strong class="sottolineato"> {{'supp_mat_inv_950' | translate }}</strong>
+                <strong class="blu-label"> {{'supp_mat_inv_950' | translate }}</strong>
               </span>
               <div class="col-sm-9 text">
                 <div ng-repeat="mat_inv_950S in dettagli[$index].mat_inv_950">
@@ -1285,34 +1298,40 @@
           <tr ng-if="dettagli[$index].formato_elet.formato_elet_856">
             <td class="shortTd">
               <span class="col-sm-3 control-label">
-                <strong class="sottolineato"> {{'risorsaElettronica' | translate }}</strong>
+                <strong class="blu-label"> {{'risorsaElettronica' | translate }}</strong>
               </span>
               <div class="col-sm-9 text">
                 <div ng-repeat="elet_856 in dettagli[$index].formato_elet.formato_elet_856">
-                  <a class="links" target="_blank" href="{{(elet_856.indexOf('http') == -1 ) ? 'http://' + elet_856 : elet_856}}">{{elet_856}}</a>
+                  <a class="blu-tema manina underline" target="_blank" aria-label="{{( 'acc_apertura_nuova_finestra' | translate) + ' ' + elet_856}}"  href="{{(elet_856.indexOf('http') == -1 ) ? 'http://' + elet_856 : elet_856}}">{{elet_856}}</a>
                 </div>
               </div>
             </td>
           </tr>
-          <tr ng-if="dettagli[$index].formato_elet.formato_elet_899">
-            <td class="shortTd">
+          <tr ng-if="dettagli[$index].formato_elet.formato_elet_899 || dettagli[$index].formato_elet.formato_elet_856td">
+            <td class="shortTd" ng-init="doc = dettagli[$index]">
               <span class="col-sm-3 control-label">
-                <strong class="sottolineato"> {{'accessoRisorseDigitali' | translate }}</strong>
+                <strong class="blu-label"> {{'accessoRisorseDigitali' | translate }}</strong>
               </span>
               <div class="col-sm-9 text">
                 <!-- Evo voluta da biblioteca memoria per periodici 22/09/17 -->
-                <div ng-repeat="elet_899 in dettagli[$index].formato_elet.formato_elet_899" ng-init="toLimitPeriodico =  ((dettagli[$parent.$index].level.toLowerCase() == 's') ? 1 : elet_899.split('|')[2].length)">
-                  <!-- <a class="links" target="_blank" href="{{(elet_899.split('|')[2].indexOf('http') == -1 ) ? 'http://' + elet_899.split('|')[2] : elet_899.split('|')[2]}}">{{'digitalCopy' | translate}}</a>  ({{(elet_899 | buildStr_formato_elet_899) + ' - ' + (elet_899 | decode_formato_elet_899 | translate)}} ) -->
+                <div ng-if="doc.formato_elet.formato_elet_899" ng-repeat="elet_899 in doc.formato_elet.formato_elet_899"
+                  ng-init="toLimitPeriodico =  ((dettagli[$parent.$index].level.toLowerCase() == 's') ? 1 : elet_899.split('|')[2].length)">
+                  <!-- <a class="blu-tema manina underline" target="_blank" href="{{(elet_899.split('|')[2].indexOf('http') == -1 ) ? 'http://' + elet_899.split('|')[2] : elet_899.split('|')[2]}}">{{'digitalCopy' | translate}}</a>  ({{(elet_899 | buildStr_formato_elet_899) + ' - ' + (elet_899 | decode_formato_elet_899 | translate)}} ) -->
                   <!-- Fix per multipli url in 899 $u 30-08-17 -->
                   <div ng-repeat="url in elet_899.split('|')[2].split('&$%') | limitTo: toLimitPeriodico">
-                    <a class="links" target="_blank" href="{{(url.indexOf('http') == -1 ) ? 'http://' + url : url}}">{{((elet_899.split('|')[0].toLowerCase().indexOf('deposito legale') != -1) ? 'copia_depositata' : 'digitalCopy')
-                      | translate}}</a>
-                    <i>({{(elet_899 | buildStr_formato_elet_899) + ' - ' + (elet_899 | decode_formato_elet_899 | translate)}})</i>
-
-
+                    <a class="blu-tema manina underline" target="_blank" aria-label="{{( 'acc_apertura_nuova_finestra' | translate) + ' ' + url}}" href="{{(url.indexOf('http') == -1 ) ? 'http://' + url : url}}">{{((elet_899.split('|')[0].toLowerCase().indexOf('deposito legale') != -1) ? 'copia_depositata' : 'digitalCopy')
+                                | translate}}</a>
+                    <em>({{(elet_899 | buildStr_formato_elet_899) + ' - ' + (elet_899 | decode_formato_elet_899 | translate)}})</em>
                     </di>
                   </div>
                 </div>
+                <!-- Evo voluta da Firenze per tesi di dottorato Almaviva3 & Almaviva6 24/09/2020 -->
+                <div ng-if="doc.formato_elet.formato_elet_856td" ng-repeat="elet_856td in doc.formato_elet.formato_elet_856td" ng-init="url = elet_856td.split('|')[2]">
+                      <a class="blu-tema manina underline" target="_blank" aria-label="{{( 'acc_apertura_nuova_finestra' | translate) + ' ' + url}}" href="{{(url.indexOf('http') == -1 ) ? 'http://' + url : url}}">{{((elet_856td.split('|')[0].toLowerCase().indexOf('deposito legale') != -1) ? 'copia_depositata' : 'digitalCopy') | translate}}</a>
+                    <em>({{(elet_856td | buildStr_formato_elet_899) + ' - ' + (elet_856td | decode_formato_elet_899 | translate)}})</em>
+              </div>
+                </div>
+              </div>
             </td>
           </tr>
 
@@ -1320,7 +1339,7 @@
           <tr ng-if="dettagli[$index].id">
             <td class="shortTd">
               <span class="col-sm-3 control-label">
-                <strong class="sottolineato"> {{'BID' | translate}}</strong>
+                <strong class="blu-label"> {{'BID' | translate}}</strong>
               </span>
               <div class="col-sm-9 text">{{dettagli[$index].id}}</div>
             </td>
@@ -1332,7 +1351,7 @@
                 
               </span>
               <div class="col-sm-9 text">
-                <span class="links" title="{{'naviga' | translate }}" ng-click="findTitolicont(d.id)">{{'titoli_contenuti' | translate }}</span>
+                <span class="blu-tema manina underline" title="{{'naviga' | translate }}" ng-click="findTitolicont(d.id)">{{'titoli_contenuti' | translate }}</span>
               </div>
             </td>
           </tr>

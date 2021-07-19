@@ -1,0 +1,109 @@
+.hidden {
+    display: none;
+}
+.margin-6px {
+    margin-left: 6px !important;
+}
+.ricercaSempliceFilters{
+    margin-bottom: 235px !important; 
+    max-width: 80% !important; 
+    margin-left: 12% !important;  
+    margin-right: 12% !important; 
+    margin-top: 0% !important
+}
+.testoCentroVerOrizz{
+    text-align: center !important;
+vertical-align: middle !important;
+}
+.spinnerCentro{
+    text-align: center;
+    margin-right: auto;
+    margin-left: auto;
+}
+.cursorDefault {
+    cursor:default;
+}
+.paddingLeft-15px{
+    padding-left: 15px;
+}
+.operatoreQuery {
+    font-family:verdana;
+    color: #1B74A6;
+}
+
+@keyframes ldio-rlwckwg1g7 {
+  0% { transform: translate(-50%,-50%) rotate(0deg); }
+  100% { transform: translate(-50%,-50%) rotate(360deg); }
+}
+.ldio-rlwckwg1g7 div {
+  position: absolute;
+  width: 68.39999999999999px;
+  height: 68.39999999999999px;
+  border: 15.6px solid #1b74a6;
+  border-top-color: transparent;
+  border-radius: 50%;
+}
+.ldio-rlwckwg1g7 div {
+  animation: ldio-rlwckwg1g7 1s linear infinite;
+  top: 60px;
+  left: 60px
+}
+.loadingio-spinner-rolling-d49g7b96z79 {
+  width: 120px;
+  height: 120px;
+  display: inline-block;
+  overflow: hidden;
+  background: none;
+}
+.ldio-rlwckwg1g7 {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform: translateZ(0) scale(1);
+  backface-visibility: hidden;
+  transform-origin: 0 0; /* see note above */
+}
+.ldio-rlwckwg1g7 div { box-sizing: content-box; }
+.boldato {
+  font-weight: bold;
+}
+
+.blu-tema {
+  color: #1B74A6;
+}
+
+.dark-disabled {
+  color: #565656 !important;
+  cursor: not-allowed;
+
+}
+.lock-paginatore a {
+  color: #565656 !important;
+  cursor: not-allowed;
+
+}
+.blu-tema.disabled{
+  color: #565656 !important;
+}
+.manina  {
+  cursor: pointer;
+}
+.underline {
+  text-decoration: underline;
+}
+.grigio-contrasto {
+  color: #f5f5f5;
+}
+.nero-contrasto {
+  color: #000000
+}
+.titoloFaccetta {
+  font-size: 0.9em;
+    font-weight: bold;
+    color: #1B74A6;
+}
+.bibliotecheDoveLoTrovi {
+  color: #1B74A6 !important;
+  font-weight: normal;
+
+}

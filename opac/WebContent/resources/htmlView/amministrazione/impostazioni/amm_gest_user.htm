@@ -1,14 +1,16 @@
 <div class="panel-group">
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h5>{{selectedActivity | translate}}</h5>
+      <h5  role="heading" aria-level="1">{{selectedActivity | translate}}</h5>
     </div>
     <div class="panel-body">
         <div ng-show="isLoading" class="col-md-3 centerDivLogin">
             <div class="form-login center">
-                    <center>
-            <div class="loader"></div>
-        </center>
+              <div class="loadingio-spinner-rolling-d49g7b96z79">
+                <div class="ldio-rlwckwg1g7">
+                  <div></div>
+                </div>
+              </div>
             </div>
         
     </div>
@@ -44,7 +46,7 @@
             <label for="email" class="col-sm-3 col-lg-3">{{'new_psw_ripeti' | translate}}:</label>
             <div class="col-sm-3 col-lg-3">
               <input id="new_psw_C" ng-model="appUser.newPswConfirm"  type="password" class="form-control input-sm"
-                id="new_psw" name="new_psw_C" ng-disabled="!edit">
+                id="new_psw_C" name="new_psw_C" ng-disabled="!edit">
             </div>
           </div>
         </fieldset>
@@ -61,8 +63,7 @@
       </form>
 
     </div>
-    <div class="panel-footer">
-      <center>
+    <div class="panel-footer text-center">
         <button title="{{'tooltip_modifica_action' | translate}}" ng-show="!edit" class="btn btn-md btn-warning" ng-click="startEdit()">
           {{'amm_modifica' | translate}}
 
@@ -76,7 +77,6 @@
           {{'amm_conferma' | translate}}
 
         </button>
-      </center>
     </div>
   </div>
 

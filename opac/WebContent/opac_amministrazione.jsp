@@ -2,7 +2,7 @@
 	pageEncoding="utf-8"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<html  lang="it-IT">
 <head>
 <base href="${pageContext.request.contextPath}/">
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -14,6 +14,7 @@
 <!-- Style CSS -->
 
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/accessibilita.css">
 <link rel="stylesheet" type="text/css" href="css/styleCustom.css">
 
 <link rel="stylesheet" type="text/css"
@@ -62,6 +63,7 @@
 </script>
 <!-- Libraries -->
 <script type="text/javascript" src="lib/angular/angular.js"></script>
+<script type="text/javascript" src="lib/angular/angular-aria.min.js"></script>
 <script type="text/javascript" src="lib/angular/angular-resource.js"></script>
 <script type="text/javascript" src="lib/angular/angular-sanitize.js"></script>
 <script type="text/javascript" src="lib/angular/angular-cookies.js"></script>

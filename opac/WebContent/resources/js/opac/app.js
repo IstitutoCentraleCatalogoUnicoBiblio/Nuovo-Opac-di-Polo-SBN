@@ -1,7 +1,7 @@
 var opac2 = angular.module("opac2", [
   "ngRoute", "ngSanitize", "ngCookies",
   "ngResource", "pascalprecht.translate", "angular.filter", 'bw.paging', 'ui.slider',
-  'angular-cookie-law'
+  'angular-cookie-law', 'ngAria'
 ]);
 var controllers = [ 'RicercaSemplice',
 	'AuthoritySearch',

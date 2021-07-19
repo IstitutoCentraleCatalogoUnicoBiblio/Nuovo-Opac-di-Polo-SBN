@@ -1,6 +1,7 @@
 opac2.registerCtrl('InfoPoloController', ['$scope', '$translate', '$routeParams', '$route', '$location', '$filter', 'ApiServices', 'LocalSessionSettingsServices', 'CodiciServices','SharedServices',
   function($scope, $translate, $routeParams, $route, $location, $filter, ApiServices, LocalSessionSettingsServices, CodiciServices, SharedServices) {
     //console.log("InfoPoloController");
+    updateTitle ('Info del Polo')
     $scope.flagVisualizza = true;
     $scope.controller = "InfoPoloController";
     $scope.changeLanguage = function(key) {

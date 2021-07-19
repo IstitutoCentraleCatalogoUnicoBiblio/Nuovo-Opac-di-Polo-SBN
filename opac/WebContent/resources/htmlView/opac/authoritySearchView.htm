@@ -1,10 +1,10 @@
 <div class="container-fluid">
 	<div class="row content">
 		<ng-include src=" 'htmlView/templates/page/navbarView.htm' "></ng-include>
-		<div class="col-sm-12 col-lg-12">
+		<div class="col-sm-12 col-lg-12" id="acc_body">
 			<div class="col-sm-4 col-lg-4">
-				<h2>
-					<img src="images/ico_result_ora.png" alt=""> {{ (controller |
+				<h2  role="heading" aria-level="1">
+					<img src="images/ico_result_ora.png" alt="{{ (controller | translate) }}"> {{ (controller |
 					translate) }}
 					<!--<h3 ng-show="resultFlag == false" ng-show="resultFlag == false">{{errorAPI}}</h3>-->
 				</h2>
@@ -18,12 +18,12 @@
 					<!-- class="link active" -->
 					<li
 						ng-class="['link', {'active': polo.auth_autori}, {'disabled': !polo.auth_autori }, {'no-action': !polo.auth_autori }]"><a
-						data-toggle="tab" data-target="#authority" target="_self"
+						data-toggle="tab" data-target="#authority" target="_self" class="blu-tema"
 						title="{{((!polo.auth_autori) ? 'not_allowed_authority' : 'autori') | translate}}">{{('autori'
 							| translate)}}</a></li>
 					<li
-						ng-class="['link', {'active': !polo.auth_autori}, {'disabled': !polo.auth_classificazioni }, {'no-action': !polo.auth_classificazioni }]"
-						ng-init="selectClasse(0, undefined)"><a data-toggle="tab"
+						ng-class="['blu-tema', {'active': !polo.auth_autori}, {'disabled': !polo.auth_classificazioni }, {'no-action': !polo.auth_classificazioni }]"
+						ng-init="selectClasse(0, undefined)"><a data-toggle="tab" class="blu-tema"
 						data-target="#classificazioni"
 						title="{{((!polo.auth_classificazioni) ? 'not_allowed_authority' : 'dwy_classificazioni') | translate}}">{{'dwy_classificazioni'
 							| translate }}</a></li>
@@ -37,9 +37,11 @@
 								<fieldset>
 									<div class="form-group">
 										<div class="col-sm-2 col-lg-2 pull-right">
+											<label for="ordina_per_auth" class="hidden">{{ 'ordinati' | translate}}</label>
 											<select class="form-control  input-xs"
-												ng-init="sort = 'nomeAuth'" ng-model="sort"
-												ng-change="selectOrder(sort)" id="ordina_per">
+												ng-init="sort = 'nomeAuth'" ng-model="sort" title="{{ 'ordinati' | translate}}"
+												aria-label="{{ 'ordinati' | translate}}" role="listbox"
+												ng-change="selectOrder(sort)" id="ordina_per_auth">
 												<!--<option value="syntetic_title">{{ 'ordinati' | translate }} <i>{{ 'titolo' | translate }}</i> </option> -->
 												<option value="nomeAuth">{{ 'ordinati' | translate
 													}} <i>{{ 'nomeAuth' | translate | lowercase}}</i></option>
@@ -53,9 +55,10 @@
 											</select>
 										</div>
 										<div class="col-sm-2 col-lg-2 pull-right">
-											<select class="form-control  input-xs "
-												ng-init="maxRows='10'" ng-model="maxRows"
-												ng-change="onChanges()" id="doc_for_page">
+											<select class="form-control  input-xs " role="listbox"
+												ng-init="maxRows='10'" ng-model="maxRows" title="{{ 'visualizzati' | translate }}"
+												aria-label="{{ 'visualizzati' | translate }}" role="listbox"
+												ng-change="onChanges()" id="doc_for_page1">
 												<option value="5">{{ 'visualizzati' | translate }}
 													5</option>
 												<option value="10">{{ 'visualizzati' | translate }}
@@ -70,12 +73,12 @@
 
 								<fieldset>
 									<div class="form-group">
-										<label for="parole_cerc"
+										<label for="nome"
 											class="col-sm-3 col-lg-3 myControl-label"> {{
 											'nomeAuth' | translate }}</label>
 										<div class="col-md-5">
-											<input type="text" ng-model="nome"
-												class="form-control input-xs" id="parole_cerc">
+											<input type="text" id="nome" ng-model="nome"
+												class="form-control input-xs" >
 										</div>
 									</div>
 								</fieldset>
@@ -114,19 +117,21 @@
 								</fieldset>
 								<fieldset>
 									<div class="form-group row">
-										<label for="date" class="col-sm-3 col-lg-3 myControl-label ">{{
-											'dataNascita' | translate }}</label> <span class="col-sm-2 col-lg-2">
+										<label for="dateN" class="col-sm-3 col-lg-3 myControl-label ">{{	'dataNascita' | translate }}</label>
+										<span class="col-sm-2 col-lg-2">
 											<input type="text" maxlength="4"
-											onkeypress='return validateYear(event)' name="input"
+											onkeypress='return validateYear(event)' name="dateN" id="dateN"
 											ng-regex="[0-9]{1,4}" ng-init="data_nascita1 = '' "
 											ng-model="data_nascita1"
 											ng-attr-placeholder="{{ 'datada' | translate }}"
+											aria-label="{{ ('dataNascita' | translate ) + ' ' + ('datada' | translate) }}"
 											class=" form-control input-sm">
 										</span> <span class="col-sm-2 col-lg-2"> <input type="text"
 											maxlength="4" onkeypress='return validateYear(event)'
-											name="input" ng-regex="[0-9]{1,4}"
+											name="dateN" ng-regex="[0-9]{1,4}" id="dateN1"
 											ng-init="data_nascita2 = '' " ng-model="data_nascita2"
 											ng-attr-placeholder="{{ 'dataa' | translate }}"
+											aria-label="{{ ('dataNascita' | translate ) + ' ' + ('dataa' | translate) }}"
 											class="form-control input-sm">
 										</span>
 
@@ -134,19 +139,22 @@
 								</fieldset>
 								<fieldset>
 									<div class="form-group row">
-										<label for="date" class="col-sm-3 col-lg-3 myControl-label ">{{
-											'dataMorte' | translate }}</label> <span class="col-sm-2 col-lg-2">
+										<label for="dateM" class="col-sm-3 col-lg-3 myControl-label ">{{
+											'dataMorte' | translate }}</label> 
+											<span class="col-sm-2 col-lg-2">
 											<input type="text" maxlength="4"
-											onkeypress='return validateYear(event)' name="input"
+											onkeypress='return validateYear(event)' name="date" id="dateM"
 											ng-regex="[0-9]{1,4}" ng-init="data_morte1 = '' "
 											ng-model="data_morte1"
 											ng-attr-placeholder="{{ 'datada' | translate }}"
+											aria-label="{{ ('dataMorte' | translate ) + ' ' + ('datada' | translate) }}"
 											class=" form-control input-sm">
 										</span> <span class="col-sm-2 col-lg-2"> <input type="text"
 											maxlength="4" onkeypress='return validateYear(event)'
-											name="input" ng-regex="[0-9]{1,4}"
+											name="date" ng-regex="[0-9]{1,4}" id="dateM1"
 											ng-init="data_morte2 = '' " ng-model="data_morte2"
 											ng-attr-placeholder="{{ 'dataa' | translate }}"
+											aria-label="{{ ('dataMorte' | translate ) + ' ' + ('dataa' | translate) }}"
 											class="form-control input-sm">
 										</span>
 
@@ -154,10 +162,12 @@
 								</fieldset>
 								<fieldset>
 									<div class="form-group">
-										<label for="keys" class="col-sm-3 col-lg-3 myControl-label">
+										<label for="authType" class="col-sm-3 col-lg-3 myControl-label">
 											{{ 'authorType' | translate }}</label>
 										<div class="col-sm-3 col-lg-3">
 											<select class="form-control  input-xs"
+											id="authType"
+											aria-label="{{ 'authorType' | translate }}"
 												ng-init="tipoauth = ''" ng-model="tipoauth" id="ordina_per">
 												<option value=""></option>
 												<option value="person">{{ 'persona' | translate }}</option>
@@ -170,10 +180,10 @@
 
 								<fieldset>
 									<div class="form-group">
-										<label for="keys" class="col-sm-3 col-lg-3 myControl-label">
+										<label for="vociControllate" class="col-sm-3 col-lg-3 myControl-label">
 											{{ 'voceControllata' | translate }}</label>
 										<div class="col-sm-3 col-lg-3">
-											<input type="checkbox" ng-model="vociControllate" />
+											<input type="checkbox" ng-model="vociControllate" id="vociControllate" aria-label="{{ 'voceControllata' | translate }}" />
 										</div>
 									</div>
 								</fieldset>

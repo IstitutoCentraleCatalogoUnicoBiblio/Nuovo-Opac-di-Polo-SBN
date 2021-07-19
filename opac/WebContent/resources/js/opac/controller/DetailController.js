@@ -26,7 +26,13 @@ opac2.controller('DetailController', ['$scope', '$translate', '$routeParams', '$
       var filtersGroup = {
         filters: [campoRic]
       };
-
+      if($scope.polo.bibliotecaAsPolo) {
+        filtersGroup.filters.push({
+          field: "library",
+          value: $scope.polo.codBibliotecaAsPolo
+          //		operator: "OR"
+        })
+      }
       //oggetto da inviare al server
       var toPostJson = {
         start: 0,
@@ -62,8 +68,8 @@ opac2.controller('DetailController', ['$scope', '$translate', '$routeParams', '$
         		
         	})
         } else {
-         
-      ApiServices.ricerca(showSingleDetail($scope.idUrl)).then(function (success) {
+          let filtriRicerca = showSingleDetail($scope.idUrl);
+      ApiServices.ricerca(filtriRicerca).then(function (success) {
         //console.log("SUCCESS detail", success.data);
         $('#loading').modal('hide');
         LocalSessionSettingsServices.setResponseFromSearch(success.data);

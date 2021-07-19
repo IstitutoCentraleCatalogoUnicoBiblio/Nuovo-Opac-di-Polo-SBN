@@ -77,8 +77,9 @@ public class PoloCachedManager {
 			getPoli();
 		
 		Polo filteredCodPolo = poli.stream().filter(polo -> polo.getCode().toUpperCase().equals(cod_polo)).findFirst().orElse(null);
+		
 		try {
-			return filteredCodPolo.clone();
+			return (filteredCodPolo != null) ? filteredCodPolo.clone() : null;
 		} catch (CloneNotSupportedException e) {
 			return filteredCodPolo;
 		}

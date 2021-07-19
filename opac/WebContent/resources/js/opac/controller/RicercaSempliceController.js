@@ -1,7 +1,8 @@
-opac2.registerCtrl('RicercaSempliceController', ['$scope', '$translate', '$routeParams', '$route', '$location', '$filter', 'ApiServices', 'LocalSessionSettingsServices', 'CodiciServices','SharedServices',
-  function ($scope, $translate, $routeParams, $route, $location, $filter, ApiServices, LocalSessionSettingsServices, CodiciServices, SharedServices) {
+opac2.registerCtrl('RicercaSempliceController', ['$scope', '$translate', '$routeParams', '$route', '$location', '$filter', 'ApiServices', 'LocalSessionSettingsServices', 'CodiciServices','SharedServices', '$timeout',
+  function ($scope, $translate, $routeParams, $route, $location, $filter, ApiServices, LocalSessionSettingsServices, CodiciServices, SharedServices, $timeout) {
     ////console.log("RicercaSempliceController");
     //Ottiene i dati relativi al polo nella sessione dell'tente
+    updateTitle('Ricerca Semplice')
     $scope.polo = LocalSessionSettingsServices.getPolo();
     $scope.flagVisualizza = true;
     $scope.controller = "rSemplice";
@@ -307,15 +308,14 @@ opac2.registerCtrl('RicercaSempliceController', ['$scope', '$translate', '$route
       runSearch(LocalSessionSettingsServices.riCerca(ricerca, LocalSessionSettingsServices));
       //ricerca qualcosa
     };
-    var detectExternalSearch = function() {
-    	if(!isUndefined(searchResult) && searchResult != null ){
-    		 LocalSessionSettingsServices.setResponseFromSearch(searchResult);
-    			searchResult = null
-             $location.path("/" + SharedServices.getParamPrefixUrlOpac($scope.polo) + "/result");
-    	}
-    
-    }
+    var detectExternalSearch = function () {
+      if (!isUndefined(searchResult) && searchResult != null) {
+        LocalSessionSettingsServices.setResponseFromSearch(searchResult);
+        searchResult = null
+        $location.path("/" + SharedServices.getParamPrefixUrlOpac($scope.polo) + "/result");
+      }
 
+    }
     detectExternalSearch();
     LocalSessionSettingsServices.initSessionFilters(); 
   }]);

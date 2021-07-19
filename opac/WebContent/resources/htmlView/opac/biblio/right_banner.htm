@@ -12,12 +12,12 @@
         <div class="panel-body" >
           <div class="media"  style="margin-top:none;" ng-repeat="tipologiaMlol in search.mlolDocs.documents.tipologie ">
             <div class="media-left">
-              <a title="{{'tooltip_openMediaLib' | translate}}" ng-href="{{tipologiaMlol.url_mlol}}" target="_blank">
-<img class="media-object" ng-src="{{tipologiaMlol.icona}}" alt="{{tipoloMlol.icona}}">
-</a>
+              <img class="media-object" ng-src="{{tipologiaMlol.icona}}" alt="{{tipoloMlol.icona}}">
+              <!--<a title="{{'tooltip_openMediaLib' | translate}}" ng-href="{{tipologiaMlol.url_mlol}}" target="_blank">
+              </a> -->
             </div>
             <div class="media-body">
-              <a title="{{'tooltip_openMediaLib' | translate}}" ng-href="{{tipologiaMlol.url_mlol}}" target="_blank">  <h6 style="display:inline-block;" class="media-heading links">{{tipologiaMlol.nome}} </h6></a>&nbsp;&nbsp;<span style="display:inline-block;">({{tipologiaMlol.risultati}})</span>
+              <a  class="blu-tema manina underline" title="{{'tooltip_openMediaLib' | translate}}" ng-href="{{tipologiaMlol.url_mlol}}" target="_blank" aria-label="{{( 'acc_apertura_nuova_finestra' | translate) + ' ' + tipologiaMlol.url_mlol}}">  <h6 style="display:inline-block;" class="media-heading links">{{tipologiaMlol.nome}} </h6></a>&nbsp;&nbsp;<span style="display:inline-block;">({{tipologiaMlol.risultati}})</span>
             </div>
           </div>
         </div>
@@ -26,7 +26,7 @@
     </div>
   </div>
   <!-- wikipedia -->
-  <div ng-if="polo.flag_wiki" class="panel-group" ng-attr-id="{{ 'accordion__mlol_' + $index }}">
+  <div ng-if="polo.flag_wiki" class="panel-group" ng-attr-id="{{ 'accordion__wikipedia_' + $index }}">
     <div ng-if="search.wikiDocs.query.searchinfo.totalhits > 0" ng-init="orderFilterLimit = 5" class="panel panel-default">
       <div data-toggle="collapse" data-target="#{{ 'collapse_wiki_' + $index }}" class="panel-heading link" style="padding: 0px 0px;">
         <h6 class="panel-title center" >
@@ -39,7 +39,7 @@
           <div class="media"  style="margin-top: 3px !important;" ng-repeat="wiki in search.wikiDocs.query.search ">
 
             <div class="media-body">
-              <a title="{{'tooltip_openWiki' | translate}}" ng-href="http://it.wikipedia.com/wiki/{{wiki.title}}" target="_blank">
+              <a class="blu-tema manina underline" title="{{'tooltip_openWiki' | translate}}" ng-href="http://it.wikipedia.com/wiki/{{wiki.title}}" target="_blank" aria-label="{{( 'acc_apertura_nuova_finestra' | translate) + ' ' + wiki.title}}">
                  <h6 style="display:inline-block;" class="media-heading links">{{wiki.title}}</h6></a>
             </div>
           </div>

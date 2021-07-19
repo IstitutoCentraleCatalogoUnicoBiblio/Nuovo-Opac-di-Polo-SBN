@@ -1,12 +1,12 @@
 <div style="margin-bottom: 25px;" class="col-sm-8 col-lg-8">
   <span ng-repeat="filtro in filtri">
-     <font ng-show="filtri[$index -1]" face="verdana" color="#5497BC" >{{filtri[$index -1].operator}}</font>
+     <span ng-show="filtri[$index -1]" class="operatoreQuery" >{{filtri[$index -1].operator}}</span>
     (
       <span  ng-repeat="f in filtro.filtri"  >
-        <font ng-if="$index > 0" face="verdana" color="#5497BC">{{filtro.filtri[$index - 1 ].operator}}</font>
+        <span ng-if="$index > 0" class="operatoreQuery">{{filtro.filtri[$index - 1 ].operator}}</span>
         <span style="cursor:default">{{(f.field =='id') ? 'vid' : (f.field =='nome') ? 'persona': f.field | translate}}= </span>
-  <b style="cursor:default" ng-if="f.field == 'status_voce'">{{ 'vero' | translate }}</b>
-  <b style="cursor:default" ng-if="f.field != 'status_voce'">{{f.value }}</b>
+  <strong style="cursor:default" ng-if="f.field == 'status_voce'">{{ 'vero' | translate }}</strong>
+  <strong style="cursor:default" ng-if="f.field != 'status_voce'">{{f.value }}</strong>
   <span ng-show="!(polo.bibliotecaAsPolo && f.field == 'library')" data-toggle="tooltip" data-placement="left" title="Rimuovi filtro" ng-attr-id="{{ 'removeFacc_' + $index }}" ng-click="$parent.$parent.removeFilter(f)" class="glyphicon glyphicon-remove link"></span>
   </span>
   )

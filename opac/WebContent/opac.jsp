@@ -1,9 +1,10 @@
 
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html lang="it">
+<html  lang="it-IT">
 <head>
 <base href="${pageContext.request.contextPath}/">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -50,6 +51,7 @@
 <!-- Libraries -->
 
 <script type="text/javascript" src="lib/angular/angular.min.js?v=${opac_version_avoid_cache}"></script>
+<script type="text/javascript" src="lib/angular/angular-aria.min.js?v=${opac_version_avoid_cache}"></script>
 <script type="text/javascript" src="lib/angular/angular-resource.min.js?v=${opac_version_avoid_cache}"></script>
 <script type="text/javascript" src="lib/angular/angular-sanitize.min.js?v=${opac_version_avoid_cache}"></script>
 <script type="text/javascript" src="lib/angular/angular-cookies.min.js?v=${opac_version_avoid_cache}"></script>
@@ -77,6 +79,12 @@
 <script type="text/javascript" src="js/opac/controller/HomeController.js?v=${opac_version_avoid_cache}"></script>
 <script type="text/javascript" src="js/opac/controller/DetailController.js?v=${opac_version_avoid_cache}"></script>
 <script type="text/javascript" src="js/opac/dummyControllers.js?v=${opac_version_avoid_cache}"></script>
+<!-- In caso di ricerca diretta, ResultController.js viene caricato qui--> <!-- Almaviva3 30/30/2021 bug caricamento ricerca diretta -->
+<c:choose> 
+  <c:when test="${isDirectSearch}">
+<script type="text/javascript" src="js/opac/controller/ResultController.js?v=${opac_version_avoid_cache}"></script>
+  </c:when>
+</c:choose>
 
 <!-- Services -->
 <script type="text/javascript" src="js/opac/services/ApiServices.js?v=${opac_version_avoid_cache}"></script>
@@ -89,6 +97,7 @@
 	
 <!-- Style CSS -->
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/accessibilita.css">
 <link rel="stylesheet" type="text/css" href="css/styleCustom.css">
 <link rel="stylesheet" type="text/css"
 	href="lib/bootstrap-3.3.7-dist/css/bootstrap.css">
@@ -107,9 +116,15 @@ var searchResult =  ${searchResult};
 var opac_version =  ${opac_version};
 var base_url = "${pageContext.request.contextPath}";
 var isOCNSearch = ${isOCNSearch};
+var isDirectSearch = ${isDirectSearch};
 </script>
 </head>
 <body ng-app="opac2">
+<ul class="nascosto">
+<li><a href="#acc_navigazione">{{'acc_navigazione' | translate}}</a></li>
+<li><a href="#acc_body">{{'acc_body' | translate}}</a></li>
+<li><a href="#acc_footer">Vai al footer</a></li>
+</ul>
 <cookie-law-banner position="bottom" 
 message="{{'cookies_text' | translate}}" 
 policy-url="meta/Guida_utente-opac2-1.0.10.pdf"></cookie-law-banner>

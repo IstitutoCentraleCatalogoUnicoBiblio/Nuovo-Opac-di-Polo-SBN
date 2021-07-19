@@ -42,7 +42,8 @@ public class MappingOpacController extends GenericOpacController {
 		view.addObject("searchResult", searchResult);
 		// dico ad angular che � stato cercato per ocn
 		view.addObject("isOCNSearch", "ocn".equals(searchField) ? true : false);
-
+		//Carica direttamente il controller di risultato tramite jsp
+		view.addObject("isDirectSearch", true);
 
 		log.info("Tentativo di ricerca: " + searchText);
 		return view;
@@ -66,6 +67,8 @@ public class MappingOpacController extends GenericOpacController {
 		view.addObject("searchResult", searchResult);
 		// dico ad angular che � stato cercato per ocn
 		view.addObject("isOCNSearch", "ocn".equals(searchField) ? true : false);
+			//Carica direttamente il controller di risultato tramite jsp
+			view.addObject("isDirectSearch", true);
 		log.info("Tentativo di ricerca: " + searchText);
 		return view;
 	}

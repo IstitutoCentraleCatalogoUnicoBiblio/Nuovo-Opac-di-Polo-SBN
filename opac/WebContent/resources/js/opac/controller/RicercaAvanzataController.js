@@ -1,6 +1,7 @@
 opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$translate', '$routeParams', '$route', '$location', '$filter', 'ApiServices', 'LocalSessionSettingsServices', 'CodiciServices', '$anchorScroll', 'SharedServices',
   function ($scope, $timeout, $translate, $routeParams, $route, $location, $filter, ApiServices, LocalSessionSettingsServices, CodiciServices, $anchorScroll, SharedServices) {
     ////console.log("RicercaAvanzataController");
+    updateTitle ('Ricerca Avanzata')
     $("html, body").animate({
       scrollTop: 0
     }, "slow");
@@ -95,7 +96,7 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
     //"numeri_tip_ocn", rimossa possibilita di cercare per ocn mail iccu 06/06/2019
     $scope.campiRicercaLista = ["nome", "titolo", "collezione", "titolo_uniforme", "luogo", "editore", "marca", "paese", "lingua", "soggetto",
       "dewey_code", "dewey_des", "classi_PGI_686_tot", "any", "keywords", "abstract", "impronta", "isbn", "issn", "bni", "id", "relator_codef",
-      "possessore", "titolo_raccolta"]; // "semantica", "forma"
+      "possessore", "titolo_raccolta", "colltit_tip_461_new_contenuti"]; // "semantica", "forma"
     $scope.tipiRecord = CodiciServices.getTipiRecord();
     $scope.levelBib = CodiciServices.getLivelloBibliografico();
     $scope.clearSearch(false);
@@ -620,8 +621,19 @@ opac2.registerCtrl('RicercaAvanzataController', ['$scope', '$timeout', '$transla
       delete $scope.rigaRicerca;
       $scope.rigaRicerca = JSON.parse(JSON.stringify(myRigaRicerca));
       $scope.n = $scope.rigaRicerca.length;
-      if (deletedFromTables > 0)
-        $scope.n = $scope.n - deletedFromTables;
+      debugger
+      if (deletedFromTables > 0){
+        $scope.n = $scope.n - deletedFromTables; 
+        //Almaviva3 13/01/2021
+        //Fix modifica ricerca a seguito da chiamata ricerca diretta per opac di biblioteca
+        //Se modalita biblioteca, se rigaRicerca è maggiore di 1, se il secondo è valorizzato, se n è inferiore alla lunghezza di rigaRicerca
+        if( $scope.rigaRicerca.length > 1 && ($scope.n < $scope.rigaRicerca.length && $scope.polo.bibliotecaAsPolo) &&  
+        ($scope.rigaRicerca[0].field == 'titolo' &&  $scope.rigaRicerca[0].value == '' &&  $scope.rigaRicerca[0].operator == 'AND' &&  $scope.rigaRicerca[0].match == 'andWord')
+        && $scope.rigaRicerca[1].value != ''){
+          $scope.rigaRicerca.splice(0, 1)
+        } 
+
+      }
       if ($scope.n <= 0)
         $scope.n = 1;
     };

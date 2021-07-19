@@ -1,5 +1,6 @@
 opac2.registerCtrl('AuthoritySearchController', ['$scope', '$translate', '$routeParams', '$route', '$timeout', '$location', '$filter', 'ApiServices', 'LocalSessionSettingsServices', 'CodiciServices','SharedServices',
   function($scope, $translate, $routeParams, $route, $timeout, $location, $filter, ApiServices, LocalSessionSettingsServices, CodiciServices, SharedServices) {
+    updateTitle('Authority')
     ////console.log("AuthoritySearchController");
     //Ottiene i dati relativi al polo nella sessione dell'tente
     $scope.flagVisualizza = true;

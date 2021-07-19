@@ -1,6 +1,6 @@
 <fieldset>
   <div class="form-group row label-rSpecializzata">
-    <label title="{{'tooltip_musica_audio_video' | translate }}" for="panel_specMusica_body" class="col-sm-2 col-lg-2 mycontrol-label-left link "
+    <label title="{{'tooltip_musica_audio_video' | translate }}" for="panel_specMav_body" class="col-sm-2 col-lg-2 mycontrol-label-left link "
       ng-click="managerPannelliRicercaSpecializzata('Mav')" aria-label=" {{ 'specmusica' | translate }} / {{ 'specaudio' | translate }} / {{ 'specvideo' | translate }}"> {{ 'specmusica' | translate }} / {{ 'specaudio' | translate }} / {{ 'specvideo' | translate }}&nbsp;&nbsp;&nbsp;&nbsp;
 <span ng-attr-id="{{ 'glypanel_specMav_body' }}"  class="pull-right glyphicon glyphicon-plus link" aria-hidden="true"></span>
  </label>
@@ -9,13 +9,13 @@
       <!-- musica -->
       <section>
       <div class="panel panel-default" style="margin-bottom: 5px !important">
-        <div class="panel-heading" style="padding-top: 5px !important; padding-bottom: 5px !important" aria-label="{{'specmusica' | translate}}"> {{ 'specmusica' | translate }}</div>
+        <div class="panel-heading" style="padding-top: 5px !important; padding-bottom: 5px !important" > {{ 'specmusica' | translate }}</div>
         <div class="panel-body">
  	
           <!-- colonna sinistra -->
           <section>
           <div class="form-group row label-rSpecializzata">
-            <label for="libretto" class="col-sm-3 col-lg-3 mycontrol-label-left "aria-label="{{'libretto' | translate}}">{{ 'libretto' | translate }}</label>
+            <label for="libretto" class="col-sm-3 col-lg-3 mycontrol-label-left ">{{ 'libretto' | translate }}</label>
             <div class="col-sm-5 col-lg-5">
               <input type="checkbox" id="libretto" ng-change="changeLibretto()" ng-model="ricercaSpecializzata.mav.libretto" class="input-xs">
             </div>
@@ -23,7 +23,7 @@
          </section>
          <section>
           <div class="form-group row label-rSpecializzata">
-            <label for="mus_pres" class="col-sm-3 col-lg-3 mycontrol-label-left "aria-label="{{'pres' | translate}}">{{ 'pres' | translate }}</label>
+            <label for="mus_pres" class="col-sm-3 col-lg-3 mycontrol-label-left ">{{ 'pres' | translate }}</label>
             <div class="col-sm-5 col-lg-5">
               <select id="mus_pres" ng-model="ricercaSpecializzata.mav.pres" class="form-control  input-xs">
                   <option value=""></option>
@@ -37,7 +37,7 @@
             <!-- almaviva3 17/06/2019 forma spostata qui -->
            <div class="form-group row label-rSpecializzata">
            
-            <label for="forma" class="col-md-3 mycontrol-label-left  " aria-label="{{'forma' | translate}}">{{ 'forma' | translate }}</label>
+            <label for="forma" class="col-md-3 mycontrol-label-left  ">{{ 'forma' | translate }}</label>
 
 							<div ng-attr-id="{{ 'forma' }}" class="col-md-6">
 
@@ -46,17 +46,17 @@
 									<button class="btn btn-default dropdown-toggle btn-xs " type="button" data-toggle="dropdown" ng-click="">
 										{{"selected" | translate}}
 										<span ng-show="selectionFormaMusicale.length > 0">
-											<i>{{selectionFormaMusicale.length}}</i>
+											<em>{{selectionFormaMusicale.length}}</em>
 										</span>
 									<span class="caret"></span>
 									</button>
 									<ul class="dropdown-menu scrollable-dropdown">
-									<li><input type="text" class="form-control " ng-model="formaFilter" ng-attr-placeholder="{{'filter'|translate}}" ng-init="formaFilter = ''">
+									<li><input type="text" class="form-control " ng-model="formaFilter" aria-label="{{('filter'|translate) + ' ' + ('forma' | translate)}}" ng-attr-placeholder="{{'filter'|translate}}" ng-init="formaFilter = ''">
 									</li>
-										<li ng-attr-id="{{'formaf_'+$index}}" ng-repeat="forma in ricercaSpecMenu.musica.mus_forma |  filter:formaFilter | orderBy: 'txt'" class="link">
+										<li ng-attr-id="{{'formaf_'+$index}}" ng-repeat="forma in ricercaSpecMenu.musica.mus_forma |  filter:formaFilter | orderBy: 'txt'" class="blu-tema manina ">
 											<a ng-click="$event.stopPropagation(); toggleSelectionFormaMusicale(forma)">
-												<input ng-click="$event.stopPropagation(); toggleSelectionFormaMusicale(forma)" type="checkbox" name="selectionFormaMusicale[]" value="{{forma.name}}"
-												 ng-checked="selectionFormaMusicale.indexOf(forma.cod) > -1">
+												<input role="group" ng-click="$event.stopPropagation(); toggleSelectionFormaMusicale(forma)" type="checkbox" name="selectionFormaMusicale[]" value="{{forma.name}}"
+												 ng-checked="selectionFormaMusicale.indexOf(forma.cod) > -1" aria-label="{{( 'forma' | translate) + ' ' + (forma.cod) }}">
 												<span style="padding-left: 10px;" ng-init="forma.txt = (forma.cod | decodeForma | translate)">{{(forma.text |translate)}}</span>
 											</a>
 										</li>
@@ -64,17 +64,17 @@
 									</ul>
 
 									<span ng-show="selectionFormaMusicale.length > 0" ng-repeat="formaS in selectionFormaMusicale | limitTo: 3">
-										<i>{{formaS | decodeForma |translate | lowercase}}<span ng-if="selectionFormaMusicale[$index + 1]">,</span>
-										</i>
+										<em>{{formaS | decodeForma |translate | lowercase}}<span ng-if="selectionFormaMusicale[$index + 1]">,</span>
+										</em>
 									</span>
 									<span ng-show="selectionFormaMusicale.length > 3 ">
-										<i>[...]</i>
+										<em>[...]</em>
 									</span>
 								</div>
 							</div>
           </div>
           <div class="form-group row label-rSpecializzata">
-            <label for="tonalita" class="col-sm-3 col-lg-3 mycontrol-label-left "aria-label="{{'tonality' | translate}}">{{ 'tonality' | translate }}</label>
+            <label for="tonalita" class="col-sm-3 col-lg-3 mycontrol-label-left ">{{ 'tonality' | translate }}</label>
             <div class="col-sm-5 col-lg-5">
               <select id="tonalita" ng-model="ricercaSpecializzata.mav.tonalita" class="form-control  input-xs">
                   <option value=""></option>
@@ -85,7 +85,7 @@
           </div>
           </section>
           <div class="form-group row label-rSpecializzata">
-            <label for="organico_tip_1" class="col-sm-3 col-lg-3 mycontrol-label-left "aria-label="{{'organico_tip_1' | translate}}">{{ 'organico_tip_1' | translate }}</label>
+            <label for="organico_tip_1" class="col-sm-3 col-lg-3 mycontrol-label-left ">{{ 'organico_tip_1' | translate }}</label>
             <div class="col-sm-5 col-lg-5 ">
               <div class="input-group input-group-xs">
                 <input type="text" id="organico_tip_1" ng-model="ricercaSpecializzata.mav.organico_tip_1" class="form-control ">
@@ -95,7 +95,7 @@
             </div>
           </div>
           <div class="form-group row label-rSpecializzata">
-            <label for="organico_tip_2" class="col-sm-3 col-lg-3 mycontrol-label-left "aria-label="{{'organico_tip_2' | translate}}">{{ 'organico_tip_2' | translate }}</label>
+            <label for="organico_tip_2" class="col-sm-3 col-lg-3 mycontrol-label-left ">{{ 'organico_tip_2' | translate }}</label>
             <div class="col-sm-5 col-lg-5">
               <div class="input-group input-group-xs">
                 <input type="text" id="organico_tip_2" ng-model="ricercaSpecializzata.mav.organico_tip_2" class="form-control ">
@@ -105,7 +105,7 @@
 
           </div>
           <div class="form-group row label-rSpecializzata">
-            <label for="tipo_elab" class="col-sm-3 col-lg-3 mycontrol-label-left "aria-label="{{'tipo_elab' | translate}}">{{ 'tipo_elab' | translate }}</label>
+            <label for="tipo_elab" class="col-sm-3 col-lg-3 mycontrol-label-left ">{{ 'tipo_elab' | translate }}</label>
             <div class="col-sm-5 col-lg-5">
               <select id="tipo_elab" ng-model="ricercaSpecializzata.mav.tipo_elab" class="form-control  input-xs">
                   <option value=""></option>
@@ -115,7 +115,7 @@
             </div>
           </div>
           <div class="form-group row label-rSpecializzata">
-            <label for="organico_tip_3" class="col-sm-3 col-lg-3 mycontrol-label-left "aria-label="{{'organico_tip_3' | translate}}">{{ 'organico_tip_3' | translate }}</label>
+            <label for="organico_tip_3" class="col-sm-3 col-lg-3 mycontrol-label-left ">{{ 'organico_tip_3' | translate }}</label>
             <div class="col-sm-5 col-lg-5">
               <div class="input-group input-group-xs">
                 <input type="text" id="organico_tip_3" ng-model="ricercaSpecializzata.mav.organico_tip_3" class="form-control ">
@@ -124,7 +124,7 @@
             </div>
           </div>
           <div class="form-group row label-rSpecializzata">
-            <label for="organico_tip_4" class="col-sm-3 col-lg-3 mycontrol-label-left "aria-label="{{'organico_tip_4' | translate}}">{{ 'organico_tip_4' | translate }}</label>
+            <label for="organico_tip_4" class="col-sm-3 col-lg-3 mycontrol-label-left ">{{ 'organico_tip_4' | translate }}</label>
             <div class="col-sm-5 col-lg-5">
               <div class="input-group input-group-xs">
                 <input type="text" id="organico_tip_4" ng-model="ricercaSpecializzata.mav.organico_tip_4" class="form-control ">
@@ -133,19 +133,19 @@
             </div>
           </div>
           <div class="form-group row label-rSpecializzata">
-            <label for="incipit" class="col-sm-3 col-lg-3 mycontrol-label-left "aria-label="{{'incipit' | translate}}">{{ 'incipit' | translate }}</label>
+            <label for="incipit" class="col-sm-3 col-lg-3 mycontrol-label-left ">{{ 'incipit' | translate }}</label>
             <div class="col-sm-5 col-lg-5">
               <input type="text" id="incipit" ng-model="ricercaSpecializzata.mav.incipit" class="form-control  input-xs">
             </div>
           </div>
           <div class="form-group row label-rSpecializzata">
-            <label for="rappres" class="col-sm-3 col-lg-3 mycontrol-label-left "aria-label="{{'rappres' | translate}}">{{ 'rappres' | translate }}</label>
+            <label for="rappres_genere" class="col-sm-3 col-lg-3 mycontrol-label-left ">{{ 'rappres' | translate }}</label>
             <div class="col-sm-3 col-lg-3">
-              <input type="text" id="rappres" ng-model="ricercaSpecializzata.mav.rappres" class="form-control  input-xs">
+              <input type="text" id="rappres" ng-model="ricercaSpecializzata.mav.rappres" class="form-control  input-xs" aria-label="{{'rappres' | translate}}">
             </div>
             <div class="col-sm-2 col-lg-2">
 
-              <select id="rappres_genere" ng-model="ricercaSpecializzata.mav.rappres_genere" class="form-control  input-xs">
+              <select id="rappres_genere" ng-model="ricercaSpecializzata.mav.rappres_genere" class="form-control  input-xs" aria-label="{{'rappres' | translate}}">
                   <option value=""></option>
                   <option ng-repeat="tip in ricercaSpecMenu.musica.mus_rappres_genere" value="{{tip.cod}}">{{tip.cod | decodeMus_rappres_genere | translate }}
                  </select>
@@ -157,11 +157,11 @@
 
       <!-- Audio -->
       <div class="panel panel-default" style="margin-bottom: 5px !important">
-        <div class="panel-heading" style="padding-top: 5px !important; padding-bottom: 5px !important" aria-label="{{'specaudio' | translate}}"> {{ 'specaudio' | translate }}</div>
+        <div class="panel-heading" style="padding-top: 5px !important; padding-bottom: 5px !important"> {{ 'specaudio' | translate }}</div>
         <div class="panel-body">
         <section>
           <div class="form-group row label-rSpecializzata">
-            <label for="grafica_tip" class="col-sm-3 col-lg-3 mycontrol-label-left " aria-label="{{'av_formato_vd' | translate}}">{{ 'av_formato_vd' | translate }}</label>
+            <label for="av_formato_vd" class="col-sm-3 col-lg-3 mycontrol-label-left ">{{ 'av_formato_vd' | translate }}</label>
             <div class="col-sm-5 col-lg-5">
               <select id="av_formato_vd" ng-model="ricercaSpecializzata.mav.av_formato_vd" class="form-control  input-xs">
                 <option value=""></option>
@@ -172,7 +172,7 @@
           </div>
           </section>
           <div class="form-group row label-rSpecializzata">
-            <label for="grafica_tip" class="col-sm-3 col-lg-3 mycontrol-label-left " aria-label="{{'av_velocita' | translate}}">{{ 'av_velocita' | translate }}</label>
+            <label for="av_velocita" class="col-sm-3 col-lg-3 mycontrol-label-left ">{{ 'av_velocita' | translate }}</label>
             <div class="col-sm-5 col-lg-5">
               <select id="av_velocita" ng-model="ricercaSpecializzata.mav.av_velocita" class="form-control  input-xs">
                 <option value=""></option>
@@ -182,7 +182,7 @@
             </div>
           </div>
           <div class="form-group row label-rSpecializzata">
-            <label for="grafica_tip" class="col-sm-3 col-lg-3 mycontrol-label-left " aria-label="{{'av_tipo' | translate}}">{{ 'av_tipo' | translate }}</label>
+            <label for="av_tipo" class="col-sm-3 col-lg-3 mycontrol-label-left ">{{ 'av_tipo' | translate }}</label>
             <div class="col-sm-5 col-lg-5">
               <select id="av_tipo" ng-model="ricercaSpecializzata.mav.av_tipo" class="form-control  input-xs">
                 <option value=""></option>
@@ -192,7 +192,7 @@
             </div>
           </div>
           <div class="form-group row label-rSpecializzata">
-            <label for="grafica_tip" class="col-sm-3 col-lg-3 mycontrol-label-left " aria-label="{{'av_tecnica_vd' | translate}}">{{ 'av_tecnica_vd' | translate }}</label>
+            <label for="av_tecnica_vd" class="col-sm-3 col-lg-3 mycontrol-label-left " >{{ 'av_tecnica_vd' | translate }}</label>
             <div class="col-sm-5 col-lg-5">
               <select id="av_tecnica_vd" ng-model="ricercaSpecializzata.mav.av_tecnica_vd" class="form-control  input-xs">
                 <option value=""></option>
@@ -207,11 +207,11 @@
   
       <!-- Video -->
       <div class="panel panel-default" style="margin-bottom: 5px !important">
-        <div class="panel-heading" style="padding-top: 5px !important; padding-bottom: 5px !important" aria-label="{{'specvideo' | translate}}"> {{ 'specvideo' | translate }}</div>
+        <div class="panel-heading" style="padding-top: 5px !important; padding-bottom: 5px !important"> {{ 'specvideo' | translate }}</div>
         <div class="panel-body">
         <section>
           <div class="form-group row label-rSpecializzata">
-            <label for="grafica_tip" class="col-sm-3 col-lg-3 mycontrol-label-left ">{{ 'av_materiale' | translate }}</label>
+            <label for="av_materiale" class="col-sm-3 col-lg-3 mycontrol-label-left ">{{ 'av_materiale' | translate }}</label>
             <div class="col-sm-5 col-lg-5">
               <select id="av_materiale" ng-model="ricercaSpecializzata.mav.av_materiale" class="form-control  input-xs">
                 <option value=""></option>
@@ -222,7 +222,7 @@
           </div>
           </section>
           <div class="form-group row label-rSpecializzata">
-            <label for="grafica_tip" class="col-sm-3 col-lg-3 mycontrol-label-left " aria-label="{{'rappres' | translate}}">{{ 'av_formato' | translate }}</label>
+            <label for="av_formato" class="col-sm-3 col-lg-3 mycontrol-label-left " >{{ 'av_formato' | translate }}</label>
             <div class="col-sm-5 col-lg-5">
               <select id="av_formato" ng-model="ricercaSpecializzata.mav.av_formato" class="form-control  input-xs">
                 <option value=""></option>
@@ -232,7 +232,7 @@
             </div>
           </div>
           <div class="form-group row label-rSpecializzata">
-            <label for="grafica_tip" class="col-sm-3 col-lg-3 mycontrol-label-left " aria-label="{{'rappres' | translate}}">{{ 'av_forma_pubbl' | translate }}</label>
+            <label for="av_forma_pubbl" class="col-sm-3 col-lg-3 mycontrol-label-left ">{{ 'av_forma_pubbl' | translate }}</label>
             <div class="col-sm-5 col-lg-5">
               <select id="av_forma_pubbl" ng-model="ricercaSpecializzata.mav.av_forma_pubbl" class="form-control  input-xs">
                 <option value=""></option>
@@ -242,7 +242,7 @@
             </div>
           </div>
           <div class="form-group row label-rSpecializzata">
-            <label for="grafica_tip" class="col-sm-3 col-lg-3 mycontrol-label-left " aria-label="{{'av_formato_pres' | translate}}">{{ 'av_formato_pres' | translate }}</label>
+            <label for="av_formato_pres" class="col-sm-3 col-lg-3 mycontrol-label-left " >{{ 'av_formato_pres' | translate }}</label>
             <div class="col-sm-5 col-lg-5">
               <select id="av_formato_pres" ng-model="ricercaSpecializzata.mav.av_formato_pres" class="form-control  input-xs">
                 <option value=""></option>
@@ -252,7 +252,7 @@
             </div>
           </div>
           <div class="form-group row label-rSpecializzata">
-            <label for="grafica_tip" class="col-sm-3 col-lg-3 mycontrol-label-left " aria-label="{{'av_tecnica' | translate}}">{{ 'av_tecnica' | translate }}</label>
+            <label for="av_tecnica" class="col-sm-3 col-lg-3 mycontrol-label-left ">{{ 'av_tecnica' | translate }}</label>
             <div class="col-sm-5 col-lg-5">
               <select id="av_tecnica" ng-model="ricercaSpecializzata.mav.av_tecnica" class="form-control  input-xs">
                 <option value=""></option>
@@ -262,7 +262,7 @@
             </div>
           </div>
           <div class="form-group row label-rSpecializzata">
-            <label for="grafica_tip" class="col-sm-3 col-lg-3 mycontrol-label-left " aria-label="{{'av_colore' | translate}}">{{ 'av_colore' | translate }}</label>
+            <label for="av_colore" class="col-sm-3 col-lg-3 mycontrol-label-left ">{{ 'av_colore' | translate }}</label>
             <div class="col-sm-5 col-lg-5">
               <select id="av_colore" ng-model="ricercaSpecializzata.mav.av_colore" class="form-control  input-xs">
                 <option value=""></option>
@@ -272,7 +272,7 @@
             </div>
           </div>
           <div class="form-group row label-rSpecializzata">
-            <label for="grafica_tip" class="col-sm-3 col-lg-3 mycontrol-label-left " aria-label="{{'av_suono' | translate}}">{{ 'av_suono' | translate }}</label>
+            <label for="av_suono" class="col-sm-3 col-lg-3 mycontrol-label-left ">{{ 'av_suono' | translate }}</label>
             <div class="col-sm-5 col-lg-5">
               <select id="av_suono" ng-model="ricercaSpecializzata.mav.av_suono" class="form-control  input-xs">
                 <option value=""></option>
@@ -290,7 +290,7 @@
 <fieldset>
   <div class="form-group row label-rSpecializzata">
     <label title="{{'tooltip_grafica' | translate }}" for="panel_specGrafica_body" class="col-sm-2 col-lg-2 mycontrol-label-left link "
-      ng-click="managerPannelliRicercaSpecializzata('Grafica')" aria-label="{{'specgrafica' | translate}}">{{ 'specgrafica' | translate }}&nbsp;&nbsp;&nbsp;&nbsp;
+      ng-click="managerPannelliRicercaSpecializzata('Grafica')">{{ 'specgrafica' | translate }}&nbsp;&nbsp;&nbsp;&nbsp;
    <span ng-attr-id="{{ 'glypanel_specGrafica_body' }}"  class="pull-right glyphicon glyphicon-plus link" aria-hidden="true"></span>
  </label>
     <div ng-attr-id="{{ 'panel_specGrafica_body' }}" class="col-sm-8 col-lg-8" style="display:none;">
@@ -300,7 +300,7 @@
           <div class="col-sm-6 col-lg-6 px-top-5">
             <form class="form-horizontal">
               <div class="form-group row label-rSpecializzata">
-                <label for="grafica_tipspec" class="col-sm-6 col-lg-6 mycontrol-label-left "aria-label="{{'grafica_tipspec' | translate}}">{{ 'grafica_tipspec' | translate }}</label>
+                <label for="grafica_tipspec" class="col-sm-6 col-lg-6 mycontrol-label-left ">{{ 'grafica_tipspec' | translate }}</label>
                 <div class="col-sm-5 col-lg-5">
                   <select id="grafica_tipspec" ng-model="ricercaSpecializzata.grafica.grafica_tipspec" class="form-control  input-xs">
                     <option value=""></option>
@@ -312,7 +312,7 @@
                 </div>
               </div>
               <div class="form-group row label-rSpecializzata">
-                <label for="grafica_supp" class="col-sm-6 col-lg-6 mycontrol-label-left " aria-label="{{'grafica_supp' | translate}}">{{ 'grafica_supp' | translate }}</label>
+                <label for="grafica_supp" class="col-sm-6 col-lg-6 mycontrol-label-left " >{{ 'grafica_supp' | translate }}</label>
                 <div class="col-sm-5 col-lg-5">
                   <select id="grafica_supp" ng-model="ricercaSpecializzata.grafica.grafica_supp" class="form-control  input-xs">
                     <option value=""></option>
@@ -323,7 +323,7 @@
                 </div>
               </div>
               <div class="form-group row label-rSpecializzata">
-                <label for="grafica_col" class="col-sm-6 col-lg-6 mycontrol-label-left " aria-label="{{'grafica_col' | translate}}">{{ 'grafica_col' | translate }}</label>
+                <label for="grafica_col" class="col-sm-6 col-lg-6 mycontrol-label-left " >{{ 'grafica_col' | translate }}</label>
                 <div class="col-sm-5 col-lg-5">
                   <select id="grafica_col" ng-model="ricercaSpecializzata.grafica.grafica_col" class="form-control  input-xs">
                     <option value=""></option>
@@ -337,7 +337,7 @@
           </div>
           <div class="col-sm-6 col-lg-6 px-top-5">
             <div class="form-group row label-rSpecializzata">
-              <label for="grafica_tip" class="col-sm-6 col-lg-6 mycontrol-label-left " aria-label="{{'grafica_tip' | translate}}">{{ 'grafica_tip' | translate }}</label>
+              <label for="grafica_tip" class="col-sm-6 col-lg-6 mycontrol-label-left " >{{ 'grafica_tip' | translate }}</label>
               <div class="col-sm-5 col-lg-5">
                 <select id="grafica_tip" ng-model="ricercaSpecializzata.grafica.grafica_tip" class="form-control  input-xs">
                   <option value=""></option>
@@ -347,7 +347,7 @@
               </div>
             </div>
             <div class="form-group row label-rSpecializzata">
-              <label for="grafica_disegno_tip" class="col-sm-6 col-lg-6 mycontrol-label-left " aria-label="{{'grafica_disegno_tip' | translate}}">{{ 'grafica_disegno_tip' | translate }}</label>
+              <label for="grafica_disegno_tip" class="col-sm-6 col-lg-6 mycontrol-label-left ">{{ 'grafica_disegno_tip' | translate }}</label>
               <div class="col-sm-5 col-lg-5">
                 <select id="grafica_disegno_tip" ng-model="ricercaSpecializzata.grafica.grafica_disegno_tip" class="form-control  input-xs">
                   <option value=""></option>
@@ -358,7 +358,7 @@
             </div>
 
             <div class="form-group row label-rSpecializzata">
-              <label for="grafica_disegno_fun" class="col-sm-6 col-lg-6 mycontrol-label-left " aria-label="{{'grafica_disegno_fun' | translate}}">{{ 'grafica_disegno_fun' | translate }}</label>
+              <label for="grafica_disegno_fun" class="col-sm-6 col-lg-6 mycontrol-label-left ">{{ 'grafica_disegno_fun' | translate }}</label>
               <div class="col-sm-5 col-lg-5">
                 <select id="grafica_disegno_fun" ng-model="ricercaSpecializzata.grafica.grafica_disegno_fun" class="form-control  input-xs">
                   <option value=""></option>
@@ -376,7 +376,7 @@
 <fieldset>
   <div class="form-group row label-rSpecializzata">
     <label title="{{'tooltip_cartografia' | translate }}" for="panel_specCartografia_body" class="col-sm-2 col-lg-2 mycontrol-label-left link "
-      ng-click="managerPannelliRicercaSpecializzata('Cartografia')" aria-label="{{'speccartografia' | translate}}">{{ 'speccartografia' | translate }}&nbsp;&nbsp;&nbsp;&nbsp;
+      ng-click="managerPannelliRicercaSpecializzata('Cartografia')">{{ 'speccartografia' | translate }}&nbsp;&nbsp;&nbsp;&nbsp;
    <span ng-attr-id="{{ 'glypanel_specCartografia_body' }}"  class="pull-right glyphicon glyphicon-plus link" aria-hidden="true"></span>
  </label>
     <div ng-attr-id="{{ 'panel_specCartografia_body' }}" class="col-sm-8 col-lg-8" style="display:none;">
@@ -386,7 +386,7 @@
           <div class="col-sm-12 col-lg-12 px-top-5">
             <form class="form-horizontal">
               <div class="form-group row label-rSpecializzata">
-                <label for="cart_scala" class="col-sm-3 col-lg-3 mycontrol-label-left " aria-label="{{'cart_scala' | translate}}">{{ 'cart_scala' | translate }}</label>
+                <label for="cart_scala" class="col-sm-3 col-lg-3 mycontrol-label-left ">{{ 'cart_scala' | translate }}</label>
 
                 <span class="col-sm-4 col-lg-4">
                   <select id="cart_scala" ng-model="ricercaSpecializzata.cartografia.cart_scala" class="form-control  input-xs col-sm-5 col-lg-5">
@@ -396,9 +396,10 @@
                     </option>
 
                     </select>
+                    <input type="submit" class="hidden" />
                   </span>
                 <span class="col-sm-4 col-lg-4">
-                  <select id="cart_tipo_scala" ng-model="ricercaSpecializzata.cartografia.cart_tipo_scala" class="form-control  input-xs">
+                  <select id="cart_tipo_scala" ng-model="ricercaSpecializzata.cartografia.cart_tipo_scala" class="form-control  input-xs" aria-label="{{'cart_tipo_scala' | translate}}">
                     <option value=""></option>
 
                     <option ng-repeat="cart_tipo_scalas in ricercaSpecMenu.cartografia.cart_tipo_scala" value="{{cart_tipo_scalas.cod}}">{{cart_tipo_scalas.cod | decodeCart_tiposcala | translate }}
@@ -409,27 +410,27 @@
 
               </div>
               <div class="form-group row label-rSpecializzata">
-                <label for="cart_rapp_orizz" class="col-sm-3 col-lg-3 mycontrol-label-left " aria-label="{{'cart_rapp_orizz' | translate}}">{{ 'cart_rapp_orizz' | translate }}</label>
+                <label for="cart_rapp_orizz" class="col-sm-3 col-lg-3 mycontrol-label-left " >{{ 'cart_rapp_orizz' | translate }}</label>
 
                 <span class="col-sm-4 col-lg-4">
-                                    <input type="text" maxlength="8" onkeypress='return validateYear(event)' name="input"ng-model="ricercaSpecializzata.cartografia.cart_rapp_orizda" ng-attr-placeholder="{{ 'da' | translate }}"  class=" form-control input-xs" style="height: 30px;">
+                                    <input id="cart_rapp_orizz" type="text" maxlength="8" onkeypress='return validateYear(event)' name="input"ng-model="ricercaSpecializzata.cartografia.cart_rapp_orizda" ng-attr-placeholder="{{ 'da' | translate }}"  class=" form-control input-xs" style="height: 30px;" aria-label="{{('cart_rapp_orizz' | translate) + ' ' + ('da' | translate)}}">
                               </span>
                 <span class="col-sm-4 col-lg-4">
-                                <input type="text" maxlength="8" onkeypress='return validateYear(event)' name="input" ng-model="ricercaSpecializzata.cartografia.cart_rapp_oriza" ng-attr-placeholder="{{ 'a' | translate }}"  class="form-control input-xs" style="height: 30px;">
+                                <input type="text" maxlength="8" onkeypress='return validateYear(event)' name="input" ng-model="ricercaSpecializzata.cartografia.cart_rapp_oriza" ng-attr-placeholder="{{ 'a' | translate }}"  class="form-control input-xs" style="height: 30px;" aria-label="{{('cart_rapp_orizz' | translate) + ' ' + ('a' | translate)}}">
                             </span>
               </div>
               <div class="form-group row label-rSpecializzata">
-                <label for="cart_rapp_vert" class="col-sm-3 col-lg-3 mycontrol-label-left " aria-label="{{'cart_rapp_vert' | translate}}">{{ 'cart_rapp_vert' | translate }}</label>
+                <label for="cart_rapp_vert" class="col-sm-3 col-lg-3 mycontrol-label-left ">{{ 'cart_rapp_vert' | translate }}</label>
 
                 <span class="col-sm-4 col-lg-4">
-                                      <input type="text" maxlength="8" onkeypress='return validateYear(event)' name="input"ng-model="ricercaSpecializzata.cartografia.cart_rapp_vertda" ng-attr-placeholder="{{ 'da' | translate }}"  class=" form-control input-xs" style="height: 30px;">
+                                      <input id="cart_rapp_vert" type="text" maxlength="8" onkeypress='return validateYear(event)' name="input"ng-model="ricercaSpecializzata.cartografia.cart_rapp_vertda" ng-attr-placeholder="{{ 'da' | translate }}"  class=" form-control input-xs" style="height: 30px;" aria-label="{{('cart_rapp_vert' | translate) + ' ' + ('da' | translate)}}">
                                 </span>
                 <span class="col-sm-4 col-lg-4">
-                                  <input type="text" maxlength="8" onkeypress='return validateYear(event)' name="input" ng-model="ricercaSpecializzata.cartografia.cart_rapp_verta" ng-attr-placeholder="{{ 'a' | translate }}"  class="form-control input-xs" style="height: 30px;">
+                                  <input type="text" maxlength="8" onkeypress='return validateYear(event)' name="input" ng-model="ricercaSpecializzata.cartografia.cart_rapp_verta" ng-attr-placeholder="{{ 'a' | translate }}"  class="form-control input-xs" style="height: 30px;" aria-label="{{('cart_rapp_vert' | translate) + ' ' + ('a' | translate)}}">
                               </span>
               </div>
               <div class="form-group row label-rSpecializzata">
-                <label for="cart_orig" class="col-sm-3 col-lg-3 mycontrol-label-left " aria-label="{{'cart_orig' | translate}}">{{ 'cart_orig' | translate }}</label>
+                <label for="cart_orig" class="col-sm-3 col-lg-3 mycontrol-label-left ">{{ 'cart_orig' | translate }}</label>
                 <div class="col-sm-5 col-lg-5">
                   <select id="cart_orig" ng-model="ricercaSpecializzata.cartografia.cart_orig" class="form-control  input-xs">
                         <option value=""></option>
@@ -442,29 +443,30 @@
               </div>
               <!-- longitudine-->
               <div class="form-group row label-rSpecializzata">
-                <label for="cart_col" class="col-sm-3 col-lg-3 mycontrol-label-left " aria-label="{{'longitudine' | translate}}">{{ 'longitudine' | translate | capitalize }}</label>
+                <label for="puntCard1" class="col-sm-3 col-lg-3 mycontrol-label-left ">{{ 'longitudine' | translate | capitalize }}</label>
                 <div class="col-sm-4 col-lg-4 form-inline">
 
-                  <select class="form-control  input-xs menuLongLat" id="puntCard" name="puntCard" ng-model="ricercaSpecializzata.cartografia.longitudineda.puntCard"
-                    ng-attr-placeholder="{{'da'| translate}}">
+                  <select class="form-control  input-xs menuLongLat" id="puntCard1" name="puntCard" ng-model="ricercaSpecializzata.cartografia.longitudineda.puntCard"
+                    ng-attr-placeholder="{{'da'| translate}}" aria-label="{{('longitudine' | translate | capitalize) + ' ' + ('da'| translate)}}">
                         <option value=""></option>
 
                                       <option value="E">{{'est' | translate}}</option>
                                       <option value="W">{{'ovest' | translate}}</option>
                                       <option value="ME">{{'meridiano' | translate}}</option>
+                                      
         <!-- M == E -->
       </select>
 
 
 
-                  <input id="long_gradi" class="form-control  input-xs textLongLatgrad" name="long1" type="text" maxlength="3" onkeypress='return validateYear(event)'
-                    ng-model="ricercaSpecializzata.cartografia.longitudineda.gradi">
+                  <input id="long_gradi1" class="form-control  input-xs textLongLatgrad" name="long1" type="text" maxlength="3" onkeypress='return validateYear(event)'
+                    ng-model="ricercaSpecializzata.cartografia.longitudineda.gradi" aria-label="{{('longitudine' | translate | capitalize)}}">
 
-                  <input id="long_min" class="form-control  input-xs textLongLatminsec" name="long1a" type="text" maxlength="2" onkeypress='return validateYear(event)'
-                    ng-model="ricercaSpecializzata.cartografia.longitudineda.min">
+                  <input id="long_min1" class="form-control  input-xs textLongLatminsec" name="long1a" type="text" maxlength="2" onkeypress='return validateYear(event)'
+                    ng-model="ricercaSpecializzata.cartografia.longitudineda.min" aria-label="{{('longitudine' | translate | capitalize)}}">
 
-                  <input id="long_sec" class="form-control  input-xs textLongLatminsec" name="long1b" type="text" maxlength="2" onkeypress='return validateYear(event)'
-                    ng-model="ricercaSpecializzata.cartografia.longitudineda.sec">
+                  <input id="long_sec1" class="form-control  input-xs textLongLatminsec" name="long1b" type="text" maxlength="2" onkeypress='return validateYear(event)'
+                    ng-model="ricercaSpecializzata.cartografia.longitudineda.sec" aria-label="{{('longitudine' | translate | capitalize)}}">
                    
                     <!-- <div ng-show="ricercaSpecializzata.cartografia.longitudineda.puntCard" class="px-top-5 alert alert-warning">
                       <strong>longitudineda!</strong> Indicates a warning that might need attention.
@@ -473,22 +475,22 @@
                 </div>
 
                 <div class="col-sm-4 col-lg-4 form-inline">
-                  <select class="form-control  input-xs menuLongLat" id="puntCard" name="puntCard" ng-model="ricercaSpecializzata.cartografia.longitudinea.puntCard"
-                    ng-attr-placeholder="{{'a'| translate}}">
+                  <select class="form-control  input-xs menuLongLat" id="puntCard2" name="puntCard" ng-model="ricercaSpecializzata.cartografia.longitudinea.puntCard"
+                    ng-attr-placeholder="{{'a'| translate}}"  aria-label="{{('longitudine' | translate | capitalize) + ' ' + ('a'| translate)}}">
         <option value=""></option>
 
         <option value="E">{{'est' | translate}}</option>
         <option value="W">{{'ovest' | translate}}</option>
         <option value="ME">{{'meridiano' | translate}}</option><!-- M == E -->
       </select>
-                  <input id="long_gradi" class="form-control  input-xs textLongLatgrad" type="text" maxlength="3" onkeypress='return validateYear(event)'
-                    ng-model="ricercaSpecializzata.cartografia.longitudinea.gradi">
+                  <input id="long_gradi2" class="form-control  input-xs textLongLatgrad" type="text" maxlength="3" onkeypress='return validateYear(event)'
+                    ng-model="ricercaSpecializzata.cartografia.longitudinea.gradi" aria-label="{{('longitudine' | translate | capitalize)}}">
 
-                  <input id="long_min" class="form-control  input-xs textLongLatminsec" type="text" maxlength="2" onkeypress='return validateYear(event)'
-                    ng-model="ricercaSpecializzata.cartografia.longitudinea.min">
+                  <input id="long_min2" class="form-control  input-xs textLongLatminsec" type="text" maxlength="2" onkeypress='return validateYear(event)'
+                    ng-model="ricercaSpecializzata.cartografia.longitudinea.min" aria-label="{{('longitudine' | translate | capitalize)}}">
 
-                  <input id="ling_sec" class="form-control  input-xs textLongLatminsec" type="text" maxlength="2" onkeypress='return validateYear(event)'
-                    ng-model="ricercaSpecializzata.cartografia.longitudinea.sec">
+                  <input id="ling_sec2" class="form-control  input-xs textLongLatminsec" type="text" maxlength="2" onkeypress='return validateYear(event)'
+                    ng-model="ricercaSpecializzata.cartografia.longitudinea.sec" aria-label="{{('longitudine' | translate | capitalize)}}">
                     <!-- <div ng-show="ricercaSpecializzata.cartografia.longitudinea.puntCard" class="px-top-5 alert alert-warning">
                       <strong>longitudinea!</strong> Indicates a warning that might need attention.
                     </div> -->
@@ -501,9 +503,9 @@
                
               <!-- latitudine-->
               <div class="form-group row label-rSpecializzata">
-                <label for="cart_col" class="col-sm-3 col-lg-3 mycontrol-label-left " aria-label="{{'latitudine' | translate}}">{{ 'latitudine' | translate | capitalize }}</label>
+                <label for="puntCard3" class="col-sm-3 col-lg-3 mycontrol-label-left ">{{ 'latitudine' | translate | capitalize }}</label>
                 <div class="col-sm-4 col-lg-4 form-inline">
-                  <select class="form-control  input-xs menuLongLat" id="puntCard" name="puntCard" ng-model="ricercaSpecializzata.cartografia.latitudineda.puntCard">
+                  <select class="form-control  input-xs menuLongLat" id="puntCard3" name="puntCard" ng-model="ricercaSpecializzata.cartografia.latitudineda.puntCard"  aria-label="{{('latitudine' | translate | capitalize) + ' ' + ('da'| translate)}}">
                     <option value=""></option>
 
                     <option value="N">{{'nord' | translate}}</option>
@@ -512,13 +514,13 @@
                   </select>
 
 
-                  <input id="long_gradi" class="form-control  input-xs textLongLatgrad" name="long1" type="text" maxlength="3" onkeypress='return validateYear(event)'
+                  <input aria-label="{{'latitudine' | translate}}" id="long_gradi3" class="form-control  input-xs textLongLatgrad" name="long1" type="text" maxlength="3" onkeypress='return validateYear(event)'
                     ng-model="ricercaSpecializzata.cartografia.latitudineda.gradi">
 
-                  <input id="long_min" class="form-control  input-xs textLongLatminsec" name="long1a" type="text" maxlength="2" onkeypress='return validateYear(event)'
+                  <input aria-label="{{'latitudine' | translate}}" id="long_min3" class="form-control  input-xs textLongLatminsec" name="long1a" type="text" maxlength="2" onkeypress='return validateYear(event)'
                     ng-model="ricercaSpecializzata.cartografia.latitudineda.min">
 
-                  <input id="ling_sec" class="form-control  input-xs textLongLatminsec" name="long1b" type="text" maxlength="2" onkeypress='return validateYear(event)'
+                  <input aria-label="{{'latitudine' | translate}}" id="ling_sec3" class="form-control  input-xs textLongLatminsec" name="long1b" type="text" maxlength="2" onkeypress='return validateYear(event)'
                     ng-model="ricercaSpecializzata.cartografia.latitudineda.sec">
 
                     <!-- <div ng-show="ricercaSpecializzata.cartografia.latitudineda.puntCard" class="px-top-5 alert alert-warning">
@@ -527,20 +529,20 @@
 
                 </div>
                 <div class="col-sm-4 col-lg-4 form-inline">
-                  <select class="form-control  input-xs menuLongLat" id="puntCard" name="puntCard" ng-model="ricercaSpecializzata.cartografia.latitudinea.puntCard">
+                  <select class="form-control  input-xs menuLongLat" id="puntCard4" name="puntCard" ng-model="ricercaSpecializzata.cartografia.latitudinea.puntCard" aria-label="{{('latitudine' | translate | capitalize) + ' ' + ('a'| translate)}}">
                     <option value=""></option>
 
                     <option value="N">{{'nord' | translate}}</option>
                     <option value="S">{{'sud' | translate}}</option>
                     <option value="N">{{'equatore' | translate}}</option><!-- M == E -->
                   </select>
-                  <input id="long_gradi" class="form-control  input-xs textLongLatgrad" name="long1" type="text" maxlength="3" onkeypress='return validateYear(event)'
+                  <input aria-label="{{'latitudine' | translate}}" id="long_gradi4" class="form-control  input-xs textLongLatgrad" name="long1" type="text" maxlength="3" onkeypress='return validateYear(event)'
                     ng-model="ricercaSpecializzata.cartografia.latitudinea.gradi">
 
-                  <input id="long_min" class="form-control  input-xs textLongLatminsec" name="long1a" type="text" maxlength="2" onkeypress='return validateYear(event)'
+                  <input aria-label="{{'latitudine' | translate}}" id="long_min4" class="form-control  input-xs textLongLatminsec" name="long1a" type="text" maxlength="2" onkeypress='return validateYear(event)'
                     ng-model="ricercaSpecializzata.cartografia.latitudinea.min">
 
-                  <input id="ling_sec" class="form-control  input-xs textLongLatminsec" name="long1b" type="text" maxlength="2" onkeypress='return validateYear(event)'
+                  <input aria-label="{{'latitudine' | translate}}" id="ling_sec4" class="form-control  input-xs textLongLatminsec" name="long1b" type="text" maxlength="2" onkeypress='return validateYear(event)'
                     ng-model="ricercaSpecializzata.cartografia.latitudinea.sec">
                     <!-- <div ng-show="ricercaSpecializzata.cartografia.latitudinea.puntCard" class="px-top-5 alert alert-warning">
                       <strong>latitudinea!</strong> Indicates a warning that might need attention.
@@ -549,7 +551,7 @@
 
               </div>
               <div class="form-group row label-rSpecializzata">
-                <label for="cart_col" class="col-sm-3 col-lg-3 mycontrol-label-left " aria-label="{{'cart_col' | translate}}">{{ 'cart_col' | translate | capitalize }}</label>
+                <label for="cart_col" class="col-sm-3 col-lg-3 mycontrol-label-left " >{{ 'cart_col' | translate | capitalize }}</label>
                 <div class="col-sm-5 col-lg-5">
                   <select id="cart_col" ng-model="ricercaSpecializzata.cartografia.cart_col" class="form-control  input-xs">
                           <option value=""></option>
@@ -561,7 +563,7 @@
                 </div>
               </div>
               <div class="form-group row label-rSpecializzata">
-                <label for="cart_foto_supp" class="col-sm-3 col-lg-3 mycontrol-label-left " aria-label="{{'cart_foto_supp' | translate}}">{{ 'cart_foto_supp' | translate }}</label>
+                <label for="cart_foto_supp" class="col-sm-3 col-lg-3 mycontrol-label-left " >{{ 'cart_foto_supp' | translate }}</label>
                 <div class="col-sm-5 col-lg-5">
                   <select id="cart_foto_supp" ng-model="ricercaSpecializzata.cartografia.cart_foto_supp" class="form-control  input-xs">
                             <option value=""></option>
@@ -573,7 +575,7 @@
                 </div>
               </div>
               <div class="form-group row label-rSpecializzata">
-                <label for="cart_foto_forma" class="col-sm-3 col-lg-3 mycontrol-label-left " aria-label="{{'cart_foto_forma' | translate}}">{{ 'cart_foto_forma' | translate }}</label>
+                <label for="cart_foto_forma" class="col-sm-3 col-lg-3 mycontrol-label-left ">{{ 'cart_foto_forma' | translate }}</label>
                 <div class="col-sm-5 col-lg-5">
                   <select id="cart_foto_forma" ng-model="ricercaSpecializzata.cartografia.cart_foto_forma" class="form-control  input-xs">
                           <option value=""></option>
@@ -585,7 +587,7 @@
                 </div>
               </div>
               <div class="form-group row label-rSpecializzata">
-                <label for="cart_forma_doc" class="col-sm-3 col-lg-3 mycontrol-label-left " aria-label="{{'cart_forma_doc' | translate}}">{{ 'cart_forma_doc' | translate }}</label>
+                <label for="cart_forma_doc" class="col-sm-3 col-lg-3 mycontrol-label-left " >{{ 'cart_forma_doc' | translate }}</label>
                 <div class="col-sm-5 col-lg-5">
                   <select id="cart_forma_doc" ng-model="ricercaSpecializzata.cartografia.cart_forma_doc" class="form-control  input-xs">
                           <option value=""></option>

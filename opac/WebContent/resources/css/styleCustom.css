@@ -27,14 +27,14 @@
   color: rgb(2, 49, 103)
 }
 .colour-yellow {
-  color: #e88510;
+  color:  #ad5e00 /* #e88510; */
 }
 /*altre classi*/
 .scrollMapsFix {
     line-height: 1.35;
     overflow: hidden;
 }
-.sottolineato {
+.blu-label {
   color: #023167;
 }
 .no-lateral-padding {

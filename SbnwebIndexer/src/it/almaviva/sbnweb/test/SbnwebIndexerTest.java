@@ -3,13 +3,18 @@ package it.almaviva.sbnweb.test;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Set;
 
 import org.marc4j.MarcReader;
 import org.marc4j.MarcStreamReader;
 import org.marc4j.marc.Record;
-import it.almaviva.sbnweb.Indexer.SbnwebIndexer;
-import it.almaviva.sbnweb.util.Constants;
 
+import bsh.util.Util;
+import it.almaviva.sbnweb.Indexer.SbnwebIndexer;
+import it.iccu.sbn.opac2.mlol.integration.client.util.Utils;
+
+//per ulteriori info su unimarc
+//http://unimarc-it.wikidot.com/
 public class SbnwebIndexerTest {
 	public static void main(String[] args) throws FileNotFoundException {
 		SbnwebIndexer indexer = new SbnwebIndexer("", args);
@@ -22,10 +27,11 @@ public class SbnwebIndexerTest {
 			record.getLeader().setCharCodingScheme(' ');
 			try {
 
-				System.out.println("id: " + indexer.getSbnId(record) + " " + indexer.getNome_tot_noPoss(record));
+				Set<String> classi686Tot = indexer.getAltreClassi686Tot(record, "PGI");
+				if (Utils.isFilled(classi686Tot))
+					System.out.println("id: " + indexer.getSbnId(record) + " " + classi686Tot);
 			} catch (Exception e) {
 				System.out.println("id: " + indexer.getSbnId(record));
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 

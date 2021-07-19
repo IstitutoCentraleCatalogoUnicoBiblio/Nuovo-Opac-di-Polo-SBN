@@ -43,7 +43,7 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
       var sinteticaPrint = '';
       //
       var sintetica = document.getElementById("sintetica_div_print_" + index);
-      sinteticaPrint += "<p> <b>" + (index + 1) + "</b> <br />"
+      sinteticaPrint += "<p> <strong>" + (index + 1) + "</strong> <br />"
       sinteticaPrint += sintetica.innerHTML + "</p>";
       sinteticaPrint += "<hr />";
       var printContents = document.getElementById("Dettaglio_" + index);
@@ -63,7 +63,7 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
       var printstr = '';
       for (var i = 0; i < $scope.search.solrDocs.documenti.length; i++) {
         var sintetica = document.getElementById("sintetica_div_print_" + i);
-        printstr += "<p> <b>" + (i + 1) + "</b> <br />"
+        printstr += "<p> <strong>" + (i + 1) + "</strong> <br />"
         printstr += sintetica.innerHTML + "</p>";
         printstr += "<hr />";
       }
@@ -1549,7 +1549,7 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
     });
     $scope.ricercaAvanzata = function (flag) {
       LocalSessionSettingsServices.setModifyFlag(flag);
-      LocalSessionSettingsServices.setFormatoDigitale("")
+      LocalSessionSettingsServices.setFormatoDigitale([])
       if (!$scope.polo.bibliotecaAsPolo) {
         LocalSessionSettingsServices.setBiblioteche([]);
 
@@ -2052,6 +2052,7 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
     };
     $scope.showIngFavorites = ($location.path().indexOf("preferiti") > -1) ? true : false;
     $scope.controller = ($scope.showIngFavorites) ? "preferiti" : 'risultato';
+    updateTitle(($scope.showIngFavorites) ? "Preferiti" : 'Risultato di ricerca')
     //Start show risultato
     $scope.showResult();
     var id = $routeParams.id;
@@ -2152,8 +2153,8 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
             position: new google.maps.LatLng(parseFloat(biblioteche[i].dettaglio.latitudine), parseFloat(biblioteche[i].dettaglio.longitudine)),
 
           });
-          marker.content = "<img class='img-responsive'  style='height: 90px;' src=" + imgUrl + " > </br>";
-          marker.content += "<p><b>" + biblioteche[i].name + "</b></br>" + biblioteche[i].dettaglio.indirizzo.trim() +
+          marker.content = "<img class='img-responsive'  style='height: 90px;' alt=' Logo "+ $scope.polo.code+ " - " + $scope.polo.libraries[i].cod_bib + "' src=" + imgUrl + " > </br>";
+          marker.content += "<p><strong>" + biblioteche[i].name + "</strong></br>" + biblioteche[i].dettaglio.indirizzo.trim() +
             " - " + biblioteche[i].dettaglio.cap + " - " + biblioteche[i].dettaglio.citta;
 
           marker.content += (biblioteche[i].dettaglio.citta.trim().toLowerCase() != biblioteche[i].dettaglio.provincia.trim().toLowerCase()) ? " - " + biblioteche[i].dettaglio.provincia : "";
@@ -2163,17 +2164,18 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
             if (biblioteche[i].contatti[c].tipo.toUpperCase() === "TELEFONO")
               marker.content += $filter('translate')('info_telefono') + ": <i>" + biblioteche[i].contatti[c].valore + "</i></br>";
           }
+          // biblioteche[i].name
           marker.content += "</p>";
-          marker.content += "<p><a title='" + $filter('translate')('info_indicazioni') + ": " + $filter('translate')('info_openMaps') + "' href='https://www.google.com/maps/dir/?api=1&destination=" + "biblioteca " + biblioteche[i].dettaglio.indirizzo.trim() + ", " + biblioteche[i].dettaglio.cap + ", " + biblioteche[i].dettaglio.citta + "' target='_blank' >" + $filter('translate')('info_indicazioni') + "</a>" + "</p>"
-          marker.content += "<a title='" + $filter('translate')('visualizzaAnagrafe') + "' href='http://anagrafe.iccu.sbn.it/isil/IT-" + biblioteche[i].dettaglio.isil + "' target='_blank' ><span class='glyphicon glyphicon-info-sign' ></span></a>";
+          marker.content += "<p><a title='" + $filter('translate')('info_indicazioni') + ": " + $filter('translate')('info_openMaps') + " " + biblioteche[i].name  + "' href='https://www.google.com/maps/dir/?api=1&destination=" + "biblioteca " + biblioteche[i].dettaglio.indirizzo.trim() + ", " + biblioteche[i].dettaglio.cap + ", " + biblioteche[i].dettaglio.citta + "' target='_blank' title='" + $filter('translate')('info_indicazioni') + ": " + $filter('translate')('info_openMaps') + " " + biblioteche[i].name + "' >" + $filter('translate')('info_indicazioni') + "</a>" + "</p>"
+          marker.content += "<a title='" + $filter('translate')('visualizzaAnagrafe') + " " + biblioteche[i].name + "' href='http://anagrafe.iccu.sbn.it/isil/IT-" + biblioteche[i].dettaglio.isil + "' target='_blank' aria-label='" + $filter('translate')('visualizzaAnagrafe') + " " + biblioteche[i].name + "'  ><span class='glyphicon glyphicon-info-sign' ></span></a>";
           for (var c = 0; c < biblioteche[i].contatti.length; c++) {
             switch (biblioteche[i].contatti[c].tipo.toUpperCase()) {
               case "E-MAIL":
-                marker.content += "<a title='" + $filter('translate')('info_inviaMail') + ": " + biblioteche[i].contatti[c].valore + "' href='mailto:" + biblioteche[i].contatti[c].valore + "' target='_blank' ><span class='glyphicon glyphicon-envelope' style='margin-left: 3%;'></span></a>";
+                marker.content += "<a title='" + $filter('translate')('info_inviaMail') + ": " + biblioteche[i].contatti[c].valore + "' href='mailto:" + biblioteche[i].contatti[c].valore + "' target='_blank' aria-label='" + $filter('translate')('info_inviaMail') + ": " + biblioteche[i].contatti[c].valore + "' ><span class='glyphicon glyphicon-envelope' style='margin-left: 3%;'></span></a>";
                 break;
               case "URL":
                 var url = (biblioteche[i].contatti[c].valore.indexOf('http') > -1) ? biblioteche[i].contatti[c].valore : 'http://' + biblioteche[i].contatti[c].valore
-                marker.content += "<a title='" + $filter('translate')('info_openUrl') + ": " + url + "' href='" + url + "' target='_blank' ><span class='glyphicon glyphicon-link' style='margin-left: 3%;'></span></a>";
+                marker.content += "<a title='" + $filter('translate')('info_openUrl') + ": " + url + "' href='" + url + "' target='_blank' aria-label='" + $filter('translate')('info_openUrl') + ": " + url + "' ><span class='glyphicon glyphicon-link' style='margin-left: 3%;'></span></a>";
 
                 break;
 
@@ -2333,7 +2335,6 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
     $scope.removeWordInFilterValue = function (filter, wordToRemove) {
       $scope.removeFilter(filter, true, wordToRemove);
     }
-
     //Almaviva3 06/06/2019 controllo il flag isOCNSearch per verificare se esporre il bottone modifica ricerca
     $scope.isOCNSearch = isOCNSearch ? true : false;
     if (isOCNSearch) //Se è una ricerca OCN elimino i dati di get nell'url

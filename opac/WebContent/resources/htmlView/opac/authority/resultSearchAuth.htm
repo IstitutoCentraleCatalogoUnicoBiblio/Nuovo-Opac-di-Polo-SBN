@@ -9,13 +9,11 @@
 		<!-- <li>{{'not_found_parole_generiche' | translate}}</li> -->
 	</ul>
 
-	<div ng-show="resultFlag == false">
-		<center>
+	<div ng-show="resultFlag == false" class="text-center">
 			<button type="submit" class="btn  btn-outline-primary btn-xs"
 				ng-click="panelController()" data-toggle="tooltip"
 				data-placement="left" title="{{'raffina' | translate}}">{{'raffina'
 				| translate}}</button>
-		</center>
 	</div>
 </div>
 <div ng-show="resultFlag == true" id="impostazioni">
@@ -24,23 +22,23 @@
 		<!--  <div class="center">{{'paginetot'| translate}}: {{numberTotPage}}</div> -->
 		<div class="left ">
 			<h5>
-				{{'numAuthDocs' | translate}}: <b>{{authoritySearch.solrDocs.numFound}}</b>
+				{{'numAuthDocs' | translate}}: <strong>{{authoritySearch.solrDocs.numFound}}</strong>
 			</h5>
 		</div>
 	</div>
-	<div class="col-md-5">
-		<center>
+	<div class="col-md-5 text-center">
 			<paging page="$parent.currentPage" page-size="$parent.pageSize"
 				total="$parent.totalPages" show-prev-next="true"
-				show-first-last="true"
+				show-first-last="true" disabled-class="lock-paginatore"
 				paging-action="$parent.selectPage( page, pageSize, total)"
 				text-title-page="Page {page} Hover Over"> </paging>
-		</center>
 	</div>
 	<div class="col-md-4">
 		<div class="col-md-6 pull-right">
 			<select class="form-control  input-xs"
 				ng-init="$parent.sort = 'nomeAuth'" ng-model="$parent.sort"
+				title="{{ 'ordinati' | translate}}"
+				aria-label="{{ 'ordinati' | translate}}" role="listbox"
 				ng-change="changeSearch($parent.sort)" id="ordina_per">
 				<!--<option value="syntetic_title">{{ 'ordinati' | translate }} <i>{{ 'titolo' | translate }}</i> </option> -->
 				<option value="nomeAuth">{{ 'ordinati' | translate }} <i>{{
@@ -56,6 +54,7 @@
 		<div class="col-md-6">
 			<select class="form-control  input-xs "
 				ng-init="$parent.maxRows='10'" ng-model="$parent.maxRows"
+				title="{{ 'visualizzati' | translate }}" aria-label="{{ 'visualizzati' | translate }}"
 				ng-change="changeSearch()" id="doc_for_page">
 				<option value="5">{{ 'visualizzati' | translate }} 5</option>
 				<option value="10">{{ 'visualizzati' | translate }} 10</option>
@@ -107,7 +106,7 @@
 						<div ng-click=" $event.stopPropagation();"
 							class="col-sm-12 col-lg-12">
 
-							<span class="link" style="padding-left: 25px;"
+							<span class="blu-tema manina " style="padding-left: 25px;"
 								ng-show="(d.solrDocs.documenti.length  - (analiticheHided + sinteticheHided))> 1"
 								ng-attr-id="{{ 'nascondi_' + $index }}"> <a
 								ng-click="hideRiga($index); $event.stopPropagation();"
@@ -139,7 +138,7 @@
 							title="{{ 'etichette' | translate }}"><a data-toggle="tab"
 							data-target="#{{ 'Dettaglio_' + $index }}">{{ 'etichette' |
 								translate }}</a></li>
-						<li ng-attr-id="{{ 'li_Unimarc_' + $index }}" class="link"
+						<li ng-attr-id="{{ 'li_Unimarc_' + $index }}" class="blu-tema manina "
 							data-toggle="tooltip" data-placement="left" title="Unimarc"><a
 							data-toggle="tab" data-target="#{{ 'Unimarc_' + $index }}"
 							title="UNIversal Machine Readable Cataloguing">Unimarc</a></li>
@@ -180,11 +179,11 @@
 					| translate}}</button>
 			</span>
 		</div>
-		<center style="margin-top: 15px;">
+		<div class="text-center px-top-15">
 			<paging page="$parent.currentPage" page-size="$parent.pageSize"
 				total="$parent.totalPages" show-prev-next="true"
-				show-first-last="true"
+				show-first-last="true" disabled-class="lock-paginatore"
 				paging-action="$parent.selectPage( page, pageSize, total)"
 				text-title-page="Page {page} Hover Over"> </paging>
-		</center>
+		</div>
 	</div>

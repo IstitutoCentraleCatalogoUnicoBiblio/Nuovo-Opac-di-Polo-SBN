@@ -2,41 +2,39 @@
 	<div class="row content">
 		<ng-include src=" 'htmlView/templates/page/navbarView.htm' "></ng-include>
 		<div class="col-sm-12 col-lg-12">
-			<div class="col-sm-4 col-lg-4">
-				<h2><img src="images/ico_contact_ora.png" alt=""> {{ (controller | translate)  }}
-							</h2>
-			</div>
-			<div class="col-sm-12 padd_sf_home">
-				<div class="divTable myBoxe" id="panelFormContatti">
-				
-					<form class="form-horizontal">
-						
-					<!-- Rimossa form contatti dopo mail 10/12/2018 -->	
-						<fieldset >
-							<div class="form-group px-bottom-6 px-top-50">
-								<center> <!-- cont_ogniMail -->
-									<label > {{ 'ref_polo_descr' | translate }} <i> {{polo.nome_referente + ' - '}}<a href="mailto:{{polo.email_referente}}">{{ polo.email_referente}}</a></i></label>
-								</center>
+			<section aria-label="{{'acc_body' | translate}}" id="acc_body">
 
-							</div>
-						</fieldset>
-						<fieldset ng-show="polo.numero_referente && polo.numero_referente != ''">
-							<div class="form-group px-bottom-6 px-top-50">
-								<center>
-									<label > {{ 'num_tel_info' | translate }} <i> {{polo.numero_referente}}</i></label>
-								</center>
+				<div class="col-sm-4 col-lg-4">
+					<h2 role="heading" aria-level="1"><img src="images/ico_contact_ora.png"
+							alt=" {{ (controller | translate)  }}"> {{ (controller | translate)  }}
+					</h2>
+				</div>
+				<div class="col-sm-12 padd_sf_home">
+					<div class="divTable myBoxe" id="panelFormContatti">
 
-							</div>
-						</fieldset>
-						<fieldset>
-							<div class="form-group px-bottom-6 px-top-50">
-								<center>
-									<label > {{ 'per_segnalazioni' | translate }} <i> <a href="mailto:{{polo.email_segnalazioni}}">{{polo.email_segnalazioni}} </a></i></label>
-								</center>
+						<form class="form-horizontal">
 
-							</div>
-						</fieldset>
-						<!-- rimossso mail 10/12/2018 <fieldset>
+							<!-- Rimossa form contatti dopo mail 10/12/2018 -->
+							<fieldset>
+								<div class="form-group px-bottom-6 px-top-50 text-center">
+									<label> {{ 'ref_polo_descr' | translate }} <em> {{polo.nome_referente + ' - '}}<a
+												href="mailto:{{polo.email_referente}}">{{ polo.email_referente}}</a></em></label>
+								</div>
+							</fieldset>
+							<fieldset ng-show="polo.numero_referente && polo.numero_referente != ''">
+								<div class="form-group px-bottom-6 px-top-50 text-center">
+									<label> {{ 'num_tel_info' | translate }} <em> {{polo.numero_referente}}</em></label>
+
+								</div>
+							</fieldset>
+							<fieldset>
+								<div class="form-group px-bottom-6 px-top-50 text-center">
+									<label> {{ 'per_segnalazioni' | translate }} <em> <a
+												href="mailto:{{polo.email_segnalazioni}}">{{polo.email_segnalazioni}}
+											</a></em></label>
+								</div>
+							</fieldset>
+							<!-- rimossso mail 10/12/2018 <fieldset>
 							<div class="form-group row px-top-10">
 								<div class="col-sm-12 col-lg-12 center ">
 									<button  type="reset" class="btn btn-xs Nbtn-default" ng-click='reset()' title="{{'pulisci' | translate}}">{{'pulisci' | translate}}</button>
@@ -46,7 +44,7 @@
 								</div>
 							</div>
 						</fieldset> -->
-					<!-- Riunione iccu 7/9/2017 deciso di usare href	<fieldset>
+							<!-- Riunione iccu 7/9/2017 deciso di usare href	<fieldset>
 							<center>
 								<div id="errorAlertMail"style="display: none;" class="alert alert-danger alert-dismissible" role="alert">
 									<button type="button" title="{{'chiudi' | translate}}" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -57,16 +55,17 @@
 									<strong>{{mailError | translate}}!</strong>
 								</div>
 						</fieldset> -->
-					</form>
-					<!-- <span class="right" ><b>*&nbsp;&nbsp;</b>{{'tuttiCampiObligatori_error' | translate}}</span> -->
+						</form>
+						<!-- <span class="right" ><b>*&nbsp;&nbsp;</b>{{'tuttiCampiObligatori_error' | translate}}</span> -->
+					</div>
 				</div>
-			</div>
+			</section>
 		</div>
 	</div>
 </div>
 
 
 <span style="bottom: 0px">
-  <ng-include src=" 'htmlView/templates/page/footerView.htm' "></ng-include>
+	<ng-include src=" 'htmlView/templates/page/footerView.htm' "></ng-include>
 </span>
 <ng-include src=" 'htmlView/templates/page/modalsView.htm' "></ng-include>

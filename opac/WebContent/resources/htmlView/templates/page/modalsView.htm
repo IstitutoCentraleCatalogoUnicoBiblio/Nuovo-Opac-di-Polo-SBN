@@ -1,86 +1,101 @@
-<!-- modale di errore per i campi di input -->
-<div id="errorFields" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+<!-- modale di errore per i campi di input vuoti-->
+<div id="errorFields" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header text-center">
         <button type="button" title="{{'chiudi' | translate}}" class="close" data-dismiss="modal">&times;</button>
-        <center>
-          <h1><span class="glyphicon glyphicon-warning-sign"></span></h1>
-        </center>
-
+        <h1><span class="glyphicon glyphicon-warning-sign"></span> <span
+            class="hidden">{{'alertError' | translate}}</span></h1>
       </div>
-      <div class="modal-body align-center">
-        <center>
-          <div class="alert alert-danger"><b>{{'alertError' | translate}}</b></br> {{'alertErrorTextFieldNull' | translate}}</div>
-        </center>
+      <div class="modal-body align-center text-center">
+        <div class="alert alert-danger" id="alertCampiVuoti"><strong>{{'alertError' | translate}}</strong></br>
+          {{'alertErrorTextFieldNull' | translate}}</div>
       </div>
     </div>
 
   </div>
 </div>
 <!-- caricamento in corso -->
-<div id="loading" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+<div id="loading" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-sm" role="document">
+
     <div class="modal-content">
-     <div class="modal-body align-center">
-        <center>
-         <!-- <img src="images/loading_anim.gif" width="80%" height="80%" /> -->
-         <div class="loader"></div>
-        </center>
+      <div class="modal-header hidden">
+        <span id="loader">Loading</span>
+      </div>
+      <div class="modal-body text-center">
+        <!-- <img rc="images/loading_anim.gif" width="80%" height="80%" /> -->
+        <div class="loadingio-spinner-rolling-d49g7b96z79">
+          <div class="ldio-rlwckwg1g7">
+            <div></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
 <!-- modale per le liste dei termini -->
-<div id="terms" style="display: none;" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-  aria-hidden="true">
+<div id="terms" style="display: none;" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
 
         <button type="button" title="{{'chiudi' | translate}}" class="close" data-dismiss="modal">&times;</button>
         <div id="titoloTerm">
-          <h4><span class="glyphicon glyphicon-list"></span> {{'termini' | translate}} {{'per' | translate}} {{(currentTerm |
+          <h4><span class="glyphicon glyphicon-list" id="termini"></span> {{'termini' | translate}}
+            {{'per' | translate}} {{(currentTerm |
             translate ) | lowercase}} </h4>
           <div class="form-group px-bottom-6 col-sm-2 col-lg-2">
-            <input type="text" class="form-control " ng-model="termFilterTable.cod" ng-attr-placeholder="{{'filter'|translate}}" ng-init="termFilterTable.cod = ''">
+            <input type="text" class="form-control " ng-model="termFilterTable.cod"
+              ng-attr-placeholder="{{'filter'|translate}}" ng-init="termFilterTable.cod = ''"
+              aria-label="{{'filter'|translate}}">
           </div>
 
         </div>
 
       </div>
-      <div class="modal-body" ng-show="currentTerm != 'paese' && currentTerm != 'lingua' && currentTerm != 'relator_codef' && currentTerm != 'forma'">
-          <button ng-show="$parent.idxChronoTerm > 0" type="submit" class="btn  btn-default btn-xs pull-left" ng-click="indietroTermine()"
-              data-toggle="tooltip" data-placement="left" title="{{'indietro' | translate}}">{{'indietro' | translate}}</button>
-            <button type="submit" class="btn  btn-default btn-xs pull-right" ng-click="avantiTermine()" data-toggle="tooltip" data-placement="left"
-              title="{{'avanti' | translate}}">{{'avanti' | translate}}</button>
+      <div class="modal-body"
+        ng-show="currentTerm != 'paese' && currentTerm != 'lingua' && currentTerm != 'relator_codef' && currentTerm != 'forma'">
+        <button ng-show="$parent.idxChronoTerm > 0" type="submit" class="btn  btn-default btn-xs pull-left"
+          ng-click="indietroTermine()" data-toggle="tooltip" data-placement="left"
+          title="{{'indietro' | translate}}">{{'indietro' | translate}}</button>
+        <button type="submit" class="btn  btn-default btn-xs pull-right" ng-click="avantiTermine()"
+          data-toggle="tooltip" data-placement="left" title="{{'avanti' | translate}}">{{'avanti' | translate}}</button>
       </div>
       <div class="modal-body" id="table">
-     
+
         <div class="tabella" id="myTable" style=" height: 450px;">
           <table class="table table-hover color_w font_menu_lat" ng-if="terminiTrovati.length > 0">
-                   <tbody>
+            <tbody>
 
-              <tr ng-repeat="t in terminiTrovati |  filter:termFilterTable.cod | orderBy: 'txt'" >
-                <td ng-if="currentTerm != 'paese' && currentTerm != 'lingua' && currentTerm != 'relator_codef' && currentTerm != 'forma'&& currentTerm != 'classi_PGI_686_tot'" ng-attr-id="{{'termine_riga_' + $index}}" ng-click="scrivi(t.term)"
-                  class="termini link">
-                  <a class="link">
-                    
-                    <span ng-show="currentTerm != 'paese' && currentTerm != 'lingua' && currentTerm != 'relator_codef' && currentTerm != 'forma' && currentTerm != 'classi_PGI_686_tot'">{{t.term }}</span>
+              <tr ng-repeat="t in terminiTrovati |  filter:termFilterTable.cod | orderBy: 'txt'">
+                <td
+                  ng-if="currentTerm != 'paese' && currentTerm != 'lingua' && currentTerm != 'relator_codef' && currentTerm != 'forma'&& currentTerm != 'classi_PGI_686_tot'"
+                  ng-attr-id="{{'termine_riga_' + $index}}" ng-click="scrivi(t.term)" class="termini link">
+                  <a class="blu-tema manina ">
+
+                    <span
+                      ng-show="currentTerm != 'paese' && currentTerm != 'lingua' && currentTerm != 'relator_codef' && currentTerm != 'forma' && currentTerm != 'classi_PGI_686_tot'">{{t.term }}</span>
 
                   </a>
                   <span style="padding-left: 15px;">({{t.frequency}})</span>
                 </td>
-                <td ng-if="currentTerm == 'lingua' || currentTerm == 'paese'|| currentTerm == 'relator_codef' || currentTerm == 'forma' || currentTerm == 'classi_PGI_686_tot'" ng-attr-id="{{'termine_riga_' + $index}}" ng-click="scrivi(t.cod)"
-                  class="termini link">
+                <td
+                  ng-if="currentTerm == 'lingua' || currentTerm == 'paese'|| currentTerm == 'relator_codef' || currentTerm == 'forma' || currentTerm == 'classi_PGI_686_tot'"
+                  ng-attr-id="{{'termine_riga_' + $index}}" ng-click="scrivi(t.cod)" class="termini link">
                   <span ng-if="currentTerm != 'classi_PGI_686_tot'">({{t.cod}})</span>
-                  <a class="link">
+                  <a class="blu-tema manina ">
 
-                    <span style="padding-left: 15px;" ng-if="currentTerm == 'lingua'" ng-init="t.txt = (t.cod | decodeLang | translate)">{{t.cod | decodeLang | translate}}</span>
-                    <span style="padding-left: 15px;" ng-if="currentTerm == 'paese'" ng-init="t.txt = (t.cod | decodeCountry | translate)">{{t.cod | decodeCountry | translate}}</span>
-                    <span style="padding-left: 15px;" ng-if="currentTerm == 'relator_codef'" ng-init="t.txt = (t.cod | decodeRelatorCodeTerm | translate)">{{t.cod | decodeRelatorCodeTerm | translate}}</span>
-                    <span style="padding-left: 15px;" ng-if="currentTerm == 'forma'" ng-init="t.txt = (t.cod | decodeForma | translate)">{{t.cod | decodeForma | translate}}</span>
-                    <span style="padding-left: 15px;" ng-if="currentTerm == 'classi_PGI_686_tot'" ng-init="t.txt = (t.cod | decodePegi | translate)">{{t.cod | decodePegi | translate}}</span>
+                    <span style="padding-left: 15px;" ng-if="currentTerm == 'lingua'"
+                      ng-init="t.txt = (t.cod | decodeLang | translate)">{{t.cod | decodeLang | translate}}</span>
+                    <span style="padding-left: 15px;" ng-if="currentTerm == 'paese'"
+                      ng-init="t.txt = (t.cod | decodeCountry | translate)">{{t.cod | decodeCountry | translate}}</span>
+                    <span style="padding-left: 15px;" ng-if="currentTerm == 'relator_codef'"
+                      ng-init="t.txt = (t.cod | decodeRelatorCodeTerm | translate)">{{t.cod | decodeRelatorCodeTerm | translate}}</span>
+                    <span style="padding-left: 15px;" ng-if="currentTerm == 'forma'"
+                      ng-init="t.txt = (t.cod | decodeForma | translate)">{{t.cod | decodeForma | translate}}</span>
+                    <span style="padding-left: 15px;" ng-if="currentTerm == 'classi_PGI_686_tot'"
+                      ng-init="t.txt = (t.cod | decodePegi | translate)">{{t.cod | decodePegi | translate}}</span>
                   </a>
 
 
@@ -88,23 +103,24 @@
 
               </tr>
             </tbody>
-           </table>
-          <span ng-if="terminiTrovati.length == 0"><i>{{"noTermsFound" | translate}}</i></span>
+          </table>
+          <span ng-if="terminiTrovati.length == 0"><em>{{"noTermsFound" | translate}}</em></span>
         </div>
       </div>
-      
+
     </div>
   </div>
 </div>
 <!-- modale per le ricerche effettuate -->
-<div id="ricercheEff" style="display: none;" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+<div id="ricercheEff" style="display: none;" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
   aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" title="{{'chiudi' | translate}}" class="close" data-dismiss="modal">&times;</button>
 
-        <h4><span class="glyphicon glyphicon-list"></span> {{ 'ricercheEff' | translate }} </h4>
+        <h4><span class="glyphicon glyphicon-list" id="myLargeModalLabelRicerche"></span>
+          {{ 'ricercheEff' | translate }} </h4>
       </div>
       <div class="modal-body">
         <div class="tabella" style="max-height: 450px;">
@@ -113,54 +129,74 @@
 
               <tr ng-repeat="ricercaEs in ricercheEseguite" ng-init="ricerca = jsonParse(ricercaEs)">
 
-                <td class="col-sm-11 col-lg-11" ng-attr-id="{{'ricerca_query_n_'+$index}}" data-dismiss="modal" class="link" ng-click="riCerca(ricerca.filtro)">
+                <td class="col-sm-11 col-lg-11" ng-attr-id="{{'ricerca_query_n_'+$index}}" data-dismiss="modal"
+                  class="blu-tema manina " ng-click="riCerca(ricerca.filtro)">
                   <div>
                     <span ng-repeat="filtri in ricerca.filtro.filters">
-                         <font ng-show="filtri[$index -1]" face="verdana" color="#5497BC" >{{filtri[$index -1].operator}}</font>
+                      <span class="operatoreQuery" ng-show="filtri[$index -1]">{{filtri[$index -1].operator}}</span>
                       ( <span ng-repeat="gFilt in filtri">
-                          <font ng-show="filtri[$index -1]" face="verdana" color="#5497BC" >{{gFilt.operator}}</font>
-                          (<span  ng-repeat="f in gFilt.filters">
+                        <span class="operatoreQuery" ng-show="filtri[$index -1]">{{gFilt.operator}}</span>
+                        (<span ng-repeat="f in gFilt.filters">
 
-                            
-                            <font ng-if="$index > 0" face="verdana" color="#5497BC">{{gFilt.filters[$parent.$index - 1 ].operator}}</font>
 
-                            <span ng-if="f.field != 'group'" style="cursor:default">{{f.field | translate}}= </span>
-                    <span ng-if="f.otherFiltersGroup">(</span>
-                    <span ng-repeat="fsg in f.otherFiltersGroup">
+                          <span class="operatoreQuery"
+                            ng-if="$index > 0">{{gFilt.filters[$parent.$index - 1 ].operator}}</span>
 
-                                    <font ng-if="$index > 0" face="verdana" color="#5497BC">{{f.otherFiltersGroup[$index - 1].operator}}</font>
-                                  <span ng-if="fsg.field != 'group'" style="cursor:default">{{fsg.field | translate}}= </span>
-                    <b ng-if="fsg.field == 'tiporec'">{{fsg.value  | decodeTiporec  | translate }}</b>
-                    <b style="cursor:default" ng-if="fsg.field == 'level'">{{fsg.value  | decodeLevel   | translate }}</b>
-                    <b style="cursor:default" ng-if="fsg.field == 'library'">{{fsg.value  | decodeBib   | translate }}</b>
-                    <b style="cursor:default" ng-if="fsg.field == 'status_voce'">{{ 'vero' | translate }}</b>
-                    <b style="cursor:default" ng-if="fsg.field == 'relator_codef'">{{ fsg.value | decodeRelatorCodeTerm | translate }}</b>  
-                    <b style="cursor:default" ng-if="fsg.field == 'forma' || fsg.field == 'formaf'">{{ fsg.value | decodeForma | translate }}</b>
-                    
-                    <b style="cursor:default" ng-if="!(fsg.field == 'level' || fsg.field == 'tiporec' || fsg.field == 'library' || fsg.field == 'relator_codef' || fsg.field == 'forma' || fsg.field == 'formaf')">{{fsg.value }}</b>
-                     </span> <span ng-if="f.otherFiltersGroup">)</span>
+                          <span ng-if="f.field != 'group'" class="cursorDefault">{{f.field | translate}}= </span>
+                          <span ng-if="f.otherFiltersGroup">(</span>
+                          <span ng-repeat="fsg in f.otherFiltersGroup">
 
-                    <b ng-if="f.field == 'tiporec'">{{f.value  | decodeTiporec  | translate }}</b>
-                    <b style="cursor:default" ng-if="f.field == 'level'">{{f.value  | decodeLevel   | translate }}</b>
-                    <b style="cursor:default" ng-if="f.field == 'library'">{{f.value  | decodeBib   | translate }}</b>
-                    <b style="cursor:default" ng-if="f.field == 'status_voce'">{{ 'vero' | translate }}</b>
-                    <b style="cursor:default" ng-if="f.field == 'formato_elet'">{{f.value | translate }}</b>
-                    <b style="cursor:default" ng-if="f.field == 'libretto'">{{f.value |translate }}</b>
-                    <b style="cursor:default" ng-if="f.field == 'formato_elet_copia'">{{'vero' |translate }}</b>
-                    <b style="cursor:default" ng-if="f.field == 'formato_elet_856'">{{'vero' |translate }}</b>
-                    <b style="cursor:default" ng-if="f.field == 'formato_elet'">{{'vero' |translate }}</b>
-                    <b style="cursor:default" ng-if="f.field == 'relator_codef'">{{ f.value | decodeRelatorCodeTerm | translate }}</b>
-                    <b style="cursor:default" ng-if="f.field == 'forma' || f.field == 'formaf'">{{ f.value | decodeForma | translate }}</b>
-                    <b style="cursor:default" ng-if="f.field == 'libretto'">{{f.value | translate }}</b>
-                    <b style="cursor:default" ng-if="!(f.field == 'libretto' || f.field == 'relator_codef' || f.field == 'level' || f.field == 'tiporec' || f.field == 'library' || f.field == 'formato_elet' || f.field == 'formato_elet_856' || f.field == 'formato_elet_copia' || f.field == 'forma' || f.field == 'formaf')">{{f.value }}</b>
-                    
-                    </span>)
-                    </span>
+                            <span class="operatoreQuery"
+                              ng-if="$index > 0">{{f.otherFiltersGroup[$index - 1].operator}}</span>
+                            <span ng-if="fsg.field != 'group'" class="cursorDefault">{{fsg.field | translate}}= </span>
+                            <strong ng-if="fsg.field == 'tiporec'">{{fsg.value  | decodeTiporec  | translate }}</strong>
+                            <strong class="cursorDefault"
+                              ng-if="fsg.field == 'level'">{{fsg.value  | decodeLevel   | translate }}</strong>
+                            <strong class="cursorDefault"
+                              ng-if="fsg.field == 'library'">{{fsg.value  | decodeBib   | translate }}</strong>
+                            <strong class="cursorDefault"
+                              ng-if="fsg.field == 'status_voce'">{{ 'vero' | translate }}</strong>
+                            <strong class="cursorDefault"
+                              ng-if="fsg.field == 'relator_codef'">{{ fsg.value | decodeRelatorCodeTerm | translate }}</strong>
+                            <strong class="cursorDefault"
+                              ng-if="fsg.field == 'forma' || fsg.field == 'formaf'">{{ fsg.value | decodeForma | translate }}</strong>
+
+                            <strong class="cursorDefault"
+                              ng-if="!(fsg.field == 'level' || fsg.field == 'tiporec' || fsg.field == 'library' || fsg.field == 'relator_codef' || fsg.field == 'forma' || fsg.field == 'formaf')">{{fsg.value }}</strong>
+                          </span> <span ng-if="f.otherFiltersGroup">)</span>
+
+                          <strong ng-if="f.field == 'tiporec'">{{f.value  | decodeTiporec  | translate }}</strong>
+                          <strong class="cursorDefault"
+                            ng-if="f.field == 'level'">{{f.value  | decodeLevel   | translate }}</strong>
+                          <strong class="cursorDefault"
+                            ng-if="f.field == 'library'">{{f.value  | decodeBib   | translate }}</strong>
+                          <strong class="cursorDefault"
+                            ng-if="f.field == 'status_voce'">{{ 'vero' | translate }}</strong>
+                          <strong class="cursorDefault"
+                            ng-if="f.field == 'formato_elet'">{{f.value | translate }}</strong>
+                          <strong class="cursorDefault" ng-if="f.field == 'libretto'">{{f.value |translate }}</strong>
+                          <strong class="cursorDefault"
+                            ng-if="f.field == 'formato_elet_copia'">{{'vero' |translate }}</strong>
+                          <strong class="cursorDefault"
+                            ng-if="f.field == 'formato_elet_856'">{{'vero' |translate }}</strong>
+                          <strong class="cursorDefault"
+                            ng-if="f.field == 'formato_elet'">{{'vero' |translate }}</strong>
+                          <strong class="cursorDefault"
+                            ng-if="f.field == 'relator_codef'">{{ f.value | decodeRelatorCodeTerm | translate }}</strong>
+                          <strong class="cursorDefault"
+                            ng-if="f.field == 'forma' || f.field == 'formaf'">{{ f.value | decodeForma | translate }}</strong>
+                          <strong class="cursorDefault" ng-if="f.field == 'libretto'">{{f.value | translate }}</strong>
+                          <strong class="cursorDefault"
+                            ng-if="!(f.field == 'libretto' || f.field == 'relator_codef' || f.field == 'level' || f.field == 'tiporec' || f.field == 'library' || f.field == 'formato_elet' || f.field == 'formato_elet_856' || f.field == 'formato_elet_copia' || f.field == 'forma' || f.field == 'formaf')">{{f.value }}</strong>
+
+                        </span>)
+                      </span>
                     </span>)
                   </div>
                 </td>
 
-                <td class="col-sm-1 col-lg-1" ng-attr-id="{{'ricerca_n_'+$index}}" data-dismiss="modal" class="link" ng-click="riCerca(ricerca.filtro)"><b>{{ ricerca.numFound }}</b></td>
+                <td class="col-sm-1 col-lg-1" ng-attr-id="{{'ricerca_n_'+$index}}" data-dismiss="modal" class="blu-tema manina "
+                  ng-click="riCerca(ricerca.filtro)"><strong>{{ ricerca.numFound }}</strong></td>
 
 
               </tr>
@@ -173,7 +209,7 @@
   </div>
 </div>
 <!-- modale per la selezione delle faccette -->
-<div id="facetModal" style="display: none;" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+<div id="facetModal" style="display: none;" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
   aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -181,107 +217,116 @@
         <button type="button" title="{{'chiudi' | translate}}" class="close" data-dismiss="modal">&times;</button>
 
 
-        <h4><span class="glyphicon glyphicon-equalizer"></span> {{'filtri' | translate}}: {{fList.nome | translate}}</h4>
+        <h4 id="selezioneFaccettaMultipla"><span class="glyphicon glyphicon-equalizer"></span> {{'filtri' | translate}}:
+          {{fList.nome | translate}}</h4>
       </div>
       <div class="modal-body">
-          <button type="button" ng-class="[btn, {'btn-default': checkBoxModalOperator.toUpperCase() === 'AND NOT'} ,{'btn-info': checkBoxModalOperator.toUpperCase() === 'OR'}, btn-xs]"
+        <button type="button"
+          ng-class="[btn, {'btn-default': checkBoxModalOperator.toUpperCase() === 'AND NOT'} ,{'btn-info': checkBoxModalOperator.toUpperCase() === 'OR'}, btn-xs]"
           class="btn btn-xs" ng-click="toggleCheckBoxModalOperator()">{{'includi' | translate}}</button>
 
-        <button type="button" ng-class="[btn, {'btn-default': checkBoxModalOperator.toUpperCase() === 'OR'} ,{'btn-info': checkBoxModalOperator.toUpperCase() === 'AND NOT'}, btn-xs]"
+        <button type="button"
+          ng-class="[btn, {'btn-default': checkBoxModalOperator.toUpperCase() === 'OR'} ,{'btn-info': checkBoxModalOperator.toUpperCase() === 'AND NOT'}, btn-xs]"
           class="btn btn-xs" ng-click="toggleCheckBoxModalOperator()">{{'escludi' | translate}}</button>
-        <button type="button" class="btn btn-success  btn-xs pull-right" ng-click="confermaFacet()">{{'confirm' | translate}}</button>
+        <button type="button" class="btn btn-success  btn-xs pull-right"
+          ng-click="confermaFacet()">{{'confirm' | translate}}</button>
 
-        <button type="button" class="btn btn-default btn-xs pull-right" ng-click="annullaCheckBoxFacet()">{{'pulisci' | translate}}</button>
+        <button type="button" class="btn btn-default btn-xs pull-right"
+          ng-click="annullaCheckBoxFacet()">{{'pulisci' | translate}}</button>
 
       </div>
       <div class="modal-body" id="tableFacet">
-         
+
         <div class="tabella px-top-5" id="myTableFacet" style=" height: 450px;">
-           
+
           <table class="table table-hover table-striped color_w font_menu_lat">
             <tbody>
               <tr ng-repeat="fListSingle in fList.sottof">
 
                 <td class="col-sm-1">
-                  <input type="checkbox" class="myCheck" ng-model="$parent.$parent.myChecBoxeFacetList[$index]" ng-change="selectFacet($index)"
-                  />
+                  <input type="checkbox" class="myCheck" ng-model="$parent.$parent.myChecBoxeFacetList[$index]"
+                    ng-change="selectFacet($index)" />
                 </td>
                 <td ng-attr-id="{{'fListSingle_' + $index}}" class="termini">
-                    <font face="verdana" color="##5497BC" >
+                  <span class="operatoreQuery">
                     <span ng-show="fList.nome == 'level'">{{fListSingle.nome | decodeLevel | translate}}</span>
                     <span ng-show="fList.nome == 'tiporec'">{{fListSingle.nome | decodeTiporec | translate}}</span>
                     <span ng-show="fList.nome == 'paese'">{{fListSingle.nome | decodeCountry | translate}}</span>
                     <span ng-show="fList.nome == 'lingua'">{{fListSingle.nome | decodeLang | translate}}</span>
                     <span ng-show="fList.nome == 'library'">{{fListSingle.nome | decodeBib | translate}}</span>
-                    <span ng-show="fList.nome == 'relator_codef'">{{fListSingle.nome | decodeRelatorCodeTerm | translate}}</span>
-                    <span ng-show="fList.nome == 'forma' || fList.nome == 'formaf' "  >{{fListSingle.nome | decodeForma | translate}}</span>
-                    <span ng-show="fList.nome != 'level' && fList.nome != 'tiporec' &&
+                    <span
+                      ng-show="fList.nome == 'relator_codef'">{{fListSingle.nome | decodeRelatorCodeTerm | translate}}</span>
+                    <span
+                      ng-show="fList.nome == 'forma' || fList.nome == 'formaf' ">{{fListSingle.nome | decodeForma | translate}}</span>
+                    <span
+                      ng-show="fList.nome != 'level' && fList.nome != 'tiporec' &&
                         fList.nome != 'paese' &&
                         fList.nome != 'lingua'  &&
                         fList.nome != 'library' && fList.nome != 'relator_codef' && fList.nome != 'forma' && fList.nome != 'formaf'">{{fListSingle.nome}}</span>
-                      </font>
-                      <span style="padding-left: 15px;">({{fListSingle.value}})</span>
+                  </span>
+                  <span style="padding-left: 15px;">({{fListSingle.value}})</span>
                 </td>
 
               </tr>
             </tbody>
-            </table>
+          </table>
 
         </div>
       </div>
     </div>
   </div>
 </div>
-<div id="annateEFascicoliModal" style="display: none;" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
-  aria-labelledby="{{'annateEFascicoli' |translate}}" aria-hidden="true">
+<div id="annateEFascicoliModal" style="display: none;" class="modal fade bd-example-modal-lg" tabindex="-1"
+  role="dialog">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" title="{{'chiudi' | translate}}" class="close" data-dismiss="modal">&times;</button>
 
 
-        <h4><span class="glyphicon glyphicon-calendar"></span> {{'annateEFascicoli' | translate}}</h4>
+        <h4 id="annataFasc"><span class="glyphicon glyphicon-calendar"></span> {{'annateEFascicoli' | translate}}</h4>
         <h5>{{'inventario' |translate}}: {{currentKardex.inventarioCompleto}}</h5>
       </div>
       <div class="modal-body" id="tableannateEFascicoli">
         <div class="tabella" id="myannateEFascicoli" style=" height: 450px;">
-        <span ng-show="currentKardex.kardex == undefined" class="col-md-12 text-center">
-        		<h4><i>{{'nessunFascicoloDisp' | translate}}</i></h4>
-        </span>
+          <span ng-show="currentKardex.kardex == undefined" class="col-md-12 text-center">
+            <h4><em>{{'nessunFascicoloDisp' | translate}}</em></h4>
+          </span>
           <table class="table table-striped color_w font_menu_lat" ng-show="currentKardex.kardex != undefined">
             <thead>
-              <tr >
+              <tr>
                 <td>
-                  <b><b>{{'annoFasc' |translate}}</b></b>
+                  <strong>{{'annoFasc' |translate}}</strong>
                 </td>
                 <td>
-                  <b><b>  {{'volumeFasc' |translate}}</b></b>
+                  <strong> {{'volumeFasc' |translate}}</strong>
                 </td>
                 <td>
-                  <b><b>      {{'nFasc' |translate}}</b></b>
+                  <strong> {{'nFasc' |translate}}</strong>
                 </td>
                 <td>
-                  <b><b>  {{'dataConvFasc' |translate}}</b></b>
+                  <strong> {{'dataConvFasc' |translate}}</strong>
                 </td>
                 <td>
-                  <b><b>{{'tipoFasc' |translate}}</b></b>
+                  <strong>{{'tipoFasc' |translate}}</strong>
                 </td>
                 <td>
-                  <b><b>{{'descrFasc' |translate}}</b></b>
+                  <strong>{{'descrFasc' |translate}}</strong>
                 </td>
                 <td>
-                  <b><b>  {{'disponibilita' | translate}}</b></b>
+                  <strong> {{'disponibilita' | translate}}</strong>
                 </td>
               </tr>
 
             </thead>
             <tbody>
-             <!--  <tr ng-show="currentKardex.kardex == undefined">
+              <!--  <tr ng-show="currentKardex.kardex == undefined">
                 <td colspan="7">
-                  <h4><i>{{'nessunFascicoloDisp' | translate}}</i></h4>
+                  <h4><em>{{'nessunFascicoloDisp' | translate}}</em></h4>
                 </td>
               </tr> -->
-              <tr ng-repeat=" fasc in currentKardex.kardex" ng-init="fas = fasc.volume+'|'+fasc.numerazione+'|'+fasc.dataPubblicazione.year+'-'+fasc.dataPubblicazione.month+'-'+fasc.dataPubblicazione.day+'|'+ fasc.tipo">
+              <tr ng-repeat=" fasc in currentKardex.kardex"
+                ng-init="fas = fasc.volume+'|'+fasc.numerazione+'|'+fasc.dataPubblicazione.year+'-'+fasc.dataPubblicazione.month+'-'+fasc.dataPubblicazione.day+'|'+ fasc.tipo">
                 <td>
                   {{fasc.annata}}
                 </td>
@@ -303,11 +348,14 @@
 
                 <td>
 
-                  <button class="btn  btn-warning btn-xs" type="button" ng-if="$parent.currentKardex.dispInv.prenotazioni.prenotabile && currentKardex.servizi"
-                    title="{{'prenota' | translate}}" ng-click="prenota(fasc.documento.isbd, currentKardex, currentKardex.biblioteca, currentKardex.doc, currentKardex.tag950, true, fasc, fas )">
-                      {{'prenota' | translate }} </button>
-                  <button ng-if="$parent.currentKardex.dispInv.disponibile && currentKardex.servizi" type="button" class="btn btn-success btn-xs"
-                    title="{{'richiedi' | translate}}" ng-click="prenota(fasc.documento.isbd, currentKardex,currentKardex.collBind, currentKardex.biblioteca, currentKardex.doc, currentKardex.tag950, true, fasc, fas )">
+                  <button class="btn  btn-warning btn-xs" type="button"
+                    ng-if="$parent.currentKardex.dispInv.prenotazioni.prenotabile && currentKardex.servizi"
+                    title="{{'prenota' | translate}}"
+                    ng-click="prenota(fasc.documento.isbd, currentKardex, currentKardex.biblioteca, currentKardex.doc, currentKardex.tag950, true, fasc, fas )">
+                    {{'prenota' | translate }} </button>
+                  <button ng-if="$parent.currentKardex.dispInv.disponibile && currentKardex.servizi" type="button"
+                    class="btn btn-success btn-xs" title="{{'richiedi' | translate}}"
+                    ng-click="prenota(fasc.documento.isbd, currentKardex,currentKardex.collBind, currentKardex.biblioteca, currentKardex.doc, currentKardex.tag950, true, fasc, fas )">
                     {{'disponibileXRichiesta' | translate }}</button>
                 </td>
               </tr>
@@ -320,15 +368,15 @@
   </div>
 </div>
 <!-- invio email sintetica -->
-<div id="emailSinteticaModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+<div id="emailSinteticaModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" title="{{'chiudi' | translate}}" class="close" data-dismiss="modal">&times;</button>
 
-        <center>
-          <h4>{{(isBidSegnalato) ? 'segnalazione' :'mailSintetica' | translate}}</h4>
-        </center>
+
+        <h4 class="text-center" id="modaleMailTitle">{{(isBidSegnalato) ? 'segnalazione' :'mailSintetica' | translate}}
+        </h4>
 
       </div>
       <div class="modal-body align-center">
@@ -337,31 +385,34 @@
           <div ng-if="isBidSegnalato" class="form-group px-bottom-6">
             <label class="col-md-4 myControl-label" for="mailCont">{{'cont_mail' | translate}}</label>
             <div class="col-md-12">
-              <input type="text" id="mailCont" name="textinput" ng-init="" ng-model="$parent.$parent.mailCont" ng-attr-placeholder="{{'cont_mail' | translate}}"
-                class="form-control input-md">
+              <input type="text" id="mailCont" name="textinput" ng-init="" ng-model="$parent.$parent.mailCont"
+                ng-attr-placeholder="{{'cont_mail' | translate}}" class="form-control input-md">
             </div>
           </div>
           <!-- Text input-->
           <div ng-if="isBidSegnalato" class="form-group px-bottom-6">
             <label class="col-md-4 myControl-label" for="mailNome">{{'cont_nome' | translate}}</label>
             <div class="col-md-12">
-              <input type="text" id="mailNome" name="textinput" ng-init="$parent.$parent.mailNome = ''" ng-model="$parent.$parent.mailNome"
-                ng-attr-placeholder="{{'cont_nome' | translate}}" class="form-control input-md">
+              <input type="text" id="mailNome" name="textinput" ng-init="$parent.$parent.mailNome = ''"
+                ng-model="$parent.$parent.mailNome" ng-attr-placeholder="{{'cont_nome' | translate}}"
+                class="form-control input-md">
             </div>
           </div>
           <!-- Text input-->
           <div ng-if="isBidSegnalato" class="form-group px-bottom-6">
             <label class="col-md-4 myControl-label" for="mailCogn">{{'cont_cognome' | translate}}</label>
             <div class="col-md-12">
-              <input type="text" id="mailCogn" name="textinput" ng-init="$parent.$parent.mailCogn = ''" ng-model="$parent.$parent.mailCogn"
-                ng-attr-placeholder="{{'cont_cognome' | translate}}" class="form-control input-md">
+              <input type="text" id="mailCogn" name="textinput" ng-init="$parent.$parent.mailCogn = ''"
+                ng-model="$parent.$parent.mailCogn" ng-attr-placeholder="{{'cont_cognome' | translate}}"
+                class="form-control input-md">
             </div>
           </div>
           <!-- Text input-->
           <div class="form-group px-bottom-6">
             <label class="col-md-4 myControl-label" for="sinteticaMail">{{'email' | translate}}</label>
             <div class="col-md-12">
-              <input type="text" ng-disabled="isBidSegnalato" id="sinteticaMail" name="textinput" ng-model="$parent.sinteticaMail" ng-attr-placeholder="{{'email' | translate}}"
+              <input type="text" ng-disabled="isBidSegnalato" id="sinteticaMail" name="textinput"
+                ng-model="$parent.sinteticaMail" ng-attr-placeholder="{{'email' | translate}}"
                 class="form-control input-md">
             </div>
           </div>
@@ -369,56 +420,63 @@
           <div ng-if="isBidSegnalato" class="form-group px-bottom-6">
             <label class="col-md-4 myControl-label" for="segnalatoBid">{{'oggetto' | translate}}</label>
             <div class="col-md-12">
-              <input type="text" id="segnalatoBid" name="textinput" type="text" ng-model="segnalatoBid" ng-attr-placeholder="{{'oggetto' | translate}}"
-                class="form-control input-md">
+              <input type="text" id="segnalatoBid" name="textinput" type="text" ng-model="segnalatoBid"
+                ng-attr-placeholder="{{'oggetto' | translate}}" class="form-control input-md">
             </div>
           </div>
 
 
           <!-- Textarea -->
 
-         
+
           <div class="form-group px-bottom-6">
             <label class="col-md-4 myControl-label" for="mailText">{{'text' |translate}}</label>
             <div class="col-md-12">
-              <textarea class="form-control" ng-model="$parent.mailText" rows="5" id="mailText" name="textMail"></textarea>
+              <textarea class="form-control" ng-model="$parent.mailText" rows="5" id="mailText"
+                name="textMail"></textarea>
             </div>
           </div>
           <div class="form-group px-top-10">
             <div class="col-sm-12 col-lg-12 " style="text-align:center;">
-                <button type="reset" class="btn btn-xs btn-default" ng-click='resetPanelMail()' title="{{'pulisci' | translate}}">{{'pulisci' | translate}} </button>
-              <button ng-disabled="!(sinteticaMail != undefined && sinteticaMail != '') " type="submit" class="btn btn-xs btn-primary"
-                title="{{'inviaMail' | translate}}" ng-click='sendMail()'>{{'inviaMail' | translate}}</button>
-              
+              <button type="reset" class="btn btn-xs btn-default" ng-click='resetPanelMail()'
+                title="{{'pulisci' | translate}}">{{'pulisci' | translate}} </button>
+              <button ng-disabled="!(sinteticaMail != undefined && sinteticaMail != '') " type="submit"
+                class="btn btn-xs btn-primary" title="{{'inviaMail' | translate}}"
+                ng-click='sendMail()'>{{'inviaMail' | translate}}</button>
+
             </div>
           </div>
         </div>
-        <center>
-          <div id="errorAlertMail" style="display: none;" class="alert alert-danger alert-dismissible" role="alert">
-            <button type="button" title="{{'chiudi' | translate}}" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <div class="text-center">
+          <div id="errorAlertMail" style="display: none;" class="alert alert-danger alert-dismissible" role="dialog">
+            <button type="button" title="{{'chiudi' | translate}}" class="close" data-dismiss="alert"><span
+                aria-hidden="true">&times;</span></button>
             {{mailError | translate}}
           </div>
-          <div id="successAlertMail" style="display: none;" class="alert alert-success alert-dismissible" role="alert">
-            <button type="button" title="{{'chiudi' | translate}}" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <div id="successAlertMail" style="display: none;" class="alert alert-success alert-dismissible" role="dialog">
+            <button type="button" title="{{'chiudi' | translate}}" class="close" data-dismiss="alert"><span
+                aria-hidden="true">&times;</span></button>
             <strong>{{mailError | translate}}!</strong>
           </div>
-        </center>
+        </div>
       </div>
     </div>
 
   </div>
 </div>
-<div id="mapsModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+<div id="mapsModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content"  style=" min-height: 450px;">
+    <div class="modal-content" style=" min-height: 450px;">
       <div class="modal-header">
         <button type="button" title="{{'chiudi' | translate}}" class="close" data-dismiss="modal">&times;</button>
-        <h4><span class="glyphicon glyphicon-map-marker"></span> {{'tabloc_biblioteca_vicina' | translate }}</h4>
+        <h4 id="modaleMappa"><span class="glyphicon glyphicon-map-marker"></span>
+          {{'tabloc_biblioteca_vicina' | translate }}</h4>
       </div>
-      <div class="modal-body" >
+      <div class="modal-body">
         <div ng-show="showMaps" id="googleMap" style="width:100%; height:400px;"></div>
         <div ng-show="!showMaps" style="text-align: center;">
-          <h4><i>{{'modal_nomaps' | translate}}</h4></i></div>
+          <h4><em>{{'modal_nomaps' | translate}}</h4></em>
+        </div>
       </div>
     </div>
   </div>
@@ -426,17 +484,17 @@
 </div>
 
 <!-- modal conferma delete -->
-<div id="confermaModal" class="modal fade bs-example-modal-xs" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+<div id="confermaModal" class="modal fade bs-example-modal-xs" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content"  style=" min-height: 450px;">
+    <div class="modal-content" style=" min-height: 450px;">
       <div class="modal-header">
         <button type="button" title="{{'chiudi' | translate}}" class="close" data-dismiss="modal">&times;</button>
         <h4><span class="glyphicon glyphicon-remove"></span> {{'conferma' | translate }}</h4>
       </div>
-      <div class="modal-body" >
-        <center>
-            <button ng-click="BiblioController.confermaDeleteModal()" type="button" title="{{'conferma' | translate}}" class="btn btn-danger">Conferma</button>            
-        </center>
+      <div class="modal-body text-center" id="confermaDeleteBib">
+
+        <button ng-click="BiblioController.confermaDeleteModal()" type="button" title="{{'conferma' | translate}}"
+          class="btn btn-danger">Conferma</button>
       </div>
     </div>
   </div>

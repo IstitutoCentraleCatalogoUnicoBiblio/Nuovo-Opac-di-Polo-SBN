@@ -1,29 +1,32 @@
 <div class="container-fluid">
 	<div class="row content">
 		<ng-include src=" 'htmlView/templates/page/navbarView.htm' "></ng-include>
-		<div class="col-sm-12 padd_sf_home" >
-				<div  ng-if="loading" class="col-md-3 centerDivLogin">
+		<section aria-label="{{'acc_body' | translate}}" id="acc_body">
+
+			<div class="col-sm-12 padd_sf_home">
+				<div ng-if="loading" class="col-md-3 centerDivLogin">
 					<center>
 						<div class="loader"></div>
 					</center>
-					
-					
+
+
 				</div>
-			<div class="">
-				<ck-bar></ck-bar>
-				<div class="link divTable home_gest" ng-repeat="polo in poloList" emit-last-repeater-element ng-show="!polo.fl_canc" >
-					<div border=1>
-						<a ng-click="onSelectPolo(polo)">
-							
-							<p>{{polo.code +" - "+polo.name}}</p>
-						</a>
+				<div class="">
+					<ck-bar></ck-bar>
+					<div class="link divTable home_gest" ng-repeat="polo in poloList" emit-last-repeater-element
+						ng-show="!polo.fl_canc">
+						<div border=1>
+							<a ng-click="onSelectPolo(polo)">
+
+								<p>{{polo.code +" - "+polo.name}}</p>
+							</a>
+						</div>
 					</div>
+
 				</div>
-				
 			</div>
-			</div>
+		</section>
 	</div>
 </div>
 <ng-include src=" 'htmlView/templates/page/footerView.htm' "></ng-include>
 <ng-include src=" 'htmlView/templates/page/modalsView.htm' "></ng-include>
- 

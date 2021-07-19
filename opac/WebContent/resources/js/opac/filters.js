@@ -127,12 +127,14 @@ opac2.filter("unimarc", function() {
 			inp = inp.replace(/\n/g, "</br>MYBR");
 			var myString = inp
 			if (inp.indexOf("LEADER") > -1) {
-				myString = inp.replace(inp.substring(0, 6), "<b>LEADER</b>");
+				myString = inp.replace(inp.substring(0, 6), "<strong>LEADER</strong>");
 			}
 			var tags = myString.split("MYBR");
 			for (var i = 0; i < tags.length; i++) {
-				tags[i] = tags[i].replace(tags[i].substring(0, 3), "<b>"
-						+ tags[i].substring(0, 3) + "</b>");
+				if(i > 0) {
+					tags[i] = tags[i].replace(tags[i].substring(0, 3), "<strong>"
+					+ tags[i].substring(0, 3) + "</strong>");
+				}
 			}
 			myString = tags.join("");
 
@@ -266,8 +268,8 @@ opac2.filter("tipoMateriale", function() {
 			cssClass = "adjust";
 
 		}
-		return  '<center><span class="glyphicon glyphicon-' + cssClass
-		+ '" ></span></center>';
+		return  '<div class="text-center"><span class="hidden">{{"tiporec" | translate}}</span><span class="glyphicon glyphicon-' + cssClass
+		+ '" ></span></div>';
 	}
 });
 opac2.filter('capitalize', function() {

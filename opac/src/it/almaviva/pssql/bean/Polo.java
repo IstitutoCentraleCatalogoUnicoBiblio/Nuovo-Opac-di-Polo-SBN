@@ -266,7 +266,7 @@ public class Polo implements Cloneable {
 			if (!b.isDeleted())
 				biblioteche.add(b);
 		}
-		biblioteche.sort(Comparator.comparing(Biblio::getFl_canc, String.CASE_INSENSITIVE_ORDER)
+		biblioteche.sort(Comparator.comparing(Biblio::getFl_canc)
 							.thenComparing(Biblio::getName, String.CASE_INSENSITIVE_ORDER));
 		
 		return biblioteche;

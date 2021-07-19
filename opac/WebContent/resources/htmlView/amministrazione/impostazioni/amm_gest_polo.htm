@@ -1,14 +1,16 @@
 <div class="panel-group">
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h5>{{selectedActivity | translate}}</h5>
+      <h5  role="heading" aria-level="1">{{selectedActivity | translate}}</h5>
     </div>
     <div class="panel-body">
       <div ng-show="isLoading" class="col-md-3 centerDivLogin">
         <div class="form-login center">
-          <center>
-            <div class="loader"></div>
-          </center>
+          <div class="loadingio-spinner-rolling-d49g7b96z79">
+            <div class="ldio-rlwckwg1g7">
+              <div></div>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -16,28 +18,30 @@
         <!-- data aggiornamento polo .-->
         <fieldset>
           <div class="form-group">
-            <label for="user" class="col-sm-3 col-lg-3 myControl-label">{{ 'info_code_adm' | translate}}</label>
+            <label for="info_code_adm" class="col-sm-3 col-lg-3 myControl-label">{{ 'info_code_adm' | translate}}</label>
             <div class="col-md-1">
-              <input type="text" class="form-control input-sm" id="user" ng-model="appPolo.code" disabled>
+              <input type="text" class="form-control input-sm" id="info_code_adm" ng-model="appPolo.code" disabled>
             </div>
           </div>
         </fieldset>
         <fieldset>
           <div class="form-group">
-            <label for="user" class="col-sm-3 col-lg-3 myControl-label">{{ 'info_nome_adm' | translate}}</label>
+            <label for="info_nome_adm" class="col-sm-3 col-lg-3 myControl-label">{{ 'info_nome_adm' | translate}}</label>
             <div class="col-sm-3 col-lg-3">
-              <input type="text" class="form-control input-sm" id="user" ng-model="appPolo.name" disabled ><!-- ng-disabled="!edit" -->
+              <input type="text" class="form-control input-sm" id="info_nome_adm" ng-model="appPolo.name" disabled ><!-- ng-disabled="!edit" -->
             </div>
           </div>
         </fieldset>
         <fieldset>
           <div class="form-group">
-            <label for="user" class="col-sm-3 col-lg-3 myControl-label">{{ 'info_referente_adm' | translate}}</label>
+            <label for="info_nominativo_ref" class="col-sm-3 col-lg-3 myControl-label">{{ 'info_referente_adm' | translate}}</label>
             <div class="col-md-3">
-              <input type="text" title="{{'info_nominativo_ref' | translate}}"  placeholder="{{'info_nominativo_ref' | translate}}"class="form-control input-sm" id="user" ng-model="appPolo.nome_referente" ng-disabled="!edit">
+              <input type="text" title="{{'info_nominativo_ref' | translate}}"  
+              placeholder="{{'info_nominativo_ref' | translate}}"class="form-control input-sm" 
+              id="info_nominativo_ref" ng-model="appPolo.nome_referente" ng-disabled="!edit" aria-label="{{'info_nominativo_ref' | translate}}">
             </div>
             <div class="col-md-3">
-              <input type="text" title="{{'email' | translate}}"  placeholder="{{'email' | translate}}" class="form-control input-sm" id="user" ng-model="appPolo.email_referente" ng-disabled="!edit">
+              <input type="text" title="{{'email' | translate}}"  placeholder="{{'email' | translate}}" aria-label="{{'email' | translate}}" class="form-control input-sm" id="email_referente" ng-model="appPolo.email_referente" ng-disabled="!edit">
             </div>
           </div>
         </fieldset>
@@ -45,135 +49,117 @@
           <div class="form-group">
             <label for="info_num_referente_adm" class="col-sm-3 col-lg-3 myControl-label">{{ 'info_num_referente_adm' | translate}}</label>
             <div class="col-md-3">
-              <input maxlength="15" type="text" title="{{'info_num_referente_adm' | translate}}"  placeholder="{{'info_num_referente_adm' | translate}}" class="form-control input-sm" id="info_num_referente_adm" ng-model="appPolo.numero_referente" ng-disabled="!edit">
+              <input maxlength="15" type="text" title="{{'info_num_referente_adm' | translate}}" aria-label="{{'info_num_referente_adm' | translate}}" placeholder="{{'info_num_referente_adm' | translate}}" class="form-control input-sm" id="info_num_referente_adm" ng-model="appPolo.numero_referente" ng-disabled="!edit">
             </div>
           </div>
         </fieldset>
         <fieldset>
           <div class="form-group">
-            <label for="user" class="col-sm-3 col-lg-3 myControl-label">{{ 'email_segnalazione' | translate}}</label>
+            <label for="email_segnalazioni" class="col-sm-3 col-lg-3 myControl-label">{{ 'email_segnalazione' | translate}}</label>
             <div class="col-sm-3 col-lg-3">
-              <input type="text" class="form-control input-sm" id="user" ng-model="appPolo.email_segnalazioni" ng-disabled="!edit">
+              <input type="text" class="form-control input-sm" id="email_segnalazioni" ng-model="appPolo.email_segnalazioni" ng-disabled="!edit">
             </div>
           </div>
         </fieldset>
             
         <fieldset>
           <div class="form-group">
-            <label for="user" class="col-sm-3 col-lg-3 myControl-label">{{ ('authority' | translate)+ " - "+ ('autori' | translate)}}</label>
+            <label for="flag_autori" class="col-sm-3 col-lg-3 myControl-label">{{ ('authority' | translate)+ " - "+ ('autori' | translate)}}</label>
             <div class="col-md-1">
-              <input type="checkbox" id="user" ng-model="appPolo.flag_autori" ng-disabled="!edit">
+              <input type="checkbox" role="group" id="flag_autori" ng-model="appPolo.flag_autori" ng-disabled="!edit" aria-label="{{ ('authority' | translate)+ ' - '+ ('autori' | translate)}}">
             </div>
           </div>
         </fieldset>
         <fieldset>
           <div class="form-group">
-            <label for="user" class="col-sm-3 col-lg-3 myControl-label">{{ ('authority' | translate)+ " - "+ ('dwy_classificazioni' | translate )}}</label>
+            <label for="flag_classificazioni" class="col-sm-3 col-lg-3 myControl-label">{{ ('authority' | translate)+ " - "+ ('dwy_classificazioni' | translate )}}</label>
             <div class="col-md-1">
-              <input type="checkbox" id="user" ng-model="appPolo.flag_classificazioni" ng-disabled="!edit">
+              <input type="checkbox" role="group" id="flag_classificazioni" ng-model="appPolo.flag_classificazioni" ng-disabled="!edit" aria-label="{{ ('authority' | translate)+ ' - ' + ('dwy_classificazioni' | translate )}}">
             </div>
           </div>
         </fieldset>
           <fieldset>
           <div class="form-group">
-            <label for="user" class="col-sm-3 col-lg-3 myControl-label">{{ ('modulo' | translate) + ' ' + ('chiedi_al_bibliotecario'| translate)}}</label>
+            <label for="flag_chiedi" class="col-sm-3 col-lg-3 myControl-label">{{ ('modulo' | translate) + ' ' + ('chiedi_al_bibliotecario'| translate)}}</label>
            <div class="col-md-1">
-              <input type="checkbox" id="user" ng-model="appPolo.flag_chiedi" ng-disabled="!edit">
+              <input type="checkbox" role="group" id="flag_chiedi" ng-model="appPolo.flag_chiedi" ng-disabled="!edit"  aria-label="{{ ('modulo' | translate) + ' ' + ('chiedi_al_bibliotecario'| translate)}}">
             </div>
           </div>
         </fieldset>
         <fieldset>
           <div class="form-group">
-            <label for="user" class="col-sm-3 col-lg-3 myControl-label">{{ 'flag_maps' | translate}}</label>
+            <label for="flag_maps" class="col-sm-3 col-lg-3 myControl-label">{{ 'flag_maps' | translate}}</label>
             <div class="col-md-1">
-              <input type="checkbox" id="user" ng-model="appPolo.flag_maps" ng-disabled="!edit">
+              <input type="checkbox" role="group" id="flag_maps" ng-model="appPolo.flag_maps" ng-disabled="!edit"  aria-label="{{ 'flag_maps' | translate}}">
             </div>
             <div ng-show="appPolo.flag_maps" class="col-md-5">
-              <input type="text" title="{{ 'Api Key' | translate}}" placeholder="{{ 'Api Key' | translate}}" class="form-control input-sm" id="user" ng-model="appPolo.maps_api_key" ng-disabled="!edit">
+              <input type="text" title="{{ 'Api Key' | translate}}" aria-label="{{ 'Api Key' | translate}}" placeholder="{{ 'Api Key' | translate}}" class="form-control input-sm" id="maps_api_key" ng-model="appPolo.maps_api_key" ng-disabled="!edit">
             </div>
           </div>
         </fieldset>
         <fieldset>
           <div class="form-group">
-            <label for="user" class="col-sm-3 col-lg-3 myControl-label">{{ 'flag_wiki' | translate}}</label>
+            <label for="flag_wiki" class="col-sm-3 col-lg-3 myControl-label">{{ 'flag_wiki' | translate}}</label>
             <div class="col-sm-3 col-lg-3">
-              <input type="checkbox" id="user" ng-model="appPolo.flag_wiki" ng-disabled="!edit">
-            </div>
-          </div>
-        </fieldset>
-        <fieldset ng-show="false" >
-          <div class="form-group">
-            <label for="tipoImg" class="col-sm-3 col-lg-3 myControl-label">{{ 'tipo_img' | translate}}</label>
-            <div class="col-md-1">
-              <select  class="form-control input-xs" value="logo" ng-init="$parent.tipoImgUpload = 'logo'" ng-model="$parent.tipoImgUpload" ng-disabled="!edit">
-                <option value="logo">
-                  Logo
-                </option>
-                <option value="link1">
-                  Link 1
-                </option>
-              </select>
+              <input type="checkbox" role="group" id="flag_wiki" ng-model="appPolo.flag_wiki" ng-disabled="!edit" aria-label="{{ 'flag_wiki' | translate}}">
             </div>
           </div>
         </fieldset>
         <fieldset>
           <div class="form-group">
-            <label for="user" class="col-sm-3 col-lg-3 myControl-label">{{ 'flag_mlol' | translate}}</label>
+            <label for="flag_mlol" class="col-sm-3 col-lg-3 myControl-label">{{ 'flag_mlol' | translate}}</label>
             <div class="col-md-1">
-              <input type="checkbox" id="user" ng-model="appPolo.flag_mlol" ng-disabled="!edit">
+              <input type="checkbox" role="group" id="flag_mlol" ng-model="appPolo.flag_mlol" ng-disabled="!edit" aria-label="{{ 'flag_mlol' | translate}}">
             </div>
             <div class="col-md-3" ng-show="appPolo.flag_mlol">
-              <input title="{{ 'Api Key' | translate}}" placeholder="{{ 'Api Key' | translate}}" type="text" class="form-control input-sm" id="user" ng-model="appPolo.mlol_api_key" ng-disabled="!edit">              
+              <input title="{{ 'Api Key' | translate}}" aria-label="{{ 'Api Key' | translate}}" placeholder="{{ 'Api Key' | translate}}" type="text" class="form-control input-sm" id="mlol_api_key" ng-model="appPolo.mlol_api_key" ng-disabled="!edit">              
             </div>
             <div class="col-md-2" ng-show="appPolo.flag_mlol">
-              <input type="text" title="{{ 'Portal Id' | translate}}" placeholder="{{ 'Portal Id' | translate}}" class="form-control input-sm" id="user" ng-model="appPolo.mlol_portal_id" ng-disabled="!edit">              
+              <input type="text" title="{{ 'Portal Id' | translate}}"  aria-label="{{ 'Portal Id' | translate}}" placeholder="{{ 'Portal Id' | translate}}" class="form-control input-sm" id="mlol_portal_id" ng-model="appPolo.mlol_portal_id" ng-disabled="!edit">              
             </div>
           </div>
         </fieldset>
         <fieldset>
           <div class="form-group">
-            <label for="user" class="col-sm-3 col-lg-3 myControl-label">{{ 'flag_logo' | translate}}</label>
-            <div class="col-md-1">
-              <input type="checkbox" id="user" ng-model="appPolo.flag_logo" ng-disabled="!edit">
+            <label for="flag_logo" class="col-sm-3 col-lg-3 myControl-label">{{ 'flag_logo' | translate}}</label>
+            <div class="col-md-1"> 
+              <input type="checkbox" role="group" id="flag_logo" ng-model="appPolo.flag_logo" ng-disabled="!edit" aria-label="{{ 'flag_logo' | translate}}">
             </div>
             <div ng-show="appPolo.flag_logo" class="col-md-3">
               <input id="fileopen" type="file" accept="image/x-png,image/gif,image/jpeg" files-input ng-model="$parent.fileArray" ng-change="uploadFoto(fileArray)"
-                ng-disabled="!edit && appPolo.flag_logo">
-              <img class="resize_fit_center" style="margin-top: 20px;" ng-src='{{getImg()}}' id="logo_img">
+                ng-disabled="!edit && appPolo.flag_logo" aria-label="Logo">
+              <img class="resize_fit_center" style="margin-top: 20px;" ng-src='{{getImg()}}' id="logo_img" alt="Logo">
             </div>
             <div  ng-show="appPolo.flag_logo" class="col-md-3">
-                <input type="text" title="{{ 'Link logo' | translate}}" class="form-control input-sm" id="user" ng-model="appPolo.url_logo" ng-disabled="!edit">
+                <input type="text" aria-label="{{ 'Link logo' | translate}}" title="{{ 'Link logo' | translate}}" class="form-control input-sm" id="link_logo" ng-model="appPolo.url_logo" ng-disabled="!edit">
             </div>
           </div>
         </fieldset>
          <fieldset>
           <div id="error" style="display: none;" class="px-top-20 alert alert-danger alert-dismissible" role="alert">
-            <button type="button" title="{{'chiudi' | translate}}" class="close" data-dismiss="alert" aria-label="Close">
+            <button type="button" title="{{'chiudi' | translate}}" class="close" data-dismiss="alert" >
               <span aria-hidden="true">&times;</span>
             </button>
             {{ error | translate}}
           </div>
           <div id="success" style="display: none;" class="px-top-20 alert alert-success alert-dismissible" role="alert">
-            <button type="button" title="{{'chiudi' | translate}}" class="close" data-dismiss="alert" aria-label="Close">
+            <button type="button" title="{{'chiudi' | translate}}" class="close" data-dismiss="alert" >
               <span aria-hidden="true">&times;</span>
             </button>
             {{'ok_success_panel' | translate}}
           </div>
-          <div id="warn" ng-show="!validateEmails()" class="px-top-20 alert alert-warning alert-dismissible" role="alert">
-              <button type="button" title="{{'chiudi' | translate}}" class="close" data-dismiss="alert" aria-label="Close">
+          <div id="warn" ng-show="!validateEmails()" class="px-top-20 alert alert-warning alert-dismissible text-center" role="alert">
+              <button type="button" title="{{'chiudi' | translate}}" class="close" data-dismiss="alert">
                 <span aria-hidden="true">&times;</span>
               </button>
-              <center>
                 {{'formato_mail_non_corretto' | translate}}
-              </center>
-             
+         
             </div>
         </fieldset>
       </form>
 
     </div>
-    <div ng-show="!isLoading" class="panel-footer">
-      <center>
+    <div ng-show="!isLoading" class="panel-footer text-center">
         <button title="{{'tooltip_modifica_action' | translate}}" ng-show="!edit" class="btn btn-md btn-warning" ng-click="startEdit()">
           {{'amm_modifica' | translate}}
 
@@ -191,7 +177,6 @@
           {{'amm_conferma' | translate}}
 
         </button>
-      </center>
     </div>
   </div>
 

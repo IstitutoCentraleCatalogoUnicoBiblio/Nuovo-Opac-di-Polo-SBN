@@ -7,22 +7,22 @@ function findIndex(arrayObj, key, value) {
   }
   return idx;
 }
-function stringIsFilled(text) {return !(text == undefined || text == null || text == ''); }
+function stringIsFilled(text) { return !(text == undefined || text == null || text == ''); }
 
 var re = /\S+@\S+\.\S+/;
 function validateEmail(email) {
   return re.test(email);
 }
 var removeItemsInArray = function (array, itemsToRemove) {
-    var toRemove = itemsToRemove;
-    toRemove.forEach(function(item) {
+  var toRemove = itemsToRemove;
+  toRemove.forEach(function (item) {
     var index = array.indexOf(item);
-      if (index > -1) {
-        array.splice(index, 1);
-      }
-    }) 
-    return array;
-  };
+    if (index > -1) {
+      array.splice(index, 1);
+    }
+  })
+  return array;
+};
 function findIndexInValue(arrayObj, key, value) {
   var idx = false;
   for (var i = 0; i < arrayObj.length; i++) {
@@ -86,11 +86,11 @@ function filterPrototype(value, field, match, operator, otherFiltersGroup) {
 }
 
 function myUrl() {
-  return "api/"; 
+  return "api/";
 }
 
 function prettyLog(text, obj) {
-	return;
+  return;
 }
 function isEnterPressed(keyEvent) {
   return ((window.event ? keyEvent.keyCode : keyEvent.which) == 13);
@@ -136,9 +136,9 @@ function getRicercheEff() {
   return _ricercheEffettuate;
 }
 function myMap() {
- // console.log("Map should work")
+  // console.log("Map should work")
 }
-function getBrowser (){
+function getBrowser() {
   return {
     isAndroid: /Android/.test(navigator.userAgent),
     isCordova: !!window.cordova,
@@ -157,17 +157,21 @@ function getBrowser (){
 
 }
 function cleanNoSort(txt) {
-		txt = txt.replace(/>>/g, "");
-		txt = txt.replace(/<</g, "");
-		txt = txt.replace(/\u0088/g, "");
-		txt = txt.replace(/\u0089/g, "");
-		txt = encodeURIComponent(txt); // %C2%98 %C2%9C
-		txt = txt.replace(/%C2%98/g, "");
-		txt = txt.replace(/%C2%9C/g, "");
-		txt = txt.replace(/%1BH/g, "");
-		txt = txt.replace(/%1BI/g, "");
-		txt = decodeURIComponent(txt);
-	return txt;
+  txt = txt.replace(/>>/g, "");
+  txt = txt.replace(/<</g, "");
+  txt = txt.replace(/\u0088/g, "");
+  txt = txt.replace(/\u0089/g, "");
+  txt = encodeURIComponent(txt); // %C2%98 %C2%9C
+  txt = txt.replace(/%C2%98/g, "");
+  txt = txt.replace(/%C2%9C/g, "");
+  txt = txt.replace(/%1BH/g, "");
+  txt = txt.replace(/%1BI/g, "");
+  txt = decodeURIComponent(txt);
+  return txt;
 }
-
+function updateTitle(newText) {
+  let pieces = document.title.split(" - ");
+  let newTitle = pieces[0] + " - " + pieces[1] + " - " + newText;
+  document.title = newTitle
+}
 

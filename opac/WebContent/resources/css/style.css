@@ -500,7 +500,7 @@ div.rigaAuth {
   font-weight: bold;
 }
 
-.boxOC strongs {
+.boxOC strong {
   background-image: url("../images/icoM1.png");
   background-position: center center;
   background-repeat: no-repeat;
@@ -515,16 +515,16 @@ div.rigaAuth {
   border: 2px solid #023167;
 }
 
-.boxOC strongs.P {
+.boxOC strong.P {
   background-image: url("../images/icoP1.png");
 }
 
-.boxOC:hover strongs {
+.boxOC:hover strong {
   background-color: #023167;
   background-image: url("../images/icoM.png");
 }
 
-.boxOC:hover strongs.P {
+.boxOC:hover strong.P {
   background-image: url("../images/icoP.png")
 }
 
@@ -695,8 +695,7 @@ footer p {
 }
 
 .marg_B {
-  margin-bottom: 6px;
-  !important;
+  margin-bottom: 6px  !important;
 }
 
 .box_filtro {

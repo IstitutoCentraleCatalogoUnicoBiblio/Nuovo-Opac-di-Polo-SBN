@@ -30,6 +30,7 @@ import it.almaviva.sbnweb.util.IncipitBean;
 import it.almaviva.sbnweb.util.Util;
 import it.iccu.sbn.opac2.mlol.integration.client.marc.Tag950Parser;
 import it.iccu.sbn.opac2.mlol.integration.client.marc.Tag950Parser.Tag950;
+import it.iccu.sbn.opac2.mlol.integration.client.util.Utils;
 import it.inera.opacsbn.solrmarc.OpacSbnIndexer;
 
 public class SbnwebIndexer extends OpacSbnIndexer {
@@ -90,215 +91,209 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 				// "SGFabc0000120905DDVMBBRRllllllllllllllllllllYYYYYYYYYY";
 
 				switch (code) {
-				case 'a':
+					case 'a':
 
-					// logger.info("\t"+ code + "\t" + a +") '" + data+"'
-					// lunghezza: " + data.length());
-					break;
-				case 'b':
+						// logger.info("\t"+ code + "\t" + a +") '" + data+"'
+						// lunghezza: " + data.length());
+						break;
+					case 'b':
 
-					// logger.info("\t"+ code + "\t" + b +") '" + data+"'
-					// lunghezza: " + data.length());
-					break;
-				case 'c':
+						// logger.info("\t"+ code + "\t" + b +") '" + data+"'
+						// lunghezza: " + data.length());
+						break;
+					case 'c':
 
-					// logger.info("\t"+ code + "\t" + c +") '" + data+"'
-					// lunghezza: " + data.length());
-					break;
-				case 'd':
+						// logger.info("\t"+ code + "\t" + c +") '" + data+"'
+						// lunghezza: " + data.length());
+						break;
+					case 'd':
 
-					// logger.info("\t"+ code + "\t" + d +") '" + data+"'
-					// lunghezza: " + data.length());
-					// campi posizionali
-					String cd_bib = null;
-					cd_bib = data.substring(0, 3);
-					String cd_sez = null;
-					String cd_loc = null;
-					String spec_loc = null;
-					if (data.length() > 37) {
-						spec_loc = data.substring(38);
-						cd_loc = data.substring(14, 37);
-						cd_sez = data.substring(4, 13);
+						// logger.info("\t"+ code + "\t" + d +") '" + data+"'
+						// lunghezza: " + data.length());
+						// campi posizionali
+						String cd_bib = null;
+						cd_bib = data.substring(0, 3);
+						String cd_sez = null;
+						String cd_loc = null;
+						String spec_loc = null;
+						if (data.length() > 37) {
+							spec_loc = data.substring(38);
+							cd_loc = data.substring(14, 37);
+							cd_sez = data.substring(4, 13);
 
-					} else if (data.length() > 13) {
-						cd_loc = data.substring(14);
-						cd_sez = data.substring(4, 13);
+						} else if (data.length() > 13) {
+							cd_loc = data.substring(14);
+							cd_sez = data.substring(4, 13);
 
-					} else {
-						cd_sez = data.substring(4);
-					}
-					// pulizia da spazi inutili
-					spec_loc = Util.cleanStr(spec_loc);
-					cd_loc = Util.cleanStr(cd_loc);
-					cd_sez = Util.cleanStr(cd_sez);
-					cd_bib = Util.cleanStr(cd_bib);
-					/*
-					 * logger.info("\n cd_bib:" + cd_bib+ "\n cd_sez: " + cd_sez
-					 * + "\n cd_loc:" + cd_loc+ "\n cd_sez:"+cd_sez+
-					 * "\n spec_loc:"+spec_loc);
-					 */
-					break;
-				case 'e':
+						} else {
+							cd_sez = data.substring(4);
+						}
+						// pulizia da spazi inutili
+						spec_loc = Util.cleanStr(spec_loc);
+						cd_loc = Util.cleanStr(cd_loc);
+						cd_sez = Util.cleanStr(cd_sez);
+						cd_bib = Util.cleanStr(cd_bib);
+						/*
+						 * logger.info("\n cd_bib:" + cd_bib+ "\n cd_sez: " + cd_sez + "\n cd_loc:" +
+						 * cd_loc+ "\n cd_sez:"+cd_sez+ "\n spec_loc:"+spec_loc);
+						 */
+						break;
+					case 'e':
 
-					String cd_biblioteca = null;
-					cd_biblioteca = data.substring(0, 3);
-					cd_biblioteca = cd_biblioteca.replace(" ", "");
-					String cd_serie = null;
-					String cd_inv = null;
-					String cd_sit = null;
-					String cod_no_disp = null;
-					String cd_mat_inv = null;
-					String stato_con = null;
-					String cd_riproducibilita = null;
-					String seq_coll = null;
-					String precis_inv = null;
-					// logger.info("\t"+ code + "\t" + d +") '" + data+"'
-					// lunghezza: " + data.length());
+						String cd_biblioteca = null;
+						cd_biblioteca = data.substring(0, 3);
+						cd_biblioteca = cd_biblioteca.replace(" ", "");
+						String cd_serie = null;
+						String cd_inv = null;
+						String cd_sit = null;
+						String cod_no_disp = null;
+						String cd_mat_inv = null;
+						String stato_con = null;
+						String cd_riproducibilita = null;
+						String seq_coll = null;
+						String precis_inv = null;
+						// logger.info("\t"+ code + "\t" + d +") '" + data+"'
+						// lunghezza: " + data.length());
 
-					if (data.length() > 44) {
-						precis_inv = data.substring(44);// OK
-						seq_coll = data.substring(24, 44);// OK
-						cd_riproducibilita = data.substring(22, 24);// OK
-						stato_con = data.substring(20, 22);// OK
-						cd_mat_inv = data.substring(18, 20); // OK
-						cod_no_disp = data.substring(16, 18);// OK
-						cd_sit = data.substring(15, 16);// OK
-						cd_inv = data.substring(6, 15);// OK
-						cd_serie = data.substring(3, 6);// OK
+						if (data.length() > 44) {
+							precis_inv = data.substring(44);// OK
+							seq_coll = data.substring(24, 44);// OK
+							cd_riproducibilita = data.substring(22, 24);// OK
+							stato_con = data.substring(20, 22);// OK
+							cd_mat_inv = data.substring(18, 20); // OK
+							cod_no_disp = data.substring(16, 18);// OK
+							cd_sit = data.substring(15, 16);// OK
+							cd_inv = data.substring(6, 15);// OK
+							cd_serie = data.substring(3, 6);// OK
 
-					} else if (data.length() > 25) {
-						seq_coll = data.substring(24);// OK
-						cd_riproducibilita = data.substring(22, 24);// OK
-						stato_con = data.substring(20, 22);// OK
-						cd_mat_inv = data.substring(18, 20); // OK
-						cod_no_disp = data.substring(16, 18);// OK
-						cd_sit = data.substring(15, 16);// OK
-						cd_inv = data.substring(6, 15);// OK
-						cd_serie = data.substring(3, 6);// OK
+						} else if (data.length() > 25) {
+							seq_coll = data.substring(24);// OK
+							cd_riproducibilita = data.substring(22, 24);// OK
+							stato_con = data.substring(20, 22);// OK
+							cd_mat_inv = data.substring(18, 20); // OK
+							cod_no_disp = data.substring(16, 18);// OK
+							cd_sit = data.substring(15, 16);// OK
+							cd_inv = data.substring(6, 15);// OK
+							cd_serie = data.substring(3, 6);// OK
 
-					} else if (data.length() > 23) {
-						cd_riproducibilita = data.substring(22);// OK
-						stato_con = data.substring(20, 22);// OK
-						cd_mat_inv = data.substring(18, 20); // OK
-						cod_no_disp = data.substring(16, 18);// OK
-						cd_sit = data.substring(15, 16);// OK
-						cd_inv = data.substring(6, 15);// OK
-						cd_serie = data.substring(3, 6);// OK
+						} else if (data.length() > 23) {
+							cd_riproducibilita = data.substring(22);// OK
+							stato_con = data.substring(20, 22);// OK
+							cd_mat_inv = data.substring(18, 20); // OK
+							cod_no_disp = data.substring(16, 18);// OK
+							cd_sit = data.substring(15, 16);// OK
+							cd_inv = data.substring(6, 15);// OK
+							cd_serie = data.substring(3, 6);// OK
 
-					} else if (data.length() > 21) {
-						stato_con = data.substring(20);// OK
-						cd_mat_inv = data.substring(18, 20); // OK
-						cod_no_disp = data.substring(16, 18);// OK
-						cd_sit = data.substring(15, 16);// OK
-						cd_inv = data.substring(6, 15);// OK
-						cd_serie = data.substring(3, 6);// OK
+						} else if (data.length() > 21) {
+							stato_con = data.substring(20);// OK
+							cd_mat_inv = data.substring(18, 20); // OK
+							cod_no_disp = data.substring(16, 18);// OK
+							cd_sit = data.substring(15, 16);// OK
+							cd_inv = data.substring(6, 15);// OK
+							cd_serie = data.substring(3, 6);// OK
 
-					} else if (data.length() > 19) {
-						cd_mat_inv = data.substring(18); // OK
-						cod_no_disp = data.substring(16, 18);// OK
-						cd_sit = data.substring(15, 16);// OK
-						cd_inv = data.substring(6, 15);// OK
-						cd_serie = data.substring(3, 6);// OK
+						} else if (data.length() > 19) {
+							cd_mat_inv = data.substring(18); // OK
+							cod_no_disp = data.substring(16, 18);// OK
+							cd_sit = data.substring(15, 16);// OK
+							cd_inv = data.substring(6, 15);// OK
+							cd_serie = data.substring(3, 6);// OK
 
-					} else if (data.length() > 16) {
-						cod_no_disp = data.substring(16);// OK
-						cd_sit = data.substring(15, 16);// OK
-						cd_inv = data.substring(6, 15);// OK
-						cd_serie = data.substring(3, 6);// OK
+						} else if (data.length() > 16) {
+							cod_no_disp = data.substring(16);// OK
+							cd_sit = data.substring(15, 16);// OK
+							cd_inv = data.substring(6, 15);// OK
+							cd_serie = data.substring(3, 6);// OK
 
-					} else if (data.length() > 15) {
-						cd_sit = data.substring(15);// OK
-						cd_inv = data.substring(6, 15);// OK
-						cd_serie = data.substring(3, 6);// OK ;
+						} else if (data.length() > 15) {
+							cd_sit = data.substring(15);// OK
+							cd_inv = data.substring(6, 15);// OK
+							cd_serie = data.substring(3, 6);// OK ;
 
-					} else if (data.length() > 14) {
-						cd_inv = data.substring(14);// OK
-						cd_serie = data.substring(3, 6);// OK ;
-					} else {
-						cd_serie = data.substring(3);// OK ;
-					}
-					precis_inv = Util.cleanStr(precis_inv);
-					seq_coll = Util.cleanStr(seq_coll);
-					cd_riproducibilita = Util.cleanStr(cd_riproducibilita);
-					stato_con = Util.cleanStr(stato_con);
-					cd_mat_inv = Util.cleanStr(cd_mat_inv);
-					cod_no_disp = Util.cleanStr(cod_no_disp);
-					cd_sit = Util.cleanStr(cd_sit);
-					cd_inv = Util.cleanStr(cd_inv);
-					cd_serie = Util.cleanStr(cd_serie);
+						} else if (data.length() > 14) {
+							cd_inv = data.substring(14);// OK
+							cd_serie = data.substring(3, 6);// OK ;
+						} else {
+							cd_serie = data.substring(3);// OK ;
+						}
+						precis_inv = Util.cleanStr(precis_inv);
+						seq_coll = Util.cleanStr(seq_coll);
+						cd_riproducibilita = Util.cleanStr(cd_riproducibilita);
+						stato_con = Util.cleanStr(stato_con);
+						cd_mat_inv = Util.cleanStr(cd_mat_inv);
+						cod_no_disp = Util.cleanStr(cod_no_disp);
+						cd_sit = Util.cleanStr(cd_sit);
+						cd_inv = Util.cleanStr(cd_inv);
+						cd_serie = Util.cleanStr(cd_serie);
 
-					dollE.put("cd_biblioteca", new String(cd_biblioteca));
-					dollE.put("cd_serie", cd_serie);
-					dollE.put("cd_inv", cd_inv);
-					dollE.put("cd_sit", cd_sit);
-					dollE.put("cod_no_disp", cod_no_disp);
-					dollE.put("cd_mat_inv", cd_mat_inv);
-					dollE.put("stato_con", stato_con);
-					dollE.put("cd_riproducibilita", cd_riproducibilita);
-					dollE.put("seq_coll", seq_coll);
-					dollE.put("precis_inv", precis_inv);
-					listaMapE.put("dollE", dollE);
-					listaDiE.add(listaMapE);
-					/*
-					 * //logger.info("'" + stato_con + "' lunghezza: " +
-					 * stato_con.length()); String allData = "cd_biblioteca:" +
-					 * cd_biblioteca+ " | cd_serie: " + cd_serie + " | cd_inv:"
-					 * + cd_inv+ " | cd_sit:"+cd_sit+
-					 * " | cod_no_disp:"+cod_no_disp+
-					 * " | cd_mat_inv:"+cd_mat_inv+ " | stato_con:"+stato_con+
-					 * " | cd_riproducibilita:"+cd_riproducibilita+
-					 * " | seq_coll:"+seq_coll+ " | precis_inv:" +precis_inv;
-					 * logger.info(allData);
-					 * 
-					 * logger.info("\n cd_bibl:'" + cd_biblioteca+ "'\n Serie: "
-					 * + cd_serie + "'\n Inv:'" + cd_inv+ "'\n Sit:'"+cd_sit+
-					 * "'\n Nodisp:'"+cod_no_disp+ "'\n mat_inv:'"+cd_mat_inv+
-					 * "'\n statcon:'"+stato_con+
-					 * "'\n riprod:'"+cd_riproducibilita+
-					 * "'\n seq_coll:'"+seq_coll+ "'\n precis_inv:'"
-					 * +precis_inv);
-					 */
+						dollE.put("cd_biblioteca", new String(cd_biblioteca));
+						dollE.put("cd_serie", cd_serie);
+						dollE.put("cd_inv", cd_inv);
+						dollE.put("cd_sit", cd_sit);
+						dollE.put("cod_no_disp", cod_no_disp);
+						dollE.put("cd_mat_inv", cd_mat_inv);
+						dollE.put("stato_con", stato_con);
+						dollE.put("cd_riproducibilita", cd_riproducibilita);
+						dollE.put("seq_coll", seq_coll);
+						dollE.put("precis_inv", precis_inv);
+						listaMapE.put("dollE", dollE);
+						listaDiE.add(listaMapE);
+						/*
+						 * //logger.info("'" + stato_con + "' lunghezza: " + stato_con.length()); String
+						 * allData = "cd_biblioteca:" + cd_biblioteca+ " | cd_serie: " + cd_serie +
+						 * " | cd_inv:" + cd_inv+ " | cd_sit:"+cd_sit+ " | cod_no_disp:"+cod_no_disp+
+						 * " | cd_mat_inv:"+cd_mat_inv+ " | stato_con:"+stato_con+
+						 * " | cd_riproducibilita:"+cd_riproducibilita+ " | seq_coll:"+seq_coll+
+						 * " | precis_inv:" +precis_inv; logger.info(allData);
+						 * 
+						 * logger.info("\n cd_bibl:'" + cd_biblioteca+ "'\n Serie: " + cd_serie +
+						 * "'\n Inv:'" + cd_inv+ "'\n Sit:'"+cd_sit+ "'\n Nodisp:'"+cod_no_disp+
+						 * "'\n mat_inv:'"+cd_mat_inv+ "'\n statcon:'"+stato_con+
+						 * "'\n riprod:'"+cd_riproducibilita+ "'\n seq_coll:'"+seq_coll+
+						 * "'\n precis_inv:'" +precis_inv);
+						 */
 
-					break;
-				case 'f':
+						break;
+					case 'f':
 
-					// logger.info("\t"+ code + "\t" + f +") '" + data+"'
-					// lunghezza: " + data.length());
-					break;
-				case 'h':
+						// logger.info("\t"+ code + "\t" + f +") '" + data+"'
+						// lunghezza: " + data.length());
+						break;
+					case 'h':
 
-					// logger.info("\t"+ code + "\t" + h +") '" + data+"'
-					// lunghezza: " + data.length());
-					break;
-				case 'i':
-					// AL MOMENTO CI SERVE SOLO QUESTA!!
-					// String d = data;
-					SimpleDateFormat prePars = new SimpleDateFormat("yyyyMMdd");
-					// SimpleDateFormat postPars = new
-					// SimpleDateFormat("dd-MM-YYYY");
-					Date convertedCurrentDate = prePars.parse(data);
-					try {
-						String d = prePars.format(convertedCurrentDate);
-						// logger.info(dollI);
-						dollI.add(d);
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						logger.info(e);
-						e.printStackTrace();
-					}
-					// logger.info("\t"+ code + "\t" + i +") '" + data+"'
-					// lunghezza: " + data.length());
-					break;
-				case 'l':
+						// logger.info("\t"+ code + "\t" + h +") '" + data+"'
+						// lunghezza: " + data.length());
+						break;
+					case 'i':
+						// AL MOMENTO CI SERVE SOLO QUESTA!!
+						// String d = data;
+						SimpleDateFormat prePars = new SimpleDateFormat("yyyyMMdd");
+						// SimpleDateFormat postPars = new
+						// SimpleDateFormat("dd-MM-YYYY");
+						Date convertedCurrentDate = prePars.parse(data);
+						try {
+							String d = prePars.format(convertedCurrentDate);
+							// logger.info(dollI);
+							dollI.add(d);
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							logger.info(e);
+							e.printStackTrace();
+						}
+						// logger.info("\t"+ code + "\t" + i +") '" + data+"'
+						// lunghezza: " + data.length());
+						break;
+					case 'l':
 
-					// logger.info("\t"+ code + "\t" + l +") '" + data+"'
-					// lunghezza: " + data.length());
-					break;
-				case 'm':
-					break;
-				default:
-					logger.info("Record " + record.getVariableField("001").toString()
-							+ ": Ho trovato qualcosa che non conosco: " + code);
+						// logger.info("\t"+ code + "\t" + l +") '" + data+"'
+						// lunghezza: " + data.length());
+						break;
+					case 'm':
+						break;
+					default:
+						logger.info("Record " + record.getVariableField("001").toString()
+								+ ": Ho trovato qualcosa che non conosco: " + code);
 				}
 				// logger.info("Subfield code: " + code + " Data element: " +
 				// data);
@@ -354,8 +349,8 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 			}
 			return codBib;
 			/*
-			 * System.out.print("{"); for(String t: codBib) {
-			 * System.out.print(t+","); } logger.info("}");
+			 * System.out.print("{"); for(String t: codBib) { System.out.print(t+","); }
+			 * logger.info("}");
 			 */
 		} catch (Exception e) {
 			// logger.info("Non presente");
@@ -384,25 +379,25 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 				char code = subfield.getCode();
 
 				switch (code) {
-				case 'a':
-					if (buffer.length() > 0)
-						buffer.append(" ; ");
-					buffer.append(cleanPretitolo(subfield.getData()));
-					break;
-				case 'c':
-					if (buffer.length() > 0)
-						buffer.append(" . ");
-					buffer.append(subfield.getData());
-					break;
-				case 'e':
-					buffer.append(" : ").append(subfield.getData());
-					break;
-				case 'f':
-					buffer.append(" / ").append(subfield.getData());
-					break;
-				case 'g':
-					buffer.append(" ; ").append(subfield.getData());
-					break;
+					case 'a':
+						if (buffer.length() > 0)
+							buffer.append(" ; ");
+						buffer.append(cleanPretitolo(subfield.getData()));
+						break;
+					case 'c':
+						if (buffer.length() > 0)
+							buffer.append(" . ");
+						buffer.append(subfield.getData());
+						break;
+					case 'e':
+						buffer.append(" : ").append(subfield.getData());
+						break;
+					case 'f':
+						buffer.append(" / ").append(subfield.getData());
+						break;
+					case 'g':
+						buffer.append(" ; ").append(subfield.getData());
+						break;
 				}
 
 			}
@@ -423,39 +418,39 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 			List<Subfield> subfields = marcField.getSubfields();
 			for (Subfield subfield : subfields) {
 				switch (subfield.getCode()) {
-				case 'n':
-					incipit926.setAlterazioni(subfield.getData());
-					break;
-				case 'm':
-					incipit926.setChiave(subfield.getData());
-					break;
-				case 'o':
-					incipit926.setMisura(subfield.getData());
-					break;
-				case 'c':
-					incipit926.setIncipit(subfield.getData());
-					break;
-				case 'p':
-					incipit926.setIndMovimento(subfield.getData());
-					break;
-				case 'i':
-					incipit926.setForma(subfield.getData());
-					break;
-				case 'l':
-					incipit926.setTonalita(subfield.getData());
-					break;
-				case 'h':
-					incipit926.setStrumento(subfield.getData());
-					break;
-				case 'f':
-					incipit926.setF(subfield.getData());
-					break;
-				case 'g':
-					incipit926.setG(subfield.getData());
-					break;
-				case 's':
-					incipit926.setTestuale(subfield.getData());
-					break;
+					case 'n':
+						incipit926.setAlterazioni(subfield.getData());
+						break;
+					case 'm':
+						incipit926.setChiave(subfield.getData());
+						break;
+					case 'o':
+						incipit926.setMisura(subfield.getData());
+						break;
+					case 'c':
+						incipit926.setIncipit(subfield.getData());
+						break;
+					case 'p':
+						incipit926.setIndMovimento(subfield.getData());
+						break;
+					case 'i':
+						incipit926.setForma(subfield.getData());
+						break;
+					case 'l':
+						incipit926.setTonalita(subfield.getData());
+						break;
+					case 'h':
+						incipit926.setStrumento(subfield.getData());
+						break;
+					case 'f':
+						incipit926.setF(subfield.getData());
+						break;
+					case 'g':
+						incipit926.setG(subfield.getData());
+						break;
+					case 's':
+						incipit926.setTestuale(subfield.getData());
+						break;
 				}
 			}
 			incipit926.setMovimento(null);
@@ -466,8 +461,8 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 	}
 
 	/**
-	 * Nuova versione indicizzazione Classificazione Dewey per dewey_tot,
-	 * dewey_totf sintassi: 676a:676v:6769, "codice|ed.$v - $9"
+	 * Nuova versione indicizzazione Classificazione Dewey per dewey_tot, dewey_totf
+	 * sintassi: 676a:676v:6769, "codice|ed.$v - $9"
 	 */
 	public static Set<String> getDewey_tot(final Record record) {
 		Set<String> result = new LinkedHashSet<String>();
@@ -526,10 +521,9 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 			DataField dataField = (DataField) iterator.next();
 			List<Subfield> subfields = null;
 			/*
-			 * subfields = dataField.getSubfields('a'); for (Iterator<Subfield>
-			 * iterator2 = subfields.iterator(); iterator2.hasNext();) {
-			 * Subfield subfield = (Subfield) iterator2.next(); //
-			 * codice.add(subfield.getData());
+			 * subfields = dataField.getSubfields('a'); for (Iterator<Subfield> iterator2 =
+			 * subfields.iterator(); iterator2.hasNext();) { Subfield subfield = (Subfield)
+			 * iterator2.next(); // codice.add(subfield.getData());
 			 * foundDatas.append(subfield.getData().trim()); }
 			 */
 			subfields = dataField.getSubfields('c');
@@ -561,27 +555,74 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 
 		return result;
 	}
-
 	public Set<String> getClassi686Tot(final Record record) {
-
 		Set<String> result = new LinkedHashSet<String>();
-
-		StringBuilder foundDatas = new StringBuilder(30);
-
 		// prendo tutti i $c, $a e $2 della 686
 		List<VariableField> u686s = record.getVariableFields("686");
 		for (VariableField v686 : u686s) {
 			DataField u686 = (DataField) v686;
 			for (Subfield sub : u686.getSubfields()) {
 				switch (sub.getCode()) {
-				case 'c':
-					result.add(sub.getData());
-					break;
-
+					case 'c':
+						result.add(sub.getData());
+						break;
+	
 				}
 			}
 		}
+		return result;
+	}
+	/**
+	 * Ritorna tutte le altre classificazioni dewey 
+	 * @param record
+	 * @param toExclude Sistema di classificazione da escludere, se non impostato default PGI
+	 * @return Set<String>
+	 */
+	public Set<String> getAltreClassi686Tot(final Record record, String toExclude) {
+		//Default esclude le PGI
+		if(!Utils.isFilled(toExclude))
+			toExclude = "";
+		Set<String> result = new LinkedHashSet<String>();
 
+		// prendo tutti i $c, $a e $2 della 686
+		List<VariableField> u686s = record.getVariableFields("686");
+		for (VariableField v686 : u686s) {
+			DataField u686 = (DataField) v686;
+			List<Subfield> subfields = null;
+
+			StringBuilder sb = new StringBuilder();
+			// $2 | $a | $c // sistema | valore | descrizione valore
+			// Trovo la $2, una sola -> non ripetibile
+			subfields = u686.getSubfields('2');
+			// Controllo che non sia presente la classe da escludere
+			Boolean isToExclude = false;
+			for (Subfield sub : subfields) {
+				isToExclude = toExclude.equals(sub.getData());
+			}
+			if (isToExclude)
+				continue;
+			// Trovo la $2, una sola -> non ripetibile
+			for (Iterator<Subfield> iterator2 = subfields.iterator(); iterator2.hasNext();) {
+				Subfield subfield = (Subfield) iterator2.next();
+				sb.append(subfield.getData().trim());
+			}
+			sb.append("|");
+			//Trovo la $a, una sola -> non ripetibile
+			subfields = u686.getSubfields('a');
+			for (Iterator<Subfield> iterator2 = subfields.iterator(); iterator2.hasNext();) {
+				Subfield subfield = (Subfield) iterator2.next();
+				sb.append(subfield.getData().trim());
+			}
+			sb.append("|");
+			//Trovo la $c, una sola -> non ripetibile
+			subfields = u686.getSubfields('c');
+			for (Iterator<Subfield> iterator2 = subfields.iterator(); iterator2.hasNext();) {
+				Subfield subfield = (Subfield) iterator2.next();
+				sb.append(subfield.getData().trim());
+			}
+			
+			result.add(sb.toString());
+		}
 		return result;
 	}
 
@@ -645,8 +686,8 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 	}
 
 	/*
-	 * Estrazione del bid insieme al titolo (per creare link navigazione) titolo
-	 * | bid colltit_tip_tag da 421 a 464
+	 * Estrazione del bid insieme al titolo (per creare link navigazione) titolo |
+	 * bid colltit_tip_tag da 421 a 464
 	 */
 	public Set<String> getCollTit(final Record record, String tag) {
 
@@ -681,73 +722,73 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 				if (good) {
 					switch (code) {
 
-					case 'a':
-						if (firstA) {
-							// if (clean_pretit)
-							// buffer.append(cleanPretitolo(subfield.getData()));
-							// else
-							buffer.append(CleanNoSort.clean(subfield.getData()));
-							// buffer.append(subfield.getData().replaceAll(START_PRETITOLO,
-							// "<<").replaceAll(END_PRETITOLO,">>"));
-							firstA = false;
-						} else {
-							// if (clean_pretit)
-							// buffer.append(" ;
-							// ").append(cleanPretitolo(subfield.getData()));
-							// else
-							buffer.append(" ; ").append(CleanNoSort.clean(subfield.getData()));
-						}
-						break;
+						case 'a':
+							if (firstA) {
+								// if (clean_pretit)
+								// buffer.append(cleanPretitolo(subfield.getData()));
+								// else
+								buffer.append(CleanNoSort.clean(subfield.getData()));
+								// buffer.append(subfield.getData().replaceAll(START_PRETITOLO,
+								// "<<").replaceAll(END_PRETITOLO,">>"));
+								firstA = false;
+							} else {
+								// if (clean_pretit)
+								// buffer.append(" ;
+								// ").append(cleanPretitolo(subfield.getData()));
+								// else
+								buffer.append(" ; ").append(CleanNoSort.clean(subfield.getData()));
+							}
+							break;
 
-					case 'b':
-						if (firstB) {
-							buffer.append(" [").append(subfield.getData());
-							firstB = false;
-							parentesiB = true;
-						} else {
-							buffer.append(" ").append(subfield.getData());
-							idxLastB = buffer.length();
-						}
-						break;
+						case 'b':
+							if (firstB) {
+								buffer.append(" [").append(subfield.getData());
+								firstB = false;
+								parentesiB = true;
+							} else {
+								buffer.append(" ").append(subfield.getData());
+								idxLastB = buffer.length();
+							}
+							break;
 
-					case 'c':
-						buffer.append(" . ").append(subfield.getData());
-						break;
+						case 'c':
+							buffer.append(" . ").append(subfield.getData());
+							break;
 
-					case 'd':
-						buffer.append(" = ").append(subfield.getData());
-						break;
+						case 'd':
+							buffer.append(" = ").append(subfield.getData());
+							break;
 
-					case 'e':
-						buffer.append(" : ").append(subfield.getData());
-						break;
+						case 'e':
+							buffer.append(" : ").append(subfield.getData());
+							break;
 
-					case 'f':
-						buffer.append(" / ").append(subfield.getData());
-						break;
+						case 'f':
+							buffer.append(" / ").append(subfield.getData());
+							break;
 
-					case 'g':
-						buffer.append(" ; ").append(subfield.getData());
-						break;
-
-					case '1':
-						if (subfieldString.startsWith("$1001"))
-							buffer.append(subfield.getData().substring(3)).append("|");
-						break;
-					// solo per le 410
-					case 'i':
-						buffer.append(subfield.getData());
-						break;
-					// solo per le 464 e le 410
-					case 'v':
-						if (tag.equals("464"))
-							buffer.append("|").append(subfield.getData());
-						else if (tag.equals("410"))
+						case 'g':
 							buffer.append(" ; ").append(subfield.getData());
-						break;
+							break;
 
-					default:
-						break;
+						case '1':
+							if (subfieldString.startsWith("$1001"))
+								buffer.append(subfield.getData().substring(3)).append("|");
+							break;
+						// solo per le 410
+						case 'i':
+							buffer.append(subfield.getData());
+							break;
+						// solo per le 464 e le 410
+						case 'v':
+							if (tag.equals("464"))
+								buffer.append("|").append(subfield.getData());
+							else if (tag.equals("410"))
+								buffer.append(" ; ").append(subfield.getData());
+							break;
+
+						default:
+							break;
 					}
 				}
 
@@ -780,17 +821,17 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 				char code = subfield.getCode();
 
 				switch (code) {
-				case 'a':
-					buffer.append(subfield.getData());
-					break;
-				case '5':
-					if (buffer.length() > 0)
-						buffer.append("|").append(subfield.getData());
-					break;
-				case '9':
-					if (buffer.length() > 0)
-						buffer.append("|").append(subfield.getData());
-					break;
+					case 'a':
+						buffer.append(subfield.getData());
+						break;
+					case '5':
+						if (buffer.length() > 0)
+							buffer.append("|").append(subfield.getData());
+						break;
+					case '9':
+						if (buffer.length() > 0)
+							buffer.append("|").append(subfield.getData());
+						break;
 				}
 			}
 			if (buffer.length() > 0)
@@ -818,9 +859,9 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 				char code = subfield.getCode();
 
 				switch (code) {
-				case 'a':
-					buffer.append(subfield.getData());
-					break;
+					case 'a':
+						buffer.append(subfield.getData());
+						break;
 				}
 			}
 			if (buffer.length() > 0)
@@ -848,15 +889,15 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 				char code = subfield.getCode();
 
 				switch (code) {
-				case 'a':
-					buffer.append(subfield.getData());
-					break;
-				case 'e':
-					buffer.append(" ; ").append(subfield.getData());
-					break;
-				case 'n':
-					buffer.append(" : ").append(subfield.getData());
-					break;
+					case 'a':
+						buffer.append(subfield.getData());
+						break;
+					case 'e':
+						buffer.append(" ; ").append(subfield.getData());
+						break;
+					case 'n':
+						buffer.append(" : ").append(subfield.getData());
+						break;
 				}
 			}
 			if (buffer.length() > 0)
@@ -867,8 +908,8 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 	}
 
 	/*
-	 * Estrazione da 461/462 delle stringhe "fa parte di" da inserire nella
-	 * parte sintetica della scheda
+	 * Estrazione da 461/462 delle stringhe "fa parte di" da inserire nella parte
+	 * sintetica della scheda
 	 */
 	public Set<String> getFaParte(final Record record) {
 		Set<String> result = new LinkedHashSet<String>();
@@ -904,49 +945,49 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 					if (good) {
 						switch (code) {
 
-						case 'a':
-							if (firstA) {
-								buffer.append(CleanNoSort.clean(subfield.getData()));
-								firstA = false;
-							} else {
-								buffer.append(" ; ").append(CleanNoSort.clean(subfield.getData()));
+							case 'a':
+								if (firstA) {
+									buffer.append(CleanNoSort.clean(subfield.getData()));
+									firstA = false;
+								} else {
+									buffer.append(" ; ").append(CleanNoSort.clean(subfield.getData()));
 
-							}
-							break;
+								}
+								break;
 
-						case 'b':
-							if (firstB) {
-								buffer.append(" [").append(subfield.getData());
-								firstB = false;
-								parentesiB = true;
-							} else {
-								buffer.append(" ").append(subfield.getData());
-								idxLastB = buffer.length();
-							}
-							break;
+							case 'b':
+								if (firstB) {
+									buffer.append(" [").append(subfield.getData());
+									firstB = false;
+									parentesiB = true;
+								} else {
+									buffer.append(" ").append(subfield.getData());
+									idxLastB = buffer.length();
+								}
+								break;
 
-						case 'c':
-							buffer.append(" . ").append(subfield.getData());
-							break;
+							case 'c':
+								buffer.append(" . ").append(subfield.getData());
+								break;
 
-						case 'd':
-							buffer.append(" = ").append(subfield.getData());
-							break;
+							case 'd':
+								buffer.append(" = ").append(subfield.getData());
+								break;
 
-						case 'e':
-							buffer.append(" : ").append(subfield.getData());
-							break;
+							case 'e':
+								buffer.append(" : ").append(subfield.getData());
+								break;
 
-						case 'f':
-							buffer.append(" / ").append(subfield.getData());
-							break;
+							case 'f':
+								buffer.append(" / ").append(subfield.getData());
+								break;
 
-						case 'g':
-							buffer.append(" ; ").append(subfield.getData());
-							break;
+							case 'g':
+								buffer.append(" ; ").append(subfield.getData());
+								break;
 
-						default:
-							break;
+							default:
+								break;
 						}
 					}
 
@@ -963,17 +1004,16 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 	}
 
 	/*
-	 * Trattamento di data1 e data2 nel tag "100" scrittura di $k a partire da
-	 * data1 e $w a partire da data2
+	 * Trattamento di data1 e data2 nel tag "100" scrittura di $k a partire da data1
+	 * e $w a partire da data2
 	 * 
 	 * se data2 = spazio se data1 numero $k=data1 $w=data1 se data1 nn.. $k=nn00
 	 * $w=nn99 se data1 nnn. $k=nnn0 $w=nnn9
 	 * 
-	 * se data2 > spazio se data1 numero e data2 numero $k=data1 $w=data2 se
-	 * data1 numero e data2 nn.. $k=data1 $w=nn99 se data1 numero e data2 nnn.
-	 * $k=data1 $w=nnn9 se data1 nn.. e data2 numero $k=nn00 $w=data2 se data1
-	 * nnn. e data2 numero $k=nnn0 $w=data2 se data1 nn.. e data2 mm.. $k=nn00
-	 * $w=mm99
+	 * se data2 > spazio se data1 numero e data2 numero $k=data1 $w=data2 se data1
+	 * numero e data2 nn.. $k=data1 $w=nn99 se data1 numero e data2 nnn. $k=data1
+	 * $w=nnn9 se data1 nn.. e data2 numero $k=nn00 $w=data2 se data1 nnn. e data2
+	 * numero $k=nnn0 $w=data2 se data1 nn.. e data2 mm.. $k=nn00 $w=mm99
 	 */
 	public String elaboraData1Data2(final Record record, String tagStr, String quale) {
 		Set<String> values = getFieldList(record, tagStr);
@@ -1083,22 +1123,21 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 
 	}
 	/*
-	 * AUTHORITY AUTORI: Elaborazione della "datazione" estratta dalla 300$a
-	 * (parte prima di //) o, in subordine, dalla 200$f oppure 210$f per
-	 * definire gli intervalli di date di nascita/morte di un autore/ente (certi
-	 * o presunti).
+	 * AUTHORITY AUTORI: Elaborazione della "datazione" estratta dalla 300$a (parte
+	 * prima di //) o, in subordine, dalla 200$f oppure 210$f per definire gli
+	 * intervalli di date di nascita/morte di un autore/ente (certi o presunti).
 	 * 
 	 * La funzione prevede come parametro il codice convenzionale della data da
-	 * "determinare": n1 (inizio intervallo data nascita), n2 (fine intervallo
-	 * data nascita), m1 (inizio intervallo data morte), m2 (fine intervallo
-	 * data morte) Caso normale : NNNN-MMMM --> n1=n2=NNNN, m1=m2=MMMM Caso solo
-	 * nascita: NNNN- --> n1=n2=NNNN Caso solo morte: -MMMM --> m1=m2=MMMM Caso
-	 * con secolo: sec.16 --> n1=1501, n2=1600, m1=1501, m2=1600 Caso tra due
-	 * secoli: sec.19.-20. --> n1=1801, n2=1900, m1=1901, m2=2000
+	 * "determinare": n1 (inizio intervallo data nascita), n2 (fine intervallo data
+	 * nascita), m1 (inizio intervallo data morte), m2 (fine intervallo data morte)
+	 * Caso normale : NNNN-MMMM --> n1=n2=NNNN, m1=m2=MMMM Caso solo nascita: NNNN-
+	 * --> n1=n2=NNNN Caso solo morte: -MMMM --> m1=m2=MMMM Caso con secolo: sec.16
+	 * --> n1=1501, n2=1600, m1=1501, m2=1600 Caso tra due secoli: sec.19.-20. -->
+	 * n1=1801, n2=1900, m1=1901, m2=2000
 	 * 
 	 * Eliminate prima dell'estrazione delle date le stringhe: "ca." "c." "?"
-	 * Interpretate le stringhe "n." (equivale a nascita) e "m." (equivale a
-	 * morte) Escluse le datazioni con "fl."
+	 * Interpretate le stringhe "n." (equivale a nascita) e "m." (equivale a morte)
+	 * Escluse le datazioni con "fl."
 	 * 
 	 */
 
@@ -1157,8 +1196,8 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 	}
 
 	/*
-	 * AUTHORITY AUTORI: Estrazione della "datazione" dalla 300$a (parte prima
-	 * di //) oppure, in subordine, dalla 200$f oppure dalla 210$f
+	 * AUTHORITY AUTORI: Estrazione della "datazione" dalla 300$a (parte prima di
+	 * //) oppure, in subordine, dalla 200$f oppure dalla 210$f
 	 * 
 	 */
 	public String getDatazioneAUTH(final Record record) {
@@ -1174,11 +1213,11 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 				char code = subfield.getCode();
 
 				switch (code) {
-				case 'a':
-					buffer.append(subfield.getData());
-					break;
-				default:
-					break;
+					case 'a':
+						buffer.append(subfield.getData());
+						break;
+					default:
+						break;
 				}
 			}
 		}
@@ -1203,11 +1242,11 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 					char code = subfield.getCode();
 
 					switch (code) {
-					case 'f':
-						buffer.append(subfield.getData());
-						break;
-					default:
-						break;
+						case 'f':
+							buffer.append(subfield.getData());
+							break;
+						default:
+							break;
 					}
 				}
 			}
@@ -1228,11 +1267,11 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 					char code = subfield.getCode();
 
 					switch (code) {
-					case 'f':
-						buffer.append(subfield.getData());
-						break;
-					default:
-						break;
+						case 'f':
+							buffer.append(subfield.getData());
+							break;
+						default:
+							break;
 					}
 				}
 			}
@@ -1245,11 +1284,11 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 	}
 
 	/*
-	 * Determina il contenuto del campo "nome" non comprendendo anche il campo
-	 * 500$9 (che in Polo � un vid) Parti comprese: prima parte: 700-750
-	 * a,b,c,d,e,f,g (separati da spazio) seconda parte: 790-791 b <c> : d : g f
-	 * â� ’ z terza parte: 927 c quarta parte: 411-499 prefix 1700, 1710
-	 * a,b,c,d,e,f,g (separati da spazio) non compresa: quinta parte: 500 $9
+	 * Determina il contenuto del campo "nome" non comprendendo anche il campo 500$9
+	 * (che in Polo � un vid) Parti comprese: prima parte: 700-750 a,b,c,d,e,f,g
+	 * (separati da spazio) seconda parte: 790-791 b <c> : d : g f â� ’ z terza
+	 * parte: 927 c quarta parte: 411-499 prefix 1700, 1710 a,b,c,d,e,f,g (separati
+	 * da spazio) non compresa: quinta parte: 500 $9
 	 */
 	public Set<String> getNome_bis(final Record record) {
 		Set<String> result = getNomeGenerico_bis(record, null, false, false);
@@ -1348,17 +1387,12 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 									String data = subfield.getData();
 
 									/*
-									 * // se il subfield Ã¨ c controllo < > if
-									 * ('c' == subfield.getCode()) { if
-									 * (!data.trim().startsWith("<")) data =
-									 * "<".concat(data); if
-									 * (!data.trim().endsWith(">")) data =
-									 * data.concat(">"); }
+									 * // se il subfield Ã¨ c controllo < > if ('c' == subfield.getCode()) { if
+									 * (!data.trim().startsWith("<")) data = "<".concat(data); if
+									 * (!data.trim().endsWith(">")) data = data.concat(">"); }
 									 * 
-									 * // se il subfield Ã¨ d o g metto i due
-									 * punti if ('d' == subfield.getCode() ||
-									 * 'g' == subfield.getCode()) { data =
-									 * " : ".concat(data); }
+									 * // se il subfield Ã¨ d o g metto i due punti if ('d' == subfield.getCode() ||
+									 * 'g' == subfield.getCode()) { data = " : ".concat(data); }
 									 */
 									// se il subfield Ã¨ z metto â� ’
 									if ('z' == subfield.getCode()) {
@@ -1417,8 +1451,7 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 				}
 			}
 			/**
-			 * quarta parte: 411-499 prefix 1 700, 1 710 a,b,c,d,e,f,g (separati
-			 * da spazio)
+			 * quarta parte: 411-499 prefix 1 700, 1 710 a,b,c,d,e,f,g (separati da spazio)
 			 */
 			if ($4 == null) { // solo se $4 == null, sono in nome e non in
 								// nome_rel_$4
@@ -1456,10 +1489,8 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 									good = false;
 								if (good) {
 									/*
-									 * if (new_field && buffer.length() > 0) {
-									 * result.add(buffer.toString()); //
-									 * buffer.delete(0, buffer.length()); buffer
-									 * = new StringBuilder(""); }
+									 * if (new_field && buffer.length() > 0) { result.add(buffer.toString()); //
+									 * buffer.delete(0, buffer.length()); buffer = new StringBuilder(""); }
 									 */
 									Matcher matcher = subfieldPattern.matcher("" + subfield.getCode());
 									if (matcher.matches()) {
@@ -1504,8 +1535,7 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 		int startTag = 600;
 		int endTag = 675;
 		String subfldTags = "[a|x|b|c|d|2|3]"; /*
-												 * "[a|x|b|c|d|2] non necessario
-												 * ticket
+												 * "[a|x|b|c|d|2] non necessario ticket
 												 */
 
 		// itero sui tag
@@ -1599,8 +1629,8 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 	}
 
 	/**
-	 * Indicizzazione risorse digitali etichetta 899: sintassi
-	 * $a|$b|$u|indicatore2 decodificato
+	 * Indicizzazione risorse digitali etichetta 899: sintassi $a|$b|$u|indicatore2
+	 * decodificato
 	 */
 	public Set<String> getFormatoElettronico899(final Record record) {
 
@@ -1633,14 +1663,16 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 				Subfield subfield = (Subfield) iterator2.next();
 				// fix per multipli url separati da pipe almaviva3 e
 				// almaviva4
-				resultU.add(subfield.getData().replace(" | ", Constants.separatore_url_899_no_pipe));
+				String data = subfield.getData();
+				if (Utils.isFilled(data))
+					resultU.add(data.replace(" | ", Constants.separatore_url_899_no_pipe));
 			}
 			Character ind2 = dataField.getIndicator2();
 			for (Iterator<Subfield> iterator2 = subfields.iterator(); iterator2.hasNext(); iterator2.next()) {
 				resultI.add(ind2.toString());
 				/*
-				 * if (ind2 == '0') resultI.add("dig. parziale"); else if (ind2
-				 * == '1') resultI.add("dig. totale"); else if (ind2 == '2')
+				 * if (ind2 == '0') resultI.add("dig. parziale"); else if (ind2 == '1')
+				 * resultI.add("dig. totale"); else if (ind2 == '2')
 				 * resultI.add("copia di 'born digital'");
 				 */
 			}
@@ -1649,9 +1681,10 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 		// rimetto insieme i risultati
 		for (int i = 0; i < resultA.size(); i++) {
 			// Fix per $b in 899 all'interno di tesi di laurea non presente
-			result.add(Util.isFilled899(resultA, i).concat("|").concat(Util.isFilled899(resultB, i)).concat("|")
-					.concat(Util.isFilled899(resultU, i)).concat("|").concat(Util.isFilled899(resultI, i)));
-			// result.add(resultA.get(i).concat("|").concat(resultB.get(i)).concat("|").concat(resultU.get(i)).concat("|").concat(resultI.get(i)));
+			// almaviva3 13/07/2020 se $u non presente non indicizzare
+			if (!"".equals(Util.isFilled899(resultU, i).trim()))
+				result.add(Util.isFilled899(resultA, i).concat("|").concat(Util.isFilled899(resultB, i)).concat("|")
+						.concat(Util.isFilled899(resultU, i)).concat("|").concat(Util.isFilled899(resultI, i)));
 		}
 
 		return result;
@@ -1687,6 +1720,52 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 		// rimetto insieme i risultati
 		for (int i = 0; i < resultE.size(); i++) {
 			result.add(resultE.get(i).concat("|").concat(resultU.get(i)));
+		}
+
+		return result;
+	}
+
+	/**
+	 * Indicizzazione risorse digitali etichetta 856: sintassi $e|$u
+	 */
+	public Set<String> getFormatoElettronico856(final Record record) {
+
+		Set<String> result = new LinkedHashSet<String>();
+
+		List<VariableField> field = record.getVariableFields("856");
+		for (Iterator<VariableField> iterator = field.iterator(); iterator.hasNext();) {
+			DataField dataField = (DataField) iterator.next();
+
+			Subfield u = dataField.getSubfield('u');
+			Subfield due = dataField.getSubfield('2');
+			if (due != null && due.getData().indexOf("http") == 0) {
+				result.add(due.getData());
+			} else {
+				result.add(u.getData());
+			}
+		}
+
+		return result;
+	}
+
+	/**
+	 * Indicizzazione risorse digitali etichetta 856 con $2http
+	 * in prospettazione sarà "concatenata" alla 899
+	 * TD*
+	 */
+	public Set<String> getFormatoElettronicoTesiDottorato(final Record record) {
+
+		Set<String> result = new LinkedHashSet<String>();
+
+		List<VariableField> field = record.getVariableFields("856");
+		for (Iterator<VariableField> iterator = field.iterator(); iterator.hasNext();) {
+			DataField dataField = (DataField) iterator.next();
+
+			Subfield u = dataField.getSubfield('u');
+			Subfield due = dataField.getSubfield('2');
+			if (due != null && due.getData().indexOf("http") == 0) {
+				result.add("Deposito legale| |" + u.getData() + "|2");
+			}
 		}
 
 		return result;
@@ -1825,10 +1904,11 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 		}
 		return result;
 	}
-	/* 20180517 nuovi indici  */
-	
-	/* Indice per faccetta su relatorCode 
-	 * con esclusione di possessori 390 e provenienze 320
+	/* 20180517 nuovi indici */
+
+	/*
+	 * Indice per faccetta su relatorCode con esclusione di possessori 390 e
+	 * provenienze 320
 	 */
 	public Set<String> getRelatorCode_noPoss(final Record record) {
 		Set<String> result = new LinkedHashSet<String>();
@@ -1853,10 +1933,10 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 							if (subfield.getCode() == '4') {
 								// buffer.append(subfield.getData());
 								if (!subfield.getData().equals("390") && !subfield.getData().equals("320")) {
-								result.add((subfield.getData().length() > 3)
-										? subfield.getData().substring(subfield.getData().indexOf("=") + 1)
-										: subfield.getData());
-								} 
+									result.add((subfield.getData().length() > 3)
+											? subfield.getData().substring(subfield.getData().indexOf("=") + 1)
+											: subfield.getData());
+								}
 
 							}
 						}
@@ -1871,20 +1951,20 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 		return (result.size() > 0) ? result : null;
 	}
 
-	
 	/*
-	 * Indici per faccetta su nome con esclusione dei nomi 
-	 * che hanno relator code di possessori 390 e provenienze 320
+	 * Indici per faccetta su nome con esclusione dei nomi che hanno relator code di
+	 * possessori 390 e provenienze 320
 	 * 
 	 * 
 	 */
 
 	public Set<String> getNomef_noPoss(final Record record) {
 		Set<String> result = getNomeGenerico_noPoss(record, null, "noPoss");
-		return (result.size() == 0 ) ? null : result;
+		return (result.size() == 0) ? null : result;
 	}
+
 	public Set<String> getNome_noPoss(final Record record) {
-		Set<String> result = getNomeGenerico_noPoss(record, null, "noPoss");       
+		Set<String> result = getNomeGenerico_noPoss(record, null, "noPoss");
 		return result;
 	}
 
@@ -1895,13 +1975,12 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 			separator = " ";
 
 		/**
-		 *  prima parte: 700-750 a,b,c,d,e,f,g (separati da spazio)
+		 * prima parte: 700-750 a,b,c,d,e,f,g (separati da spazio)
 		 */
 		int startTag = 700;
 		int endTag = 750;
 
-
-		String subfldTags = "[a|b|c|d|e|f|g]"; 
+		String subfldTags = "[a|b|c|d|e|f|g]";
 
 		// itero sui tag
 		for (int tag = startTag; tag <= endTag; tag++) {
@@ -1935,10 +2014,9 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 			}
 		}
 
-	
 		if (!"sbnweb".equals(project)) {
 			/**
-			 * terza parte 927c  // $3<----
+			 * terza parte 927c // $3<----
 			 */
 			char subField = 'c';
 
@@ -1955,7 +2033,7 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 				}
 			}
 			/**
-			 * quarta  parte: 411-499  prefix 1 700, 1 710  a,b,c,d,e,f,g (separati da spazio)  
+			 * quarta parte: 411-499 prefix 1 700, 1 710 a,b,c,d,e,f,g (separati da spazio)
 			 */
 			if ($4 == null) { // solo se $4 == null, sono in nome e non in nome_rel_$4
 
@@ -1975,44 +2053,48 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 							List<Subfield> subfields = marcField.getSubfields();
 							for (Subfield subfield : subfields) {
 								String subfieldString = subfield.toString();
-								if (good && buffer.length() > 0 && subfieldString.startsWith("$17") ){
+								if (good && buffer.length() > 0 && subfieldString.startsWith("$17")) {
 									result.add(buffer.toString());
 									buffer = new StringBuilder("");
 									// buffer.delete(0, buffer.length());
 								}
-								if (subfieldString.startsWith("$17") ) good = true;
-								if (subfieldString.startsWith("$1200")) good = false;
-								if (tag == 463 && (subfieldString.startsWith("$1702") || subfieldString.startsWith("$1712"))) good = false;
+								if (subfieldString.startsWith("$17"))
+									good = true;
+								if (subfieldString.startsWith("$1200"))
+									good = false;
+								if (tag == 463
+										&& (subfieldString.startsWith("$1702") || subfieldString.startsWith("$1712")))
+									good = false;
 								if (good) {
-									/* if (new_field && buffer.length() > 0) {
-									    result.add(buffer.toString());
-									    // buffer.delete(0, buffer.length());
-									    buffer = new StringBuilder("");
-								} */
-								if (isNome_noPoss(marcField, noPoss)) {	
-									Matcher matcher = subfieldPattern.matcher("" + subfield.getCode());
-									if (matcher.matches()) {
-										if (buffer.length() > 0 && !subfield.getData().startsWith(",")) buffer.append(separator != null ? separator : "");
-										if (subfieldString.startsWith("$171"))
-											buffer.append(cleanPretitolo(subfield.getData()));
-										else
-											buffer.append(subfield.getData());	
+									/*
+									 * if (new_field && buffer.length() > 0) { result.add(buffer.toString()); //
+									 * buffer.delete(0, buffer.length()); buffer = new StringBuilder(""); }
+									 */
+									if (isNome_noPoss(marcField, noPoss)) {
+										Matcher matcher = subfieldPattern.matcher("" + subfield.getCode());
+										if (matcher.matches()) {
+											if (buffer.length() > 0 && !subfield.getData().startsWith(","))
+												buffer.append(separator != null ? separator : "");
+											if (subfieldString.startsWith("$171"))
+												buffer.append(cleanPretitolo(subfield.getData()));
+											else
+												buffer.append(subfield.getData());
+										}
 									}
-								 }
 								}
 							}
-							if (buffer.length() > 0) result.add(buffer.toString()); 
+							if (buffer.length() > 0)
+								result.add(buffer.toString());
 						}
 					}
 				}
 			}
 
 			/**
-			 * quinta  parte: 500 $9  
+			 * quinta parte: 500 $9
 			 */
 			subField = '9';
-			
-			
+
 			if ($4 == null) { // solo se $4 == null, sono in nome e non in nome_rel_$4
 				List<VariableField> marcField500List = record.getVariableFields("500");
 				for (VariableField vf : marcField500List) {
@@ -2027,15 +2109,14 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 			}
 
 		}
-		result = getFold(result); 
+		result = getFold(result);
 
 		return result;
 	}
 
 	/**
-	 * Se noPoss == null return true;
-	 * Se noPoss != null && marcField.getSubfields('4') != 390 && !320 return true
-	 * else return false;
+	 * Se noPoss == null return true; Se noPoss != null &&
+	 * marcField.getSubfields('4') != 390 && !320 return true else return false;
 	 */
 	public boolean isNome_noPoss(DataField marcField, String noPoss) {
 		boolean test = true;
@@ -2045,12 +2126,13 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 			if (checkSubfields.size() > 0) {
 				for (Subfield checkSubfield : checkSubfields) {
 					String $4_data = checkSubfield.getData();
-					//if (noPoss.equalsIgnoreCase(checkSubfield.getData()))
-					if ( !$4_data.equals("390") && !$4_data.equals("320") )
-						test = true; 
+					// if (noPoss.equalsIgnoreCase(checkSubfield.getData()))
+					if (!$4_data.equals("390") && !$4_data.equals("320"))
+						test = true;
 				}
-			} 
-			else { test = true; }
+			} else {
+				test = true;
+			}
 		}
 		return test;
 	}
@@ -2067,7 +2149,7 @@ public class SbnwebIndexer extends OpacSbnIndexer {
 		 * prima parte: 700-750 a,b,c,d,e,f,g (separati da spazio)
 		 */
 		int startTag = 700;
-		int endTag = 791;//750;
+		int endTag = 791;// 750;
 
 		String subfldTags = "[a|b|c|d|e|f|g|3|4|5]";
 

@@ -143,7 +143,8 @@ public class GenericOpacController {
 		mv.addObject("opac_version_avoid_cache", version.getVersion());
 
 		mv.addObject("isOCNSearch", false);
-
+		// Carica direttamente il controller di risultato tramite jsp
+		mv.addObject("isDirectSearch", false);
 		return mv;
 	}
 	public ModelAndView getOpacBiblioteca(String codPolo,  String codBib) {
@@ -168,6 +169,8 @@ public class GenericOpacController {
 		//Almaviva3 19/09/2019 Aggiunto per evitare cache JS in JSP
 		mv.addObject("opac_version_avoid_cache", version.getVersion());
 		mv.addObject("isOCNSearch", false);
+		//Carica direttamente il controller di risultato tramite jsp
+		mv.addObject("isDirectSearch", false);
 
 		return mv;
 	}
@@ -207,7 +210,8 @@ public class GenericOpacController {
 		//Almaviva3 19/09/2019 Aggiunto per evitare cache JS in JSP
 			mv.addObject("opac_version_avoid_cache", version.getVersion());
 			mv.addObject("isOCNSearch", false);
-
+			// Carica direttamente il controller di risultato tramite jsp
+			mv.addObject("isDirectSearch", false);
 		} catch (SQLException e) {
 			log.error(e);
 			e.printStackTrace();

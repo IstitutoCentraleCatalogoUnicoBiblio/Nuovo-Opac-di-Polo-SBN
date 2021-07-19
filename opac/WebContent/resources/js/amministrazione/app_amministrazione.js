@@ -1,6 +1,6 @@
 var opac2_amministrazione = angular.module("opac2_amministrazione", [
     "ngRoute", "ngSanitize", "ngCookies",
-    "ngResource", "pascalprecht.translate", "angular.filter"
+    "ngResource", "pascalprecht.translate", "angular.filter", 'ngAria'
   ]);
   opac2_amministrazione.config(["$routeProvider", "$translateProvider", "$locationProvider",
   function($routeProvider, $translateProvider, $locationProvider) {

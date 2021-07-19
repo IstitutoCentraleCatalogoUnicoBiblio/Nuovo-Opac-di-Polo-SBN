@@ -1,14 +1,19 @@
-<center>
-	<div class="loader" ng-show="isLoadingClassificazioni"></div>
 
-</center>
+<div id="myLoader" class="text-center"  ng-show="isLoadingClassificazioni">
+	<div class="loadingio-spinner-rolling-d49g7b96z79">
+		<div class="ldio-rlwckwg1g7">
+		  <div></div>
+		</div>
+	  </div>
+</div>
+
 <ol class="breadcrumb"
 	ng-show="navigations.length > 1 && !isLoadingClassificazioni">
 	<!-- <li class="breadcrumb-item" aria-current="page"><a
 			ng-click="goBack()">{{'dwy_classe' | translate}}</a></li> -->
 	<li class="breadcrumb-item " ng-repeat="nav in navigations"><span
 		ng-show="$last">{{nav.txt | translate}}</span> <a ng-show="!$last"
-		ng-click="goBack(nav, $index)" class="link" style="color: #023167"
+		ng-click="goBack(nav, $index)" class="blu-tema" style="color: #023167"
 		title="{{('dwy_navigator_torna' | translate) + ': ' + (nav.txt | translate) }}">{{nav.txt
 			| translate}}</a></li>
 </ol>
@@ -17,19 +22,17 @@
 <table class="table table-hover" ng-show="!isLoadingClassificazioni">
 	<thead>
 		<tr ng-if="classifications.length > 0">
-			<td class="col-md-1" style="text-align: left;"><b>{{(navigations.length
+			<td class="col-md-1" style="text-align: left;"><strong>{{(navigations.length
 					| deweyNavigatorTitle) | translate}}</b></td>
-			<td class="col-md-10"><b>{{'dwy_descr' | translate}}</b></td>
-			<td class="col-md-1" style="text-align: right;"><b>{{'dwy_notizie'
+			<td class="col-md-10"><strong>{{'dwy_descr' | translate}}</b></td>
+			<td class="col-md-1" style="text-align: right;"><strong>{{'dwy_notizie'
 					| translate}}</b></td>
 		</tr>
 	</thead>
 	<tbody style="color: #023167">
 		<tr ng-if="classifications.length == 0">
-			<td colspan="3">
-				<center>
+			<td colspan="3" class="text-center">
 					<h4>{{"dwy_error_find" | translate}}</h4>
-				</center>
 			</td>
 		</tr>
 		<tr ng-if="classifications.length > 0"
@@ -40,7 +43,7 @@
 					deweyNavigator}}</span> <a
 				title="{{('dwy_navigator_visualizza' | translate) + ' ' + (((navigations.length + 1)
 					| deweyNavigatorTitle) | translate | lowercase)}}"
-				class="link" ng-show="classe.posizione < 4"
+				class="blu-tema" ng-show="classe.posizione < 4"
 				ng-click="selectClasse(classe.posizione, classe)">{{classe.classe
 					| deweyNavigator}}</a></td>
 			<td class="col-md-10 "><span ng-show="classe.posizione == 4">
@@ -49,13 +52,13 @@
 					: '' | uppercase}}</span> <a
 				title="{{('dwy_navigator_visualizza' | translate) + ' ' + (((navigations.length + 1)
 					| deweyNavigatorTitle) | translate | lowercase)}}"
-				class="link" ng-show="classe.posizione < 4"
+				class="blu-tema" ng-show="classe.posizione < 4"
 				ng-click="selectClasse(classe.posizione, classe)">  {{classe.descrizione}}
 			</a></td>
 			<td class="col-md-1" style="text-align: right;"><span
 				ng-show="classe.posizione < 3"> {{classe.notizie}}</span> <a
 				title="{{('dwy_cerca' | translate) + ' ' + classe.classe}}"
-				class="link" ng-show="classe.posizione > 2"
+				class="blu-tema" ng-show="classe.posizione > 2"
 				ng-click="searchClasse(classe)">{{classe.notizie}}</a></td>
 		</tr>
 

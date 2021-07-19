@@ -1,6 +1,7 @@
 opac2.registerCtrl('InfoBibPoloController', ['$scope', '$translate', '$routeParams', '$route', '$location', '$filter', '$sce', 'ApiServices', 'LocalSessionSettingsServices', 'CodiciServices', '$timeout','SharedServices',
   function ($scope, $translate, $routeParams, $route, $location, $filter, $sce, ApiServices, LocalSessionSettingsServices, CodiciServices, $timeout, SharedServices) {
     //console.log("InfoBibPoloController");
+   updateTitle('Biblioteche del Polo');
     $scope.flagVisualizza = true;
     $scope.changeLanguage = function (key) {
       $translate.use(key);
@@ -152,8 +153,8 @@ opac2.registerCtrl('InfoBibPoloController', ['$scope', '$translate', '$routePara
                   	position: new google.maps.LatLng(parseFloat($scope.polo.libraries[i].dettaglio.latitudine), parseFloat($scope.polo.libraries[i].dettaglio.longitudine)),
 
                     });
-	            marker.content = "<img class='img-responsive'  style='height: 90px;' src="+ imgUrl +" > </br>"; 
-	            marker.content += "<p><b>" + $scope.polo.libraries[i].name + "</b></br>" + $scope.polo.libraries[i].dettaglio.indirizzo.trim() +
+	            marker.content = "<img class='img-responsive'  style='height: 90px;' alt=' Logo "+ $scope.polo.code+ " - " + $scope.polo.libraries[i].cod_bib + "' src="+ imgUrl +" > </br>"; 
+	            marker.content += "<p><strong>" + $scope.polo.libraries[i].name + "</strong></br>" + $scope.polo.libraries[i].dettaglio.indirizzo.trim() +
 	              " - " + $scope.polo.libraries[i].dettaglio.cap + " - " + $scope.polo.libraries[i].dettaglio.citta;
 	
 	            marker.content += ($scope.polo.libraries[i].dettaglio.citta.trim().toLowerCase() != $scope.polo.libraries[i].dettaglio.provincia.trim().toLowerCase()) ? " - " + $scope.polo.libraries[i].dettaglio.provincia : "";
@@ -164,16 +165,16 @@ opac2.registerCtrl('InfoBibPoloController', ['$scope', '$translate', '$routePara
 	                marker.content += $filter('translate')('info_telefono') + ": <i>" + $scope.polo.libraries[i].contatti[c].valore + "</i></br>";
 	            }
 	            marker.content += "</p>";
-	            marker.content += "<p><a title='" + $filter('translate')('info_indicazioni') + ": " + $filter('translate')('info_openMaps') + "' href='https://www.google.com/maps/dir/?api=1&destination=" + "biblioteca " + $scope.polo.libraries[i].dettaglio.indirizzo.trim() + ", " + $scope.polo.libraries[i].dettaglio.cap + ", " + $scope.polo.libraries[i].dettaglio.citta + "' target='_blank' >" + $filter('translate')('info_indicazioni') + "</a>" + "</p>"
-	            marker.content += "<a title='" + $filter('translate')('visualizzaAnagrafe') + "' href='http://anagrafe.iccu.sbn.it/isil/IT-" + $scope.polo.libraries[i].dettaglio.isil + "' target='_blank' ><span class='glyphicon glyphicon-info-sign' ></span></a>";
+	            marker.content += "<p><a title='" + $filter('translate')('info_indicazioni') + ": " + $filter('translate')('info_openMaps') + " " + $scope.polo.libraries[i].name + "' aria-label='" + $filter('translate')('info_indicazioni') + ": " + $filter('translate')('info_openMaps') + " " + $scope.polo.libraries[i].name + "'  href='https://www.google.com/maps/dir/?api=1&destination=" + "biblioteca " + $scope.polo.libraries[i].dettaglio.indirizzo.trim() + ", " + $scope.polo.libraries[i].dettaglio.cap + ", " + $scope.polo.libraries[i].dettaglio.citta + "' target='_blank' >" + $filter('translate')('info_indicazioni') + "</a>" + "</p>"
+	            marker.content += "<a title='" + $filter('translate')('visualizzaAnagrafe') + " " + $scope.polo.libraries[i].name + "' aria-label='" + $filter('translate')('visualizzaAnagrafe') + " " + $scope.polo.libraries[i].name + "' href='http://anagrafe.iccu.sbn.it/isil/IT-" + $scope.polo.libraries[i].dettaglio.isil + "' target='_blank' ><span class='glyphicon glyphicon-info-sign' ></span></a>";
 	            for (var c = 0; c < $scope.polo.libraries[i].contatti.length; c++) {
 		              switch ($scope.polo.libraries[i].contatti[c].tipo.toUpperCase()) {
 		                case "E-MAIL":
-		                  marker.content += "<a title='" + $filter('translate')('info_inviaMail') + ": " + $scope.polo.libraries[i].contatti[c].valore + "' href='mailto:" + $scope.polo.libraries[i].contatti[c].valore + "' target='_blank' ><span class='glyphicon glyphicon-envelope' style='margin-left: 3%;'></span></a>";
+		                  marker.content += "<a title='" + $filter('translate')('info_inviaMail') + ": " + $scope.polo.libraries[i].contatti[c].valore + "' aria-label='" + $filter('translate')('info_inviaMail') + ": " + $scope.polo.libraries[i].contatti[c].valore + "' href='mailto:" + $scope.polo.libraries[i].contatti[c].valore + "' target='_blank' ><span class='glyphicon glyphicon-envelope' style='margin-left: 3%;'></span></a>";
 		                  break;
 		                case "URL":
 		                  var url = ($scope.polo.libraries[i].contatti[c].valore.indexOf('http') > -1) ? $scope.polo.libraries[i].contatti[c].valore : 'http://' + $scope.polo.libraries[i].contatti[c].valore
-		                  marker.content += "<a title='" + $filter('translate')('info_openUrl') + ": " + url + "' href='" + url + "' target='_blank' ><span class='glyphicon glyphicon-link' style='margin-left: 3%;'></span></a>";
+		                  marker.content += "<a title='" + $filter('translate')('info_openUrl') + ": " + url + "' aria-label='" + $filter('translate')('info_openUrl') + ": " + url + "' href='" + url + "' target='_blank' ><span class='glyphicon glyphicon-link' style='margin-left: 3%;'></span></a>";
 		
 		                  break;
 		
@@ -192,8 +193,8 @@ opac2.registerCtrl('InfoBibPoloController', ['$scope', '$translate', '$routePara
 	              });
 	            marker.setMap(map);
         } else {
-        	 marker.content = "<img class='img-responsive'  style='height: 90px;' src="+ imgUrl +" > </br>"; 
-	         marker.content += "<p><b>" + $scope.polo.libraries[i].name + "</b></br>"
+        	 marker.content = "<img class='img-responsive'  style='height: 90px;' alt=' Logo "+ $scope.polo.code+ " - " + $scope.polo.libraries[i].cod_bib + "' src="+ imgUrl +" > </br>"; 
+	         marker.content += "<p><strong>" + $scope.polo.libraries[i].name + "</strong></br>"
 	            for (var c = 0; c < $scope.polo.libraries[i].contatti.length; c++) {
 		              if ($scope.polo.libraries[i].contatti[c].tipo.toUpperCase() === "TELEFONO")
 		                marker.content += $filter('translate')('info_telefono') + ": <i>" + $scope.polo.libraries[i].contatti[c].valore + "</i></br>";
