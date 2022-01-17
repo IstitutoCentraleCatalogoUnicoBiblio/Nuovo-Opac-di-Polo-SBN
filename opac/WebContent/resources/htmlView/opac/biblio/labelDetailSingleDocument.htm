@@ -774,12 +774,16 @@
           </tr>
           <!-- posizione -->
           <tr ng-if="dettagli[$index].cartografia.cart_orig
-  || dettagli[$index].cartografia.cart_longitudinew
-  || dettagli[$index].cartografia.cart_longitudinee
-  || dettagli[$index].cartografia.cart_latitudinen
-  || dettagli[$index].cartografia.cart_latitudines
+          || dettagli[$index].cartografia.cart_lati_N
+          || dettagli[$index].cartografia.cart_lati_S
+          || dettagli[$index].cartografia.cart_long_E
+          || dettagli[$index].cartografia.cart_long_W
 
   ">
+  <!---Deprecato per i nuovi campi, almaviva 3 30/08/2021 Bug trovato su GEA per prospettazione coordinate  || dettagli[$index].cartografia.cart_longitudinew
+  || dettagli[$index].cartografia.cart_longitudinee
+  || dettagli[$index].cartografia.cart_latitudinen
+  || dettagli[$index].cartografia.cart_latitudines-->
             <td class="shortTd">
               <span class="col-sm-3 control-label">
                 <strong class="blu-label"> {{'posizione' | translate }}</strong>
@@ -794,20 +798,34 @@
                 </div>
 
                 <!-- cart_longitudine -->
-                <div ng-if="dettagli[$index].cartografia.cart_longitudinee || dettagli[$index].cartografia.longitudinew">
+                <div ng-if="dettagli[$index].cartografia.cart_long_E || dettagli[$index].cartografia.cart_long_W">
+                  <span ng-repeat="longSud in dettagli[$parent.$index].cartografia.cart_long_E">
+                    <em class="colour">{{"longitudine" | translate | decapitalize}}</em>&nbsp;&nbsp;
+                    {{(longSud)}}{{(dettagli[$index].cartografia.cart_long_W[$index] ? ' - ' : '')}}{{(dettagli[$index].cartografia.cart_long_W[$index])}}
+                  </span>
+                </div>
+               <!--Deprecato per i nuovi campi, almaviva 3 30/08/2021 Bug trovato su GEA per prospettazione coordinate
+                 <div ng-if="dettagli[$index].cartografia.cart_longitudinee || dettagli[$index].cartografia.longitudinew">
                   <span ng-repeat="cart_longitudineeS in dettagli[$parent.$index].cartografia.cart_longitudinee">
                     <em class="colour">{{"longitudine" | translate | decapitalize}}</em>&nbsp;&nbsp;{{"E"+ (cart_longitudineeS | zeroLongLat)
                     }}{{' - '}}{{"O"+(dettagli[$index].cartografia.cart_longitudinew[$index] | zeroLongLat)}}</br ng-if="dettagli[$parent.$index].cartografia.cart_longitudinee[$index +1 ]">
                   </span>
-                </div>
+                </div> -->
 
                 <!-- cart_latitudine -->
+                <div ng-if="dettagli[$index].cartografia.cart_lati_N || dettagli[$index].cartografia.cart_lati_S">
+                  <span ng-repeat="latiNord in dettagli[$parent.$index].cartografia.cart_lati_N">
+                    <em class="colour">{{"latitudine" | translate | decapitalize}}</em>&nbsp;&nbsp;
+                    {{(latiNord)}}{{(dettagli[$index].cartografia.cart_lati_S[$index] ? ' - ' : '')}}{{(dettagli[$index].cartografia.cart_lati_S[$index])}}
+                  </span>
+                </div>
+                <!--Deprecato per i nuovi campi, almaviva 3 30/08/2021 Bug trovato su GEA per prospettazione coordinate
                 <div ng-if="dettagli[$index].cartografia.cart_latitudines || dettagli[$index].cartografia.cart_latitudinen">
                   <span ng-repeat="cart_latitudinesS in dettagli[$index].cartografia.cart_latitudines ||  dettagli[$index].cartografia.cart_latitudinen">
                     <em class="colour">{{"latitudine" | translate | decapitalize}}</em>&nbsp;&nbsp;{{"N"+(cart_latitudinesS | zeroLongLat) }}{{'
                     - '}} {{"S"+(dettagli[$index].cartografia.cart_latitudinen[$index] | zeroLongLat)}}</br ng-if="dettagli[$parent.$index].cartografia.cart_longitudinee[$index +1 ]">
                   </span>
-                </div>
+                </div> -->
             </td>
             </div>
           </tr>

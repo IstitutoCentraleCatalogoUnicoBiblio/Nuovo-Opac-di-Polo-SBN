@@ -471,6 +471,8 @@
   <dynamicField name="collbid_*" type="idType" multiValued="true" indexed="true" stored="true"/>
   <dynamicField name="nota_*" type="textstr_accent_fl_sw" multiValued="true" indexed="true" stored="true"/>
   <dynamicField name="formato_elet_*" type="textstr_accent_fl_sw" multiValued="true" indexed="true" stored="true"/>
+  <!-- Almaviva3 30/08/2021 Bug coordinate GEA -->
+  <dynamicField name="cart_*" type="text_string_accent_fl_cs" multiValued="true" indexed="true" stored="true"/>
 
   <copyField source="abstract" dest="keywords"/>
   <copyField source="altritit" dest="keywords"/>
@@ -594,4 +596,12 @@
   <copyField source="soggetto_tot" dest="semantica"/>
   <copyField source="dewey_tot" dest="semantica"/>
   <copyField source="classi_686_tot" dest="semantica"/>
+
+ <!--Almaviva3 10/01/2022 un possessore può essere ricercato anche come any e keywords--> 
+  <copyField source="nome_rel_320" dest="keywords"/>
+  <copyField source="nome_rel_390" dest="keywords"/>
+  <copyField source="nome_rel_320" dest="any"/>
+  <copyField source="nome_rel_390" dest="any"/>
+  <copyField source="nome_rel_320" dest="anyf"/>
+  <copyField source="nome_rel_390" dest="anyf"/>
 </schema>
