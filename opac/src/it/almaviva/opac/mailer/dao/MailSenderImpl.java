@@ -40,6 +40,7 @@ import it.almaviva.opac.mailer.MailSenderInterface;
 import it.almaviva.opac.mailer.props.MailProperties;
 import it.almaviva.opac.services.GenerateServerStatusServices;
 import it.almaviva.utils.opac.ServerStatusBean;
+import it.almaviva.utils.opac.Util;
 
 //Classe di invio mail
 public class MailSenderImpl implements MailSenderInterface {
@@ -63,16 +64,27 @@ public class MailSenderImpl implements MailSenderInterface {
 			systemProperties.remove("mail.smtp.host");
 			systemProperties.remove("mail.transport.protocol");
 			systemProperties.remove("mail.smtp.port");
+			systemProperties.remove("mail.smtp.localhost");
+			systemProperties.remove("mail.smtp.starttls.enable");
 
 			systemProperties.setProperty("mail.smtp.host", props.getDnshost());
 			systemProperties.setProperty("mail.smtp.auth", props.getIsToLogin().toString());
 			systemProperties.setProperty("mail.transport.protocol", props.mail_protocol);
-			//Se la porta è standard non la imposto, in automatico
-			if("25".equals(props.getPort_mail()))
-				systemProperties.setProperty("mail.smtp.port", props.getPort_mail());
+			//Almaviva3 01/02/2022 fix bug lettura porta servizio mail 
+			String port = ("25".equals(props.getPort_mail()) ? "25" : props.getPort_mail());
+			systemProperties.setProperty("mail.smtp.port",  port);
 
 			if (props.getIsToLogin()) {
 				log.info("Logging mail");
+				systemProperties.setProperty("debug", "" + true);
+
+				if(props.getStartssl()) {
+					log.info("Start SSL: " + ("" +props.getStartssl()));
+					systemProperties.setProperty("mail.smtp.localhost", "" + props.getDnshost());
+					systemProperties.setProperty("mail.smtp.starttls.enable", "" + props.getStartssl());
+					System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
+
+				}
 
 				session = Session.getDefaultInstance(systemProperties, new javax.mail.Authenticator() {
 					protected PasswordAuthentication getPasswordAuthentication() {

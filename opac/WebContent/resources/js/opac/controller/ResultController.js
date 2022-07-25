@@ -1912,7 +1912,7 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
             {
               //SBNWEB test
               prenotaURL += "BIB=" + biblioteca;
-              prenotaURL += "&INV=" + inventarioBinded.serie + $filter('collocazione')(inventarioBinded.numero);
+              prenotaURL += "&INV=" + $scope.rpad(inventarioBinded.serie, 3, ' ') + $filter('collocazione')(inventarioBinded.numero);
               prenotaURL += "&NAT=" + doc.level.toLowerCase();
               prenotaURL += "&TIT=" + ((isbdMonografia != null || !isUndefined(isbdMonografia)) ? titoloFromISBD : titolo);
 
@@ -1936,6 +1936,19 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
       //console.info("-------------------")
 
       window.open(prenotaURL, target)
+    };
+    $scope.rpad = function (text, length, char) {
+      if (text == undefined || text == null)
+        text = '';
+      if (length == 0)
+        return text;
+      if (char == undefined || char == null || char == '')
+        return text
+      var result = '';
+      while ((result.length + text.length) < length) {
+        result += char;
+      }
+      return text + result;
     };
     $scope.openCopiaDigitale = function (url) {
       url = (url.indexOf('http') == -1) ? 'http://' + url : url;

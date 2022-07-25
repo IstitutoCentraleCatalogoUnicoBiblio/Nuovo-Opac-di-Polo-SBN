@@ -202,7 +202,7 @@
 			title="{{'tooltip_paginaRAvanz' | translate}}">{{ 'rAvanz' |
 			translate }}</a> <!-- class rimosso  rAvanz ng-show="(controller != 'rAvanz')"  -->
 			
-			<span class="nero-contrasto"> - </span><a ng-if="polo.useAuthority" role="link"
+			<span class="nero-contrasto" ng-if="polo.useAuthority"> - </span><a ng-if="polo.useAuthority" role="link"
 			 ng-class="['a','blu-tema', {'disabled': (controller == 'authority') }]" ng-href="{{(!polo.bibliotecaAsPolo) ? polo.code  : polo.code +'/' + polo.codBibliotecaAsPolo}}/authority"
 			title="{{'tooltip_paginaAuthAut' | translate}}">{{ 'authority' |
 			translate }}</a> <!-- class rimosso  rAuth  ng-show="(controller != 'authority')"-->

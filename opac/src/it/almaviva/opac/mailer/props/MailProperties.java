@@ -17,7 +17,7 @@ public class MailProperties {
 	private Boolean isToLogin = false;
 	private final String charset = "text/html; charset=\"utf-8\"";
 	public final String mail_protocol = "smtp";
-
+	public Boolean startssl = false;
 
 	public MailProperties() {
 		super();
@@ -42,16 +42,18 @@ public class MailProperties {
 			String username_login = PropertiesLoader.getProperty("USERNAME_MAIL");
 			String psw_login = PropertiesLoader.getProperty("PASSWORD_MAIL");
 			String port_mail = PropertiesLoader.getProperty("PORT_MAIL");
+			String useSSL = PropertiesLoader.getProperty("USE_SSL_MAIL");
 
 			this.dnshost = (Util.isFilled(dns)) ? dns : "";
 			this.mittenteMail = (Util.isFilled(mittente_mail)) ? mittente_mail : "";
-
 			if (Util.isFilled(mailIsToLogin)) {
 				log.info("Configurazione login mail server");
 				this.username_login = (Util.isFilled(username_login)) ? username_login : "";
 				this.psw_login = (Util.isFilled(psw_login)) ? psw_login : "";
 				this.isToLogin = parseBoolean(mailIsToLogin);
 				this.port_mail = (Util.isFilled(port_mail)) ? port_mail : "25";
+				this.startssl = (Util.isFilled(useSSL)) ? parseBoolean(mailIsToLogin) :  false;
+
 
 			}
 		}
@@ -117,5 +119,17 @@ public class MailProperties {
 				+ ", charset=" + charset + "]";
 	}
 
+
+	public Boolean isStartssl() {
+		return this.startssl;
+	}
+
+	public Boolean getStartssl() {
+		return this.startssl;
+	}
+
+	public void setStartssl(Boolean startssl) {
+		this.startssl = startssl;
+	}
 	
 }

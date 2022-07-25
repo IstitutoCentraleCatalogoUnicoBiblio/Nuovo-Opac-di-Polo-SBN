@@ -113,7 +113,7 @@
 												<button ng-attr-id="{{'disponibileXRichiestaUnimarc_' + inv.cd_inv+'_'+$parent.$parent.$index + '_'+$parent.$index + '_' + $index}}" type="button"
 													class="btn btn-success btn-xs"
 													ng-if="!(inv.cod_no_disp != '') && tag.richiedi"
-													ng-click="$parent.$parent.prenota(documento.isbd, {serie: (inv.cd_serie == '') ? '   ' : inv.cd_serie, numero: inv.cd_inv, bib: inv.bib, codFrui: inv.cd_frui, precis_inv:inv.precis_inv, seq_coll:inv.seq_coll}, {loc: col.cd_loc, sez: col.cd_sez, spec: col.spec_loc }, inv.bib, documento, tag, (documento.level == 's'))"
+													ng-click="$parent.$parent.prenota(documento.isbd, {serie: inv.cd_serie, numero: inv.cd_inv, bib: inv.bib, codFrui: inv.cd_frui, precis_inv:inv.precis_inv, seq_coll:inv.seq_coll}, {loc: col.cd_loc, sez: col.cd_sez, spec: col.spec_loc }, inv.bib, documento, tag, (documento.level == 's'))"
 													title="{{inv.cd_frui.trim()| decodeCodFrui | translate}}">{{'disponibileXRichiesta'
 													| translate }}</button>
 
@@ -263,8 +263,10 @@
 														 -->
 														<span
 													ng-show="!inventario.disponibilita.disponibile"
-													class="disabled"
-													title="{{('nonDisponibileError' | translate)+': ' + (inventario.disponibilita.motivo)}} ">{{inventario.disponibilita.motivo}}
+													class="disabled" ng-init="useOnlineService = documento.tag950[$parent.$parent.$index].webservice.useOnlineService"
+													title="{{('nonDisponibileError' | translate)+': ' + (inventario.disponibilita.motivo)}} ">
+													
+													<span ng-show="useOnlineService">{{inventario.disponibilita.motivo}}
 														<span ng-show="inventario.disponibilita.dataDisponibilita">
 															{{'finoAl' | translate}}
 															{{inventario.disponibilita.dataDisponibilita.day+'/'+inventario.disponibilita.dataDisponibilita.month
@@ -273,13 +275,21 @@
 															ng-if="inventario.disponibilita.prenotazioni.numeroPrenotazioni">{{('tabloc_prenotati'
 																| translate) + ': ' +
 																inventario.disponibilita.prenotazioni.numeroPrenotazioni}}
-														</span> &nbsp;&nbsp;
+															</span> &nbsp;&nbsp;
+														</span>
+												
+														<!--Mantis bug #7920 Almaviva3 22/07/2022-->
 															<button
-																ng-if="inventario.disponibilita.prenotazioni.prenotabile"
+																ng-if="inventario.disponibilita.prenotazioni.prenotabile && documento.tag950[$parent.$parent.$index].webservice.useOnlineService"
 																class="btn  btn-warning btn-xs" type="button"
 																ng-click="$parent.$parent.prenota((documento.level == 'm' && documento.id != inventario.documento.bid) ? inventario.documento.isbd : null, inventario, collocazione,inventario.bib, documento, $parent.$parent.$index, (documento.level == 's'))"
 																title="{{((inventario.codFrui != undefined) ? (inventario.codFrui| decodeCodFrui | translate) : '')}}">
 																{{'prenota' | translate }}</button>
+													</span>
+													<span ng-show="!useOnlineService">
+														{{((inventario.codFrui !=
+															undefined) ? (inventario.codFrui| decodeCodFrui |
+															translate) : '')}}
 													</span>
 												</span> <span>
 														<button type="button"
