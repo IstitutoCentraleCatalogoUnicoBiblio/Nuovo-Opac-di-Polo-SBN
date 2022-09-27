@@ -1362,6 +1362,15 @@
               <div class="col-sm-9 text">{{dettagli[$index].id}}</div>
             </td>
           </tr>
+           <!-- permalink -->
+           <tr ng-if="dettagli[$index].id" ng-init="permalink = createPermalink($index)">
+            <td class="shortTd">
+              <span class="col-sm-3 control-label">
+                <strong class="blu-label"> {{'Permalink'}}</strong>
+              </span>
+              <div class="col-sm-9 text"> <a href="{{dettagli[$index].customPermalink}}">{{dettagli[$index].customPermalink}}</a></div>
+            </td>
+          </tr>
           <!-- spogli -->
           <tr ng-if="dettagli[$index].spogli967 > 0 && dettagli[$index].level == 's'">
             <td class="shortTd">

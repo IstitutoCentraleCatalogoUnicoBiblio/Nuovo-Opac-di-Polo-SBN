@@ -2348,6 +2348,18 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
     $scope.removeWordInFilterValue = function (filter, wordToRemove) {
       $scope.removeFilter(filter, true, wordToRemove);
     }
+    $scope.createPermalink = function(idxDettaglio) {
+      debugger
+      var poloBib = '';
+      if($scope.polo.bibliotecaAsPolo) {
+        poloBib = '/' + $scope.polo.code + '/' + $scope.polo.codBibliotecaAsPolo + '/';
+      } else {
+        poloBib = '/' + $scope.polo.code + '/';
+      }
+      var customPermalink =  "http://" + window.location.hostname + poloBib +'dettaglio/documento/' + $scope.dettagli[idxDettaglio].id;
+      $scope.dettagli[idxDettaglio].customPermalink = customPermalink;
+      return $scope.dettagli[idxDettaglio].customPermalink;
+    }
     //Almaviva3 06/06/2019 controllo il flag isOCNSearch per verificare se esporre il bottone modifica ricerca
     $scope.isOCNSearch = isOCNSearch ? true : false;
     if (isOCNSearch) //Se è una ricerca OCN elimino i dati di get nell'url
