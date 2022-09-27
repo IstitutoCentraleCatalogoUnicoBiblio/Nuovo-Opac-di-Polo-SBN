@@ -2356,7 +2356,7 @@ opac2.registerCtrl("ResultController", ['$timeout', '$scope', '$translate', '$ro
       } else {
         poloBib = '/' + $scope.polo.code + '/';
       }
-      var customPermalink =  "http://" + window.location.hostname + poloBib +'dettaglio/documento/' + $scope.dettagli[idxDettaglio].id;
+      var customPermalink =  "http://" + window.location.hostname + '/opac2' + poloBib +'dettaglio/documento/' + $scope.dettagli[idxDettaglio].id;
       $scope.dettagli[idxDettaglio].customPermalink = customPermalink;
       return $scope.dettagli[idxDettaglio].customPermalink;
     }
